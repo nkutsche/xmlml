@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "with-xmlDecl-incl.xml">
+]>
+<root>&incl;</root>

@@ -1,0 +1,38 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <ws nl="1"/>
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <ws nl="2"/>
+            <element-decl>
+                <ws space="1"/>
+                <name>root</name>
+                <ws space="1"/>
+                <content-spec>EMPTY</content-spec>
+                <ws space="1"/>
+            </element-decl>
+            <ws nl="2"/>
+            <entity-decl>
+                <ws space="1"/>
+                <name>ent</name>
+                <ws space="1"/>
+                <value>line<nl/>break</value>
+            </entity-decl>
+            <ws nl="2"/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="2"/>
+    <pi>
+        <name>pi</name>
+        <ws> <space/> <nl amount="4"/> </ws>
+    </pi>
+    <ws nl="2"/>
+    <comment> <nl/>    linebreaks<nl/>    outside root element<nl/></comment>
+    <ws nl="4"/>
+    <element>
+        <name>root</name>
+    </element>
+</document>

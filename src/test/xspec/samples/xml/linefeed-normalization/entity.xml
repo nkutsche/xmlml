@@ -1,0 +1,2 @@
+<!DOCTYPE root [<!ENTITY ent "line
+break">]><root>&ent;</root>

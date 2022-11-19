@@ -1,0 +1,12 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <pi>
+        <name>pi</name>
+        <ws space="1"/>
+        <value>value</value>
+    </pi>
+    <ws space="15"/>
+    <element>
+        <name>root</name>
+    </element>
+</document>

@@ -1,0 +1,27 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <xml-decl>
+        <version>
+            <ws space="1"/>
+            <name/>
+            <eq/>
+            <value>1.0</value>
+        </version>
+        <encoding>
+            <ws space="1"/>
+            <name/>
+            <eq/>
+            <value>ISO-8859-1</value>
+        </encoding>
+        <standalone>
+            <ws space="1"/>
+            <name/>
+            <eq/>
+            <value>yes</value>
+        </standalone>
+    </xml-decl>
+    <element>
+        <name>root</name>
+        <text>дя~</text>
+    </element>
+</document>

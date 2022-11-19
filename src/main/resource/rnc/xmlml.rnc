@@ -1,0 +1,126 @@
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+default namespace = "http://www.nkutsche.com/xmlml"  
+
+start = document
+
+document = element document {lf_format?, prolog, elem, epilog}
+
+prolog = (xmlDecl?, (pi | comment | doctypeDecl | ws)*)
+
+epilog = (pi | comment | ws)*
+
+elem = element element {collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, childNode*, closeTagSpace?}
+
+childNode = (textNode | pi | comment | elem)
+
+closeTagSpace = element close-tag-space {ws}
+
+attr = element attribute {attrContent}
+
+namespace_decl = element namespace {nsContent}
+
+attrContent = ws, qname, ws?, equal, ws?, quotedValue
+
+nsContent = ws, (ncname|emptyName), ws?, equal, ws?, quotedValue
+
+textNode = element text {(content | entity | cdata)*}
+
+cdata = element cdata {content}
+
+entity = (name_entity | char_entity)
+
+name_entity = element entity {attribute type {"name"}, xs:NCName}
+
+char_entity = element entity {attribute type {"char"}, (ent_charref_name)}
+
+pi = element pi {ncname, (ws, piValue?)?}
+
+comment = element comment {content}
+
+xmlDecl = element xml-decl {xmlDecl_version, xmlDecl_encoding?, xmlDecl_standalone?, ws?}
+
+xmlDecl_Content = ws, emptyName, ws?, equal, ws?, quotedValue
+
+xmlDecl_version = element version {xmlDecl_Content}
+
+xmlDecl_encoding = element encoding {xmlDecl_Content}
+
+xmlDecl_standalone = element standalone {xmlDecl_Content}
+
+doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?}
+
+dtd_inline = element inline {dtd_content}
+
+dtd_external = dtd_system | dtd_public
+
+dtd_system = element system {ws, quotedValue}
+
+dtd_public = element public {ws, quotedValue, ws, quotedValue}
+
+quotedValue = element value {quotes?, (content | entity)*}
+
+piValue = element value {content}
+
+ws = (ws_simple | ws_mixed)
+
+ws_simple = element ws {attribute space {xs:integer} | attribute tab {xs:integer} | attribute nl {xs:integer}}
+
+ws_mixed = element ws {(nl | space | tab)+}
+
+qname = element name {xs:QName}
+
+ncname = element name {xs:NCName}
+
+emptyName = element name {empty}
+
+
+equal = element eq{empty}
+
+nl = element nl {amount?}
+
+space = element space {amount?}
+
+tab = element tab {amount?}
+
+content = (nl | text)*
+
+# attributes
+
+collapsed = attribute collapsed {xs:boolean}
+
+element_default_ns = attribute element-default-namespace {xs:string}
+
+quotes = attribute quotes {"double" | "single"}
+
+lf_format = attribute line-feed-format {"rn" | "r" | "n"}
+
+amount = attribute amount {xs:integer}
+
+ent_value = attribute value {xs:string}
+
+# Types
+
+ent_charref_name = xs:string {pattern = "#(x[0-9a-fA-F]+|[0-9]+)"}
+
+# DTD Part
+
+dtd_content = (ws?, dtd_decl)*, ws?
+
+dtd_decl = (entity_decl | element_decl | attlist_decl)
+
+element_decl = element element-decl {ws, ncname, ws, contentSpec, ws?}
+
+contentSpec = element content-spec {content}
+
+attlist_decl = element attlist-decl {ws, dtd_qname, attr_decl*, ws?}
+
+attr_decl = element attribute-decl {ws, dtd_qname, ws, (attr_decl_type), ws, attr_default_decl}
+
+attr_decl_type = (element type {text} | element notation-type {text})
+
+attr_default_decl = (element required {empty} | element implied {empty} | element fixed {ws, quotedValue} | quotedValue)
+
+entity_decl = element entity-decl {ws, ncname, ws, quotedValue, ws?} 
+
+dtd_qname = element name {xs:string}

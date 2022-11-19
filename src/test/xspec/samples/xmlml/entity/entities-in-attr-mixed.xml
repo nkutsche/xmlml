@@ -1,0 +1,40 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>from</name>
+        <ws space="1"/>
+        <inline>
+            <ws nl="1"/>
+            <entity-decl>
+                <ws space="1"/>
+                <name>ent</name>
+                <ws space="1"/>
+                <value>bar</value>
+            </entity-decl>
+            <ws nl="1"/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <element>
+        <name>root</name>
+        <attribute>
+            <ws space="1"/>
+            <name>foo</name>
+            <eq/>
+            <value><entity type="name">ent</entity></value>
+        </attribute>
+        <attribute>
+            <ws space="1"/>
+            <name>bar</name>
+            <eq/>
+            <value><entity type="name">lt</entity></value>
+        </attribute>
+        <attribute>
+            <ws space="1"/>
+            <name>baz</name>
+            <eq/>
+            <value><entity type="char">#10</entity></value>
+        </attribute>
+    </element>
+</document>

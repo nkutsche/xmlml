@@ -1,0 +1,7 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <element>
+        <name>root</name>
+        <comment><nl/>    <nl/>    foo               <nl amount="3"/></comment>
+    </element>
+</document>

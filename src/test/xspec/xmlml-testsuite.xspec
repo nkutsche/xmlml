@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="../../main/resource/xsl/xmlml-main.xsl">
+    <x:helper stylesheet="helper.xsl"/>
+
+    <x:scenario label="generic-serialize-test" shared="true" catch="true">
+        <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
+
+        <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
+        <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
+        <x:variable name="xml" select="unparsed-text($xml-path)"/>
+        <x:variable name="xmlml" select="doc($xmlml-path)/*"/>
+
+        <x:scenario label="xmlml -> xml">
+            <x:call function="mlml:serialize">
+                <x:param select="$xmlml"/>
+            </x:call>
+
+            <x:expect label="XMLML serialized" select="$xml"/>
+        </x:scenario>
+
+        <x:scenario label="xml -> xmlml">
+            <x:call function="mlml:parse">
+                <x:param select="$xml-path"/>
+            </x:call>
+
+            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml)"/>
+        </x:scenario>
+
+        <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
+            <x:call function="mlml:doc">
+                <x:param select="$xmlml"/>
+            </x:call>
+
+            <x:expect label="XMLML as XDM" select="doc($xml-path)"/>
+        </x:scenario>
+
+    </x:scenario>
+
+    <x:scenario label="code-point-serialized" shared="true" catch="true">
+        <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
+
+        <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
+        <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
+        <x:variable name="xml" select="unparsed-text($xml-path)"/>
+        <x:variable name="xmlml" select="doc($xmlml-path)/*"/>
+
+        <x:scenario label="xmlml -> xml">
+            <x:call function="mlml:serialize">
+                <x:param select="$xmlml"/>
+            </x:call>
+
+            <x:expect label="XMLML serialized" select="translate($xml, ' ', '_')" test="translate($x:result, ' ', '_')"/>
+        </x:scenario>
+
+
+    </x:scenario>
+
+    <x:scenario label="Dir: attribute/" catch="true">
+        <x:scenario label="Test: attribute/combine-all.xml">
+            <x:variable name="path" select="'attribute/combine-all.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/default-attribute.xml">
+            <x:variable name="path" select="'attribute/default-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/empty-value.xml">
+            <x:variable name="path" select="'attribute/empty-value.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/ending-name-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/ending-name-ws-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-value-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-value-ws-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-ws-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-ws-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-two-attributes.xml">
+            <x:variable name="path" select="'attribute/leading-ws-two-attributes.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/single-attribute.xml">
+            <x:variable name="path" select="'attribute/single-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/single-quote-attribute.xml">
+            <x:variable name="path" select="'attribute/single-quote-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: cdata-sections/" catch="true">
+        <x:scenario label="Test: cdata-sections/cdata-mixed.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-mixed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-trivial.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-trivial.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-spec-chars.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-spec-chars.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-whitespace.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-whitespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: comment/" catch="true">
+        <x:scenario label="Test: comment/comment-trivial.xml">
+            <x:variable name="path" select="'comment/comment-trivial.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: comment/comment-w-special-chars.xml">
+            <x:variable name="path" select="'comment/comment-w-special-chars.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: comment/comment-w-whitespace.xml">
+            <x:variable name="path" select="'comment/comment-w-whitespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: doc/" catch="true">
+        <x:scenario label="Test: doc/dtdDecl-system.xml">
+            <x:variable name="path" select="'doc/dtdDecl-system.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/dtdDecl.xml">
+            <x:variable name="path" select="'doc/dtdDecl.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/leading-whitespace.xml">
+            <x:variable name="path" select="'doc/leading-whitespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/trivial.xml">
+            <x:variable name="path" select="'doc/trivial.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-dtdDecl.xml">
+            <x:variable name="path" select="'doc/xmlDecl-dtdDecl.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-encoding-8859-1.xml" pending="endcoding issue!">
+            <x:variable name="path" select="'doc/xmlDecl-encoding-8859-1.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-standalone.xml">
+            <x:variable name="path" select="'doc/xmlDecl-standalone.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl.xml">
+            <x:variable name="path" select="'doc/xmlDecl.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: element/" catch="true">
+        <x:scenario label="Test: element/empty-collapsed-with-ws.xml">
+            <x:variable name="path" select="'element/empty-collapsed-with-ws.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/empty-collapsed.xml">
+            <x:variable name="path" select="'element/empty-collapsed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/ending-endtag-ws.xml">
+            <x:variable name="path" select="'element/ending-endtag-ws.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/ending-starttag-ws.xml">
+            <x:variable name="path" select="'element/ending-starttag-ws.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: encoding/" catch="true">
+        <x:scenario label="Test: encoding/utf8/specialchars-utf8.xml">
+            <x:variable name="path" select="'encoding/utf8/specialchars-utf8.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: entity/" catch="true">
+        <x:scenario label="Test: entity/character-entity-amp.xml">
+            <x:variable name="path" select="'entity/character-entity-amp.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-w-text.xml">
+            <x:variable name="path" select="'entity/character-entity-w-text.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity.xml">
+            <x:variable name="path" select="'entity/character-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/dtd-entity-w-text.xml">
+            <x:variable name="path" select="'entity/dtd-entity-w-text.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entities-in-attr-mixed.xml">
+            <x:variable name="path" select="'entity/entities-in-attr-mixed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-char.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-char.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-dtd.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-dtd.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-predef.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-predef.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-predef2.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-predef2.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/recursive-dtd-entity.xml">
+            <x:variable name="path" select="'entity/recursive-dtd-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/trivial-dtd-entity.xml">
+            <x:variable name="path" select="'entity/trivial-dtd-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: linefeed-normalization/" catch="true">
+        <x:scenario label="Test: linefeed-normalization/attr-break-as-entity.xml">
+            <x:variable name="path" select="'linefeed-normalization/attr-break-as-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/attr.xml">
+            <x:variable name="path" select="'linefeed-normalization/attr.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/cdata.xml">
+            <x:variable name="path" select="'linefeed-normalization/cdata.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/comment.xml">
+            <x:variable name="path" select="'linefeed-normalization/comment.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/el.xml">
+            <x:variable name="path" select="'linefeed-normalization/el.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <!--<x:scenario label="Test: linefeed-normalization/entity.xml" pending="Not yet implemented">
+            <x:variable name="path" select="'linefeed-normalization/entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>-->
+        <x:scenario label="Test: linefeed-normalization/pi.xml">
+            <x:variable name="path" select="'linefeed-normalization/pi.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/root-epilog.xml">
+            <x:variable name="path" select="'linefeed-normalization/root-epilog.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/root-prolog.xml">
+            <x:variable name="path" select="'linefeed-normalization/root-prolog.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/text.xml">
+            <x:variable name="path" select="'linefeed-normalization/text.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+
+
+    <x:scenario label="Dir: root-el-comment-pi/" catch="true">
+        <x:scenario label="Test: root-el-comment-pi/comment-before-dtd.xml">
+            <x:variable name="path" select="'root-el-comment-pi/comment-before-dtd.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-comment.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-comment.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-el.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-el.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-epilog.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-epilog.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-pi.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-pi.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: namespace/" catch="true">
+        <x:scenario label="Test: namespace/declarations/default-namespace-w-attribute.xml">
+            <x:variable name="path" select="'namespace/declarations/default-namespace-w-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/default-namespace.xml">
+            <x:variable name="path" select="'namespace/declarations/default-namespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/namespace-declaration-unused.xml">
+            <x:variable name="path" select="'namespace/declarations/namespace-declaration-unused.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/namespace-inheritance.xml">
+            <x:variable name="path" select="'namespace/declarations/namespace-inheritance.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-attribute-inherit-ns.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-attribute-inherit-ns.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-namespace.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-namespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-after.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-after.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-only-collapsed.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-only-collapsed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-only.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-only.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/redundant-prefixed-declarations.xml">
+            <x:variable name="path" select="'namespace/declarations/redundant-prefixed-declarations.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
+        <x:call function="mlml:white-space"/>
+        <x:scenario label="Single space">
+            <x:call>
+                <x:param select="' '"/>
+            </x:call>
+            <x:expect label="result">
+                <ws space="1"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="Single tab">
+            <x:call>
+                <x:param select="'&#x9;'"/>
+            </x:call>
+            <x:expect label="result">
+                <ws tab="1"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="Two spaces">
+            <x:call>
+                <x:param select="'  '"/>
+            </x:call>
+            <x:expect label="result">
+                <ws space="2"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="Three tabs">
+            <x:call>
+                <x:param select="'&#x9;&#x9;&#x9;'"/>
+            </x:call>
+            <x:expect label="result">
+                <ws tab="3"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="Mixed tabs with space">
+            <x:call>
+                <x:param select="'&#x9; &#x9;&#x9; '"/>
+            </x:call>
+            <x:expect label="result">
+                <ws>
+                    <tab/>
+                    <space/>
+                    <tab amount="2"/>
+                    <space/>
+                </ws>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="breaks">
+            <x:scenario label="Unix break \n">
+                <x:call>
+                    <x:param select="'&#xA;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="1"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="MacOS break \r">
+                <x:call>
+                    <x:param select="'&#xD;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="1"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="Windows break \r\n">
+                <x:call>
+                    <x:param select="'&#xD;&#xA;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="1"/>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="multiple breaks">
+            <x:scenario label="Unix break \n\n\n">
+                <x:call>
+                    <x:param select="'&#xA;&#xA;&#xA;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="3"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="MacOS break \r\r\r">
+                <x:call>
+                    <x:param select="'&#xD;&#xD;&#xD;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="3"/>
+                </x:expect>
+            </x:scenario>
+            <x:scenario label="Windows break \r\n\r\n\r\n\r\n">
+                <x:call>
+                    <x:param select="'&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;'"/>
+                </x:call>
+                <x:expect label="result">
+                    <ws nl="4"/>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="All mixed">
+            <x:scenario label="\s\s\t\t\n\t\t\n\s\s">
+                <x:call>
+                    <x:param select="'  &#x9;&#x9;&#xA;&#x9;&#x9;&#xA;  '"/>
+                </x:call>
+                <x:expect label="result">
+                <ws>
+                    <space amount="2"/>
+                    <tab amount="2"/>
+                    <nl/>
+                    <tab amount="2"/>
+                    <nl/>
+                    <space amount="2"/>
+                </ws>
+            </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Testing function mlml:hex-to-int">
+        <x:call function="mlml:hex-to-int"/>
+
+        <x:scenario label="0 = 0">
+            <x:call>
+                <x:param select="'0'"/>
+            </x:call>
+            <x:expect label="return value" select="0"/>
+        </x:scenario>
+        <x:scenario label="1 = 1">
+            <x:call>
+                <x:param select="'1'"/>
+            </x:call>
+            <x:expect label="return value" select="1"/>
+        </x:scenario>
+        <x:scenario label="a = 10">
+            <x:call>
+                <x:param select="'a'"/>
+            </x:call>
+            <x:expect label="return value" select="10"/>
+        </x:scenario>
+        <x:scenario label="A = 10">
+            <x:call>
+                <x:param select="'A'"/>
+            </x:call>
+            <x:expect label="return value" select="10"/>
+        </x:scenario>
+        <x:scenario label="F = 15">
+            <x:call>
+                <x:param select="'F'"/>
+            </x:call>
+            <x:expect label="return value" select="15"/>
+        </x:scenario>
+        <x:scenario label="10 = 16">
+            <x:call>
+                <x:param select="'10'"/>
+            </x:call>
+            <x:expect label="return value" select="16"/>
+        </x:scenario>
+        <x:scenario label="1A = 26">
+            <x:call>
+                <x:param select="'1A'"/>
+            </x:call>
+            <x:expect label="return value" select="26"/>
+        </x:scenario>
+        <x:scenario label="FF = 255">
+            <x:call>
+                <x:param select="'FF'"/>
+            </x:call>
+            <x:expect label="return value" select="255"/>
+        </x:scenario>
+        <x:scenario label="100 = 256">
+            <x:call>
+                <x:param select="'100'"/>
+            </x:call>
+            <x:expect label="return value" select="256"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

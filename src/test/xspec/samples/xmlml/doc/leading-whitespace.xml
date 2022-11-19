@@ -1,0 +1,7 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <ws space="15"/>
+    <element>
+        <name>root</name>
+    </element>
+</document>

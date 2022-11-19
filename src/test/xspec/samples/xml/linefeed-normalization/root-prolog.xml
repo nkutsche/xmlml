@@ -1,0 +1,24 @@
+
+<!DOCTYPE root [
+
+<!ELEMENT root EMPTY >
+
+<!ENTITY ent "line
+break">
+
+]>
+
+<?pi 
+
+
+
+?>
+
+<!-- 
+    linebreaks
+    outside root element
+-->
+
+
+
+<root></root>

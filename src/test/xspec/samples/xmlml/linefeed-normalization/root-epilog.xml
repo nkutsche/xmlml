@@ -1,0 +1,17 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <element>
+        <name>root</name>
+    </element>
+    <ws nl="2"/>
+    <pi>
+        <name>pi</name>
+        <ws>
+            <space/>
+            <nl amount="4"/>
+        </ws>
+    </pi>
+    <ws nl="2"/>
+    <comment> <nl/>    linebreaks<nl/>    outside root element<nl/></comment>
+    <ws nl="1"/>
+</document>

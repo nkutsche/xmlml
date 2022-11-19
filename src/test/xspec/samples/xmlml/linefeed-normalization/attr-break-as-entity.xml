@@ -1,0 +1,44 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <element>
+        <name>root</name>
+        <attribute>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <name>attribute</name>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <eq/>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <value>line<entity type="char">#xA</entity>break</value>
+        </attribute>
+        <attribute>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <name>attribute2</name>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <eq/>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <value>other<entity type="char">#xD</entity><entity type="char">#xA</entity>linebreak<nl/>    </value>
+        </attribute>
+        <ws>
+            <nl/>
+            <space amount="4"/>
+        </ws>
+    </element>
+</document>

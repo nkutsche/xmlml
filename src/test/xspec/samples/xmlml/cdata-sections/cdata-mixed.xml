@@ -1,0 +1,7 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <element>
+        <name>root</name>
+        <text>before<cdata>cdata-section</cdata>between<cdata>cdata-section</cdata>after</text>
+    </element>
+</document>

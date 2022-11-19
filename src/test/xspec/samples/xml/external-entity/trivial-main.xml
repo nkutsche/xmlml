@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "trivial-incl.xml">
+]>
+<root>&incl;</root>

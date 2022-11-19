@@ -1,0 +1,12 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <element>
+        <name>root</name>
+        <attribute>
+            <ws space="1"/>
+            <name>pre_dev</name>
+            <eq/>
+            <value>predef entities: <entity type="name">lt</entity><entity type="name">gt</entity><entity type="name">quot</entity><entity type="name">amp</entity><entity type="name">apos</entity></value>
+        </attribute>
+    </element>
+</document>

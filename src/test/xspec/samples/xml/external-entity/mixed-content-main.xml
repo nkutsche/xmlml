@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "mixed-content-incl.ent">
+]>
+<root>&incl;</root>

@@ -1,0 +1,4 @@
+<!DOCTYPE from [
+<!ENTITY ent "bar">
+]>
+<root foo="&ent;" bar="&lt;" baz="&#10;"></root>

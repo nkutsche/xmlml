@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ENTITY foo "foo"><!ENTITY bar "bar"><!ENTITY foobar "&foo;-&bar;">]><root>&foobar;</root>

@@ -1,0 +1,5 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "with-internal-entity-incl.ent">
+<!ENTITY ent "ent-value">
+]>
+<root>&incl;<el>&ent;</el></root>

@@ -1,0 +1,9 @@
+<root
+    attribute
+    =
+    "line&#xA;break"
+    attribute2
+    =
+    "other&#xD;&#xA;linebreak
+    "
+    ></root>

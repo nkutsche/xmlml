@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "break-textnode-after-incl.ent">
+]>
+<root>&incl;after</root>

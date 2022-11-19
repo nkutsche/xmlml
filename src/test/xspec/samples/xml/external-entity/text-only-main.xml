@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ENTITY incl SYSTEM "text-only-incl.ent">
+]>
+<root>&incl;</root>

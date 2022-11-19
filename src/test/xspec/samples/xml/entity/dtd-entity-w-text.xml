@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ENTITY ent "entity-value">]><root>text1&ent;text2</root>
