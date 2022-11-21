@@ -3,19 +3,21 @@
     <element xmlns:ns="namespace.com">
         <name>ns:root</name>
         <namespace>
-            <ws space="1"></ws>
+            <ws space="1"/>
             <name>ns</name>
             <eq/>
             <value>namespace.com</value>
         </namespace>
-        <element collapsed="true">
-            <name>ns:el</name>
-            <namespace>
-                <ws space="1"></ws>
-                <name>ns</name>
-                <eq/>
-                <value>namespace.com</value>
-            </namespace>
-        </element>
+        <content>
+            <element collapsed="true">
+                <name>ns:el</name>
+                <namespace>
+                    <ws space="1"/>
+                    <name>ns</name>
+                    <eq/>
+                    <value>namespace.com</value>
+                </namespace>
+            </element>
+        </content>
     </element>
 </document>

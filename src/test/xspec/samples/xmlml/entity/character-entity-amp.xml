@@ -2,6 +2,8 @@
 <document xmlns="http://www.nkutsche.com/xmlml">
     <element>
         <name>root</name>
-        <text>amp:<entity type="name">amp</entity></text>
+        <content>
+            <text>amp:<entity type="name">amp</entity></text>
+        </content>
     </element>
 </document>

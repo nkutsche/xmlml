@@ -22,6 +22,8 @@
     </xml-decl>
     <element>
         <name>root</name>
-        <text>дя~</text>
+        <content>
+            <text>~</text>
+        </content>
     </element>
 </document>

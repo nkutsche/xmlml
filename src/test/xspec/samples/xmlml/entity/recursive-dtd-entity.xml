@@ -27,6 +27,8 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <text><entity type="name">foobar</entity></text>
+        <content>
+            <text><entity type="name">foobar</entity></text>
+        </content>
     </element>
 </document>

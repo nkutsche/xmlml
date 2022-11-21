@@ -2,6 +2,8 @@
 <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
     <element>
         <name>root</name>
-        <text><cdata><nl/>    <nl/>    cdata section <nl/>    with linebreaks<nl/>    <nl/>    </cdata></text>
+        <content>
+            <text><cdata><nl/>    <nl/>    cdata section <nl/>    with linebreaks<nl/>    <nl/>    </cdata></text>
+        </content>
     </element>
 </document>

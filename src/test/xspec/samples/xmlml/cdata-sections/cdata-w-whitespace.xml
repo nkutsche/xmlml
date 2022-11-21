@@ -2,6 +2,8 @@
 <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
     <element>
         <name>root</name>
-        <text><cdata><nl amount="4"/>cdata-section             </cdata></text>
+        <content>
+            <text><cdata><nl amount="4"/>cdata-section             </cdata></text>
+        </content>
     </element>
 </document>

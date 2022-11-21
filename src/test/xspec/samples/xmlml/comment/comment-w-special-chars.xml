@@ -2,6 +2,8 @@
 <document xmlns="http://www.nkutsche.com/xmlml">
     <element>
         <name>root</name>
-        <comment> comment &amp; &lt; &gt; &quot; &apos; </comment>
+        <content>
+            <comment> comment &amp; &lt; &gt; &quot; &apos; </comment>
+        </content>
     </element>
 </document>

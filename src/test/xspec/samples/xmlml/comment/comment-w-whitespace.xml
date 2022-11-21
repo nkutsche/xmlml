@@ -2,6 +2,8 @@
 <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
     <element>
         <name>root</name>
-        <comment><nl/>    <nl/>    foo               <nl amount="3"/></comment>
+        <content>
+            <comment><nl/>    <nl/>    foo               <nl amount="3"/></comment>
+        </content>
     </element>
 </document>
