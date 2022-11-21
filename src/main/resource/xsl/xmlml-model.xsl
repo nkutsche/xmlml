@@ -40,7 +40,8 @@
 
         <xsl:element name="{$elname}" namespace="{mlml:namespace($elname, $default-namespace)}">
             <xsl:apply-templates select="$default-attr" mode="#current"/>
-            <xsl:apply-templates select="(attribute | namespace), text | pi | comment | element" mode="#current">
+            <xsl:variable name="content" select="content/(text | pi | comment | element)"/>
+            <xsl:apply-templates select="(attribute | namespace), $content" mode="#current">
                 <xsl:with-param name="inherit-default-namespace" select="$default-namespace" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:element>

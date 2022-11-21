@@ -10,7 +10,13 @@ prolog = (xmlDecl?, (pi | comment | doctypeDecl | ws)*)
 
 epilog = (pi | comment | ws)*
 
-elem = element element {collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, childNode*, closeTagSpace?}
+elem = (empty_elem | non_empty_elem)
+
+non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, content, closeTagSpace?}
+
+empty_elem = element element {collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, closeTagSpace?}
+
+content = element content {childNode*}
 
 childNode = (textNode | pi | comment | elem)
 
@@ -88,6 +94,8 @@ content = (nl | text)*
 # attributes
 
 collapsed = attribute collapsed {xs:boolean}
+
+non_collapsed = attribute collapsed {"false"}
 
 element_default_ns = attribute element-default-namespace {xs:string}
 

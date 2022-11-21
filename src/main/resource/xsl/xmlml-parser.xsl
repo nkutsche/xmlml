@@ -69,21 +69,32 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
-            <xsl:for-each-group select="$content" group-adjacent="exists(self::mlml:text)">
-                <xsl:choose>
-                    <xsl:when test="current-grouping-key()">
-                        <xsl:copy>
-                            <xsl:sequence select="current-group()/node()"/>
-                        </xsl:copy>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:sequence select="current-group()"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:for-each-group>
+            <xsl:sequence select="$content"/>
         </element>
     </xsl:template>
 
+    <xsl:template match="content" mode="mlml:parse">
+        <xsl:variable name="content" as="element()*">
+            <xsl:apply-templates mode="#current"/>
+        </xsl:variable>
+        <xsl:where-populated>
+            <content>
+                <xsl:for-each-group select="$content" group-adjacent="exists(self::mlml:text)">
+                    <xsl:choose>
+                        <xsl:when test="current-grouping-key()">
+                            <xsl:copy>
+                                <xsl:sequence select="current-group()/node()"/>
+                            </xsl:copy>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="current-group()"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each-group>
+            </content>
+        </xsl:where-populated>
+    </xsl:template>
+    
     <xsl:template match="Attribute[matches(Name, '^xmlns(:|$)')]" mode="mlml:parse">
         <namespace>
             <xsl:apply-templates mode="#current"/>
