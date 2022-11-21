@@ -261,10 +261,10 @@
             <x:variable name="path" select="'linefeed-normalization/el.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
-        <!--<x:scenario label="Test: linefeed-normalization/entity.xml" pending="Not yet implemented">
+        <x:scenario label="Test: linefeed-normalization/entity.xml">
             <x:variable name="path" select="'linefeed-normalization/entity.xml'"/>
             <x:like label="generic-serialize-test"/>
-        </x:scenario>-->
+        </x:scenario>
         <x:scenario label="Test: linefeed-normalization/pi.xml">
             <x:variable name="path" select="'linefeed-normalization/pi.xml'"/>
             <x:like label="generic-serialize-test"/>
