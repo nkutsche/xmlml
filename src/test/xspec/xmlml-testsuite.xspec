@@ -285,6 +285,33 @@
 
 
 
+    <x:scenario label="Dir: pi/" catch="true">
+        <x:scenario label="Test: pi/pi-trivial.xml">
+            <x:variable name="path" select="'pi/pi-trivial.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-linebreak.xml">
+            <x:variable name="path" select="'pi/pi-w-linebreak.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-spec-chars.xml">
+            <x:variable name="path" select="'pi/pi-w-spec-chars.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-whitespace.xml">
+            <x:variable name="path" select="'pi/pi-w-whitespace.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-wo-value-but-ws.xml">
+            <x:variable name="path" select="'pi/pi-wo-value-but-ws.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-wo-value.xml">
+            <x:variable name="path" select="'pi/pi-wo-value.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+    
     <x:scenario label="Dir: root-el-comment-pi/" catch="true">
         <x:scenario label="Test: root-el-comment-pi/comment-before-dtd.xml">
             <x:variable name="path" select="'root-el-comment-pi/comment-before-dtd.xml'"/>
