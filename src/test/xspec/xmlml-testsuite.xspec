@@ -54,7 +54,22 @@
 
 
     </x:scenario>
-
+    
+<!--    
+    Use this XPath expression to create scenarios:
+    
+    let $base-uri := /Q{http://www.nkutsche.com/xmlml}document/base-uri()
+    return
+    
+    let $relpath :=  substring-after($base-uri, '/xmlml/')
+    return
+    
+    '<x:scenario label="Test: ' ||  $relpath || '">
+    <x:variable name="path" select="''' || $relpath || '''"/>
+    <x:like label="generic-serialize-test"/>
+    </x:scenario>'
+    -->
+    
     <x:scenario label="Dir: attribute/" catch="true">
         <x:scenario label="Test: attribute/combine-all.xml">
             <x:variable name="path" select="'attribute/combine-all.xml'"/>
@@ -404,6 +419,9 @@
             <x:like label="generic-serialize-test"/>
         </x:scenario>
     </x:scenario>
+    <!--
+        Currently it workse only with -strip:none
+    -->
     <x:scenario label="Dir: whitespace/" catch="true" pending="DTD based whitespace stripping not implemented yet!">
         <x:scenario label="Test: whitespace/unrecognized-by-dtd-empty.xml">
             <x:variable name="path" select="'whitespace/unrecognized-by-dtd-empty.xml'"/>
