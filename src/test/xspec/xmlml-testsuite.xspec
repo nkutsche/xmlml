@@ -381,6 +381,16 @@
             <x:like label="generic-serialize-test"/>
         </x:scenario>
     </x:scenario>
+    <x:scenario label="Dir: whitespace/" catch="true" pending="DTD based whitespace stripping not implemented yet!">
+        <x:scenario label="Test: whitespace/unrecognized-by-dtd-empty.xml">
+            <x:variable name="path" select="'whitespace/unrecognized-by-dtd-empty.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: whitespace/unrecognized-by-dtd.xml">
+            <x:variable name="path" select="'whitespace/unrecognized-by-dtd.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
 
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
         <x:call function="mlml:white-space"/>

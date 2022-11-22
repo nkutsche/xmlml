@@ -1,0 +1,95 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>src</name>
+        <ws space="1"/>
+        <inline>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element-decl>
+                <ws space="1"/>
+                <name>src</name>
+                <ws space="1"/>
+                <content-spec>(src-e*)</content-spec>
+            </element-decl>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element-decl>
+                <ws space="1"/>
+                <name>src-e</name>
+                <ws space="1"/>
+                <content-spec>EMPTY</content-spec>
+            </element-decl>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <attlist-decl>
+                <ws space="1"/>
+                <name>src-e</name>
+                <attribute-decl>
+                    <ws space="1"/>
+                    <name>attr</name>
+                    <ws space="1"/>
+                    <type>CDATA</type>
+                    <ws space="1"/>
+                    <value>default</value>
+                </attribute-decl>
+                <attribute-decl>
+                    <ws>
+                        <space/>
+                        <nl/>
+                        <space amount="20"/>
+                    </ws>
+                    <name>diff-attr</name>
+                    <ws space="1"/>
+                    <type>CDATA</type>
+                    <ws space="1"/>
+                    <value>src-default</value>
+                </attribute-decl>
+                <attribute-decl>
+                    <ws>
+                        <space/>
+                        <nl/>
+                        <space amount="20"/>
+                    </ws>
+                    <name>src-attr</name>
+                    <ws space="1"/>
+                    <type>CDATA</type>
+                    <ws space="1"/>
+                    <value>src-default</value>
+                </attribute-decl>
+            </attlist-decl>
+            <ws nl="1"/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <element>
+        <name>src</name>
+        <content>
+            <text><nl/>    </text>
+            <element>
+                <name>src-e</name>
+                <content>
+                    <text>      <nl/>    <nl/>    </text>
+                </content>
+            </element>
+            <text><nl/>    </text>
+            <element collapsed="true">
+                <name>src-e</name>
+                <attribute>
+                    <ws space="1"/>
+                    <name>src-attr</name>
+                    <eq/>
+                    <value>from-default</value>
+                </attribute>
+            </element>
+            <text><nl/></text>
+        </content>
+    </element>
+</document>
