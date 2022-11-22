@@ -434,7 +434,21 @@
             <xsl:value-of select="."/>
         </type>
     </xsl:template>
+    
+    <xsl:template match="DefaultDecl[TOKEN = '#IMPLIED']" mode="mlml:parse">
+        <implied/>
+    </xsl:template>
 
+    <xsl:template match="DefaultDecl[TOKEN = '#REQUIRED']" mode="mlml:parse">
+        <required/>
+    </xsl:template>
+
+    <xsl:template match="DefaultDecl[TOKEN = '#FIXED']" mode="mlml:parse">
+        <fixed>
+            <xsl:apply-templates mode="#current"/>
+        </fixed>
+    </xsl:template>
+    
     <xsl:template match="EntityDecl" mode="mlml:parse">
         <entity-decl>
             <xsl:apply-templates mode="#current"/>

@@ -152,7 +152,20 @@
         <xsl:apply-templates mode="#current"/>
         <xsl:text>&gt;</xsl:text>
     </xsl:template>
+    
+    <xsl:template match="attribute-decl/implied" mode="mlml:serialize">
+        <xsl:text>#IMPLIED</xsl:text>
+    </xsl:template>
 
+    <xsl:template match="attribute-decl/required" mode="mlml:serialize">
+        <xsl:text>#REQUIRED</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="attribute-decl/fixed" mode="mlml:serialize">
+        <xsl:text>#FIXED</xsl:text>
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     <xsl:template match="entity-decl" mode="mlml:serialize">
         <xsl:text>&lt;!ENTITY</xsl:text>
         <xsl:apply-templates mode="#current"/>

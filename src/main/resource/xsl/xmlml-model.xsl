@@ -50,7 +50,7 @@
 
     <xsl:template match="attribute | attribute-decl" mode="mlml:doc">
         <xsl:attribute name="{name}" namespace="{mlml:namespace(name)}">
-            <xsl:apply-templates select="value" mode="#current"/>
+            <xsl:apply-templates select="value | fixed/value" mode="#current"/>
         </xsl:attribute>
     </xsl:template>
 
