@@ -145,7 +145,7 @@
     </xsl:template>
 
     <xsl:template match="PIContentEnd" mode="mlml:parse">
-        <xsl:analyze-string select="." regex="^([\s\r\n]+)(.*?)(\?>)$" flags="s">
+        <xsl:analyze-string select="." regex="^([\s\r\n]*)(.*?)(\?>)$" flags="s">
             <xsl:matching-substring>
                 <xsl:sequence select="mlml:white-space(regex-group(1))"/>
                 <xsl:if test="regex-group(2) != ''">
@@ -225,7 +225,7 @@
         <xsl:sequence select="mlml:white-space(.)"/>
     </xsl:template>
 
-    <xsl:function name="mlml:white-space" as="element(mlml:ws)*">
+    <xsl:function name="mlml:white-space" as="element(mlml:ws)?">
         <xsl:param name="space" as="xs:string"/>
 
         <xsl:variable name="tokenized" as="element()*">
@@ -254,6 +254,7 @@
         </xsl:variable>
 
         <xsl:choose>
+            <xsl:when test="count($tokenized) = 0"/>
             <xsl:when test="count($tokenized) = 1">
                 <ws>
                     <xsl:attribute name="{$tokenized/local-name()}" select="$tokenized/@amount"/>
