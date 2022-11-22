@@ -111,6 +111,10 @@
             <x:variable name="path" select="'cdata-sections/cdata-w-spec-chars.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-spec-chars2.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-spec-chars2.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: cdata-sections/cdata-w-whitespace.xml">
             <x:variable name="path" select="'cdata-sections/cdata-w-whitespace.xml'"/>
             <x:like label="generic-serialize-test"/>

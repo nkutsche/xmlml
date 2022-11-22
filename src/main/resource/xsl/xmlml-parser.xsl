@@ -173,7 +173,11 @@
             </cdata>
         </text>
     </xsl:template>
-
+    
+    <xsl:template match="CDSect/TOKEN[. = ']'][following-sibling::TOKEN[. = ']']]" mode="mlml:parse">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     <xsl:template match="AttValue//Reference | EntityValue//Reference" mode="mlml:parse" priority="10">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
