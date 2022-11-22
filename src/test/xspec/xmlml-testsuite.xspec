@@ -171,6 +171,21 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="Dir: dtd/" catch="true">
+        <x:scenario label="Test: dtd/implied-attribute.xml">
+            <x:variable name="path" select="'dtd/implied-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/required-attribute.xml">
+            <x:variable name="path" select="'dtd/required-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/fixed-attribute.xml">
+            <x:variable name="path" select="'dtd/fixed-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+    </x:scenario>
+    
     <x:scenario label="Dir: element/" catch="true">
         <x:scenario label="Test: element/empty-collapsed-with-ws.xml">
             <x:variable name="path" select="'element/empty-collapsed-with-ws.xml'"/>

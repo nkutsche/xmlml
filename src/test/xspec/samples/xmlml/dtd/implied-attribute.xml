@@ -1,0 +1,31 @@
+<?xml-model href="../../../../../main/resource/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <element-decl>
+                <ws space="1"/>
+                <name>root</name>
+                <ws space="1"/>
+                <content-spec>EMPTY</content-spec>
+            </element-decl>
+            <attlist-decl>
+                <ws space="1"/>
+                <name>root</name>
+                <attribute-decl>
+                    <ws space="1"/>
+                    <name>attribute</name>
+                    <ws space="1"/>
+                    <type>CDATA</type>
+                    <ws space="1"/>
+                    <implied/>
+                </attribute-decl>
+            </attlist-decl>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+    </element>
+</document>
