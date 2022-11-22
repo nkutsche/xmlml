@@ -161,6 +161,10 @@
             <x:variable name="path" select="'doc/xmlDecl-encoding-8859-1.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-singlequote.xml">
+            <x:variable name="path" select="'doc/xmlDecl-singlequote.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: doc/xmlDecl-standalone.xml">
             <x:variable name="path" select="'doc/xmlDecl-standalone.xml'"/>
             <x:like label="generic-serialize-test"/>

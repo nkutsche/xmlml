@@ -372,6 +372,9 @@
             | SDDecl/TOKEN[. = ('yes', 'no')]
             " mode="mlml:parse">
         <value>
+            <xsl:if test="preceding-sibling::TOKEN[. = '''']">
+                <xsl:attribute name="quotes" select="'single'"/>
+            </xsl:if>
             <xsl:value-of select="."/>
         </value>
     </xsl:template>
