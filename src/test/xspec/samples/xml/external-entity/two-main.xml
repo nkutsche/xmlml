@@ -1,5 +1,0 @@
-<!DOCTYPE root [
-<!ENTITY incl SYSTEM "two-incl.xml">
-<!ENTITY incl2 SYSTEM "two-incl2.xml">
-]>
-<root>&incl;&incl2;</root>

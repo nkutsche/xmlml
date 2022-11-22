@@ -1,4 +1,0 @@
-<!DOCTYPE root [
-<!ENTITY incl SYSTEM "break-whitespace-incl.xml">
-]>
-<root>   &incl;   </root>

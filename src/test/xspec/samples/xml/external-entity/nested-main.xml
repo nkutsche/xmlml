@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE root [
-<!ENTITY incl SYSTEM "nested-incl.ent">
-<!ENTITY inclIcnl SYSTEM "nested-incl-incl.ent">
-]>
-<root>&incl;</root>
