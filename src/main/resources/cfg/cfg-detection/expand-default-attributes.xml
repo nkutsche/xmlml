@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE expand-default-attributes [
+<!ELEMENT expand-default-attributes EMPTY>
+<!ATTLIST expand-default-attributes default-attribute CDATA "default-value">
+]>
+<expand-default-attributes/>
+
