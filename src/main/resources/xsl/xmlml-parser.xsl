@@ -11,6 +11,7 @@
 
     <xsl:variable name="feature_ns" select="'http://www.nkutsche.com/xmlml/parser/features/'"/>
 
+    <xsl:variable name="mlml:STRIP-WHITESPACE" select="QName($feature_ns, 'STRIP-WHITESPACE')" visibility="final"/>
     <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
 
     <xsl:variable name="default-config" select="
@@ -19,7 +20,33 @@
 
     <xsl:function name="mlml:detect-default-config" as="map(*)?">
 
+        <xsl:variable name="get-detection-file" select="
+                function ($name) {
+                    ('../cfg/cfg-detection/' || $name || '.xml')
+                    => resolve-uri(static-base-uri())
+                    => doc()
+                }"/>
+
+        <xsl:variable name="strip-whitespace-all.doc" select="
+                $get-detection-file('strip-whitespace-all')
+                "/>
+        <xsl:variable name="strip-whitespace-ignorable.doc" select="
+                $get-detection-file('strip-whitespace-ignorable')
+                "/>
+
+        <xsl:variable name="strip-whitespace" select="
+                if (not($strip-whitespace-all.doc/*/text()))
+                then
+                    ('all')
+                else
+                    if (not($strip-whitespace-ignorable.doc/*/text()))
+                    then
+                        'ignorable'
+                    else
+                        'none'
+                "/>
         <xsl:sequence select="map{
+            $mlml:STRIP-WHITESPACE : $strip-whitespace,
             $mlml:URI_RESOLVER : mlml:default-uri-resolver#2
             }"/>
 
