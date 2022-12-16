@@ -75,10 +75,11 @@
                         else
                             '#default'
                 "/>
+        <xsl:variable name="base-uri" select="($contentObj?base-uri, $href)[1]"/>
         <xsl:sequence select="
                 mlml:parse-from-string($text, $config, map {
                     'line-feed-format': $linefeed,
-                    'base-uri': $href
+                    'base-uri': $base-uri
                 })"/>
     </xsl:function>
 
