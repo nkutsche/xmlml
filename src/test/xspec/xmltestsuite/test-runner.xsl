@@ -6,7 +6,6 @@
     xmlns:mlml="http://www.nkutsche.com/xmlml"
     exclude-result-prefixes="xs math xd"
     version="3.0">
-    <xsl:import href="../../../main/resource/xsl/xmlml-main.xsl"/>
     <!--<xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Created on:</xd:b> Nov 11, 2022</xd:p>
@@ -14,6 +13,7 @@
             <xd:p></xd:p>
         </xd:desc>
     </xd:doc>-->
+    <xsl:import href="http://www.nkutsche.com/xmlml/xmlml-main.xsl"/>
     
     <xsl:function name="mlml:parse-and-serialize" as="xs:string">
         <xsl:param name="src" as="xs:string"/>

@@ -116,6 +116,7 @@
                                 <phase>test</phase>
                                 <configuration>
                                     <testDir>${project.build.directory}/xspec-generated/</testDir>
+                                    <catalogFile>${project.build.directory}/classes/catalog.xml</catalogFile>
                                 </configuration>
                             </execution>
                         </executions>
