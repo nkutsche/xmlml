@@ -12,12 +12,14 @@
     <xsl:variable name="feature_ns" select="'http://www.nkutsche.com/xmlml/parser/features/'"/>
 
     <xsl:variable name="mlml:STRIP-WHITESPACE" select="QName($feature_ns, 'STRIP-WHITESPACE')" visibility="final"/>
+    <xsl:variable name="mlml:RESOLVE-DTD-URIS" select="QName($feature_ns, 'RESOLVE-DTD-URIS')" visibility="final"/>
     <xsl:variable name="mlml:EXPAND-DEFAULT-ATTRIBUTES" select="QName($feature_ns, 'EXPAND-DEFAULT-ATTRIBUTES')" visibility="final"/>
     <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
 
     <xsl:variable name="default-config" select="
         mlml:detect-default-config()
         " as="map(*)"/>
+
 
     <xsl:function name="mlml:detect-default-config" as="map(*)?">
 
@@ -54,8 +56,17 @@
                 exists($expand-default-attributes.doc/*/@*)
                 "/>
 
+        <xsl:variable name="resolve-dtd-uris.doc" select="
+                $get-detection-file('resolve-dtd-uris')
+                "/>
+
+        <xsl:variable name="resolve-dtd-uris" select="
+                $resolve-dtd-uris.doc/*/base-uri(.) != $resolve-dtd-uris.doc/*/*/base-uri(.)
+                "/>
+
         <xsl:sequence select="map{
             $mlml:STRIP-WHITESPACE : $strip-whitespace,
+            $mlml:RESOLVE-DTD-URIS : $resolve-dtd-uris,
             $mlml:EXPAND-DEFAULT-ATTRIBUTES : $expand-default-attributes,
             $mlml:URI_RESOLVER : mlml:default-uri-resolver#2
             }"/>

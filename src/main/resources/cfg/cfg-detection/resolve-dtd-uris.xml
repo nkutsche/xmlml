@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resolve-dtd-uris [
+<!ELEMENT resolve-dtd-uris (modul?)>
+<!ENTITY incl SYSTEM "incl/modul.incl">
+]>
+<resolve-dtd-uris>&incl;</resolve-dtd-uris>
