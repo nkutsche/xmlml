@@ -1,0 +1,124 @@
+document ::= prolog extSubsetDecl EOF
+
+prolog   ::= XMLDecl?
+
+XMLDecl  ::= '<?xml' VersionInfo EncodingDecl S? '?>'
+VersionInfo
+         ::= S 'version' Eq ( "'" VersionNum "'" | '"' VersionNum '"' )
+EncodingDecl
+         ::= S 'encoding' Eq ( '"' EncName '"' | "'" EncName "'" )
+
+Eq       ::= S? '=' S?
+
+extSubsetDecl
+         ::= ( markupdecl | conditionalSect | DeclSep )*
+         
+conditionalSect    ::=   	includeSect | ignoreSect
+includeSect	       ::=   	'<![' S? ( 'INCLUDE' | PEReference) S? '[' extSubsetDecl ']]>'
+ignoreSect         ::=   	'<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
+ignoreSectContents ::=   	Ignore ('<![' ignoreSectContents ']]>' Ignore?)*
+
+DeclSep  ::= PEReference
+           | S         
+         
+markupdecl
+         ::= Elementdecl
+           | AttlistDecl
+           | EntityDecl
+           | NotationDecl
+           | PI
+           | Comment
+Elementdecl
+         ::= '<!ELEMENT' ( declContent | PEReference)* '>'
+         
+AttlistDecl
+         ::= '<!ATTLIST' declContentWQuotes '>'
+         
+NotationDecl
+         ::= '<!NOTATION' declContentWQuotes '>'
+         
+EntityDecl   ::= '<!ENTITY' ( PercentInEntityDecl | declContent | quotedDeclContent )* '>'
+
+Comment  ::= '<!--' CommentContent '-->'
+
+PI       ::= PIStart PITarget PIContentEnd 
+
+declContentWQuotes ::= ( declContent | PEReference | quotedDeclContent )*
+
+quotedDeclContent ::= ( '"' (QuotedValueDouble|PEReference|Reference)* '"'  ) | ( "'" (QuotedValueSingle|PEReference|Reference)* "'" ) 
+
+
+
+
+Reference
+         ::= EntityRef
+           | CharRef
+
+CharRef  ::= '&#' CharRefDec ';'
+           | '&#x' CharRefHex ';'
+EntityRef
+         ::= '&' Name ';' 
+
+PercentInEntityDecl ::= '%' (Name ';' | S | PEReference)
+           
+<?TOKENS?>
+
+EOF      ::= $
+Char     ::= #x0009
+           | #x000A
+           | #x000D
+           | [#x0020-#xD7FF]
+           | [#xE000-#xFFFD]
+           | [#x10000-#x10FFFF]
+S        ::= ( #x0020 | #x0009 | #x000D | #x000A )+
+NameStartChar
+         ::= ':'
+           | [A-Z]
+           | '_'
+           | [a-z]
+           | [#x00C0-#x00D6]
+           | [#x00D8-#x00F6]
+           | [#x00F8-#x02FF]
+           | [#x0370-#x037D]
+           | [#x037F-#x1FFF]
+           | [#x200C-#x200D]
+           | [#x2070-#x218F]
+           | [#x2C00-#x2FEF]
+           | [#x3001-#xD7FF]
+           | [#xF900-#xFDCF]
+           | [#xFDF0-#xFFFD]
+
+NameChar ::= NameStartChar
+           | '-'
+           | '.'
+           | [0-9]
+           | #x00B7
+           | [#x0300-#x036F]
+           | [#x203F-#x2040]
+Name     ::= NameStartChar NameChar*
+
+
+CommentContent  ::= ( Char - '-' | '-' ( Char - '-' ) )*
+PIStart ::= '<?'
+PIContentEnd     ::= ( S ( [^?] | '?'+ [^?>] )* '?'* )? '?>'
+PITarget ::= Name
+VersionNum
+         ::= '1.' [0-9]+      
+
+   
+CharRefDec ::=  [0-9]+        
+CharRefHex ::=  [0-9a-fA-F]+  
+
+PEReference
+         ::= '%' Name ';'
+
+         
+EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
+
+Ignore
+         ::= ( Char+ - ( Char* ( '<![' | ']]>' ) Char* ) ) &( '<![' | ']]>' )
+
+declContent ::= [^>%"']*
+
+QuotedValueDouble ::= [^"%&]*
+QuotedValueSingle ::= [^'%&]*
