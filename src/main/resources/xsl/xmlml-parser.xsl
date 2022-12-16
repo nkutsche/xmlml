@@ -9,6 +9,9 @@
         </xd:desc>
     </xd:doc>
 
+    <xsl:variable name="feature_ns" select="'http://www.nkutsche.com/xmlml/parser/features/'"/>
+
+    <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
 
     <xsl:variable name="default-config" select="
         mlml:detect-default-config()
@@ -16,6 +19,33 @@
 
     <xsl:function name="mlml:detect-default-config" as="map(*)?">
 
+        <xsl:sequence select="map{
+            $mlml:URI_RESOLVER : mlml:default-uri-resolver#2
+            }"/>
+
+    </xsl:function>
+
+    <xsl:function name="mlml:default-uri-resolver" as="map(xs:string, xs:string)?">
+        <xsl:param name="href" as="xs:string"/>
+        <xsl:param name="base-uri" as="xs:string?"/>
+        <xsl:variable name="base-uri" select="
+                if ($base-uri) then
+                    resolve-uri($href, $base-uri)
+                else
+                    $href
+                "/>
+        <xsl:choose>
+            <xsl:when test="unparsed-text-available($base-uri)">
+                <xsl:variable name="content" select="unparsed-text($base-uri)"/>
+                <xsl:sequence select="map{
+                    'base-uri' : string($base-uri),
+                    'content' : $content
+                    }"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message expand-text="yes">Could not resolve URI "{$base-uri}"</xsl:message>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
 
     <xsl:function name="mlml:parse" as="node()">
@@ -28,7 +58,11 @@
         <xsl:param name="config" as="map(*)"/>
         
         <xsl:variable name="config" select="map:merge(($config, $default-config))"/>
-        <xsl:variable name="text" select="unparsed-text($href)"/>
+        
+        <xsl:variable name="contentObj" select="$config($mlml:URI_RESOLVER)($href, ())"/>
+
+        <xsl:variable name="text" select="$contentObj?content"/>
+
         <xsl:variable name="linefeed" select="
                 if (matches($text, '\r\n')) then
                     'rn'
