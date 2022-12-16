@@ -23,18 +23,21 @@
                         else
                             '#default'
                 "/>
-        <xsl:sequence select="mlml:parse-from-string($text, map {
-            'line-feed-format' : $linefeed,
-            'base-uri' : $href
-            })"/>
+        <xsl:sequence select="
+                mlml:parse-from-string($text, map{}, map {
+                    'line-feed-format': $linefeed,
+                    'base-uri': $href
+                })"/>
     </xsl:function>
 
     <xsl:function name="mlml:parse-from-string" as="node()">
         <xsl:param name="unparsed-xml" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
         <xsl:variable name="pre-parsed" select="p:parse-document($unparsed-xml)"/>
 
         <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
+            <xsl:with-param name="config" select="$config" tunnel="yes"/>
             <xsl:with-param name="properties" select="$properties" tunnel="yes"/>
         </xsl:apply-templates>
 
