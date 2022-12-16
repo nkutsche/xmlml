@@ -24,6 +24,29 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>net.sigmalab.trang</groupId>
+                <artifactId>trang-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>trang-convert</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>trang</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <inputFile>src/main/resources/rnc/xmlml_or_dtdml.rnc</inputFile>
+                            </inputFiles>
+                            <outputFileName>xmlml_or_dtdml.rng</outputFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/classes/rnc</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.nkutsche</groupId>
                 <artifactId>xspec-maven-plugin</artifactId>
                 <version>2.0.0</version>
