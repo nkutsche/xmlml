@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns="http://www.nkutsche.com/xmlml" xmlns:p="http://www.nkutsche.com/xml-parser" exclude-result-prefixes="#all" version="3.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns="http://www.nkutsche.com/xmlml" xmlns:p="http://www.nkutsche.com/xml-parser" 
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map" exclude-result-prefixes="#all" version="3.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Created on:</xd:b> Nov 11, 2022</xd:p>
@@ -8,8 +9,25 @@
         </xd:desc>
     </xd:doc>
 
+
+    <xsl:variable name="default-config" select="
+        mlml:detect-default-config()
+        " as="map(*)"/>
+
+    <xsl:function name="mlml:detect-default-config" as="map(*)?">
+
+    </xsl:function>
+
     <xsl:function name="mlml:parse" as="node()">
         <xsl:param name="href" as="xs:string"/>
+        <xsl:sequence select="mlml:parse($href, map{})"/>
+    </xsl:function>
+
+    <xsl:function name="mlml:parse" as="node()">
+        <xsl:param name="href" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="config" select="map:merge(($config, $default-config))"/>
         <xsl:variable name="text" select="unparsed-text($href)"/>
         <xsl:variable name="linefeed" select="
                 if (matches($text, '\r\n')) then
@@ -24,7 +42,7 @@
                             '#default'
                 "/>
         <xsl:sequence select="
-                mlml:parse-from-string($text, map{}, map {
+                mlml:parse-from-string($text, $config, map {
                     'line-feed-format': $linefeed,
                     'base-uri': $href
                 })"/>
