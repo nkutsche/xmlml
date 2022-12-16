@@ -64,16 +64,19 @@
         <xsl:variable name="text" select="$contentObj?content"/>
 
         <xsl:variable name="linefeed" select="
-                if (matches($text, '\r\n')) then
-                    'rn'
+                if ($contentObj?linefeed) then
+                    $contentObj?linefeed
                 else
-                    if (matches($text, '\r')) then
-                        'r'
+                    if (matches($text, '\r\n')) then
+                        'rn'
                     else
-                        if (matches($text, '\n')) then
-                            'n'
+                        if (matches($text, '\r')) then
+                            'r'
                         else
-                            '#default'
+                            if (matches($text, '\n')) then
+                                'n'
+                            else
+                                '#default'
                 "/>
         <xsl:variable name="base-uri" select="($contentObj?base-uri, $href)[1]"/>
         <xsl:sequence select="
