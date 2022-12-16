@@ -94,7 +94,7 @@
             </content>
         </xsl:where-populated>
     </xsl:template>
-    
+
     <xsl:template match="Attribute[matches(Name, '^xmlns(:|$)')]" mode="mlml:parse">
         <namespace>
             <xsl:apply-templates mode="#current"/>
@@ -173,11 +173,11 @@
             </cdata>
         </text>
     </xsl:template>
-    
+
     <xsl:template match="CDSect/TOKEN[. = ']'][following-sibling::TOKEN[. = ']']]" mode="mlml:parse">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
-    
+
     <xsl:template match="AttValue//Reference | EntityValue//Reference" mode="mlml:parse" priority="10">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
@@ -387,7 +387,7 @@
     </xsl:template>
 
     <xsl:template match="doctypedecl/TOKEN" mode="mlml:parse" priority="10"/>
-    
+
     <xsl:template match="doctypedecl/Name" mode="mlml:parse">
         <name>
             <xsl:apply-templates mode="#current"/>
@@ -405,14 +405,14 @@
             <xsl:apply-templates mode="#current"/>
         </value>
     </xsl:template>
-    
-    
+
+
     <xsl:template match="doctypedecl/intSubset" mode="mlml:parse">
         <inline>
             <xsl:apply-templates mode="#current"/>
         </inline>
     </xsl:template>
-    
+
     <xsl:template match="elementdecl" mode="mlml:parse">
         <element-decl>
             <xsl:apply-templates mode="#current"/>
@@ -442,7 +442,7 @@
             <xsl:value-of select="."/>
         </type>
     </xsl:template>
-    
+
     <xsl:template match="DefaultDecl[TOKEN = '#IMPLIED']" mode="mlml:parse">
         <implied/>
     </xsl:template>
@@ -456,7 +456,7 @@
             <xsl:apply-templates mode="#current"/>
         </fixed>
     </xsl:template>
-    
+
     <xsl:template match="EntityDecl" mode="mlml:parse">
         <entity-decl>
             <xsl:apply-templates mode="#current"/>
@@ -471,8 +471,8 @@
             <xsl:apply-templates mode="#current"/>
         </value>
     </xsl:template>
-    
-    
+
+
     <xsl:template match="doctypedecl//*" mode="mlml:parse" priority="-10">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>

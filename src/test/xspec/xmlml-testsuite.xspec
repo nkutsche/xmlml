@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="../../main/resource/xsl/xmlml-main.xsl">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="../../main/resources/xsl/xmlml-main.xsl">
     <x:helper stylesheet="helper.xsl"/>
 
     <x:scenario label="generic-serialize-test" shared="true" catch="true">
