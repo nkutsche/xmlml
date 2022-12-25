@@ -1,0 +1,18 @@
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>&lt;!ELEMENT root EMPTY&gt;&lt;!ATTLIST root attribute CDATA "default-value"&gt;</inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute>
+            <ws space="1"/>
+            <name>attribute</name>
+            <eq/>
+            <value>overwrite</value>
+        </attribute>
+    </element>
+</document>

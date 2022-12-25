@@ -203,6 +203,10 @@
             <x:variable name="path" select="'dtd/fixed-attribute.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: dtd/default-overwrite-attribute.xml">
+            <x:variable name="path" select="'dtd/default-overwrite-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
     
     <x:scenario label="Dir: element/" catch="true">
