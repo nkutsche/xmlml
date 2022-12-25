@@ -86,9 +86,9 @@
         </xsl:comment>
     </xsl:template>
 
-    <xsl:template match="entity[@type = 'char']" mode="mlml:doc">
-        <xsl:variable name="charRef" select="replace(., '^#x?', '')"/>
-        <xsl:variable name="isHexRef" select="matches(., '^#x')"/>
+    <xsl:template match="entity[@codepoint]" mode="mlml:doc">
+        <xsl:variable name="charRef" select="replace(@codepoint, '^x', '')"/>
+        <xsl:variable name="isHexRef" select="matches(@codepoint, '^x')"/>
         <xsl:variable name="code-point" select="
                 if ($isHexRef) then
                     mlml:hex-to-int($charRef)
@@ -100,31 +100,8 @@
 
     </xsl:template>
 
-    <xsl:template match="entity[@type = 'name']" mode="mlml:doc">
-        <xsl:param name="dtd" tunnel="yes" as="element()*"/>
-        <xsl:variable name="nameRef" select="normalize-space(.)"/>
-        <xsl:variable name="pre-def-entities" select="
-            map{
-            'amp' : '&amp;',
-            'lt' : '&lt;',
-            'gt' : '&gt;',
-            'quot' : '&quot;',
-            'apos' : '&apos;&apos;'
-            }
-            "/>
-
-        <xsl:variable name="entity-decl" select="$dtd[self::entity-decl/name = $nameRef]"/>
-        <xsl:choose>
-            <xsl:when test="map:contains($pre-def-entities, $nameRef)">
-                <xsl:value-of select="$pre-def-entities($nameRef)"/>
-            </xsl:when>
-            <xsl:when test="$entity-decl">
-                <xsl:apply-templates select="$entity-decl/value/node()" mode="#current"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:message terminate="yes" expand-text="yes">Could not resolve entity reference: "{$nameRef}".</xsl:message>
-            </xsl:otherwise>
-        </xsl:choose>
+    <xsl:template match="entity[@name]" mode="mlml:doc">
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:function name="mlml:namespace" as="xs:string">
