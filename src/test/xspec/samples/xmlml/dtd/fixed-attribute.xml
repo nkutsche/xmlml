@@ -8,5 +8,11 @@
     </doc-type-decl>
     <element>
         <name>root</name>
+        <attribute default="true">
+            <ws space="1"/>
+            <name>attribute</name>
+            <eq/>
+            <value>fix-value</value>
+        </attribute>
     </element>
 </document>
