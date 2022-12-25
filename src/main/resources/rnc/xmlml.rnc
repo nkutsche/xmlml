@@ -56,7 +56,7 @@ xmlDecl_standalone = element standalone {xmlDecl_Content}
 
 doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?}
 
-dtd_inline = element inline {text}
+dtd_inline = element inline {node_content}
 
 dtd_external = dtd_system | dtd_public
 
