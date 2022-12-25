@@ -4,14 +4,7 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>
-            <entity-decl>
-                <ws space="1"/>
-                <name>ent</name>
-                <ws space="1"/>
-                <value>line<nl/>break</value>
-            </entity-decl>
-        </inline>
+        <inline>&lt;!ENTITY ent "line<nl/>break"&gt;</inline>
     </doc-type-decl>
     <element>
         <name>root</name>

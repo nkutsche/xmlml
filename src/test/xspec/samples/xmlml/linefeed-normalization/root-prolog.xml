@@ -5,24 +5,7 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>
-            <ws nl="2"/>
-            <element-decl>
-                <ws space="1"/>
-                <name>root</name>
-                <ws space="1"/>
-                <content-spec>EMPTY</content-spec>
-                <ws space="1"/>
-            </element-decl>
-            <ws nl="2"/>
-            <entity-decl>
-                <ws space="1"/>
-                <name>ent</name>
-                <ws space="1"/>
-                <value>line<nl/>break</value>
-            </entity-decl>
-            <ws nl="2"/>
-        </inline>
+<inline><nl amount="2"/>&lt;!ELEMENT root EMPTY &gt;<nl amount="2"/>&lt;!ENTITY ent "line<nl/>break"&gt;<nl amount="2"/></inline>
     </doc-type-decl>
     <ws nl="2"/>
     <pi>

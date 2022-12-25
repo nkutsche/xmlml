@@ -7,14 +7,7 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>
-            <element-decl>
-                <ws space="1"/>
-                <name>root</name>
-                <ws space="1"/>
-                <content-spec>EMPTY</content-spec>
-            </element-decl>
-        </inline>
+        <inline>&lt;!ELEMENT root EMPTY&gt;</inline>
     </doc-type-decl>
     <ws space="3"/>
     <element>

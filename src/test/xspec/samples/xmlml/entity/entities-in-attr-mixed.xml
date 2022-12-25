@@ -4,16 +4,7 @@
         <ws space="1"/>
         <name>from</name>
         <ws space="1"/>
-        <inline>
-            <ws nl="1"/>
-            <entity-decl>
-                <ws space="1"/>
-                <name>ent</name>
-                <ws space="1"/>
-                <value>bar</value>
-            </entity-decl>
-            <ws nl="1"/>
-        </inline>
+        <inline><nl/>&lt;!ENTITY ent "bar"&gt;<nl/></inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>
