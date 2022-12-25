@@ -22,7 +22,7 @@ childNode = (textNode | pi | comment | elem)
 
 closeTagSpace = element close-tag-space {ws}
 
-attr = element attribute {attrContent}
+attr = element attribute {defaultAttr?, attrContent}
 
 namespace_decl = element namespace {nsContent}
 
@@ -106,6 +106,8 @@ lf_format = attribute line-feed-format {"rn" | "r" | "n"}
 amount = attribute amount {xs:integer}
 
 ent_value = attribute value {xs:string}
+
+defaultAttr = attribute default {xs:boolean}
 
 # Types
 
