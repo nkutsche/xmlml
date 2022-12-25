@@ -149,9 +149,15 @@
         <xsl:text>]]&gt;</xsl:text>
     </xsl:template>
 
-    <xsl:template match="entity" mode="mlml:serialize">
+    <xsl:template match="entity[@name]" mode="mlml:serialize">
         <xsl:text>&amp;</xsl:text>
-        <xsl:apply-templates mode="#current"/>
+        <xsl:value-of select="@name"/>
+        <xsl:text>;</xsl:text>
+    </xsl:template>
+    <xsl:template match="entity[@codepoint]" mode="mlml:serialize">
+        <xsl:text>&amp;</xsl:text>
+        <xsl:text>#</xsl:text>
+        <xsl:value-of select="@codepoint"/>
         <xsl:text>;</xsl:text>
     </xsl:template>
     
