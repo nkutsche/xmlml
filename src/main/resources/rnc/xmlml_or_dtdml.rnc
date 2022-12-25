@@ -1,0 +1,10 @@
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+namespace mlml = "http://www.nkutsche.com/xmlml"  
+namespace dtdml = "http://www.nkutsche.com/dtdml"  
+
+include "dtdml.rnc"
+include "xmlml.rnc" {
+    start |= document
+}
+

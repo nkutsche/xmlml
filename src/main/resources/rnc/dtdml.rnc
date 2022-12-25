@@ -1,0 +1,77 @@
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+default namespace = "http://www.nkutsche.com/dtdml"  
+
+start = dtd
+
+dtd = element dtd { dtd_content }
+
+dtd_content = (
+    element_decl |
+    attribute_list_decl |
+    entity_decl |
+    notation_decl
+)*
+
+element_decl = element element-decl {name, dtd_el_content}
+
+dtd_el_content = element content {mixed_content?, content_model}
+
+content_model = (optional?, repeating?, (sequence | choice | element_ref)*)
+
+attribute_list_decl = element attribute-list {ref, attribute_decl*}
+
+attribute_decl = element attribute {name, (optional | (fixed, attr_value) | attr_value)?, attr_type}
+
+notation_decl = element notation {name, ((systemId, publicId) | systemId | publicId)}
+
+entity_decl = element entity-decl {name, dtd_ent_value}
+
+attr_type = (attr_data_type | attr_enum_type)
+
+attr_enum_type = element type {notation?, enum*}
+
+enum = element enum {text}
+
+attr_data_type = attribute type {
+           'CDATA'
+           | 'ID'
+           | 'IDREF'
+           | 'IDREFS'
+           | 'ENTITY'
+           | 'ENTITIES'
+           | 'NMTOKEN'
+           | 'NMTOKENS'}
+
+sequence = element sequence {content_model}
+
+choice = element choice {content_model}
+
+element_ref = element element {optional?, repeating?, ref}
+
+dtd_ent_value = element value {ndata_ref?, text}
+
+
+# Attributes
+
+name = attribute name {xs:string}
+
+attr_value = attribute default {xs:string}
+
+ref = attribute ref {xs:string}
+
+optional = attribute optional {xs:boolean}
+
+notation = attribute notation {xs:boolean}
+
+fixed = attribute fixed {xs:boolean}
+
+repeating = attribute repeating {xs:boolean}
+
+mixed_content = attribute mixed {xs:boolean}
+
+systemId = attribute systemId {xs:string}
+
+publicId = attribute publicId {xs:string}
+
+ndata_ref = attribute ndata-ref {xs:NCName}
