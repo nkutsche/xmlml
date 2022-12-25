@@ -69,6 +69,8 @@
         <xsl:text>=</xsl:text>
     </xsl:template>
     
+    <xsl:template match="attribute[@default = 'true']" mode="mlml:serialize"/>
+    
     <xsl:template match="
         attribute/value[@quotes = 'single'] 
         | namespace/value[@quotes = 'single']
