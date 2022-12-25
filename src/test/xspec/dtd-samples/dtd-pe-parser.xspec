@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:dtdpe="http://www.nkutsche.com/dtd-pe-parser" xmlns:mlml="http://www.nkutsche.com/xmlml"
+     xmlns:map="http://www.w3.org/2005/xpath-functions/map" stylesheet="../../../main/resources/xsl/xmlml-main.xsl">
+    <x:variable name="si" select="map{'base-uri' : 'http://www.nkutsche.com/xmlml/xspec-test.xml'}"/>
+    
+    <x:variable name="resources" select="res">
+        <res id="foo.ent">
+            <![CDATA[<!ELEMENT foo EMPTY>]]>
+        </res>
+        <res id="foo%20;bar.ent">
+            <![CDATA[
+                <!ELEMENT foo EMPTY>
+                <!ELEMENT bar EMPTY>
+            ]]>
+        </res>
+    </x:variable>
+    
+    <x:variable name="config" select="map:put(
+        $default-config, $mlml:URI_RESOLVER, function($href, $baseuri){
+            map{'content' : string($resources[resolve-uri(@id, $si?base-uri) = $href]), 'base-uri' : resolve-uri($href, $baseuri)}
+            (:if($resources[@id = $href])
+            then 
+            else 
+                mlml:default-uri-resolver($href, $baseuri):)
+        }
+        )"/>
+    <x:scenario label="Testing function mlml:dtd-pre-parse">
+        <x:call function="mlml:dtd-pre-parse">
+            <x:param select="$config" position="2"/>
+        </x:call>
+        <x:scenario label="No Parameter Entity">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))">
+                    <![CDATA[<!ELEMENT foo EMPTY>]]>
+                </x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[<!ELEMENT foo EMPTY>]]>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="Trivial Parameter Entity">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))"
+                    ><![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ELEMENT %foo; EMPTY>
+                    ]]></x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ELEMENT bar EMPTY>
+                ]]>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="Recursive Parameter Entity">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))"
+                    ><![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ENTITY % bar "%foo; EMPTY">
+                    <!ELEMENT %bar;>
+                    ]]></x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ENTITY % bar "bar EMPTY">
+                    <!ELEMENT bar EMPTY>
+                ]]>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="External Parameter Entity">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))"
+                    ><![CDATA[
+                    <!ENTITY % foo SYSTEM "foo.ent">
+                    %foo;
+                    ]]></x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[
+                    <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent">
+                    <!ELEMENT foo EMPTY>
+                ]]>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="Parameter Entity entity declaration">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))"
+                    ><![CDATA[
+                        <!ENTITY % root_prefix "ns:" >
+                        <!ENTITY % root_name "%root_prefix;root" >
+                        <!ELEMENT %root_name; (foo?, (bar | baz)+) >
+                    ]]></x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[
+                    <!ENTITY % root_prefix "ns:" >
+                    <!ENTITY % root_name "ns:root" >
+                    <!ELEMENT ns:root (foo?, (bar | baz)+) >
+                ]]>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="Parameter Entity Kung-Fu">
+            <x:call>
+                <x:param select="map:put($si, 'content', string(.))"
+                    ><![CDATA[
+                        <!ENTITY % percd "&#37;" >
+                        <!ENTITY % perc "&#x25;" >
+                        <!ENTITY % baz "baz" >
+                        <!ENTITY %percd; foo "bar '%baz;'" >
+                        
+                        <!ENTITY%perc;%foo;>
+                        
+                        <!ELEMENT %bar; EMPTY>
+                    ]]></x:param>
+            </x:call>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                <![CDATA[
+                        <!ENTITY % percd "%" >
+                        <!ENTITY % perc "%" >
+                        <!ENTITY % baz "baz" >
+                        <!ENTITY % foo "bar 'baz'" >
+                        
+                        <!ENTITY % bar 'baz' >
+                        
+                        <!ELEMENT baz EMPTY>
+                ]]>
+            </x:expect>
+        </x:scenario>
+
+    </x:scenario>
+    
+</x:description>
