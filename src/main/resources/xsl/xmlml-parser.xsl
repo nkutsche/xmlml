@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns="http://www.nkutsche.com/xmlml" xmlns:xmlp="http://www.nkutsche.com/xml-parser" xmlns:dtdp="http://www.nkutsche.com/dtd-parser" 
-    xmlns:map="http://www.w3.org/2005/xpath-functions/map" exclude-result-prefixes="#all" version="3.0">
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:dtdml="http://www.nkutsche.com/dtdml"
+    xmlns:xmlfp="http://www.nkutsche.com/xml-fragment-parser" exclude-result-prefixes="#all" version="3.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Created on:</xd:b> Nov 11, 2022</xd:p>
@@ -300,17 +301,50 @@
         <xsl:variable name="isHexRef" select="exists($charRef/self::CharRefHex)" as="xs:boolean"/>
 
         <entity>
-            <xsl:attribute name="type" select="'char'"/>
-            <xsl:value-of select="'#', 'x'[$isHexRef], $charRef" separator=""/>
+            <xsl:attribute name="codepoint" select="'x'[$isHexRef], $charRef" separator=""/>
         </entity>
 
     </xsl:template>
 
+    <xsl:variable name="pre-def-entities" select="
+        map{
+        'amp' : '&amp;',
+        'lt' : '&lt;',
+        'gt' : '&gt;',
+        'quot' : '&quot;',
+        'apos' : '&apos;&apos;'
+        }
+        "/>
 
-    <xsl:template match="Reference/EntityRef[Name]" mode="mlml:parse">
+    <xsl:template match="Reference/EntityRef[$pre-def-entities(Name)]" mode="mlml:parse" priority="10">
         <entity>
-            <xsl:attribute name="type" select="'name'"/>
-            <xsl:value-of select="Name"/>
+            <xsl:attribute name="name" select="Name"/>
+            <text>
+                <xsl:value-of select="$pre-def-entities(Name)"/>
+            </text>
+        </entity>
+    </xsl:template>
+    
+    <xsl:template match="Reference/EntityRef[Name]" mode="mlml:parse">
+        <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:variable name="nameRef" select="Name"/>
+        
+        <xsl:variable name="value" select="
+            $dtd/dtdml:entity-decl[@name = $nameRef]/dtdml:value
+            "/>
+        
+        <xsl:variable name="fragment-parsed" select="xmlfp:parse-document-fragment(string($value))"/>
+        
+        <xsl:if test="$fragment-parsed/self::ERROR">
+            <xsl:sequence select="error(xs:QName('mlml:fail'), serialize($fragment-parsed))"/>
+        </xsl:if>
+        
+        <xsl:variable name="fragment-parsed" select="$fragment-parsed/content/node()"/>
+        
+        
+        <entity>
+            <xsl:attribute name="name" select="Name"/>
+            <xsl:apply-templates select="$fragment-parsed" mode="#current"/>
         </entity>
     </xsl:template>
 
