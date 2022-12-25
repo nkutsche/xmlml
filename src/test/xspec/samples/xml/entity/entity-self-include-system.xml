@@ -1,0 +1,5 @@
+<!DOCTYPE doc [
+<!ENTITY e SYSTEM "entity-self-include-system.xml">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc></doc>
