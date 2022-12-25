@@ -88,7 +88,7 @@
                         <executions>
                             <execution>
                                 <id>xslt-transformations</id>
-                                <phase>process-sources</phase>
+                                <phase>process-test-sources</phase>
                                 <goals>
                                     <goal>transform</goal>
                                 </goals>
@@ -106,6 +106,10 @@
                                                 <parameter>
                                                     <name>focus</name>
                                                     <value>type=valid</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>testRunner</name>
+                                                    <value>${project.baseUri}/target/test-classes/xsl/testRunner.xsl</value>
                                                 </parameter>
                                             </parameters>
                                             <fileMappers>

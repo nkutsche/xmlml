@@ -13,7 +13,7 @@
         if(exists($focus)) then
         let $tk := tokenize($focus, '=')
         return
-        map{$tk[1] : $tk[2]}
+        map{$tk[1] : $tk[2] => tokenize(',')}
         
         else ()
         "/>
@@ -59,17 +59,39 @@
         </x:scenario>
 
         <x:scenario label="invalid" shared="true" catch="true">
-            <x:call function="mlml:parse-and-serialize">
-                <x:param select="$src"/>
-            </x:call>
-            <x:expect label="No change after parsed and serialized" select="unparsed-text($src)"/>
+            <x:scenario label="mlml:parse-and-serialize">
+                <x:call function="mlml:parse-and-serialize">
+                    <x:param select="$src"/>
+                    <x:param select="true()"/>
+                </x:call>
+                <x:expect label="No change after parsed and serialized" test=" 
+                    if ($x:result instance of map(*)) 
+                    then $x:result?err?description 
+                    else $x:result
+                    " select="unparsed-text($src)"/>
+            </x:scenario>
+            <x:scenario label="mlml:parse-dtd-and-validate">
+                <x:call function="mlml:parse-dtd-and-validate">
+                    <x:param select="$src"/>
+                </x:call>
+                <x:expect label="Parsed DTD is valid" select="true()"/>
+            </x:scenario>
         </x:scenario>
 
         <x:scenario label="valid" shared="true" catch="true">
-            <x:call function="mlml:parse-and-serialize">
-                <x:param select="$src"/>
-            </x:call>
-            <x:expect label="No change after parsed and serialized" select="unparsed-text($src)"/>
+            <x:scenario label="mlml:parse-and-serialize">
+                <x:call function="mlml:parse-and-serialize">
+                    <x:param select="$src"/>
+                    <x:param select="true()"/>
+                </x:call>
+                <x:expect label="No change after parsed and serialized" select="unparsed-text($src)"/>
+            </x:scenario>
+            <x:scenario label="mlml:parse-dtd-and-validate">
+                <x:call function="mlml:parse-dtd-and-validate">
+                    <x:param select="$src"/>
+                </x:call>
+                <x:expect label="Parsed DTD is valid" select="true()"/>
+            </x:scenario>
         </x:scenario>
     </xsl:template>
     
