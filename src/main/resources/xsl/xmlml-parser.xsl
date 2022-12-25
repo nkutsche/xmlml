@@ -140,10 +140,16 @@
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
         <xsl:variable name="pre-parsed" select="xmlp:parse-document($unparsed-xml)"/>
-
+        
+        <xsl:variable name="dtd" select="mlml:parse-dtds-from-preparsed-xml(
+            $pre-parsed, 
+            $properties?base-uri, 
+            $config)"/>
+        
         <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
             <xsl:with-param name="config" select="$config" tunnel="yes"/>
             <xsl:with-param name="properties" select="$properties" tunnel="yes"/>
+            <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
         </xsl:apply-templates>
 
     </xsl:function>
@@ -544,6 +550,12 @@
         <value>
             <xsl:apply-templates mode="#current"/>
         </value>
+    </xsl:template>
+    <xsl:template match="
+        doctypedecl/ExternalID/SystemLiteral/SystemLiteralDouble
+        | doctypedecl/ExternalID/SystemLiteral/SystemLiteralSingle
+        " mode="mlml:parse">
+        <xsl:value-of select="."/>
     </xsl:template>
 
 
