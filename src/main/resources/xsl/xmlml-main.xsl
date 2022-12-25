@@ -9,6 +9,7 @@
     <xsl:import href="rexparser/xml-fragment-parser.xsl"/>
     <xsl:import href="rexparser/dtd-parser.xsl"/>
     <xsl:import href="rexparser/dtd-pe-parser.xsl"/>
+    <xsl:import href="xmlml-lib.xsl"/>
     <xsl:import href="xmlml-parser.xsl"/>
     <xsl:import href="xmlml-serializer.xsl"/>
     <xsl:import href="xmlml-model.xsl"/>
