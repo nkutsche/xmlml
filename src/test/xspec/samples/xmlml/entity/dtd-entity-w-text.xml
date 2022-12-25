@@ -9,7 +9,7 @@
     <element>
         <name>root</name>
         <content>
-            <text>text1<entity type="name">ent</entity>text2</text>
+            <text>text1<entity name="ent"><text>entity-value</text></entity>text2</text>
         </content>
     </element>
 </document>

@@ -13,19 +13,19 @@
             <ws space="1"/>
             <name>foo</name>
             <eq/>
-            <value><entity type="name">ent</entity></value>
+            <value><entity name="ent"><text>bar</text></entity></value>
         </attribute>
         <attribute>
             <ws space="1"/>
             <name>bar</name>
             <eq/>
-            <value><entity type="name">lt</entity></value>
+            <value><entity name="lt"><text>&lt;</text></entity></value>
         </attribute>
         <attribute>
             <ws space="1"/>
             <name>baz</name>
             <eq/>
-            <value><entity type="char">#10</entity></value>
+            <value><entity codepoint="10"/></value>
         </attribute>
     </element>
 </document>

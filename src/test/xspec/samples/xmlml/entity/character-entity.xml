@@ -3,7 +3,7 @@
     <element>
         <name>root</name>
         <content>
-            <text><entity type="char">#x65</entity></text>
+            <text><entity codepoint="x65"/></text>
         </content>
     </element>
 </document>

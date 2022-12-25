@@ -6,7 +6,7 @@
             <ws space="1"/>
             <name>pre_dev</name>
             <eq/>
-            <value>lower-then: <entity type="name">lt</entity></value>
+            <value>lower-then: <entity name="lt"><text>&lt;</text></entity></value>
         </attribute>
     </element>
 </document>

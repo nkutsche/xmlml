@@ -17,7 +17,7 @@
                 <nl/>
                 <space amount="4"/>
             </ws>
-            <value>line<entity type="char">#xA</entity>break</value>
+            <value>line<entity codepoint="xA"/>break</value>
         </attribute>
         <attribute>
             <ws>
@@ -34,7 +34,7 @@
                 <nl/>
                 <space amount="4"/>
             </ws>
-            <value>other<entity type="char">#xD</entity><entity type="char">#xA</entity>linebreak<nl/>    </value>
+            <value>other<entity codepoint="xD"/><entity codepoint="xA"/>linebreak<nl/>    </value>
         </attribute>
         <ws>
             <nl/>
