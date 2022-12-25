@@ -165,9 +165,31 @@
     </xsl:template>
 
     <xsl:template match="element" mode="mlml:parse">
+        <xsl:param name="dtd" tunnel="yes"/>
         <xsl:variable name="content" as="element()*">
             <xsl:apply-templates mode="#current"/>
         </xsl:variable>
+        
+        <xsl:variable name="el_name" select="$content/self::mlml:name"/>
+        <xsl:variable name="attribute-list" select="$dtd/dtdml:attribute-list[@ref = $el_name]"/>
+        <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
+            <xsl:for-each select="$attribute-list/dtdml:attribute[@default]">
+                <attribute default="true">
+                    <ws space="1" />
+                    <name>
+                        <xsl:value-of select="@name"/>
+                    </name>
+                    <eq />
+                    <value>
+                        <xsl:value-of select="@default"/>
+                    </value>
+                </attribute>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:variable name="default-attributes" select="
+            $default-attributes[not(mlml:name = $content/self::mlml:attribute/mlml:name)]
+            "/>
+        
         <element>
             <xsl:if test="not(ETag)">
                 <xsl:attribute name="collapsed" select="'true'"/>
@@ -182,7 +204,10 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
-            <xsl:sequence select="$content"/>
+            <xsl:variable name="el_start" select="$content[. &lt;&lt; $el_name] | $el_name"/>
+            <xsl:sequence select="$el_start"/>
+            <xsl:sequence select="$default-attributes"/>
+            <xsl:sequence select="$content except $el_start"/>
         </element>
     </xsl:template>
 
