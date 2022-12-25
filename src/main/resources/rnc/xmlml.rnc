@@ -36,9 +36,9 @@ cdata = element cdata {node_content}
 
 entity = (name_entity | char_entity)
 
-name_entity = element entity {attribute type {"name"}, xs:NCName}
+name_entity = element entity {attribute name {xs:NCName}, childNode*}
 
-char_entity = element entity {attribute type {"char"}, (ent_charref_name)}
+char_entity = element entity {attribute codepoint {ent_charref_name}}
 
 pi = element pi {ncname, (ws, piValue?)?}
 
@@ -111,4 +111,4 @@ defaultAttr = attribute default {xs:boolean}
 
 # Types
 
-ent_charref_name = xs:string {pattern = "#(x[0-9a-fA-F]+|[0-9]+)"}
+ent_charref_name = xs:string {pattern = "(x[0-9a-fA-F]+|[0-9]+)"}
