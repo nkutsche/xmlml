@@ -561,74 +561,9 @@
 
     <xsl:template match="doctypedecl/intSubset" mode="mlml:parse">
         <inline>
-            <xsl:apply-templates mode="#current"/>
+            <xsl:sequence select="mlml:line-breaks(.)"/>
         </inline>
     </xsl:template>
-
-    <xsl:template match="elementdecl" mode="mlml:parse">
-        <element-decl>
-            <xsl:apply-templates mode="#current"/>
-        </element-decl>
-    </xsl:template>
-
-    <xsl:template match="elementdecl/contentspec" mode="mlml:parse">
-        <content-spec>
-            <xsl:sequence select="mlml:line-breaks(.)"/>
-        </content-spec>
-    </xsl:template>
-
-    <xsl:template match="AttlistDecl" mode="mlml:parse">
-        <attlist-decl>
-            <xsl:apply-templates mode="#current"/>
-        </attlist-decl>
-    </xsl:template>
-
-    <xsl:template match="AttlistDecl/AttDef" mode="mlml:parse">
-        <attribute-decl>
-            <xsl:apply-templates mode="#current"/>
-        </attribute-decl>
-    </xsl:template>
-
-    <xsl:template match="AttDef/AttType" mode="mlml:parse">
-        <type>
-            <xsl:value-of select="."/>
-        </type>
-    </xsl:template>
-
-    <xsl:template match="DefaultDecl[TOKEN = '#IMPLIED']" mode="mlml:parse">
-        <implied/>
-    </xsl:template>
-
-    <xsl:template match="DefaultDecl[TOKEN = '#REQUIRED']" mode="mlml:parse">
-        <required/>
-    </xsl:template>
-
-    <xsl:template match="DefaultDecl[TOKEN = '#FIXED']" mode="mlml:parse">
-        <fixed>
-            <xsl:apply-templates mode="#current"/>
-        </fixed>
-    </xsl:template>
-
-    <xsl:template match="EntityDecl" mode="mlml:parse">
-        <entity-decl>
-            <xsl:apply-templates mode="#current"/>
-        </entity-decl>
-    </xsl:template>
-
-    <xsl:template match="EntityDecl//EntityValue" mode="mlml:parse">
-        <value>
-            <xsl:if test="substring(., 1, 1) = ''''">
-                <xsl:attribute name="quotes" select="'single'"/>
-            </xsl:if>
-            <xsl:apply-templates mode="#current"/>
-        </value>
-    </xsl:template>
-
-
-    <xsl:template match="doctypedecl//*" mode="mlml:parse" priority="-10">
-        <xsl:apply-templates mode="#current"/>
-    </xsl:template>
-
 
     <xsl:template match="*" mode="mlml:parse" priority="-100">
         <NOT_SUPPORTED>
