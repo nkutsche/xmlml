@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % root_prefix "ns:" >
+
+<!ENTITY % root_name "%root_prefix;root" >
+
+<!ENTITY % root_version "%root_name; version CDATA" >
+
+<!ELEMENT %root_name; (foo?, (bar | baz)+) >
+
+<!ENTITY % foo "bar" >
+
+<!ENTITY % %foo; "baz" >
+
+<!ELEMENT foo EMPTY>
+
+<!ELEMENT bar (#PCDATA|foo|baz|quz|p)*>
+
+<!ELEMENT quz ANY >
+
+<!ELEMENT baz (#PCDATA)>
+
+<!ENTITY nl "<br/>" >
+
+<!ENTITY emptyline "&nl;&nl;" >
+
+<!ENTITY cdfoo "<![CDATA[&foo;]]>">
+
+<!ATTLIST foo class CDATA #IMPLIED 
+              tokens NMTOKENS #IMPLIED
+              value (foo|bar|baz) "baz"
+>
+
+<!-- Notation -->
+
+<!NOTATION gif PUBLIC "+//ISBN 0-7923-9432-1::Graphic Notation//NOTATION CompuServer Graphic Interchange Format//EN">
+<!NOTATION jpg SYSTEM "image/jpeg">
+
+<!ENTITY sqf-logo SYSTEM "https://www.schematron-quickfix.com/images/sqf-logo-small.jpg" NDATA jpg >
+<!ENTITY me SYSTEM "https://www.schematron-quickfix.com/images/me-new.jpg" NDATA jpg >
+
+<!ATTLIST baz logo ENTITY "sqf-logo"
+              type NOTATION (gif|jpg) #IMPLIED>
+
+<!-- Parameter Entities-->
+
+<!ENTITY % prefix "foo:" >
+
+<!ENTITY % not-existing SYSTEM "not-existing.ent" > 
+
+<!ENTITY % para SYSTEM "para.ent" > 
+
+<!ENTITY % v1 "INCLUDE" > 
+
+<!ENTITY % prod "INCLUDE" > 
+
+<!ENTITY % test "IGNORE" > 
+
+<!ENTITY % para2 "para;" > 
+
+<![ %v1; [
+<!ATTLIST %root_version; #FIXED "1.0">
+]]>
+
+<!ATTLIST %root_version; #FIXED "2.0">
+
+<![ %prod; [
+<!ATTLIST %root_name; environment CDATA #FIXED "production">
+]]>
+
+<![ %test; [
+<!ATTLIST %root_name; environment CDATA #FIXED "testing">
+]]>
+
+
+%para;

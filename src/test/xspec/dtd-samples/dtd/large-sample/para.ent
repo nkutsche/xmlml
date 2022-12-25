@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % inline "(#PCDATA|b|i|u|a|sup|sub)*" >
+
+<!ELEMENT p %inline; >
+
+<!ELEMENT b %inline;>
+
+<!ELEMENT i %inline;>
+
+<!ELEMENT u %inline;>
+
+<!ELEMENT a %inline;>
+
+<!ELEMENT sup %inline;>
+
+<!ELEMENT sub %inline;>
+
+<!ATTLIST a linkend IDREF #IMPLIED >
+
+<!ATTLIST p id ID #IMPLIED >

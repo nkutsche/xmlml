@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY % percd "&#37;" >
+<!ENTITY % perc "&#x25;" >
+<!ENTITY % baz "baz" >
+<!ENTITY %percd; foo "bar '%baz;'" >
+
+<!ENTITY%perc;%foo;>
+
+<!ELEMENT %bar; EMPTY>

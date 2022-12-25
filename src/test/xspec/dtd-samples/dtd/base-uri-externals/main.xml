@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo SYSTEM "dtd/main.dtd" [
+    <!ENTITY incl SYSTEM "incl/modul.incl">
+]>
+
+<foo>text&nl;text&nl;&incl;&incl2;</foo>

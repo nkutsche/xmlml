@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ENTITY % system SYSTEM "foo%20bar.ent" >
+<!ENTITY % next SYSTEM "foo%20bar.ent" >
+<!ENTITY % foo "efoo" >
+
+%next;

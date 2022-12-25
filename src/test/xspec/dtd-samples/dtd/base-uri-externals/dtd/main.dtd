@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT foo (#PCDATA|nl|incl)* >
+<!ELEMENT nl EMPTY >
+<!ELEMENT incl EMPTY >
+<!ENTITY nl "<nl/>" >
+<!ENTITY % ent SYSTEM "ent/ent.ent" >
+
+%ent;
