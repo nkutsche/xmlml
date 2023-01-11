@@ -2,9 +2,11 @@ datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 default namespace = "http://www.nkutsche.com/dtdml"  
 
+namespace xml = "http://www.w3.org/XML/1998/namespace"  
+
 start = dtd
 
-dtd = element dtd { dtd_content }
+dtd = element dtd {common_attr, dtd_content }
 
 dtd_content = (
     element_decl |
@@ -13,25 +15,25 @@ dtd_content = (
     notation_decl
 )*
 
-element_decl = element element-decl {name, dtd_el_content}
+element_decl = element element-decl {common_attr, name, dtd_el_content}
 
-dtd_el_content = element content {mixed_content?, content_model}
+dtd_el_content = element content {common_attr, mixed_content?, content_model}
 
 content_model = (optional?, repeating?, (sequence | choice | element_ref)*)
 
-attribute_list_decl = element attribute-list {ref, attribute_decl*}
+attribute_list_decl = element attribute-list {common_attr, ref, attribute_decl*}
 
-attribute_decl = element attribute {name, (optional | (fixed, attr_value) | attr_value)?, attr_type}
+attribute_decl = element attribute {common_attr, name, (optional | (fixed, attr_value) | attr_value)?, attr_type}
 
-notation_decl = element notation {name, ((systemId, publicId) | systemId | publicId)}
+notation_decl = element notation {common_attr, name, ((systemId, publicId) | systemId | publicId)}
 
-entity_decl = element entity-decl {name, dtd_ent_value}
+entity_decl = element entity-decl {common_attr, name, (dtd_ent_value | dtd_ent_external)}
 
 attr_type = (attr_data_type | attr_enum_type)
 
-attr_enum_type = element type {notation?, enum*}
+attr_enum_type = element type {common_attr, notation?, enum*}
 
-enum = element enum {text}
+enum = element enum {common_attr, text}
 
 attr_data_type = attribute type {
            'CDATA'
@@ -43,13 +45,15 @@ attr_data_type = attribute type {
            | 'NMTOKEN'
            | 'NMTOKENS'}
 
-sequence = element sequence {content_model}
+sequence = element sequence {common_attr, content_model}
 
-choice = element choice {content_model}
+choice = element choice {common_attr, content_model}
 
-element_ref = element element {optional?, repeating?, ref}
+element_ref = element element {common_attr, optional?, repeating?, ref}
 
-dtd_ent_value = element value {ndata_ref?, text}
+dtd_ent_external = element external {common_attr, systemId, publicId?}
+
+dtd_ent_value = element value {common_attr, ndata_ref?, text}
 
 
 # Attributes
@@ -75,3 +79,7 @@ systemId = attribute systemId {xs:string}
 publicId = attribute publicId {xs:string}
 
 ndata_ref = attribute ndata-ref {xs:NCName}
+
+common_attr = xml_base?
+
+xml_base = attribute xml:base {xs:anyURI}
