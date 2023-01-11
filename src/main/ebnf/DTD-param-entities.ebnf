@@ -45,7 +45,7 @@ PI       ::= PIStart PITarget PIContentEnd
 
 declContentWQuotes ::= ( declContent | PEReference | quotedDeclContent )*
 
-quotedDeclContent ::= ( '"' (QuotedValueDouble|PEReference|Reference)* '"'  ) | ( "'" (QuotedValueSingle|PEReference|Reference)* "'" ) 
+quotedDeclContent ::= ( '"' (QuotedValueDouble|PEReference|Reference|PercentInQuote)* '"'  ) | ( "'" (QuotedValueSingle|PEReference|Reference|PercentInQuote)* "'" ) 
 
 
 
@@ -112,6 +112,9 @@ CharRefHex ::=  [0-9a-fA-F]+
 PEReference
          ::= '%' Name ';'
 
+PercentInQuote
+         ::= '%'
+         
          
 EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
 
