@@ -22,7 +22,7 @@
 
         <xsl:variable name="xml-preparsed" select="xmlp:parse-document($xml-resource?content)"/>
         
-        <xsl:sequence select="mlml:parse-dtds-from-preparsed-xml($xml-preparsed/document, $xml-base-uri, $config)"/>
+        <xsl:sequence select="mlml:parse-dtds-from-preparsed-xml($xml-preparsed, $xml-base-uri, $config)"/>
         
     </xsl:function>
     
@@ -67,11 +67,11 @@
         <xsl:variable name="contentObjs" select="
             for $i in (1 to count($content))
             return map{
-            'content' : $content[$i],
-            'base-uri' : $base-uris[$i]
+            'content' : string($content[$i]),
+            'base-uri' : string($base-uris[$i])
             }
             " as="map(xs:string, xs:string)*"/>
-        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse($contentObjs, $config) => string()"/>
+        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse($contentObjs, $config) => string-join()"/>
 
         <xsl:variable name="parsed" select="dtdp:parse-document($preparsed)"/>
 
