@@ -92,7 +92,7 @@
                     }"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:message expand-text="yes">Could not resolve URI "{$base-uri}"</xsl:message>
+                <xsl:message terminate="yes" expand-text="yes">Could not resolve URI "{$base-uri}"</xsl:message>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
