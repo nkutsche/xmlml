@@ -579,11 +579,11 @@
 
         <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
         <xsl:variable name="systemId" select="ExternalID/SystemLiteral/string(SystemLiteralDouble | SystemLiteralSingle)"/>
-        <xsl:variable name="external_resolved" select="$uri-resolver($systemId, base-uri(.) => string())"/>
-        <value>
-            <xsl:attribute name="xml:base" select="$external_resolved?base-uri"/>
-            <xsl:value-of select="$external_resolved?content"/>
-        </value>
+        <xsl:variable name="base-uri" select="base-uri(.) => string()"/>
+        <xsl:variable name="external_resolved" select="$uri-resolver($systemId, $base-uri)"/>
+        <external systemId="{$systemId}">
+            <xsl:attribute name="xml:base" select="$base-uri"/>
+        </external>
     </xsl:template>
 
     <xsl:template match="EntityDef[ExternalID/SystemLiteral][NDataDecl]" mode="mlml:dtd-parse" priority="10">
