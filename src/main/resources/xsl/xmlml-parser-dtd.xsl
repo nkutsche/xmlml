@@ -327,7 +327,7 @@
         
         <xsl:variable name="resolved" select="$entity?resolve()"/>
         <xsl:variable name="value" select="$resolved?content"/>
-        <xsl:variable name="with-spaces" select="self::PercentInEntityDecl or parent::PercentInEntityDecl"/>
+        <xsl:variable name="with-spaces" select="not(ancestor::quotedDeclContent)"/>
         
         <xsl:copy>
 
