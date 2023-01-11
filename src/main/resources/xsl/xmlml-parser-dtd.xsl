@@ -377,7 +377,33 @@
         <xsl:sequence select="mlml:dtd-pre-parse($contentObj, $config, $entities)/document/(* except prolog)"/>
 
     </xsl:template>
+    
+    <xsl:template match="
+        quotedDeclContent[TOKEN = '&quot;']/Reference 
+        | quotedDeclContent[TOKEN = '&quot;']/PEReference
+        " mode="mlml:dtd-pre-parse" priority="10">
+        <xsl:variable name="content">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="#current"/>
+            <xsl:value-of select="replace($content, '&quot;', '&amp;#34;')"/>
+        </xsl:copy>
+    </xsl:template>
 
+    <xsl:template match="
+        quotedDeclContent[TOKEN = '''']/Reference
+        | quotedDeclContent[TOKEN = '''']/PEReference
+        " mode="mlml:dtd-pre-parse" priority="10">
+        <xsl:variable name="content">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="#current"/>
+            <xsl:value-of select="replace($content, '''', '&amp;#39;')"/>
+        </xsl:copy>
+    </xsl:template>
+    
     <xsl:template match="CharRef[CharRefHex]" mode="mlml:dtd-pre-parse">
         <xsl:value-of select="codepoints-to-string(mlml:hex-to-int(CharRefHex))"/>
     </xsl:template>
