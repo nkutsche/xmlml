@@ -18,8 +18,7 @@ includeSect	       ::=   	'<![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>'
 ignoreSect         ::=   	'<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
 ignoreSectContents ::=   	Ignore ('<![' ignoreSectContents ']]>' Ignore)*
 
-DeclSep  ::= PEReference
-           | S         
+DeclSep  ::= S         
          
 markupdecl
          ::= elementdecl
@@ -90,8 +89,8 @@ PEDef    ::= EntityValue
          
 EntityValue ::= ('"' EntityValueDouble '"') | ("'" EntityValueSingle "'")  
 
-EntityValueDouble ::= ( EntityStaticValueDouble | PEReference | Reference )*
-EntityValueSingle ::= ( EntityStaticValueSingle | PEReference | Reference )*
+EntityValueDouble ::= ( EntityStaticValueDouble | Reference )*
+EntityValueSingle ::= ( EntityStaticValueSingle | Reference )*
 
 ExternalID
          ::= 'SYSTEM' S SystemLiteral
@@ -197,8 +196,7 @@ CharRefHex ::=  [0-9a-fA-F]+
 
 EntityRef
          ::= '&' Name ';'
-PEReference
-         ::= '%' Name ';'
+
 EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
 
 Ignore
