@@ -458,13 +458,13 @@
         </content>
     </xsl:template>
 
-    <xsl:template match="choiceOrSeq[TOKEN = ',']" mode="mlml:dtd-parse">
+    <xsl:template match="choiceOrSeq" mode="mlml:dtd-parse">
         <sequence>
             <xsl:apply-templates mode="#current"/>
         </sequence>
     </xsl:template>
 
-    <xsl:template match="choiceOrSeq[TOKEN = '|']" mode="mlml:dtd-parse">
+    <xsl:template match="choiceOrSeq[TOKEN = '|']" mode="mlml:dtd-parse" priority="10">
         <choice>
             <xsl:apply-templates mode="#current"/>
         </choice>
