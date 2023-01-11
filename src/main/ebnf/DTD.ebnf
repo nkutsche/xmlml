@@ -157,17 +157,17 @@ NameChar ::= NameStartChar
 Name     ::= NameStartChar NameChar*
 Nmtoken  ::= NameChar+
 
-EntityStaticValueDouble ::= [^%&"]*
-EntityStaticValueSingle ::= [^%&']*
+EntityStaticValueDouble ::= [^&"]+
+EntityStaticValueSingle ::= [^&']+
 
-AttValueDoubleVal ::= [^<&"]*
-AttValueSingleVal ::= [^<&']*
+AttValueDoubleVal ::= [^<&"]+
+AttValueSingleVal ::= [^<&']+
 
-SystemLiteralDouble ::= [^"]*
-SystemLiteralSingle ::= [^']*
+SystemLiteralDouble ::= [^"]+
+SystemLiteralSingle ::= [^']+
 
-PubidLiteralDouble ::= PubidChar*
-PubidLiteralSingle ::= ( PubidChar - "'" )*
+PubidLiteralDouble ::= PubidChar+
+PubidLiteralSingle ::= ( PubidChar - "'" )+
 
 PubidChar
          ::= #x0020

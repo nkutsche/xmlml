@@ -118,7 +118,7 @@ EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
 Ignore
          ::= ( Char+ - ( Char* ( '<![' | ']]>' ) Char* ) ) &( '<![' | ']]>' )
 
-declContent ::= [^>%"']*
+declContent ::= [^>%"']+
 
-QuotedValueDouble ::= [^"%&]*
-QuotedValueSingle ::= [^'%&]*
+QuotedValueDouble ::= [^"%&]+
+QuotedValueSingle ::= [^'%&]+
