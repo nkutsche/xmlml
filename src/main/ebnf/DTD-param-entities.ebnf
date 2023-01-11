@@ -16,7 +16,7 @@ extSubsetDecl
 conditionalSect    ::=   	includeSect | ignoreSect
 includeSect	       ::=   	'<![' S? ( 'INCLUDE' | PEReference) S? '[' extSubsetDecl ']]>'
 ignoreSect         ::=   	'<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
-ignoreSectContents ::=   	Ignore ('<![' ignoreSectContents ']]>' Ignore?)*
+ignoreSectContents ::=   	Ignore ('<![' ignoreSectContents ']]>' Ignore)*
 
 DeclSep  ::= PEReference
            | S         
