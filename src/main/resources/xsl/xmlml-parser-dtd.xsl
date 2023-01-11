@@ -229,6 +229,10 @@
                 <xsl:text>(</xsl:text>
                 <xsl:text>SYSTEM\s+</xsl:text>
                 <xsl:sequence select="$quot_value_regex"/>
+                <xsl:text>(</xsl:text>
+                <xsl:text>\s+NDATA\s+</xsl:text>
+                <xsl:text>(.*?)</xsl:text>
+                <xsl:text>\s*)?</xsl:text>
                 <xsl:text>|</xsl:text>
                 <xsl:text>PUBLIC\s+</xsl:text>
                 <xsl:sequence select="$quot_value_regex"/>
@@ -262,26 +266,39 @@
                                     then
                                         (regex-group(5), regex-group(6))[. != ''][1]
                                     else
-                                        (regex-group(11), regex-group(12))[. != ''][1]
+                                        (regex-group(13), regex-group(14))[. != ''][1]
                                     "/>
                             <xsl:variable name="pubId" select="
                                     if ($ext-type = 'PUBLIC')
                                     then
-                                        (regex-group(8), regex-group(9))[. != ''][1]
+                                        (regex-group(10), regex-group(11))[. != ''][1]
                                     else
                                         ()"/>
+                            <xsl:variable name="ndata" select="
+                                    if (normalize-space(regex-group(7)) != '')
+                                    then
+                                        (regex-group(8))
+                                    else
+                                        ()"/>
+                            <xsl:variable name="ext-type" 
+                                select="
+                                if ($ndata) then $ext-type || '-NDATA' else $ext-type
+                                "/>
 
                             <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
 
                             <xsl:message expand-text="yes">Resolve external entity {regex-group(2)} to "{$systemId}".</xsl:message>
 
+                            <xsl:variable name="name" select="regex-group(2)"/>
                             <xsl:sequence select="
-                                    map {
+                                map {
                                         'is-param': normalize-space(regex-group(1)) = '%',
-                                        'name': regex-group(2),
+                                        'name': $name,
                                         'external': $ext-type,
                                         'resolve' : function(){
-                                            $uri-resolver($systemId, $base-uri)
+                                            if ($ndata) 
+                                            then mlml:error(413, 'Unparsed entity ' || $name || 'must not be referenced.') 
+                                            else $uri-resolver($systemId, $base-uri)
                                         }
                                     }"/>
                         </xsl:matching-substring>
