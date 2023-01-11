@@ -24,103 +24,111 @@
                 mlml:default-uri-resolver($href, $baseuri):)
         }
         )"/>
-    <x:scenario label="Testing function mlml:dtd-pre-parse">
-        <x:call function="mlml:dtd-pre-parse">
-            <x:param select="$config" position="2"/>
-        </x:call>
-        <x:scenario label="No Parameter Entity">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))">
-                    <![CDATA[<!ELEMENT foo EMPTY>]]>
-                </x:param>
+    <x:scenario label="generic-dtd-test" shared="true">
+        <x:scenario label="resolve parameter entities by preparse">
+            <x:call function="mlml:dtd-pre-parse">
+                <x:param select="$src-dtd ! map:put($si, 'content', string(.))"/>
+                <x:param select="$config"/>
             </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
-                <![CDATA[<!ELEMENT foo EMPTY>]]>
-            </x:expect>
+            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space($resolved-dtd)"/>
         </x:scenario>
+
+        
+    </x:scenario>
+    
+    <x:scenario label="Testing function mlml:dtd-pre-parse">
+        <x:scenario label="No Parameter Entity">
+            <x:variable name="src-dtd">
+                <![CDATA[<!ELEMENT foo EMPTY>]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[<!ELEMENT foo EMPTY>]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
         <x:scenario label="Trivial Parameter Entity">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))"
-                    ><![CDATA[
+            <x:variable name="src-dtd">
+                <![CDATA[
                     <!ENTITY % foo "bar">
                     <!ELEMENT %foo; EMPTY>
-                    ]]></x:param>
-            </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
                 <![CDATA[
                     <!ENTITY % foo "bar">
                     <!ELEMENT bar EMPTY>
                 ]]>
-            </x:expect>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
         </x:scenario>
 
         <x:scenario label="Recursive Parameter Entity">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))"
-                    ><![CDATA[
-                    <!ENTITY % foo "bar">
-                    <!ENTITY % bar "%foo; EMPTY">
-                    <!ELEMENT %bar;>
-                    ]]></x:param>
-            </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                <!ENTITY % foo "bar">
+                <!ENTITY % bar "%foo; EMPTY">
+                <!ELEMENT %bar;>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
                 <![CDATA[
                     <!ENTITY % foo "bar">
                     <!ENTITY % bar "bar EMPTY">
-                    <!ELEMENT bar EMPTY>
+                    <!ELEMENT bar EMPTY >
                 ]]>
-            </x:expect>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
         </x:scenario>
 
         <x:scenario label="External Parameter Entity">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))"
-                    ><![CDATA[
-                    <!ENTITY % foo SYSTEM "foo.ent">
-                    %foo;
-                    ]]></x:param>
-            </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                <!ENTITY % foo SYSTEM "foo.ent">
+                %foo;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
                 <![CDATA[
                     <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent">
                     <!ELEMENT foo EMPTY>
                 ]]>
-            </x:expect>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
         </x:scenario>
 
         <x:scenario label="Parameter Entity entity declaration">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))"
-                    ><![CDATA[
-                        <!ENTITY % root_prefix "ns:" >
-                        <!ENTITY % root_name "%root_prefix;root" >
-                        <!ELEMENT %root_name; (foo?, (bar | baz)+) >
-                    ]]></x:param>
-            </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % root_prefix "ns:" >
+                    <!ENTITY % root_name "%root_prefix;root" >
+                    <!ELEMENT %root_name; (foo?, (bar | baz)+) >
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
                 <![CDATA[
                     <!ENTITY % root_prefix "ns:" >
                     <!ENTITY % root_name "ns:root" >
                     <!ELEMENT ns:root (foo?, (bar | baz)+) >
                 ]]>
-            </x:expect>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
         </x:scenario>
 
         <x:scenario label="Parameter Entity Kung-Fu">
-            <x:call>
-                <x:param select="map:put($si, 'content', string(.))"
-                    ><![CDATA[
-                        <!ENTITY % percd "&#37;" >
-                        <!ENTITY % perc "&#x25;" >
-                        <!ENTITY % baz "baz" >
-                        <!ENTITY %percd; foo "bar '%baz;'" >
-                        
-                        <!ENTITY%perc;%foo;>
-                        
-                        <!ELEMENT %bar; EMPTY>
-                    ]]></x:param>
-            </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space(.)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % percd "&#37;" >
+                    <!ENTITY % perc "&#x25;" >
+                    <!ENTITY % baz "baz" >
+                    <!ENTITY %percd; foo "bar '%baz;'" >
+                    
+                    <!ENTITY%perc;%foo;>
+                    
+                    <!ELEMENT %bar; EMPTY>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
                 <![CDATA[
                         <!ENTITY % percd "%" >
                         <!ENTITY % perc "%" >
@@ -131,7 +139,8 @@
                         
                         <!ELEMENT baz EMPTY>
                 ]]>
-            </x:expect>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
         </x:scenario>
 
     </x:scenario>
