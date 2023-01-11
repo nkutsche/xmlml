@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-codes>
+    <sect nr="4.1" href="https://www.w3.org/TR/xml/#sec-references">
+        <code id="413" href="https://www.w3.org/TR/xml/#textent">An entity reference MUST NOT contain the name of an unparsed entity. Unparsed entities may be referred to only in attribute values declared to be of type ENTITY or ENTITIES.</code>
+        <code id="414" href="https://www.w3.org/TR/xml/#textent">https://www.w3.org/TR/xml/#norecursion</code>
+    </sect>
+</error-codes>
