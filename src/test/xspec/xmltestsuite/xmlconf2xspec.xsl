@@ -89,8 +89,18 @@
             <x:scenario label="mlml:parse-dtd-and-validate">
                 <x:call function="mlml:parse-dtd-and-validate">
                     <x:param select="$src"/>
+                <x:variable name="dtdml" select="
+                    mlml:try-catch(
+                        function(){{
+                            mlml:parse-dtds-from-xml($src, $default-config)
+                        }}
+                    )
+                    "/>
+                
+                <x:call function="mlml:validate-dtd">
+                    <x:param select="$dtdml"/>
                 </x:call>
-                <x:expect label="Parsed DTD is valid" select="true()"/>
+                <x:expect label="Parsed DTD is valid" select="$dtdml"/>
             </x:scenario>
         </x:scenario>
     </xsl:template>
