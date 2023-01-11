@@ -46,6 +46,20 @@
             </x:variable>
             <x:like label="generic-dtd-test"/>
         </x:scenario>
+        
+        <x:scenario label="No Parameter Entity - percent in System path">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % param SYSTEM "path%20.ent">
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % param SYSTEM "http://www.nkutsche.com/xmlml/path%20.ent">
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
 
         <x:scenario label="Trivial Parameter Entity">
             <x:variable name="src-dtd">
@@ -58,6 +72,75 @@
                 <![CDATA[
                     <!ENTITY % foo "bar">
                     <!ELEMENT bar EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        <x:scenario label="Parameter Entity as value">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % value "'efvalue'">
+                    <!ENTITY % param %value;>
+                    <!ELEMENT %param; EMPTY>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % value "'efvalue'">
+                    <!ENTITY % param 'efvalue' >
+                    <!ELEMENT efvalue EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Parameter Entity - percent as PEref">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % perc "&#x25;">
+                    <!ENTITY%perc;param "value">
+                    <!ELEMENT %param; EMPTY>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % perc "%">
+                    <!ENTITY % param "value">
+                    <!ELEMENT value EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Parameter Entity - name as PEref">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % param "param-name">
+                    <!ENTITY %%param; "value">
+                    <!ELEMENT %param-name; EMPTY>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % param "param-name">
+                    <!ENTITY % param-name "value">
+                    <!ELEMENT value EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        
+        <x:scenario label="Parameter Entity - System keyword as PEref">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % system "SYSTEM">
+                    <!ENTITY % param %system; "path%20.ent">
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % system "SYSTEM">
+                    <!ENTITY % param SYSTEM "http://www.nkutsche.com/xmlml/path%20.ent">
                 ]]>
             </x:variable>
             <x:like label="generic-dtd-test"/>
@@ -143,6 +226,134 @@
             <x:like label="generic-dtd-test"/>
         </x:scenario>
 
+        <x:scenario label="No Parameter Entity in System path">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % ext SYSTEM "foo%20;bar.ent" >
+                    %ext;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                        <!ENTITY % ext SYSTEM "http://www.nkutsche.com/xmlml/foo%20;bar.ent" >
+                        <!ELEMENT foo EMPTY>
+                        <!ELEMENT bar EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Invalide percent in quoted value is ignored">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % perc "%" >
+                    <!ENTITY %perc; param "value" >
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                        <!ENTITY % perc "%" >
+                        <!ENTITY % param "value" >
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Insert space before and after PE reference">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ELEMENT doc (#PCDATA)>
+                    <!ENTITY % e "'v1'">
+                    <!ATTLIST doc a1 CDATA%e;>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ELEMENT doc (#PCDATA)>
+                    <!ENTITY % e "'v1'">
+                    <!ATTLIST doc a1 CDATA 'v1' >
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Quotes may need to be escaped, if they are inserted by">
+            
+            <x:scenario label="a character entity (double quote)">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY q "&#34;">
+                        <!ENTITY qx "&#x22;">
+                        <!ENTITY sq '&#34;'>
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY q "&#34;">
+                        <!ENTITY qx "&#34;">
+                        <!ENTITY sq '"'>
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+
+            <x:scenario label="a character entity (single quote)">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY q '&#39;'>
+                        <!ENTITY qx '&#x27;'>
+                        <!ENTITY dq "&#39;">
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY q '&#39;'>
+                        <!ENTITY qx '&#39;'>
+                        <!ENTITY dq "'">
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+    
+    
+            <x:scenario label="a parameter entity reference (double quote)">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY e "%q;">
+                        <!ENTITY e2 '%q;'>
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY e "&#34;">
+                        <!ENTITY e2 '"'>
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+            
+            <x:scenario label="a parameter entity reference (single quote)">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % q "'">
+                        <!ENTITY e '%q;'>
+                        <!ENTITY e2 "%q;">
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % q "'">
+                        <!ENTITY e '&#39;'>
+                        <!ENTITY e2 "'">
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+            
+        </x:scenario>
+        
     </x:scenario>
     
 </x:description>
