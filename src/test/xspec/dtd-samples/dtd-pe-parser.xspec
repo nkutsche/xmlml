@@ -33,6 +33,16 @@
             <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space($resolved-dtd)"/>
         </x:scenario>
 
+        <x:scenario label="validate DTD">
+            <x:call function="mlml:validate-dtd">
+                <x:param select="
+                    mlml:parse-dtds-from-string(string($src-dtd), $si?base-uri, $config)
+                    "/>
+            </x:call>
+            <x:expect label="expected valid dtd">
+                <dtd xmlns="http://www.nkutsche.com/dtdml">...</dtd>
+            </x:expect>
+        </x:scenario>
         
     </x:scenario>
     
