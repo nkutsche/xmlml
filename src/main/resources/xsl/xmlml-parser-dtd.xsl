@@ -350,6 +350,37 @@
         </xsl:copy>
     </xsl:template>
     
+    <xsl:template match="EntityDecl" mode="mlml:dtd-pre-parse">
+        <xsl:variable name="next-match" as="element(EntityDecl)">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="matches(string($next-match), '^(&lt;!ENTITY\s+(%\s+)?[^\s''&quot;]+\s+(SYSTEM|PUBLIC)\s+)')">
+                <xsl:sequence select="$next-match"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="$next-match" mode="mlml:dtd-pre-parse-quoted"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+    </xsl:template>
+    
+    <!--    
+        Ignore Parameter Entity References in quoted values
+        At first PEReferences are resolved outside of quoted values
+        Parameter Entity References in quoted values are resolved in mode mlml:dtd-pre-parse-quoted
+        (depending on the context - which can be determinated after resolving the PEs outside the quotes at first)
+        Sample: <!ENTITY foo %xxx; "%pe;"> 
+        - if %xxx; is resolved to SYSTEM the %pe; is not resolved
+        - if %xxx; is resolved to whitespace only the %pe; is resolved
+    -->
+    <xsl:template match="EntityDecl//quotedDeclContent//PEReference" mode="mlml:dtd-pre-parse" priority="40">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="#current"/>
+            <xsl:apply-templates select="node()" mode="#current"/>
+        </xsl:copy>
+    </xsl:template>
+    
     <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
