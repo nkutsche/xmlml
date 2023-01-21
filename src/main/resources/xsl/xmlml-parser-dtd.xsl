@@ -450,12 +450,14 @@
 
         <xsl:variable name="contentObj" select="
             map{
-                'content' : $resolved?content, 
+                'content' : $value, 
                 'base-uri' : string($base-uri)
             }
             "/>
 
-        <xsl:sequence select="mlml:dtd-pre-parse($contentObj, $config, $entities)/document/(* except prolog)"/>
+        <xsl:variable name="external-preparsed" select="mlml:dtd-pre-parse($contentObj, $config, $entities)"/>
+        
+        <xsl:sequence select="$external-preparsed/(* except prolog)"/>
 
     </xsl:template>
     
