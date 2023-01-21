@@ -257,6 +257,10 @@
                 <xsl:sequence select="$quot_value_regex"/>
                 <xsl:text>\s+</xsl:text>
                 <xsl:sequence select="$quot_value_regex"/>
+                <xsl:text>(</xsl:text>
+                <xsl:text>\s+NDATA\s+</xsl:text>
+                <xsl:text>(.*?)</xsl:text>
+                <xsl:text>\s*)?</xsl:text>
                 <xsl:text>)</xsl:text>
                 <xsl:text>\s*&gt;$</xsl:text>
             </xsl:variable>
@@ -264,7 +268,7 @@
             <xsl:analyze-string select="$enitydecl" regex="{$regex_local}">
                 <xsl:matching-substring>
                     <xsl:message expand-text="yes">Parsed Entity: {.}</xsl:message>
-                    <xsl:variable name="value" select="(regex-group(4), regex-group(5), '')[. != ''][1]"/>
+                    <xsl:variable name="value" select="((regex-group(4), regex-group(5))[. != ''], '')[1]"/>
 
                     <xsl:sequence select="
                             map {
@@ -297,6 +301,10 @@
                                     if (normalize-space(regex-group(7)) != '')
                                     then
                                         (regex-group(8))
+                                    else
+                                    if (normalize-space(regex-group(15)) != '')
+                                    then
+                                        (regex-group(16))
                                     else
                                         ()"/>
                             <xsl:variable name="ext-type" 
