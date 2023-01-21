@@ -462,7 +462,7 @@
     <xsl:template match="
         quotedDeclContent[TOKEN = '&quot;']/Reference 
         | quotedDeclContent[TOKEN = '&quot;']/PEReference
-        " mode="mlml:dtd-pre-parse" priority="10">
+        " mode="mlml:dtd-pre-parse-quoted" priority="10">
         <xsl:variable name="content">
             <xsl:next-match/>
         </xsl:variable>
@@ -475,7 +475,7 @@
     <xsl:template match="
         quotedDeclContent[TOKEN = '''']/Reference
         | quotedDeclContent[TOKEN = '''']/PEReference
-        " mode="mlml:dtd-pre-parse" priority="10">
+        " mode="mlml:dtd-pre-parse-quoted" priority="10">
         <xsl:variable name="content">
             <xsl:next-match/>
         </xsl:variable>
