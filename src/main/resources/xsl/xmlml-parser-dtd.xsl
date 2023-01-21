@@ -62,8 +62,6 @@
         <xsl:param name="content" as="xs:string*"/>
         <xsl:param name="base-uris" as="xs:string*"/>
         <xsl:param name="config" as="map(*)"/>
-        <!--        <xsl:param name="properties" as="map(xs:string, xs:string)"/>-->
-
         <xsl:variable name="contentObjs" select="
             for $i in (1 to count($content))
             return map{
@@ -71,6 +69,15 @@
             'base-uri' : string($base-uris[$i])
             }
             " as="map(xs:string, xs:string)*"/>
+        <xsl:sequence select="mlml:parse-dtds-from-string($contentObjs, $config)"/>
+        
+    </xsl:function>
+
+    <xsl:function name="mlml:parse-dtds-from-string">
+        <xsl:param name="contentObjs" as="map(xs:string, xs:string)*"/>
+        <xsl:param name="config" as="map(*)"/>
+        <!--        <xsl:param name="properties" as="map(xs:string, xs:string)"/>-->
+
         <xsl:variable name="preparsed" select="mlml:dtd-pre-parse($contentObjs, $config) => string-join()"/>
 
         <xsl:variable name="parsed" select="dtdp:parse-document($preparsed)"/>
@@ -93,23 +100,35 @@
         <xsl:param name="contents" as="map(xs:string, xs:string)*"/>
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="entities" as="map(xs:string, item()?)*"/>
-
-        <xsl:for-each select="$contents">
-            <xsl:variable name="pre-parsed" select="dtdpe:parse-document(?content)"/>
-            <xsl:variable name="base-uri" select="?base-uri"/>
-            <xsl:variable name="pre-parsed">
-                <xsl:copy select="$pre-parsed">
+        
+        <xsl:variable name="head" select="head($contents)"/>
+        <xsl:variable name="tail" select="tail($contents)"/>
+        
+        <xsl:variable name="head-ebnf-parsed" as="element()*">
+            <xsl:for-each select="$head">
+                <xsl:variable name="ebnf-parsed" select="dtdpe:parse-document(?content)"/>
+                <xsl:variable name="base-uri" select="?base-uri"/>
+                
+                <xsl:copy select="$ebnf-parsed">
                     <xsl:attribute name="xml:base" select="$base-uri"/>
                     <xsl:sequence select="node()"/>
                 </xsl:copy>
-            </xsl:variable>
+                
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:apply-templates select="$head-ebnf-parsed" mode="mlml:dtd-pre-parse">
+            <xsl:with-param name="config" select="$config" tunnel="yes"/>
+            <xsl:with-param name="entities" select="$entities" tunnel="yes"/>
+        </xsl:apply-templates>
+        
+        <xsl:if test="exists($tail)">
+            <xsl:variable name="entities" select="$head-ebnf-parsed//EntityDecl/mlml:parse-entity(., base-uri(.), $config)"/>
 
-            <xsl:apply-templates select="$pre-parsed" mode="mlml:dtd-pre-parse">
-                <xsl:with-param name="config" select="$config" tunnel="yes"/>
-                <xsl:with-param name="entities" select="$entities" tunnel="yes"/>
-            </xsl:apply-templates>
-
-        </xsl:for-each>
+            <xsl:sequence select="mlml:dtd-pre-parse($tail, $config, $entities)"/>
+            
+        </xsl:if>
+        
+        
 
     </xsl:function>
 
