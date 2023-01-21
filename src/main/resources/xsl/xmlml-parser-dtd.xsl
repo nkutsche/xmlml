@@ -394,7 +394,7 @@
     <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
-        <xsl:variable name="entity" select="$entities[?is-param][?name = $name]"/>
+        <xsl:variable name="entity" select="$entities[?is-param][?name = $name][1]"/>
         
         <xsl:if test="empty($entity)">
             <xsl:sequence select="
