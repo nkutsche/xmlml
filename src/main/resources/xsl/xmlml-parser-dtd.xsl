@@ -339,6 +339,17 @@
         </xsl:map>
     </xsl:function>
 
+    <!-- 
+        Parameter entities in Attribute values are not recognized
+        https://www.w3.org/TR/xml/#entproc
+    -->
+    <xsl:template match="AttlistDecl/declContentWQuotes/quotedDeclContent//PEReference" mode="mlml:dtd-pre-parse" priority="50">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="#current"/>
+            <xsl:apply-templates select="node()" mode="#current"/>
+        </xsl:copy>
+    </xsl:template>
+    
     <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
