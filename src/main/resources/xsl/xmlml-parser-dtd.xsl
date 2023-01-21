@@ -173,7 +173,7 @@
                     </xsl:apply-templates>
                 </xsl:variable>
                 <xsl:variable name="new-entities" as="map(xs:string, item()?)*" select="
-                        $resolved/EntityDecl/mlml:parse-entity(., base-uri(.), $config)
+                        $resolved//EntityDecl/mlml:parse-entity(., base-uri(.), $config)
                         "/>
 
                 <xsl:sequence select="$resolved"/>
