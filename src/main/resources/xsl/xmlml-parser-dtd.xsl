@@ -381,6 +381,16 @@
         </xsl:copy>
     </xsl:template>
     
+<!--    
+    Avoids resolving PEReferences twice
+    -->
+    <xsl:template match="PEReference[@resolved = 'true'] | PercentInEntityDecl[Name][@resolved = 'true']" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted" priority="100">
+        <xsl:copy>
+            <xsl:apply-templates select="@*" mode="#current"/>
+            <xsl:apply-templates select="node()" mode="#current"/>
+        </xsl:copy>
+    </xsl:template>
+    
     <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
@@ -404,6 +414,7 @@
             <xsl:if test="exists($resolved?base-uri)">
                 <xsl:attribute name="xml:base" select="$resolved?base-uri"/>
             </xsl:if>
+            <xsl:attribute name="resolved" select="'true'"/>
 
             <xsl:sequence select="' '[$with-spaces]"/>
             <xsl:value-of select="$value"/>
