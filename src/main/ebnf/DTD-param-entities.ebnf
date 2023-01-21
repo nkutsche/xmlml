@@ -2,7 +2,7 @@ document ::= prolog extSubsetDecl EOF
 
 prolog   ::= XMLDecl?
 
-XMLDecl  ::= '<?xml' VersionInfo EncodingDecl S? '?>'
+XMLDecl  ::= '<?xml' VersionInfo? EncodingDecl S? '?>'
 VersionInfo
          ::= S 'version' Eq ( "'" VersionNum "'" | '"' VersionNum '"' )
 EncodingDecl
@@ -15,8 +15,8 @@ extSubsetDecl
          
 conditionalSect    ::=   	includeSect | ignoreSect
 includeSect	       ::=   	'<![' S? ( 'INCLUDE' | PEReference) S? '[' extSubsetDecl ']]>'
-ignoreSect         ::=   	'<![' S? 'IGNORE' S? '[' ignoreSectContents* ']]>'
-ignoreSectContents ::=   	Ignore ('<![' ignoreSectContents ']]>' Ignore)*
+ignoreSect         ::=   	'<![' S? 'IGNORE' S? '[' ignoreSectContents ']]>'
+ignoreSectContents ::=   	(Ignore | '<![' ignoreSectContents ']]>')*
 
 DeclSep  ::= PEReference
            | S         
@@ -119,7 +119,7 @@ PercentInQuote
 EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
 
 Ignore
-         ::= ( Char+ - ( Char* ( '<![' | ']]>' ) Char* ) ) &( '<![' | ']]>' )
+         ::= (Char - ('<' | ']') | '<' (Char - '!') | '<!' (Char - '[') | ']' (Char - ']') | ']]' (Char - '>') )+  
 
 declContent ::= [^>%"']+
 
