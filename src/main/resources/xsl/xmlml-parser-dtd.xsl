@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns:dtdml="http://www.nkutsche.com/dtdml" xmlns="http://www.nkutsche.com/dtdml" xmlns:xmlp="http://www.nkutsche.com/xml-parser" xmlns:dtdp="http://www.nkutsche.com/dtd-parser" xmlns:dtdpe="http://www.nkutsche.com/dtd-pe-parser" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:array="http://www.w3.org/2005/xpath-functions/array" exclude-result-prefixes="#all" version="3.0">
 
     <xsl:mode name="mlml:dtd-pre-parse" on-no-match="shallow-copy"/>
+    <xsl:mode name="mlml:dtd-pre-parse-quoted" on-no-match="shallow-copy"/>
 
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -338,7 +339,7 @@
         </xsl:map>
     </xsl:function>
 
-    <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse">
+    <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
         <xsl:variable name="entity" select="$entities[?is-param][?name = $name]"/>
