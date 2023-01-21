@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns:dtdml="http://www.nkutsche.com/dtdml" xmlns="http://www.nkutsche.com/dtdml" xmlns:xmlp="http://www.nkutsche.com/xml-parser" xmlns:dtdp="http://www.nkutsche.com/dtd-parser" xmlns:dtdpe="http://www.nkutsche.com/dtd-pe-parser" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:array="http://www.w3.org/2005/xpath-functions/array" exclude-result-prefixes="#all" version="3.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns:dtdml="http://www.nkutsche.com/dtdml" xmlns="http://www.nkutsche.com/dtdml" xmlns:xmlp="http://www.nkutsche.com/xml-parser" xmlns:dtdp="http://www.nkutsche.com/dtd-parser" xmlns:dtdpe="http://www.nkutsche.com/dtd-pe-parser" xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:array="http://www.w3.org/2005/xpath-functions/array" xmlns:fn="http://www.w3.org/2005/xpath-functions" exclude-result-prefixes="#all" version="3.0">
 
     <xsl:mode name="mlml:dtd-pre-parse" on-no-match="shallow-copy"/>
     <xsl:mode name="mlml:dtd-pre-parse-quoted" on-no-match="shallow-copy"/>
@@ -276,7 +276,7 @@
                                 'is-param': normalize-space(regex-group(1)) = '%',
                                 'name': regex-group(2),
                                 'resolve' : function(){
-                                    map{'content' : $value}
+                                    map{'content' : mlml:unescape-character-entities($value)}
                                 }
                             }"/>
 
@@ -458,6 +458,60 @@
         <xsl:sequence select="mlml:dtd-pre-parse($contentObj, $config, $entities)/document/(* except prolog)"/>
 
     </xsl:template>
+    
+    <xsl:function name="mlml:unescape-character-entities">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:sequence select="
+            mlml:replace(
+                $value, 
+                '&amp;#(([0-9]+)|x([0-9a-fA-F]+));', 
+                function($match, $groups){
+                    if ($groups[@nr = '3']) 
+                    then codepoints-to-string(mlml:hex-to-int($groups[@nr = '3'])) 
+                    else codepoints-to-string(xs:integer($groups[@nr = '2']))
+                }
+            )
+            "/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:replace" as="xs:string">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="regex" as="xs:string"/>
+        <xsl:param name="match" as="function(xs:string, element()*) as xs:string?"/>
+        <xsl:sequence select="mlml:replace($value, $regex, $match, '')"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:replace" as="xs:string">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="regex" as="xs:string"/>
+        <xsl:param name="match" as="function(xs:string, element()*) as xs:string?"/>
+        <xsl:param name="flags" as="xs:string"/>
+        <xsl:sequence select="mlml:analyze-string($value, $regex, $match, function($no-match){$no-match}, $flags)"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:analyze-string" as="xs:string">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="regex" as="xs:string"/>
+        <xsl:param name="match" as="function(xs:string, element()*) as xs:string?"/>
+        <xsl:param name="no-match" as="function(xs:string) as xs:string?"/>
+        <xsl:sequence select="mlml:analyze-string($value, $regex, $match, $no-match, '')"/>
+    </xsl:function>
+    <xsl:function name="mlml:analyze-string" as="xs:string">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="regex" as="xs:string"/>
+        <xsl:param name="match" as="function(xs:string, element()*) as xs:string?"/>
+        <xsl:param name="no-match" as="function(xs:string) as xs:string?"/>
+        <xsl:param name="flags" as="xs:string"/>
+        
+        <xsl:sequence select="
+            analyze-string($value, $regex, $flags)/*/(
+                if (local-name() = 'match') 
+                then $match(serialize(.), .//fn:group) 
+                else $no-match(string(.))
+            ) => string-join()
+            "/>
+        
+    </xsl:function>
     
     <xsl:template match="
         quotedDeclContent[TOKEN = '&quot;']/Reference 
