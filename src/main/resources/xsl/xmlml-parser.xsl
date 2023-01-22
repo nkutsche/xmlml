@@ -535,6 +535,14 @@
             | EncodingDecl/Eq
             | SDDecl/Eq
             " mode="mlml:parse">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
+    <xsl:template match="
+            VersionInfo/Eq/TOKEN[. = '=']
+            | EncodingDecl/Eq/TOKEN[. = '=']
+            | SDDecl/Eq/TOKEN[. = '=']
+            " mode="mlml:parse">
         <eq/>
     </xsl:template>
 
