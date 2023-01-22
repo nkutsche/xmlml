@@ -579,14 +579,28 @@
         </system>
     </xsl:template>
 
-    <xsl:template match="doctypedecl/ExternalID/SystemLiteral" mode="mlml:parse">
+    <xsl:template match="doctypedecl/ExternalID[TOKEN = 'PUBLIC']" mode="mlml:parse">
+        <public>
+            <xsl:apply-templates mode="#current"/>
+        </public>
+    </xsl:template>
+
+    <xsl:template match="
+        doctypedecl/ExternalID/SystemLiteral
+        | doctypedecl/ExternalID/PubidLiteral
+        " mode="mlml:parse">
         <value>
+            <xsl:if test="SystemLiteralSingle | PubidLiteralSingle">
+                <xsl:attribute name="quotes" select="'single'"/>
+            </xsl:if>
             <xsl:apply-templates mode="#current"/>
         </value>
     </xsl:template>
     <xsl:template match="
         doctypedecl/ExternalID/SystemLiteral/SystemLiteralDouble
         | doctypedecl/ExternalID/SystemLiteral/SystemLiteralSingle
+        | doctypedecl/ExternalID/PubidLiteral/PubidLiteralDouble
+        | doctypedecl/ExternalID/PubidLiteral/PubidLiteralSingle
         " mode="mlml:parse">
         <xsl:value-of select="."/>
     </xsl:template>

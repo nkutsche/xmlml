@@ -137,6 +137,11 @@
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
 
+    <xsl:template match="doc-type-decl/public" mode="mlml:serialize">
+        <xsl:text>PUBLIC</xsl:text>
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+
     <xsl:template match="doc-type-decl/inline" mode="mlml:serialize">
         <xsl:text>[</xsl:text>
         <xsl:apply-templates mode="#current"/>
