@@ -116,16 +116,7 @@
                 if ($contentObj?linefeed) then
                     $contentObj?linefeed
                 else
-                    if (matches($text, '\r\n')) then
-                        'rn'
-                    else
-                        if (matches($text, '\r')) then
-                            'r'
-                        else
-                            if (matches($text, '\n')) then
-                                'n'
-                            else
-                                '#default'
+                    mlml:lf-type($text)
                 "/>
         <xsl:variable name="base-uri" select="($contentObj?base-uri, $href)[1]"/>
         <xsl:sequence select="
@@ -283,12 +274,13 @@
     </xsl:template>
 
     <xsl:template match="PIContentEnd" mode="mlml:parse">
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <xsl:analyze-string select="." regex="^([\s\r\n]*)(.*?)(\?>)$" flags="s">
             <xsl:matching-substring>
-                <xsl:sequence select="mlml:white-space(regex-group(1))"/>
+                <xsl:sequence select="mlml:white-space(regex-group(1), $properties?line-feed-format)"/>
                 <xsl:if test="regex-group(2) != ''">
                     <value>
-                        <xsl:sequence select="regex-group(2) => mlml:line-breaks()"/>
+                        <xsl:sequence select="regex-group(2) => mlml:line-breaks($properties?line-feed-format)"/>
                     </value>
                 </xsl:if>
             </xsl:matching-substring>
@@ -393,11 +385,13 @@
     </xsl:template>
 
     <xsl:template match="S" mode="mlml:parse">
-        <xsl:sequence select="mlml:white-space(.)"/>
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
+        <xsl:sequence select="mlml:white-space(., $properties?line-feed-format)"/>
     </xsl:template>
 
     <xsl:function name="mlml:white-space" as="element(mlml:ws)?">
         <xsl:param name="space" as="xs:string"/>
+        <xsl:param name="document-lf-format" as="xs:string"/>
 
         <xsl:variable name="tokenized" as="element()*">
             <xsl:analyze-string select="$space" regex="&#x20;+|\t+|(\r\n)+|\r+|\n+">
@@ -414,9 +408,16 @@
                                     else
                                         error(xs:QName('fatal-error'), 'This should never happen!')
                             "/>
-                    <xsl:element name="{$el-name}">
-                        <xsl:attribute name="amount" select="string-length(replace(., '\r\n', '&#xA;'))"/>
-                    </xsl:element>
+                    <xsl:choose>
+                        <xsl:when test="$el-name = 'nl'">
+                            <xsl:sequence select="mlml:line-breaks(., $document-lf-format)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:element name="{$el-name}">
+                                <xsl:attribute name="amount" select="string-length(replace(., '\r\n', '&#xA;'))"/>
+                            </xsl:element>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:matching-substring>
                 <xsl:non-matching-substring>
                     <xsl:sequence select="error(xs:QName('fatal-error'), 'This should never happen!')"/>
@@ -426,24 +427,30 @@
 
         <xsl:choose>
             <xsl:when test="count($tokenized) = 0"/>
+            <xsl:when test="count($tokenized) = 1 and $tokenized/@line-feed-format">
+                <ws>
+                    <xsl:sequence select="$tokenized"/>
+                </ws>
+            </xsl:when>
             <xsl:when test="count($tokenized) = 1">
                 <ws>
-                    <xsl:attribute name="{$tokenized/local-name()}" select="$tokenized/@amount"/>
+                    <xsl:attribute name="{$tokenized/local-name()}" select="$tokenized/(@amount, 1)[1]"/>
                 </ws>
             </xsl:when>
             <xsl:otherwise>
                 <ws>
-                    <xsl:for-each-group select="$tokenized" group-adjacent="name()">
+                    <xsl:for-each-group select="$tokenized" group-adjacent="name() || @line-feed-format">
                         <xsl:choose>
                             <xsl:when test="current-grouping-key() = 'nospace'">
                                 <xsl:value-of select="current-group()" separator=""/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:copy>
-                                    <xsl:variable name="amount" select="sum(current-group()/@amount)"/>
+                                    <xsl:variable name="amount" select="current-group()/(@amount, 1)[1] => sum()"/>
                                     <xsl:if test="$amount gt 1">
                                         <xsl:attribute name="amount" select="$amount"/>
                                     </xsl:if>
+                                    <xsl:sequence select="current-group()/@line-feed-format"/>
                                 </xsl:copy>
                             </xsl:otherwise>
                         </xsl:choose>
@@ -457,23 +464,70 @@
 
     <xsl:function name="mlml:line-breaks" as="node()*">
         <xsl:param name="text" as="xs:string?"/>
-        <xsl:analyze-string select="$text" regex="(\r\n|\r|\n)+">
-            <xsl:matching-substring>
-                <xsl:variable name="amount" select="replace(., '\r\n', '&#xA;') => string-length()"/>
-                <nl>
-                    <xsl:if test="$amount gt 1">
+        <xsl:param name="document-format" as="xs:string"/>
+        <xsl:variable name="nodes" as="node()*">
+            <xsl:analyze-string select="$text" regex="(\r\n|\r|\n)">
+                <xsl:matching-substring>
+                    <xsl:variable name="amount" select="replace(., '\r\n', '&#xA;') => string-length()"/>
+                    <nl>
                         <xsl:attribute name="amount" select="$amount"/>
-                    </xsl:if>
-                </nl>
-            </xsl:matching-substring>
-            <xsl:non-matching-substring>
-                <xsl:value-of select="."/>
-            </xsl:non-matching-substring>
-        </xsl:analyze-string>
+                        <xsl:variable name="lf-type" select="mlml:lf-type(.)"/>
+                        <xsl:attribute name="line-feed-format" select="
+                            if ($lf-type = $document-format) 
+                            then '#default' 
+                            else $lf-type
+                            "/>
+                    </nl>
+                </xsl:matching-substring>
+                <xsl:non-matching-substring>
+                    <xsl:value-of select="."/>
+                </xsl:non-matching-substring>
+            </xsl:analyze-string>
+        </xsl:variable>
+        
+        <xsl:for-each-group select="$nodes" group-adjacent="(@line-feed-format, '#text')[1]">
+            <xsl:choose>
+                <xsl:when test="self::mlml:nl">
+                    <xsl:variable name="amount" select="sum(current-group()/@amount)"/>
+                    <nl>
+                        <xsl:if test="$amount gt 1">
+                            <xsl:attribute name="amount" select="$amount"/>
+                        </xsl:if>
+                        <xsl:if test="current-grouping-key() != '#default'">
+                            <xsl:sequence select="@line-feed-format"/>
+                        </xsl:if>
+                    </nl>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:sequence select="current-group()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each-group> 
+        
     </xsl:function>
+    
+    <xsl:function name="mlml:lf-type" as="xs:string">
+        <xsl:param name="text" as="xs:string"/>
+        <xsl:variable name="text" select="replace($text, '^[^\r\n]+', '')"/>
+        <xsl:variable name="linefeed-format" select="
+            if (matches($text, '^\r\n')) then
+                'rn'
+            else
+                if (matches($text, '^\r')) then
+                    'r'
+                else
+                    if (matches($text, '^\n')) then
+                        'n'
+                    else
+                        '#default'
+            "/>
+        <xsl:sequence select="$linefeed-format"/>
+    </xsl:function>
+    
 
     <xsl:template match="text()" mode="mlml:parse">
-        <xsl:sequence select="mlml:line-breaks(.)"/>
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
+        <xsl:sequence select="mlml:line-breaks(., $properties?line-feed-format)"/>
     </xsl:template>
 
     <xsl:template match="
@@ -607,8 +661,9 @@
 
 
     <xsl:template match="doctypedecl/intSubset" mode="mlml:parse">
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <inline>
-            <xsl:sequence select="mlml:line-breaks(.)"/>
+            <xsl:sequence select="mlml:line-breaks(., $properties?line-feed-format)"/>
         </inline>
     </xsl:template>
 

@@ -58,7 +58,7 @@
         }
         "/>
     <xsl:template match="ws[@nl] | nl" mode="mlml:serialize">
-        <xsl:variable name="lf-format" select="(root(.)/document/@line-feed-format, '#default')[1]"/>
+        <xsl:variable name="lf-format" select="(@line-feed-format, ancestor::document/@line-feed-format, '#default')[1]"/>
         <xsl:variable name="char" select="$line-separators($lf-format)"/>
         <xsl:variable name="amount" select="xs:integer((@nl|@amount, 1)[1])"/>
         <xsl:sequence select="(1 to $amount) ! $char"/>

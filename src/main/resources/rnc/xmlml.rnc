@@ -83,7 +83,7 @@ emptyName = element name {empty}
 
 equal = element eq{empty}
 
-nl = element nl {amount?}
+nl = element nl {amount?, lf_format?}
 
 space = element space {amount?}
 
