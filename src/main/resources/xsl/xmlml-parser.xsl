@@ -361,7 +361,7 @@
         <xsl:variable name="nameRef" select="Name"/>
         
         <xsl:variable name="value" select="
-            $dtd/dtdml:entity-decl[@name = $nameRef]/dtdml:value
+            $dtd/dtdml:entity-decl[@name = $nameRef][1]/dtdml:value
             "/>
         
         <xsl:variable name="fragment-parsed" select="xmlfp:parse-document-fragment(string($value))"/>
