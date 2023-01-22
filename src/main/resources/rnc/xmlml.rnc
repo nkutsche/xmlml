@@ -30,7 +30,7 @@ attrContent = ws, qname, ws?, equal, ws?, quotedValue
 
 nsContent = ws, (ncname|emptyName), ws?, equal, ws?, quotedValue
 
-textNode = element text {(node_content | entity | cdata)*}
+textNode = element text {(entity | cdata | node_content)*}
 
 cdata = element cdata {node_content}
 
@@ -64,7 +64,7 @@ dtd_system = element system {ws, quotedValue}
 
 dtd_public = element public {ws, quotedValue, ws, quotedValue}
 
-quotedValue = element value {quotes?, (node_content | entity)*}
+quotedValue = element value {quotes?, (entity | node_content)*}
 
 piValue = element value {node_content}
 
