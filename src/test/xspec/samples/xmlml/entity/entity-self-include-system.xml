@@ -4,7 +4,7 @@
         <ws space="1"/>
         <name>doc</name>
         <ws space="1"/>
-        <inline><nl/>&lt;!ENTITY e SYSTEM &quot;entity-self-include.xml&quot;&gt;<nl/>&lt;!ELEMENT doc (#PCDATA)&gt;<nl/></inline>
+        <inline><nl/>&lt;!ENTITY e SYSTEM &quot;entity-self-include-system.xml&quot;&gt;<nl/>&lt;!ELEMENT doc (#PCDATA)&gt;<nl/></inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>

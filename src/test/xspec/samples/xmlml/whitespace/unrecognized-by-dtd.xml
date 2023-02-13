@@ -10,11 +10,17 @@
     <element>
         <name>src</name>
         <content>
-            <text><nl/>    </text>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
             <element collapsed="true">
                 <name>src-e</name>
             </element>
-            <text><nl/>    </text>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
             <element collapsed="true">
                 <name>src-e</name>
                 <attribute>
@@ -24,7 +30,7 @@
                     <value>from-default</value>
                 </attribute>
             </element>
-            <text><nl/></text>
+            <ws nl="1"/>
         </content>
     </element>
 </document>

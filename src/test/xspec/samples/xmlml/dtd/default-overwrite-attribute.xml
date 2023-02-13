@@ -8,7 +8,7 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <attribute>
+        <attribute type="CDATA">
             <ws space="1"/>
             <name>attribute</name>
             <eq/>
