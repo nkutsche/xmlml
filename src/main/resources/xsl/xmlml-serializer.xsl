@@ -140,7 +140,7 @@
         <xsl:text>]</xsl:text>
     </xsl:template>
 
-    <xsl:template match="cdata" mode="mlml:serialize">
+    <xsl:template match="cdata-section" mode="mlml:serialize">
         <xsl:text>&lt;![CDATA[</xsl:text>
         <xsl:apply-templates mode="#current"/>
         <xsl:text>]]&gt;</xsl:text>
@@ -159,13 +159,8 @@
     </xsl:template>
     
     <xsl:template match="
-        value/text() 
+        data/text() 
         | name/text()
-        | text/text()
-        | entity/text()
-        | cdata/text()
-        | comment/text()
-        | doc-type-decl/inline/text()
         " mode="mlml:clean-up">
         <xsl:value-of select="."/>
     </xsl:template>

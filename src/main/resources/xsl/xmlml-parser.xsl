@@ -194,7 +194,9 @@
                         </name>
                         <eq />
                         <value>
-                            <xsl:value-of select="@default"/>
+                            <data>
+                                <xsl:value-of select="@default"/>
+                            </data>
                         </value>
                     </attribute>
                 </xsl:if>
@@ -336,10 +338,27 @@
     </xsl:template>
 
     <xsl:template match="CDSect" mode="mlml:parse">
+        <xsl:variable name="content">
+            <xsl:apply-templates mode="#current"/>
+        </xsl:variable>
         <text>
-            <cdata>
-                <xsl:apply-templates mode="#current"/>
-            </cdata>
+            <cdata-section>
+                <!--
+                    Handling exception of CDATA sections, to avoid to <data> elements in a row.
+                -->
+                <xsl:for-each-group select="$content/*" group-adjacent="name()">
+                    <xsl:choose>
+                        <xsl:when test="name() = 'data'">
+                            <xsl:copy select=".">
+                                <xsl:sequence select="current-group()/node()"/>
+                            </xsl:copy>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="current-group()"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each-group> 
+            </cdata-section>
         </text>
     </xsl:template>
 
@@ -382,7 +401,9 @@
         <entity>
             <xsl:attribute name="name" select="Name"/>
             <text>
-                <xsl:value-of select="$pre-def-entities(Name)"/>
+                <data>
+                    <xsl:value-of select="$pre-def-entities(Name)"/>
+                </data>
             </text>
         </entity>
     </xsl:template>
@@ -526,7 +547,9 @@
                     </nl>
                 </xsl:matching-substring>
                 <xsl:non-matching-substring>
-                    <xsl:value-of select="."/>
+                    <data>
+                        <xsl:value-of select="."/>
+                    </data>
                 </xsl:non-matching-substring>
             </xsl:analyze-string>
         </xsl:variable>
@@ -570,8 +593,19 @@
         <xsl:sequence select="$linefeed-format"/>
     </xsl:function>
     
+    
 
     <xsl:template match="text()" mode="mlml:parse">
+        <xsl:value-of select="."/>
+    </xsl:template>
+    
+    <xsl:template match="
+        AttValue//text()
+        | CommentContent//text()
+        | CharData//text()
+        | CDSect//text()
+        
+        " mode="mlml:parse">
         <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <xsl:sequence select="mlml:line-breaks(., $properties?line-feed-format)"/>
     </xsl:template>
@@ -655,7 +689,9 @@
             <xsl:if test="preceding-sibling::TOKEN[. = '''']">
                 <xsl:attribute name="quotes" select="'single'"/>
             </xsl:if>
-            <xsl:value-of select="."/>
+            <data>
+                <xsl:value-of select="."/>
+            </data>
         </value>
     </xsl:template>
 
@@ -702,7 +738,9 @@
         | doctypedecl/ExternalID/PubidLiteral/PubidLiteralDouble
         | doctypedecl/ExternalID/PubidLiteral/PubidLiteralSingle
         " mode="mlml:parse">
-        <xsl:value-of select="."/>
+        <data>
+            <xsl:value-of select="."/>
+        </data>
     </xsl:template>
 
 

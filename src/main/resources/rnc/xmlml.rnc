@@ -32,7 +32,7 @@ nsContent = ws, (ncname|emptyName), ws?, equal, ws?, quotedValue
 
 textNode = element text {(entity | cdata | node_content)*}
 
-cdata = element cdata {node_content}
+cdata = element cdata-section {node_content}
 
 entity = (name_entity | char_entity)
 
@@ -89,7 +89,9 @@ space = element space {amount?}
 
 tab = element tab {amount?}
 
-node_content = (nl | text)*
+node_content = (nl | data)*
+
+data = element data {xs:string}
 
 # attributes
 
