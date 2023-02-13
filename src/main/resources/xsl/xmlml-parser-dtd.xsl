@@ -540,14 +540,27 @@
             <xsl:value-of select="replace($content, '''', '&amp;#39;')"/>
         </xsl:copy>
     </xsl:template>
-    
-    <xsl:template match="CharRef[CharRefHex]" mode="mlml:dtd-pre-parse">
-        <xsl:value-of select="codepoints-to-string(mlml:hex-to-int(CharRefHex))"/>
+
+    <xsl:template match="CharRef[CharRefHex] | CharRef[CharRefDec]" mode="mlml:dtd-pre-parse">
+        <xsl:sequence select="dtdml:resolve-charref(.)"/>
     </xsl:template>
 
-    <xsl:template match="CharRef[CharRefDec]" mode="mlml:dtd-pre-parse">
-        <xsl:value-of select="codepoints-to-string(xs:integer(CharRefDec))"/>
-    </xsl:template>
+    <xsl:function name="dtdml:resolve-charref" as="xs:string">
+        <xsl:param name="charref" as="element(CharRef)"/>
+        
+        <xsl:variable name="codepoint" select="
+            $charref/(
+                if (CharRefHex) 
+                then mlml:hex-to-int(CharRefHex) 
+                else xs:integer(CharRefDec)
+            )
+            "/>
+        
+        <xsl:sequence select="
+                codepoints-to-string($codepoint) 
+            "/>
+        
+    </xsl:function>
 
     <xsl:template match="markupdecl" mode="mlml:dtd-pre-parse">
         <xsl:copy>
