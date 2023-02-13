@@ -113,7 +113,7 @@
     </xsl:template>
 
     <xsl:template match="entity[@name]" mode="mlml:doc">
-        <xsl:apply-templates/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
 
     <xsl:function name="mlml:namespace" as="xs:string">
