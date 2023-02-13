@@ -13,11 +13,8 @@
     </xsl:function>
 
     <xsl:template match="document" mode="mlml:doc">
-        <xsl:variable name="dtd" select="mlml:get-dtd-declarations(.)"/>
         <xsl:document>
-            <xsl:apply-templates select="pi | comment | element" mode="#current">
-                <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="pi | comment | element" mode="#current"/>
         </xsl:document>
     </xsl:template>
 
@@ -27,18 +24,14 @@
 
     <xsl:template match="element" mode="mlml:doc">
         <xsl:param name="inherit-default-namespace" select="''" as="xs:string" tunnel="yes"/>
-        <xsl:param name="dtd" as="element()*" tunnel="yes"/>
 
         <xsl:variable name="default-namespace" select="
                 (@element-default-namespace/string(), $inherit-default-namespace)[1]
                 "/>
         <xsl:variable name="elname" select="name"/>
 
-        <xsl:variable name="attlist" select="$dtd/self::attlist-decl[name = $elname]"/>
-        <xsl:variable name="default-attr" select="$attlist/attribute-decl[value | fixed/value]"/>
 
         <xsl:element name="{$elname}" namespace="{mlml:namespace($elname, $default-namespace)}">
-            <xsl:apply-templates select="$default-attr" mode="#current"/>
             <xsl:variable name="content" select="content/(text | pi | comment | element)"/>
             <xsl:apply-templates select="(attribute | namespace), $content" mode="#current">
                 <xsl:with-param name="inherit-default-namespace" select="$default-namespace" tunnel="yes"/>
@@ -47,9 +40,9 @@
     </xsl:template>
 
 
-    <xsl:template match="attribute | attribute-decl" mode="mlml:doc">
+    <xsl:template match="attribute" mode="mlml:doc">
         <xsl:attribute name="{name}" namespace="{mlml:namespace(name)}">
-            <xsl:apply-templates select="value | fixed/value" mode="#current"/>
+            <xsl:apply-templates select="value" mode="#current"/>
         </xsl:attribute>
     </xsl:template>
 
@@ -125,10 +118,6 @@
                 "/>
     </xsl:function>
 
-    <xsl:function name="mlml:get-dtd-declarations" as="element()*">
-        <xsl:param name="document" as="element(document)"/>
-        <xsl:sequence select="$document/doc-type-decl/inline/*"/>
-    </xsl:function>
 
     <xsl:function name="mlml:hex-to-int" as="xs:integer">
         <xsl:param name="in" as="xs:string"/>
