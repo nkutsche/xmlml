@@ -46,6 +46,14 @@
         </xsl:attribute>
     </xsl:template>
 
+    <xsl:template match="attribute/value" mode="mlml:doc" priority="10">
+        <xsl:variable name="type" select="../@type"/>
+        <xsl:variable name="raw-value">
+            <xsl:next-match/>
+        </xsl:variable> 
+        <xsl:value-of select="mlml:type-convert($raw-value, $type)"/>
+    </xsl:template>
+    
     <xsl:template match="namespace" mode="mlml:doc">
         <xsl:namespace name="{name}">
             <xsl:apply-templates select="value" mode="#current"/>
@@ -151,6 +159,46 @@
                     substring('0123456789ABCDEF',
                     ($in mod 16) + 1, 1))"/>
     </xsl:function>
+
+    <xsl:function name="mlml:type-convert" as="xs:string">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="type" as="xs:string?"/>
+        
+        <xsl:variable name="value" select="
+            if ($type = 'ID' and $value castable as xs:ID) 
+            then (xs:ID($value)) 
+            else 
+            if ($type = 'IDREF' and $value castable as xs:IDREF) 
+            then (xs:IDREF($value)) 
+            else 
+            if ($type = 'NMTOKEN' and $value castable as xs:NMTOKEN) 
+            then (xs:NMTOKEN($value)) 
+            else 
+            if ($type = 'ENTITY' and $value castable as xs:NCName) 
+            then (xs:NCName($value)) 
+            else 
+            if ($type = 'ENUM') 
+            then (normalize-space($value)) 
+            else 
+            if ($type = ('IDREFS', 'NMTOKENS', 'ENTITIES')) 
+            then (
+                (tokenize($value, '\s+')[. != ''] ! mlml:type-convert(., mlml:single-type($type))) => string-join(' ')
+            ) 
+            else 
+                $value
+            "/>
+        
+        <xsl:sequence select="string($value)"/>
+        
+    </xsl:function>
+    <xsl:function name="mlml:single-type" as="xs:string">
+        <xsl:param name="type" as="xs:string"/>
+        <xsl:sequence select="
+            if ($type = 'ENTITIES') then 'ENTITY' else replace($type, 'S$', '')
+            "/>
+    </xsl:function>
+    
+    
 
 
 </xsl:stylesheet>
