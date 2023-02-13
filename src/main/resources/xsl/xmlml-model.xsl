@@ -77,6 +77,17 @@
         <xsl:text>&#xA;</xsl:text>
     </xsl:template>
 
+    <xsl:template match="attribute/value//text()" mode="mlml:doc">
+        <xsl:value-of select="replace(., '\t', ' ')"/>
+    </xsl:template>
+    
+    <xsl:template match="attribute/value/entity[@name]" mode="mlml:doc" priority="10">
+        <xsl:variable name="next-match">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:value-of select="replace($next-match, '\r|\n', ' ')"/>
+    </xsl:template>
+    
     <xsl:template match="attribute/value//nl" mode="mlml:doc">
         <xsl:text>&#x20;</xsl:text>
     </xsl:template>
