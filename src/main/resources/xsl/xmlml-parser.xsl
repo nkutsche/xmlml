@@ -157,16 +157,22 @@
 
     <xsl:template match="element" mode="mlml:parse">
         <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:variable name="el_name" as="element(mlml:name)">
+            <xsl:apply-templates select="Name" mode="#current"/>
+        </xsl:variable>
+        <xsl:variable name="attribute-lists" select="$dtd//dtdml:attribute-list[@ref = $el_name]"/>
         <xsl:variable name="content" as="element()*">
-            <xsl:apply-templates mode="#current"/>
+            <xsl:apply-templates mode="#current">
+                <xsl:with-param name="attribute-lists" select="$attribute-lists" tunnel="yes"/>
+            </xsl:apply-templates>
         </xsl:variable>
         
         <xsl:variable name="el_name" select="$content/self::mlml:name"/>
-        <xsl:variable name="attribute-list" select="$dtd/dtdml:attribute-list[@ref = $el_name]"/>
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-adjacent="@name">
                 <xsl:if test="@default">
                     <attribute default="true">
+                        <xsl:sequence select="mlml:attribute-type(.)"/>
                         <ws space="1" />
                         <name>
                             <xsl:value-of select="@name"/>
@@ -240,8 +246,14 @@
     </xsl:template>
 
     <xsl:template match="Attribute" mode="mlml:parse">
-        <attribute>
+        <xsl:param name="attribute-lists" select="()" tunnel="yes"/>
+        <xsl:variable name="content" as="node()*">
             <xsl:apply-templates mode="#current"/>
+        </xsl:variable>
+        <xsl:variable name="name" select="$content/self::mlml:name"/>
+        <attribute>
+            <xsl:sequence select="mlml:attribute-type($attribute-lists/dtdml:attribute[@name = $name])"/>
+            <xsl:sequence select="$content"/>
         </attribute>
     </xsl:template>
 
@@ -669,6 +681,19 @@
             <xsl:sequence select="mlml:line-breaks(., $properties?line-feed-format)"/>
         </inline>
     </xsl:template>
+    
+    <xsl:function name="mlml:attribute-type" as="attribute(type)?">
+        <xsl:param name="attribute-decl" as="element(dtdml:attribute)*"/>
+        <xsl:variable name="attribute-decl" select="$attribute-decl[1]"/>
+        <xsl:choose>
+            <xsl:when test="$attribute-decl/@type">
+                <xsl:sequence select="$attribute-decl/@type"/>
+            </xsl:when>
+            <xsl:when test="$attribute-decl/dtdml:type">
+                <xsl:attribute name="type" select="'ENUM'"/>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:function>
 
     <xsl:template match="*" mode="mlml:parse" priority="-100">
         <NOT_SUPPORTED>

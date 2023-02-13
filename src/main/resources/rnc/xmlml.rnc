@@ -22,7 +22,7 @@ childNode = (textNode | pi | comment | elem)
 
 closeTagSpace = element close-tag-space {ws}
 
-attr = element attribute {defaultAttr?, attrContent}
+attr = element attribute {defaultAttr?, attr_data_type?, attrContent}
 
 namespace_decl = element namespace {nsContent}
 
@@ -108,6 +108,18 @@ amount = attribute amount {xs:integer}
 ent_value = attribute value {xs:string}
 
 defaultAttr = attribute default {xs:boolean}
+
+attr_data_type = attribute type {
+           'CDATA'
+           | 'ID'
+           | 'IDREF'
+           | 'IDREFS'
+           | 'ENTITY'
+           | 'ENTITIES'
+           | 'NMTOKEN'
+           | 'NMTOKENS'
+           | 'ENUM'
+           }
 
 # Types
 
