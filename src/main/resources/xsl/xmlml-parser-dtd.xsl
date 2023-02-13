@@ -556,7 +556,13 @@
             )
             "/>
         
+        <xsl:variable name="is-linebreak" select="$codepoint = (10, 13)"/>
+        
         <xsl:sequence select="
+            if ($is-linebreak) 
+            then 
+                string($charref)
+            else 
                 codepoints-to-string($codepoint) 
             "/>
         
