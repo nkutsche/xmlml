@@ -609,7 +609,11 @@
     </xsl:template>
 
     <xsl:template match="contentspec[TOKEN = 'ANY']" mode="mlml:dtd-parse">
-        <content any="true"/>
+        <content preset="ANY"/>
+    </xsl:template>
+
+    <xsl:template match="contentspec[TOKEN = 'EMPTY']" mode="mlml:dtd-parse">
+        <content preset="EMPTY"/>
     </xsl:template>
 
     <xsl:template match="contentspec" mode="mlml:dtd-parse">

@@ -163,9 +163,14 @@
         <xsl:variable name="attribute-lists" select="$dtd//dtdml:attribute-list[@ref = $el_name]"/>
         <xsl:variable name="element-decl" select="$dtd//dtdml:element-decl[@name = $el_name]"/>
         
+        <xsl:variable name="content-model" select="$element-decl/dtdml:content"/>
         <xsl:variable name="mixed" select="
-            if ($element-decl) 
-            then ($element-decl/dtdml:content/(@mixed | @any), 'false')[1] = 'true' 
+            if ($content-model/@mixed = 'true' or $content-model/@preset = ('ANY', 'EMPTY'))
+            then 
+                true()
+            else if ($content-model)
+            then 
+                false()
             else 
                 true()
             "/>

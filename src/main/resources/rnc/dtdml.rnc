@@ -17,7 +17,7 @@ dtd_content = (
 
 element_decl = element element-decl {common_attr, name, dtd_el_content}
 
-dtd_el_content = element content {common_attr, (any_content | (mixed_content?, content_model))}
+dtd_el_content = element content {common_attr, (preset_content | (mixed_content?, content_model))}
 
 content_model = (optional?, repeating?, (sequence | choice | element_ref)*)
 
@@ -74,7 +74,7 @@ repeating = attribute repeating {xs:boolean}
 
 mixed_content = attribute mixed {xs:boolean}
 
-any_content = attribute any {"true"}
+preset_content = attribute preset {"ANY" | "EMPTY"}
 
 systemId = attribute systemId {xs:string}
 
