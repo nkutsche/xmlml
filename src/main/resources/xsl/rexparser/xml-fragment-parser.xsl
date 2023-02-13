@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Mon Dec 19, 2022 18:35 (UTC+01) by REx v5.55 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net> -->
-<!-- REx command line: XML-fragment.ebnf -xslt -tree -backtrack -->
+<!-- This file was generated on Mon Feb 13, 2023 10:46 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
+<!-- REx command line: XML-fragment.ebnf -xslt -tree -->
 
 <xsl:stylesheet version="2.0"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -111,66 +111,65 @@
    ! The token-set-id to DFA-initial-state mapping.
   -->
   <xsl:variable name="p:INITIAL" as="xs:integer+" select="
-    1, 2, 1027, 4, 5, 1542, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 674, 803, 36, 37, 38
+    1, 1026, 3, 4, 1541, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 674, 803, 36, 37, 38
   "/>
 
   <!--~
    ! The DFA transition table.
   -->
   <xsl:variable name="p:TRANSITION" as="xs:integer+" select="
-    771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 736, 771, 880, 814, 792, 750, 1288, 762, 771, 770, 771, 771, 771, 771, 771,
-    771, 780, 771, 771, 771, 792, 750, 1288, 800, 771, 770, 771, 771, 771, 771, 771, 771, 780, 811, 771, 808, 822, 750, 771, 762, 771, 770, 771, 771, 771, 771,
-    771, 771, 780, 771, 771, 771, 792, 750, 1288, 830, 771, 770, 771, 771, 771, 771, 771, 771, 780, 771, 771, 771, 792, 750, 1288, 762, 771, 770, 771, 771, 771,
-    771, 771, 771, 780, 771, 771, 771, 838, 750, 771, 1110, 771, 771, 771, 771, 771, 771, 771, 771, 780, 848, 771, 846, 856, 750, 1288, 742, 771, 770, 771, 771,
-    771, 771, 771, 771, 912, 754, 771, 771, 1248, 864, 1288, 762, 772, 888, 771, 771, 771, 771, 771, 771, 780, 771, 771, 771, 1338, 906, 1288, 762, 771, 770,
-    771, 771, 771, 771, 771, 771, 780, 771, 771, 926, 792, 750, 1288, 934, 771, 770, 771, 771, 771, 771, 771, 771, 942, 950, 771, 771, 1338, 959, 1288, 762,
-    973, 770, 771, 771, 771, 771, 771, 771, 982, 950, 771, 771, 1338, 959, 1288, 762, 973, 770, 771, 771, 771, 771, 771, 771, 990, 771, 771, 1196, 1338, 1006,
-    1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 780, 1072, 771, 771, 792, 750, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 780, 771, 771, 771,
-    918, 750, 771, 1110, 771, 771, 771, 771, 771, 771, 771, 771, 780, 1206, 1207, 771, 792, 750, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 780, 1054,
-    1055, 1018, 792, 1026, 786, 1034, 1052, 771, 771, 771, 771, 771, 771, 771, 1063, 771, 998, 996, 1080, 1088, 1288, 1100, 771, 770, 771, 771, 771, 771, 771,
-    771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 771, 770, 771, 1118, 771, 771, 771, 771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 771, 770, 771, 771,
-    771, 771, 771, 771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 771, 1126, 771, 771, 771, 771, 771, 771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 771,
-    770, 1320, 771, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288,
-    762, 771, 770, 771, 1179, 771, 771, 771, 771, 780, 771, 771, 771, 792, 750, 1288, 762, 951, 770, 771, 771, 1147, 771, 771, 771, 1133, 771, 1157, 894, 1167,
-    1175, 1288, 1187, 771, 1195, 771, 771, 771, 771, 771, 771, 990, 771, 771, 1196, 1338, 959, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 990, 1108,
-    771, 1196, 1338, 959, 1288, 762, 1275, 770, 965, 771, 771, 771, 771, 771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 877, 770, 771, 771, 771, 771, 771,
-    771, 990, 1108, 771, 1196, 1338, 959, 1288, 762, 771, 770, 1204, 771, 771, 771, 771, 771, 990, 1108, 1069, 1196, 1215, 959, 1139, 762, 771, 770, 771, 771,
-    1223, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 771, 770, 771, 1226, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 771,
-    770, 871, 771, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 771, 770, 1279, 1041, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959,
-    1288, 762, 771, 1234, 771, 771, 771, 771, 771, 771, 990, 963, 771, 1092, 1338, 959, 1242, 762, 771, 1256, 771, 1270, 1287, 771, 771, 771, 990, 963, 771,
-    1196, 1338, 959, 1044, 762, 771, 1296, 974, 1149, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 898, 770, 771, 771, 771, 771, 771, 771,
-    990, 963, 1261, 1262, 1307, 959, 1288, 762, 1299, 1315, 771, 771, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1332, 762, 771, 770, 771, 771, 771,
-    771, 771, 771, 990, 963, 1010, 1196, 1338, 959, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 990, 963, 771, 1196, 1338, 959, 1288, 762, 1159, 1346,
-    771, 771, 771, 771, 771, 771, 990, 963, 771, 1324, 1338, 959, 1288, 762, 771, 770, 771, 771, 771, 771, 771, 771, 780, 771, 771, 771, 1338, 1006, 1288, 762,
-    771, 770, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 1351, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 771, 385, 0, 1027, 41, 0, 1542, 0, 0, 0,
-    956, 956, 0, 41, 1542, 41, 0, 0, 1542, 0, 0, 0, 0, 47, 0, 0, 0, 0, 826, 0, 956, 956, 0, 41, 1542, 956, 0, 0, 0, 0, 0, 0, 0, 0, 78, 0, 0, 1027, 0, 0, 1542,
-    0, 0, 0, 2944, 4352, 0, 0, 696, 826, 0, 956, 956, 0, 1027, 0, 826, 72, 956, 956, 72, 41, 1542, 2176, 0, 0, 0, 0, 2176, 0, 0, 0, 0, 0, 385, 385, 0, 0, 2176,
-    826, 0, 956, 956, 0, 1027, 2503, 826, 0, 956, 956, 0, 41, 1542, 0, 2361, 2361, 2361, 2361, 2361, 0, 1027, 2688, 0, 0, 0, 0, 2688, 0, 0, 0, 0, 0, 696, 2688,
-    0, 956, 956, 0, 1027, 41, 0, 1451, 1542, 0, 2094, 66, 0, 0, 88, 0, 0, 90, 0, 0, 75, 0, 0, 0, 0, 0, 385, 385, 385, 956, 0, 0, 0, 0, 3328, 0, 0, 0, 4277, 0,
-    0, 0, 0, 77, 0, 0, 0, 41, 0, 1451, 1542, 65, 2094, 0, 0, 40, 0, 0, 1542, 0, 0, 0, 3259, 3259, 3262, 0, 1027, 0, 52, 0, 0, 0, 0, 52, 52, 0, 826, 3584, 956,
-    956, 0, 41, 1542, 0, 0, 1027, 0, 0, 1542, 0, 1800, 1929, 0, 0, 0, 0, 0, 0, 0, 79, 41, 0, 1451, 1542, 0, 2094, 0, 0, 0, 0, 0, 0, 91, 0, 1729, 0, 0, 0, 0, 0,
-    0, 0, 92, 0, 0, 1027, 0, 0, 1542, 45, 1800, 0, 551, 1027, 0, 1451, 1542, 0, 0, 48, 0, 0, 0, 0, 0, 0, 48, 41, 0, 1451, 1542, 0, 0, 0, 0, 51, 0, 0, 0, 0,
-    3968, 0, 0, 0, 0, 3968, 3968, 41, 1280, 0, 1542, 0, 0, 0, 4096, 0, 826, 0, 956, 956, 0, 1280, 0, 0, 95, 0, 0, 0, 0, 0, 4608, 0, 696, 0, 2816, 0, 0, 0, 0, 0,
-    0, 0, 3968, 0, 0, 0, 1027, 42, 0, 1542, 0, 0, 49, 0, 0, 0, 0, 0, 3072, 0, 0, 48, 696, 826, 0, 956, 956, 0, 1027, 63, 0, 0, 1542, 0, 0, 0, 0, 54, 0, 0, 551,
-    0, 826, 1152, 956, 956, 1226, 63, 1542, 1929, 2094, 0, 0, 0, 0, 0, 0, 41, 1542, 93, 0, 0, 0, 0, 0, 0, 98, 956, 0, 0, 0, 0, 0, 84, 0, 0, 1027, 0, 0, 44, 0,
-    0, 69, 0, 0, 0, 70, 696, 0, 3456, 0, 0, 0, 0, 0, 0, 97, 0, 0, 4224, 0, 0, 0, 0, 0, 0, 2560, 0, 0, 696, 826, 0, 957, 957, 0, 1027, 41, 0, 0, 64, 0, 0, 0, 0,
-    96, 0, 0, 0, 0, 826, 0, 957, 969, 0, 41, 64, 969, 0, 0, 0, 0, 0, 0, 0, 551, 86, 87, 0, 0, 0, 0, 0, 0, 3840, 0, 0, 49, 696, 826, 0, 956, 956, 551, 1027, 0,
-    0, 4736, 0, 0, 0, 0, 0, 4480, 0, 0, 956, 0, 0, 0, 0, 0, 0, 85, 67, 0, 0, 0, 0, 0, 0, 696, 826, 0, 956, 956, 551, 0, 956, 0, 0, 82, 0, 0, 0, 0, 50, 0, 0, 0,
-    0, 551, 0, 94, 0, 4864, 0, 0, 0, 0, 76, 0, 0, 0, 0, 3712, 0, 0, 0, 99, 0, 0, 0, 0, 0, 0, 0, 696, 956, 0, 81, 0, 0, 0, 0, 0, 4992, 0, 0, 50, 696, 826, 0,
-    956, 956, 551, 1027, 956, 0, 0, 0, 83, 0, 0, 0, 89, 0, 0, 0, 0, 55, 0, 0, 551, 0, 68, 0, 0, 0, 0, 0, 696, 826, 0, 956, 956, 551, 1027, 956, 80, 0, 0, 0, 0,
-    0, 0, 256, 256, 256, 0, 0
+    795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 1011, 795, 1183, 911, 736, 791, 1259, 755, 794, 774, 795, 795, 795, 795,
+    795, 795, 810, 795, 795, 795, 736, 791, 795, 784, 794, 774, 795, 795, 795, 795, 795, 795, 810, 1198, 1130, 1195, 804, 791, 795, 1313, 794, 774, 795, 795,
+    795, 795, 795, 795, 810, 795, 795, 795, 736, 791, 795, 822, 794, 774, 795, 795, 795, 795, 795, 795, 810, 795, 795, 795, 736, 791, 795, 755, 794, 774, 795,
+    795, 795, 795, 795, 795, 810, 795, 795, 795, 840, 791, 795, 796, 794, 795, 795, 795, 795, 795, 795, 795, 810, 1214, 766, 1212, 854, 791, 795, 868, 794, 774,
+    795, 795, 795, 795, 795, 795, 902, 907, 795, 795, 895, 991, 795, 755, 794, 919, 795, 795, 795, 795, 795, 795, 810, 795, 795, 795, 938, 1164, 795, 755, 794,
+    774, 795, 795, 795, 795, 795, 795, 810, 795, 795, 962, 736, 791, 795, 984, 794, 774, 795, 795, 795, 795, 795, 795, 846, 795, 795, 795, 938, 875, 795, 755,
+    1023, 774, 795, 795, 795, 795, 795, 795, 860, 795, 795, 795, 938, 875, 795, 755, 1023, 774, 795, 795, 795, 795, 795, 795, 944, 795, 795, 776, 938, 829, 795,
+    755, 794, 774, 795, 795, 795, 795, 795, 795, 810, 1299, 795, 795, 736, 791, 795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 810, 795, 795, 795, 1276, 791,
+    795, 796, 794, 795, 795, 795, 795, 795, 795, 795, 810, 1363, 1364, 795, 736, 791, 795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 810, 1025, 1026, 1034,
+    736, 1058, 930, 1066, 1335, 795, 795, 795, 795, 795, 795, 795, 1144, 1170, 1171, 998, 1005, 1081, 795, 1074, 794, 774, 795, 795, 795, 795, 795, 795, 1228,
+    1169, 795, 776, 938, 875, 795, 755, 794, 774, 795, 1092, 1102, 795, 795, 795, 1228, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 795, 795, 795, 795, 795,
+    795, 1228, 1169, 795, 776, 938, 875, 795, 755, 794, 1111, 795, 795, 795, 795, 795, 795, 1228, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 1263, 795, 795,
+    795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 795,
+    1338, 795, 795, 795, 795, 810, 795, 795, 795, 736, 791, 795, 755, 794, 1119, 795, 795, 1047, 795, 795, 795, 742, 795, 1129, 1360, 1138, 762, 795, 1157, 765,
+    1179, 795, 795, 795, 795, 795, 795, 944, 795, 795, 776, 938, 875, 795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 1228, 1169, 795, 776, 938, 875, 795,
+    755, 814, 774, 1103, 795, 795, 795, 795, 795, 1228, 1169, 795, 776, 938, 875, 795, 755, 1191, 774, 795, 795, 795, 795, 795, 795, 1228, 1169, 795, 776, 938,
+    875, 795, 755, 794, 774, 1208, 795, 795, 795, 795, 795, 1228, 1169, 926, 1200, 1222, 875, 887, 755, 794, 774, 795, 795, 1295, 795, 795, 795, 944, 1169, 795,
+    776, 938, 875, 795, 755, 794, 774, 795, 1094, 795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 747, 795, 795, 795, 795, 795, 944,
+    1169, 795, 776, 938, 875, 795, 755, 794, 774, 1050, 1241, 795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 794, 774, 1236, 795, 795, 795, 795,
+    795, 944, 1169, 795, 954, 938, 875, 1254, 755, 794, 1271, 795, 1290, 1284, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 1121, 755, 794, 1307, 795, 1321,
+    795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 1015, 774, 795, 795, 795, 795, 795, 795, 944, 1169, 881, 969, 976, 875, 795, 755, 1084, 1329,
+    795, 795, 795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 1041, 755, 794, 774, 795, 795, 795, 795, 795, 795, 944, 1169, 949, 776, 1346, 875, 795, 755,
+    794, 774, 795, 795, 795, 795, 795, 795, 944, 1169, 795, 776, 938, 875, 795, 755, 832, 1354, 795, 795, 795, 795, 795, 795, 944, 1169, 795, 1149, 938, 875,
+    795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 810, 795, 795, 795, 938, 829, 795, 755, 794, 774, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 1246,
+    795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 795, 0, 697, 827, 0, 957, 957, 0, 1026, 0, 0, 44, 0, 0, 0, 89, 0, 0, 91, 0, 697, 0, 827, 0, 957, 957, 0,
+    41, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 2688, 0, 957, 0, 0, 0, 0, 0, 0, 551, 0, 697, 0, 827, 73, 957, 957, 73, 41, 0, 0, 1541, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0,
+    2176, 827, 0, 957, 957, 0, 1026, 0, 0, 1541, 0, 0, 0, 77, 0, 0, 0, 697, 2504, 827, 0, 957, 957, 0, 41, 0, 1451, 1541, 0, 0, 0, 0, 0, 0, 2560, 0, 2362, 2362,
+    2362, 2362, 2362, 0, 1026, 0, 0, 1541, 0, 1799, 1928, 0, 697, 2688, 0, 957, 957, 0, 1026, 0, 0, 1541, 45, 1799, 1928, 697, 0, 0, 0, 957, 957, 0, 41, 0,
+    1451, 1541, 0, 2094, 0, 0, 50, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 71, 0, 697, 827, 0, 957, 957, 551, 0, 40, 0, 0, 1541, 0, 0, 0, 47, 0, 0, 0, 0, 436, 436, 0, 0,
+    79, 957, 0, 0, 0, 0, 3328, 0, 49, 0, 0, 0, 0, 0, 0, 2944, 4352, 0, 0, 0, 697, 827, 0, 957, 957, 551, 1026, 0, 1451, 1541, 0, 0, 0, 51, 0, 0, 0, 0, 55, 0, 0,
+    551, 0, 53, 0, 0, 0, 0, 53, 53, 0, 50, 0, 0, 0, 0, 551, 50, 697, 827, 0, 957, 957, 551, 1026, 697, 0, 827, 3584, 957, 957, 0, 41, 0, 1451, 1541, 0, 2094,
+    67, 0, 48, 0, 0, 0, 0, 0, 48, 697, 827, 0, 957, 957, 0, 1026, 41, 0, 1541, 0, 0, 0, 0, 78, 0, 0, 1541, 1730, 0, 0, 0, 0, 0, 0, 3968, 0, 0, 3968, 0, 0, 0, 0,
+    3968, 3968, 0, 69, 0, 0, 0, 0, 0, 0, 3456, 0, 0, 0, 0, 0, 3712, 0, 0, 41, 1280, 0, 1541, 0, 0, 0, 4096, 697, 0, 827, 0, 957, 957, 0, 1280, 697, 0, 827,
+    1152, 957, 957, 1227, 64, 0, 0, 1541, 0, 0, 0, 0, 0, 4992, 0, 0, 94, 0, 0, 0, 0, 0, 0, 4480, 0, 99, 0, 0, 0, 0, 0, 0, 0, 92, 0, 957, 0, 0, 0, 0, 0, 85, 80,
+    957, 0, 0, 0, 0, 0, 0, 4608, 0, 4224, 0, 0, 0, 0, 0, 0, 0, 2176, 0, 697, 827, 0, 958, 958, 0, 1026, 42, 0, 1541, 0, 0, 0, 56, 0, 0, 551, 0, 697, 0, 827, 0,
+    958, 970, 0, 41, 0, 1451, 1541, 66, 2094, 0, 0, 0, 0, 0, 0, 0, 48, 0, 0, 970, 0, 0, 0, 0, 0, 0, 436, 436, 436, 0, 1541, 0, 0, 76, 0, 0, 0, 0, 2176, 0, 0, 0,
+    0, 0, 0, 551, 49, 0, 87, 88, 0, 0, 0, 0, 0, 2688, 0, 0, 0, 0, 0, 49, 697, 827, 0, 957, 957, 551, 1026, 0, 1451, 1541, 0, 0, 1928, 86, 0, 0, 0, 0, 0, 0, 0,
+    96, 0, 0, 0, 0, 256, 256, 256, 0, 0, 68, 0, 0, 0, 0, 0, 0, 0, 436, 0, 0, 0, 0, 90, 0, 0, 0, 0, 957, 0, 0, 83, 0, 0, 0, 3260, 3260, 3263, 0, 1026, 0, 100, 0,
+    0, 0, 0, 0, 0, 95, 0, 4864, 0, 0, 0, 4736, 0, 0, 0, 0, 3072, 0, 0, 0, 0, 957, 0, 82, 0, 0, 0, 0, 827, 0, 957, 957, 0, 41, 93, 0, 0, 0, 0, 0, 0, 98, 0, 957,
+    0, 0, 0, 84, 0, 0, 2816, 0, 0, 0, 0, 0, 97, 0, 0, 51, 697, 827, 0, 957, 957, 551, 1026, 0, 957, 81, 0, 0, 0, 0, 0, 4278, 0, 0, 0, 0, 0, 3840, 0, 0, 0
   "/>
 
   <!--~
    ! The DFA-state to expected-token-set mapping.
   -->
   <xsl:variable name="p:EXPECTED" as="xs:integer+" select="
-    50, 55, 59, 63, 73, 67, 71, 79, 90, 83, 53, 87, 137, 99, 94, 103, 107, 117, 97, 121, 109, 98, 112, 125, 111, 74, 74, 74, 74, 129, 74, 149, 113, 74, 74, 74,
-    75, 143, 135, 74, 74, 141, 136, 141, 75, 131, 130, 130, 147, 149, 4, 8, 128, 512, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 1048576, 2097152,
-    8388608, 536870912, 1073741824, 0, 536870916, 1073741828, -2147483644, 1114112, 1077936128, -2147483648, 0, 0, 0, 0, 4, 0, 1114116, 1077936132, 1077936136,
-    252576066, 386793794, 8, 128, 4096, 32768, 2097152, -2147483648, 983056, 1966112, 252576002, 786432, 32, 234881280, 64, 268435456, 0, 0, 0, 16, 64,
-    369099008, 512, 2048, 4096, 2097152, 0, 0, 0, 67108864, 0, 0, 0, 20, 0, 0, 524288, 100663296, 0, 33554432, 67108864, 268435456, 67108864, 0, 0, 67108864, 1,
-    4, 16, 32, 0, 0, 8, 64, 0, 0, 0, 4194304, 0, 4, 16, 32, 0, 2, 4, 16, 0, 16, 3, 72
+    77, 107, 50, 54, 86, 61, 65, 71, 57, 75, 104, 81, 87, 85, 145, 101, 95, 138, 111, 67, 121, 120, 127, 127, 126, 86, 86, 86, 86, 131, 86, 116, 122, 137, 86,
+    86, 86, 90, 98, 86, 86, 87, 133, 87, 91, 89, 88, 142, 142, 114, 32768, 65536, 1048576, 2097152, 8388608, 536870912, 1073741824, -2147483648, 983056,
+    1966112, 252576002, 536870916, 1073741828, -2147483644, 1114112, 1077936128, -2147483648, 0, 0, 33554432, 67108864, 1114116, 1077936132, 1077936136,
+    -2147483648, 252576066, 386793794, 8, 128, 512, 1024, 4096, 32768, 2097152, -2147483648, 4194304, 0, 0, 0, 0, 4, 16, 32, 0, 0, 2048, 4096, 2097152, 0, 2, 8,
+    64, 64, 369099008, 512, 512, 1024, 2048, 4096, 8192, 16384, 100663296, 64, 268435456, 0, 16, 0, 16, 3, 72, 67108864, 268435456, 0, 0, 0, 20, 67108864, 0,
+    67108864, 0, 0, 1, 4, 16, 32, 64, 0, 52, 0, 0, 0, 524288, 32, 0, 4, 16, 786432, 32, 234881280
   "/>
 
   <!--~
@@ -356,7 +355,7 @@
 
     <xsl:if test="$state > 0">
       <xsl:for-each select="0 to 1">
-        <xsl:variable name="i0" select=". * 99 + $state - 1"/>
+        <xsl:variable name="i0" select=". * 100 + $state - 1"/>
         <xsl:variable name="i1" select="$i0 idiv 4"/>
         <xsl:sequence select="p:token((), $p:EXPECTED[$i0 mod 4 + $p:EXPECTED[$i1 + 1] + 1], . * 32 + 1)"/>
       </xsl:for-each>
@@ -409,9 +408,9 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(25, $input, $state)"/>             <!-- '<!-' '-' -->
-    <xsl:variable name="state" select="p:lookahead1(2, $input, $state)"/>           <!-- CommentContent -->
+    <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- CommentContent -->
     <xsl:variable name="state" select="p:consume(7, $input, $state)"/>              <!-- CommentContent -->
-    <xsl:variable name="state" select="p:lookahead1(12, $input, $state)"/>          <!-- '-' '->' -->
+    <xsl:variable name="state" select="p:lookahead1(11, $input, $state)"/>          <!-- '-' '->' -->
     <xsl:variable name="state" select="p:consume(21, $input, $state)"/>             <!-- '-' '->' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'Comment', $count, $begin, $end)"/>
@@ -431,9 +430,9 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(8, $input, $state)"/>              <!-- PIStart -->
-    <xsl:variable name="state" select="p:lookahead1(4, $input, $state)"/>           <!-- PITarget -->
+    <xsl:variable name="state" select="p:lookahead1(3, $input, $state)"/>           <!-- PITarget -->
     <xsl:variable name="state" select="p:consume(10, $input, $state)"/>             <!-- PITarget -->
-    <xsl:variable name="state" select="p:lookahead1(3, $input, $state)"/>           <!-- PIContentEnd -->
+    <xsl:variable name="state" select="p:lookahead1(2, $input, $state)"/>           <!-- PIContentEnd -->
     <xsl:variable name="state" select="p:consume(9, $input, $state)"/>              <!-- PIContentEnd -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'PI', $count, $begin, $end)"/>
@@ -456,9 +455,9 @@
         <xsl:sequence select="$state"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="state" select="p:lookahead1(17, $input, $state)"/>      <!-- ']' -->
+        <xsl:variable name="state" select="p:lookahead1(16, $input, $state)"/>      <!-- ']' -->
         <xsl:variable name="state" select="p:consume(32, $input, $state)"/>         <!-- ']' -->
-        <xsl:variable name="state" select="p:lookahead1(27, $input, $state)"/>      <!-- ']' | ']>' -->
+        <xsl:variable name="state" select="p:lookahead1(26, $input, $state)"/>      <!-- ']' | ']>' -->
         <xsl:choose>
           <xsl:when test="$state[$p:l1] != 32">                                     <!-- ']' -->
             <xsl:sequence select="$state"/>
@@ -485,7 +484,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(26, $input, $state)"/>             <!-- '<![CDATA[' -->
-    <xsl:variable name="state" select="p:lookahead1(5, $input, $state)"/>           <!-- CDSectContent -->
+    <xsl:variable name="state" select="p:lookahead1(4, $input, $state)"/>           <!-- CDSectContent -->
     <xsl:variable name="state" select="p:consume(11, $input, $state)"/>             <!-- CDSectContent -->
     <xsl:variable name="state" select="p:parse-CDSect-1($input, $state)"/>
     <xsl:variable name="state" select="p:consume(33, $input, $state)"/>             <!-- ']>' -->
@@ -507,9 +506,9 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(27, $input, $state)"/>             <!-- '</' -->
-    <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- Name -->
+    <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- Name -->
     <xsl:variable name="state" select="p:consume(3, $input, $state)"/>              <!-- Name -->
-    <xsl:variable name="state" select="p:lookahead1(22, $input, $state)"/>          <!-- S | '>' -->
+    <xsl:variable name="state" select="p:lookahead1(21, $input, $state)"/>          <!-- S | '>' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -524,7 +523,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(15, $input, $state)"/>          <!-- '>' -->
+    <xsl:variable name="state" select="p:lookahead1(14, $input, $state)"/>          <!-- '>' -->
     <xsl:variable name="state" select="p:consume(30, $input, $state)"/>             <!-- '>' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'ETag', $count, $begin, $end)"/>
@@ -618,17 +617,17 @@
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 18">                                        <!-- '&#' -->
           <xsl:variable name="state" select="p:consume(18, $input, $state)"/>       <!-- '&#' -->
-          <xsl:variable name="state" select="p:lookahead1(7, $input, $state)"/>     <!-- CharRefDec -->
+          <xsl:variable name="state" select="p:lookahead1(6, $input, $state)"/>     <!-- CharRefDec -->
           <xsl:variable name="state" select="p:consume(13, $input, $state)"/>       <!-- CharRefDec -->
-          <xsl:variable name="state" select="p:lookahead1(13, $input, $state)"/>    <!-- ';' -->
+          <xsl:variable name="state" select="p:lookahead1(12, $input, $state)"/>    <!-- ';' -->
           <xsl:variable name="state" select="p:consume(23, $input, $state)"/>       <!-- ';' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="state" select="p:consume(19, $input, $state)"/>       <!-- '&#x' -->
-          <xsl:variable name="state" select="p:lookahead1(8, $input, $state)"/>     <!-- CharRefHex -->
+          <xsl:variable name="state" select="p:lookahead1(7, $input, $state)"/>     <!-- CharRefHex -->
           <xsl:variable name="state" select="p:consume(14, $input, $state)"/>       <!-- CharRefHex -->
-          <xsl:variable name="state" select="p:lookahead1(13, $input, $state)"/>    <!-- ';' -->
+          <xsl:variable name="state" select="p:lookahead1(12, $input, $state)"/>    <!-- ';' -->
           <xsl:variable name="state" select="p:consume(23, $input, $state)"/>       <!-- ';' -->
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
@@ -652,9 +651,9 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(17, $input, $state)"/>             <!-- '&' -->
-    <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- Name -->
+    <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- Name -->
     <xsl:variable name="state" select="p:consume(3, $input, $state)"/>              <!-- Name -->
-    <xsl:variable name="state" select="p:lookahead1(13, $input, $state)"/>          <!-- ';' -->
+    <xsl:variable name="state" select="p:lookahead1(12, $input, $state)"/>          <!-- ';' -->
     <xsl:variable name="state" select="p:consume(23, $input, $state)"/>             <!-- ';' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'EntityRef', $count, $begin, $end)"/>
@@ -783,7 +782,7 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:lookahead1(24, $input, $state)"/>          <!-- '"' | "'" -->
+    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- '"' | "'" -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -831,7 +830,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(2, $input, $state)"/>              <!-- S -->
-    <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- Name -->
+    <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- Name -->
     <xsl:variable name="state" select="p:consume(3, $input, $state)"/>              <!-- Name -->
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -866,11 +865,11 @@
         <xsl:sequence select="$state"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:variable name="state" select="p:lookahead1(30, $input, $state)"/>      <!-- S | '/>' | '>' -->
+        <xsl:variable name="state" select="p:lookahead1(29, $input, $state)"/>      <!-- S | '/>' | '>' -->
         <xsl:variable name="state" as="item()+">
           <xsl:choose>
             <xsl:when test="$state[$p:l1] eq 2">                                    <!-- S -->
-              <xsl:variable name="state" select="p:lookahead2(31, $input, $state)"/> <!-- Name | '/>' | '>' -->
+              <xsl:variable name="state" select="p:lookahead2(30, $input, $state)"/> <!-- Name | '/>' | '>' -->
               <xsl:sequence select="$state"/>
             </xsl:when>
             <xsl:otherwise>
@@ -910,7 +909,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(24, $input, $state)"/>             <!-- '<' -->
-    <xsl:variable name="state" select="p:lookahead1(1, $input, $state)"/>           <!-- Name -->
+    <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- Name -->
     <xsl:variable name="state" select="p:consume(3, $input, $state)"/>              <!-- Name -->
     <xsl:variable name="state" select="p:parse-element-1($input, $state)"/>
     <xsl:variable name="state" as="item()+">
@@ -927,7 +926,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(25, $input, $state)"/>          <!-- '/>' | '>' -->
+    <xsl:variable name="state" select="p:lookahead1(24, $input, $state)"/>          <!-- '/>' | '>' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1107,7 +1106,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(2, $input, $state)"/>              <!-- S -->
-    <xsl:variable name="state" select="p:lookahead1(19, $input, $state)"/>          <!-- 'standalone' -->
+    <xsl:variable name="state" select="p:lookahead1(18, $input, $state)"/>          <!-- 'standalone' -->
     <xsl:variable name="state" select="p:consume(36, $input, $state)"/>             <!-- 'standalone' -->
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -1115,7 +1114,7 @@
       else
         p:parse-Eq($input, $state)
     "/>
-    <xsl:variable name="state" select="p:lookahead1(24, $input, $state)"/>          <!-- '"' | "'" -->
+    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- '"' | "'" -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1123,7 +1122,7 @@
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 20">                                        <!-- "'" -->
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
-          <xsl:variable name="state" select="p:lookahead1(28, $input, $state)"/>    <!-- 'no' | 'yes' -->
+          <xsl:variable name="state" select="p:lookahead1(27, $input, $state)"/>    <!-- 'no' | 'yes' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
@@ -1139,13 +1138,13 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
-          <xsl:variable name="state" select="p:lookahead1(11, $input, $state)"/>    <!-- "'" -->
+          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- "'" -->
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
-          <xsl:variable name="state" select="p:lookahead1(28, $input, $state)"/>    <!-- 'no' | 'yes' -->
+          <xsl:variable name="state" select="p:lookahead1(27, $input, $state)"/>    <!-- 'no' | 'yes' -->
           <xsl:variable name="state" as="item()+">
             <xsl:choose>
               <xsl:when test="$state[$p:error]">
@@ -1161,7 +1160,7 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
-          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- '"' -->
+          <xsl:variable name="state" select="p:lookahead1(9, $input, $state)"/>     <!-- '"' -->
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
@@ -1185,7 +1184,7 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(2, $input, $state)"/>              <!-- S -->
-    <xsl:variable name="state" select="p:lookahead1(18, $input, $state)"/>          <!-- 'encoding' -->
+    <xsl:variable name="state" select="p:lookahead1(17, $input, $state)"/>          <!-- 'encoding' -->
     <xsl:variable name="state" select="p:consume(34, $input, $state)"/>             <!-- 'encoding' -->
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -1193,7 +1192,7 @@
       else
         p:parse-Eq($input, $state)
     "/>
-    <xsl:variable name="state" select="p:lookahead1(24, $input, $state)"/>          <!-- '"' | "'" -->
+    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- '"' | "'" -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1201,17 +1200,17 @@
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 16">                                        <!-- '"' -->
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
-          <xsl:variable name="state" select="p:lookahead1(9, $input, $state)"/>     <!-- EncName -->
+          <xsl:variable name="state" select="p:lookahead1(8, $input, $state)"/>     <!-- EncName -->
           <xsl:variable name="state" select="p:consume(15, $input, $state)"/>       <!-- EncName -->
-          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- '"' -->
+          <xsl:variable name="state" select="p:lookahead1(9, $input, $state)"/>     <!-- '"' -->
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
-          <xsl:variable name="state" select="p:lookahead1(9, $input, $state)"/>     <!-- EncName -->
+          <xsl:variable name="state" select="p:lookahead1(8, $input, $state)"/>     <!-- EncName -->
           <xsl:variable name="state" select="p:consume(15, $input, $state)"/>       <!-- EncName -->
-          <xsl:variable name="state" select="p:lookahead1(11, $input, $state)"/>    <!-- "'" -->
+          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- "'" -->
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
@@ -1234,7 +1233,7 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:lookahead1(21, $input, $state)"/>          <!-- S | '=' -->
+    <xsl:variable name="state" select="p:lookahead1(20, $input, $state)"/>          <!-- S | '=' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1249,9 +1248,9 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(14, $input, $state)"/>          <!-- '=' -->
+    <xsl:variable name="state" select="p:lookahead1(13, $input, $state)"/>          <!-- '=' -->
     <xsl:variable name="state" select="p:consume(29, $input, $state)"/>             <!-- '=' -->
-    <xsl:variable name="state" select="p:lookahead1(29, $input, $state)"/>          <!-- S | '"' | "'" -->
+    <xsl:variable name="state" select="p:lookahead1(28, $input, $state)"/>          <!-- S | '"' | "'" -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1283,9 +1282,8 @@
 
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
-    <xsl:variable name="state" select="p:lookahead1(0, $input, $state)"/>           <!-- S -->
     <xsl:variable name="state" select="p:consume(2, $input, $state)"/>              <!-- S -->
-    <xsl:variable name="state" select="p:lookahead1(20, $input, $state)"/>          <!-- 'version' -->
+    <xsl:variable name="state" select="p:lookahead1(19, $input, $state)"/>          <!-- 'version' -->
     <xsl:variable name="state" select="p:consume(37, $input, $state)"/>             <!-- 'version' -->
     <xsl:variable name="state" select="
       if ($state[$p:error]) then
@@ -1293,7 +1291,7 @@
       else
         p:parse-Eq($input, $state)
     "/>
-    <xsl:variable name="state" select="p:lookahead1(24, $input, $state)"/>          <!-- '"' | "'" -->
+    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- '"' | "'" -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1301,17 +1299,17 @@
         </xsl:when>
         <xsl:when test="$state[$p:l1] = 20">                                        <!-- "'" -->
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
-          <xsl:variable name="state" select="p:lookahead1(6, $input, $state)"/>     <!-- VersionNum -->
+          <xsl:variable name="state" select="p:lookahead1(5, $input, $state)"/>     <!-- VersionNum -->
           <xsl:variable name="state" select="p:consume(12, $input, $state)"/>       <!-- VersionNum -->
-          <xsl:variable name="state" select="p:lookahead1(11, $input, $state)"/>    <!-- "'" -->
+          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- "'" -->
           <xsl:variable name="state" select="p:consume(20, $input, $state)"/>       <!-- "'" -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
-          <xsl:variable name="state" select="p:lookahead1(6, $input, $state)"/>     <!-- VersionNum -->
+          <xsl:variable name="state" select="p:lookahead1(5, $input, $state)"/>     <!-- VersionNum -->
           <xsl:variable name="state" select="p:consume(12, $input, $state)"/>       <!-- VersionNum -->
-          <xsl:variable name="state" select="p:lookahead1(10, $input, $state)"/>    <!-- '"' -->
+          <xsl:variable name="state" select="p:lookahead1(9, $input, $state)"/>     <!-- '"' -->
           <xsl:variable name="state" select="p:consume(16, $input, $state)"/>       <!-- '"' -->
           <xsl:sequence select="$state"/>
         </xsl:otherwise>
@@ -1335,17 +1333,42 @@
     <xsl:variable name="count" select="count($state)"/>
     <xsl:variable name="begin" select="$state[$p:e0]"/>
     <xsl:variable name="state" select="p:consume(28, $input, $state)"/>             <!-- '<?xml' -->
-    <xsl:variable name="state" select="
-      if ($state[$p:error]) then
-        $state
-      else
-        p:parse-VersionInfo($input, $state)
-    "/>
-    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- S | '?>' -->
+    <xsl:variable name="state" select="p:lookahead1(22, $input, $state)"/>          <!-- S | '?>' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:l1] eq 2">                                        <!-- S -->
-          <xsl:variable name="state" select="p:lookahead2(32, $input, $state)"/>    <!-- '?>' | 'encoding' | 'standalone' -->
+          <xsl:variable name="state" select="p:lookahead2(32, $input, $state)"/>    <!-- '?>' | 'encoding' | 'standalone' | 'version' -->
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="$state[$p:l1], subsequence($state, $p:lk + 1)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="state" as="item()+">
+      <xsl:choose>
+        <xsl:when test="$state[$p:error]">
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:when test="$state[$p:lk] = 2370">                                      <!-- S 'version' -->
+          <xsl:variable name="state" select="
+            if ($state[$p:error]) then
+              $state
+            else
+              p:parse-VersionInfo($input, $state)
+          "/>
+          <xsl:sequence select="$state"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="$state"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="state" select="p:lookahead1(22, $input, $state)"/>          <!-- S | '?>' -->
+    <xsl:variable name="state" as="item()+">
+      <xsl:choose>
+        <xsl:when test="$state[$p:l1] eq 2">                                        <!-- S -->
+          <xsl:variable name="state" select="p:lookahead2(31, $input, $state)"/>    <!-- '?>' | 'encoding' | 'standalone' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
@@ -1372,11 +1395,11 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- S | '?>' -->
+    <xsl:variable name="state" select="p:lookahead1(22, $input, $state)"/>          <!-- S | '?>' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:l1] eq 2">                                        <!-- S -->
-          <xsl:variable name="state" select="p:lookahead2(26, $input, $state)"/>    <!-- '?>' | 'standalone' -->
+          <xsl:variable name="state" select="p:lookahead2(25, $input, $state)"/>    <!-- '?>' | 'standalone' -->
           <xsl:sequence select="$state"/>
         </xsl:when>
         <xsl:otherwise>
@@ -1403,7 +1426,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(23, $input, $state)"/>          <!-- S | '?>' -->
+    <xsl:variable name="state" select="p:lookahead1(22, $input, $state)"/>          <!-- S | '?>' -->
     <xsl:variable name="state" as="item()+">
       <xsl:choose>
         <xsl:when test="$state[$p:error]">
@@ -1418,7 +1441,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="state" select="p:lookahead1(16, $input, $state)"/>          <!-- '?>' -->
+    <xsl:variable name="state" select="p:lookahead1(15, $input, $state)"/>          <!-- '?>' -->
     <xsl:variable name="state" select="p:consume(31, $input, $state)"/>             <!-- '?>' -->
     <xsl:variable name="end" select="$state[$p:e0]"/>
     <xsl:sequence select="p:reduce($state, 'XMLDecl', $count, $begin, $end)"/>
