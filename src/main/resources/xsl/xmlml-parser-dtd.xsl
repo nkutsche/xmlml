@@ -588,7 +588,7 @@
 
     <xsl:template match="
             document | extSubsetDecl | markupdecl | DeclSep
-            | contentspec/Mixed | GEDecl | EntityDef | ExternalID | EntityValueDouble | EntityValueSingle
+            | contentspec/Mixed | GEDecl | EntityDef | ExternalID
             | EntityStaticValueDouble | EntityStaticValueSingle | conditionalSect | includeSect | extSubsetDecl
             " mode="mlml:dtd-parse">
         <xsl:apply-templates mode="#current"/>
@@ -729,7 +729,21 @@
             <xsl:apply-templates mode="#current"/>
         </value>
     </xsl:template>
+    
+    <xsl:template match="EntityValueDouble" mode="mlml:dtd-parse">
+        <xsl:variable name="content">
+            <xsl:apply-templates/>
+        </xsl:variable>
+        <xsl:value-of select="replace($content, '&amp;#34;', '&quot;')"/>        
+    </xsl:template>
 
+    <xsl:template match="EntityValueSingle" mode="mlml:dtd-parse">
+        <xsl:variable name="content">
+            <xsl:apply-templates/>
+        </xsl:variable>
+        <xsl:value-of select="replace($content, '&amp;#39;', '''')"/>        
+    </xsl:template>
+    
     <xsl:template match="Reference" mode="mlml:dtd-parse">
         <xsl:value-of select="."/>
     </xsl:template>
