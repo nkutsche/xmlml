@@ -3,7 +3,9 @@
     <element>
         <name>root</name>
         <content>
-            <comment> comment &amp; &lt; &gt; &quot; &apos; </comment>
+            <comment>
+                <data> comment &amp; &lt; &gt; " ' </data>
+            </comment>
         </content>
     </element>
 </document>

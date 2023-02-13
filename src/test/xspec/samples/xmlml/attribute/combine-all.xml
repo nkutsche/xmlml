@@ -8,7 +8,9 @@
             <ws space="3"/>
             <eq/>
             <ws space="3"/>
-            <value>value</value>
+            <value>
+                <data>value</data>
+            </value>
         </attribute>
         <attribute>
             <ws space="6"/>
@@ -16,7 +18,9 @@
             <ws space="3"/>
             <eq/>
             <ws space="3"/>
-            <value quotes="single">value2</value>
+            <value quotes="single">
+                <data>value2</data>
+            </value>
         </attribute>
         <ws space="3"/>
     </element>

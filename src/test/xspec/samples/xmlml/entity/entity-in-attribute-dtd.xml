@@ -4,7 +4,9 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>&lt;!ENTITY ent "entity-value"&gt;</inline>
+        <inline>
+            <data><![CDATA[<!ENTITY ent "entity-value">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
@@ -12,7 +14,14 @@
             <ws space="1"/>
             <name>dtd_ent</name>
             <eq/>
-            <value>ent: <entity name="ent"><text>entity-value</text></entity></value>
+            <value>
+                <data>ent: </data>
+                <entity name="ent">
+                    <text>
+                        <data>entity-value</data>
+                    </text>
+                </entity>
+            </value>
         </attribute>
     </element>
 </document>

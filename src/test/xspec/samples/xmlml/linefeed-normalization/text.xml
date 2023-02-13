@@ -3,7 +3,13 @@
     <element>
         <name>root</name>
         <content>
-            <text><nl/>    <nl/>    <nl/></text>
+            <text>
+                <nl/>
+                <data>    </data>
+                <nl/>
+                <data>    </data>
+                <nl/>
+            </text>
         </content>
     </element>
 </document>

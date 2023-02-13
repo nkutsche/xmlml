@@ -3,7 +3,11 @@
     <element>
         <name>root</name>
         <content>
-            <text><cdata>cdata-section</cdata></text>
+            <text>
+                <cdata-section>
+                    <data>cdata-section</data>
+                </cdata-section>
+            </text>
         </content>
     </element>
 </document>

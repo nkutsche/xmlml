@@ -3,7 +3,20 @@
     <element>
         <name>root</name>
         <content>
-            <text><cdata><nl/>    <nl/>    cdata section <nl/>    with linebreaks<nl/>    <nl/>    </cdata></text>
+            <text>
+                <cdata-section>
+                    <nl/>
+                    <data>    </data>
+                    <nl/>
+                    <data>    cdata section </data>
+                    <nl/>
+                    <data>    with linebreaks</data>
+                    <nl/>
+                    <data>    </data>
+                    <nl/>
+                    <data>    </data>
+                </cdata-section>
+            </text>
         </content>
     </element>
 </document>

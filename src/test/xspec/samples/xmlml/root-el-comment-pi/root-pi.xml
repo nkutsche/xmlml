@@ -3,7 +3,9 @@
     <pi>
         <name>pi</name>
         <ws space="1"/>
-        <value>value</value>
+        <value>
+            <data>value</data>
+        </value>
     </pi>
     <ws space="15"/>
     <element>

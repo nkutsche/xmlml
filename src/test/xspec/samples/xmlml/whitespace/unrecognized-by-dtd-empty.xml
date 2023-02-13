@@ -12,27 +12,25 @@
         <ws space="1"/>
         <name>src</name>
         <ws space="1"/>
-        <inline><![CDATA[<!ELEMENT src (src-e*)><!ELEMENT src-e EMPTY>]]></inline>
+        <inline>
+            <data><![CDATA[<!ELEMENT src (src-e*)><!ELEMENT src-e EMPTY>]]></data>
+        </inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>
         <name>src</name>
         <content>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <element collapsed="true">
                 <name>src-e</name>
             </element>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <element>
                 <name>src-e</name>
                 <content>
-                    <text>     </text>
+                    <text>
+                        <data>     </data>
+                    </text>
                 </content>
             </element>
             <ws nl="1"/>

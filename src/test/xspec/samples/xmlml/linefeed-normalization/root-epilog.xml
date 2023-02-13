@@ -6,12 +6,16 @@
     <ws nl="2"/>
     <pi>
         <name>pi</name>
-        <ws>
-            <space/>
-            <nl amount="4"/>
-        </ws>
+        <ws> <space/> <nl amount="4"/> </ws>
     </pi>
     <ws nl="2"/>
-    <comment> <nl/>    linebreaks<nl/>    outside root element<nl/></comment>
+    <comment>
+        <data> </data>
+        <nl/>
+        <data>    linebreaks</data>
+        <nl/>
+        <data>    outside root element</data>
+        <nl/>
+    </comment>
     <ws nl="1"/>
 </document>

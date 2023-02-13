@@ -3,7 +3,13 @@
     <element>
         <name>root</name>
         <content>
-            <comment><nl/>    <nl/>    foo               <nl amount="3"/></comment>
+            <comment>
+                <nl/>
+                <data>    </data>
+                <nl/>
+                <data>    foo               </data>
+                <nl amount="3"/>
+            </comment>
         </content>
     </element>
 </document>

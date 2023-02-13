@@ -17,7 +17,11 @@
                 <nl/>
                 <space amount="4"/>
             </ws>
-            <value>line<nl/>    break</value>
+            <value>
+                <data>line</data>
+                <nl/>
+                <data>    break</data>
+            </value>
         </attribute>
         <attribute>
             <ws>
@@ -34,7 +38,13 @@
                 <nl/>
                 <space amount="4"/>
             </ws>
-            <value>other<nl/>    linebreak<nl/>    </value>
+            <value>
+                <data>other</data>
+                <nl/>
+                <data>    linebreak</data>
+                <nl/>
+                <data>    </data>
+            </value>
         </attribute>
         <ws>
             <nl/>

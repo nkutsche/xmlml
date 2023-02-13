@@ -4,7 +4,11 @@
         <ws space="1"/>
         <name>from</name>
         <ws space="1"/>
-        <inline><nl/>&lt;!ENTITY ent "bar"&gt;<nl/></inline>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ENTITY ent "bar">]]></data>
+            <nl/>
+        </inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>
@@ -13,19 +17,33 @@
             <ws space="1"/>
             <name>foo</name>
             <eq/>
-            <value><entity name="ent"><text>bar</text></entity></value>
+            <value>
+                <entity name="ent">
+                    <text>
+                        <data>bar</data>
+                    </text>
+                </entity>
+            </value>
         </attribute>
         <attribute>
             <ws space="1"/>
             <name>bar</name>
             <eq/>
-            <value><entity name="lt"><text>&lt;</text></entity></value>
+            <value>
+                <entity name="lt">
+                    <text>
+                        <data>&lt;</data>
+                    </text>
+                </entity>
+            </value>
         </attribute>
         <attribute>
             <ws space="1"/>
             <name>baz</name>
             <eq/>
-            <value><entity codepoint="10"/></value>
+            <value>
+                <entity codepoint="10"/>
+            </value>
         </attribute>
     </element>
 </document>

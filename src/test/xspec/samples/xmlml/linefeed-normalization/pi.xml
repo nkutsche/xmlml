@@ -5,11 +5,12 @@
         <content>
             <pi>
                 <name>pi</name>
-                <ws>
+                <ws> <nl/> <space amount="8"/> </ws>
+                <value>
+                    <data>value</data>
                     <nl/>
-                    <space amount="8"/>
-                </ws>
-                <value>value<nl/>        </value>
+                    <data>        </data>
+                </value>
             </pi>
         </content>
     </element>

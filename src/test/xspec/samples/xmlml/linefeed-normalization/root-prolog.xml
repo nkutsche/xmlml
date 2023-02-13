@@ -5,7 +5,15 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-<inline><nl amount="2"/>&lt;!ELEMENT root EMPTY &gt;<nl amount="2"/>&lt;!ENTITY ent "line<nl/>break"&gt;<nl amount="2"/></inline>
+        <inline>
+            <nl amount="2"/>
+            <data><![CDATA[<!ELEMENT root EMPTY >]]></data>
+            <nl amount="2"/>
+            <data><![CDATA[<!ENTITY ent "line]]></data>
+            <nl/>
+            <data><![CDATA[break">]]></data>
+            <nl amount="2"/>
+        </inline>
     </doc-type-decl>
     <ws nl="2"/>
     <pi>
@@ -13,7 +21,14 @@
         <ws> <space/> <nl amount="4"/> </ws>
     </pi>
     <ws nl="2"/>
-    <comment> <nl/>    linebreaks<nl/>    outside root element<nl/></comment>
+    <comment>
+        <data> </data>
+        <nl/>
+        <data>    linebreaks</data>
+        <nl/>
+        <data>    outside root element</data>
+        <nl/>
+    </comment>
     <ws nl="4"/>
     <element>
         <name>root</name>

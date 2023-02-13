@@ -3,7 +3,9 @@
     <element>
         <name>root</name>
         <content>
-            <comment> comment trivial </comment>
+            <comment>
+                <data> comment trivial </data>
+            </comment>
         </content>
     </element>
 </document>

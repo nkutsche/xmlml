@@ -5,7 +5,9 @@
         <ws space="1"/>
         <name>doc</name>
         <ws space="1"/>
-        <inline><![CDATA[<!ENTITY ln "&#xA;">]]></inline>
+        <inline>
+            <data><![CDATA[<!ENTITY ln "&#xA;">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
@@ -13,7 +15,13 @@
             <ws space="1"/>
             <name>a</name>
             <eq/>
-            <value><entity name="ln"><text><entity codepoint="xA"/></text></entity></value>
+            <value>
+                <entity name="ln">
+                    <text>
+                        <entity codepoint="xA"/>
+                    </text>
+                </entity>
+            </value>
         </attribute>
     </element>
 </document>

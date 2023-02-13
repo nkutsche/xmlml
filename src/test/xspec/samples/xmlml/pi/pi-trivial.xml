@@ -6,7 +6,9 @@
             <pi>
                 <name>pi</name>
                 <ws space="1"/>
-                <value>value</value>
+                <value>
+                    <data>value</data>
+                </value>
             </pi>
         </content>
     </element>

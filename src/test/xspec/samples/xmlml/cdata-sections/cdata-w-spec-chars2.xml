@@ -3,7 +3,11 @@
     <element>
         <name>doc</name>
         <content>
-            <text><cdata>&lt;&amp;]&gt;]</cdata></text>
+            <text>
+                <cdata-section>
+                    <data>&lt;&amp;]&gt;]</data>
+                </cdata-section>
+            </text>
         </content>
     </element>
 </document>

@@ -6,13 +6,17 @@
             <ws space="6"/>
             <name>attribute</name>
             <eq/>
-            <value>value</value>
+            <value>
+                <data>value</data>
+            </value>
         </attribute>
         <attribute>
             <ws space="6"/>
             <name>attribute2</name>
             <eq/>
-            <value>value2</value>
+            <value>
+                <data>value2</data>
+            </value>
         </attribute>
     </element>
 </document>

@@ -3,10 +3,12 @@
     <element xmlns:ns="namespace.com">
         <name>ns:root</name>
         <namespace>
-            <ws space="1"></ws>
+            <ws space="1"/>
             <name>ns</name>
             <eq/>
-            <value>namespace.com</value>
+            <value>
+                <data>namespace.com</data>
+            </value>
         </namespace>
     </element>
 </document>

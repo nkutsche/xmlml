@@ -6,7 +6,34 @@
             <ws space="1"/>
             <name>pre_dev</name>
             <eq/>
-            <value>predef entities: <entity name="lt"><text>&lt;</text></entity><entity name="gt"><text>&gt;</text></entity><entity name="quot"><text>&quot;</text></entity><entity name="amp"><text>&amp;</text></entity><entity name="apos"><text>&apos;</text></entity></value>
+            <value>
+                <data>predef entities: </data>
+                <entity name="lt">
+                    <text>
+                        <data>&lt;</data>
+                    </text>
+                </entity>
+                <entity name="gt">
+                    <text>
+                        <data>&gt;</data>
+                    </text>
+                </entity>
+                <entity name="quot">
+                    <text>
+                        <data>"</data>
+                    </text>
+                </entity>
+                <entity name="amp">
+                    <text>
+                        <data>&amp;</data>
+                    </text>
+                </entity>
+                <entity name="apos">
+                    <text>
+                        <data>'</data>
+                    </text>
+                </entity>
+            </value>
         </attribute>
     </element>
 </document>

@@ -4,7 +4,7 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline><nl/><![CDATA[<!ELEMENT root EMPTY>]]><nl/><![CDATA[<!ATTLIST root cdata-def CDATA "   de  fau  lt   ">]]><nl/><![CDATA[<!ATTLIST root cdata CDATA #IMPLIED>]]><nl/><![CDATA[<!ATTLIST root id ID #REQUIRED>]]><nl/><![CDATA[<!ATTLIST root idref-def IDREF "     default     ">]]><nl/><![CDATA[<!ATTLIST root idref IDREF #IMPLIED>]]><nl/><![CDATA[<!ATTLIST root idrefs-def IDREFS "   de  fau  lt   ">]]><nl/><![CDATA[<!ATTLIST root idrefs IDREFS #IMPLIED>]]><nl/><![CDATA[<!ATTLIST root nmtoken-def NMTOKEN "     default     ">]]><nl/><![CDATA[<!ATTLIST root nmtoken NMTOKEN #IMPLIED>]]><nl/><![CDATA[<!ATTLIST root nmtokens-def NMTOKENS "   de  fau  lt   ">]]><nl/><![CDATA[<!ATTLIST root nmtokens NMTOKENS #IMPLIED>]]><nl/></inline>
+        <inline><nl/><data><![CDATA[<!ELEMENT root EMPTY>]]></data><nl/><data><![CDATA[<!ATTLIST root cdata-def CDATA "   de  fau  lt   ">]]></data><nl/><data><![CDATA[<!ATTLIST root cdata CDATA #IMPLIED>]]></data><nl/><data><![CDATA[<!ATTLIST root id ID #REQUIRED>]]></data><nl/><data><![CDATA[<!ATTLIST root idref-def IDREF "     default     ">]]></data><nl/><data><![CDATA[<!ATTLIST root idref IDREF #IMPLIED>]]></data><nl/><data><![CDATA[<!ATTLIST root idrefs-def IDREFS "   de  fau  lt   ">]]></data><nl/><data><![CDATA[<!ATTLIST root idrefs IDREFS #IMPLIED>]]></data><nl/><data><![CDATA[<!ATTLIST root nmtoken-def NMTOKEN "     default     ">]]></data><nl/><data><![CDATA[<!ATTLIST root nmtoken NMTOKEN #IMPLIED>]]></data><nl/><data><![CDATA[<!ATTLIST root nmtokens-def NMTOKENS "   de  fau  lt   ">]]></data><nl/><data><![CDATA[<!ATTLIST root nmtokens NMTOKENS #IMPLIED>]]></data><nl/></inline>
     </doc-type-decl>
     <element>
         <name>root</name>
@@ -12,37 +12,37 @@
             <ws space="1"/>
             <name>cdata-def</name>
             <eq/>
-            <value>   de  fau  lt   </value>
+            <value><data>   de  fau  lt   </data></value>
         </attribute>
         <attribute default="true" type="IDREF">
             <ws space="1"/>
             <name>idref-def</name>
             <eq/>
-            <value>     default     </value>
+            <value><data>     default     </data></value>
         </attribute>
         <attribute default="true" type="IDREFS">
             <ws space="1"/>
             <name>idrefs-def</name>
             <eq/>
-            <value>   de  fau  lt   </value>
+            <value><data>   de  fau  lt   </data></value>
         </attribute>
         <attribute default="true" type="NMTOKEN">
             <ws space="1"/>
             <name>nmtoken-def</name>
             <eq/>
-            <value>     default     </value>
+            <value><data>     default     </data></value>
         </attribute>
         <attribute default="true" type="NMTOKENS">
             <ws space="1"/>
             <name>nmtokens-def</name>
             <eq/>
-            <value>   de  fau  lt   </value>
+            <value><data>   de  fau  lt   </data></value>
         </attribute>
         <attribute type="CDATA">
             <ws space="1"/>
             <name>cdata</name>
             <eq/>
-            <value>  spe  ci  fic   </value>
+            <value><data>  spe  ci  fic   </data></value>
         </attribute>
         <attribute type="ID">
             <ws>
@@ -51,7 +51,7 @@
             </ws>
             <name>id</name>
             <eq></eq>
-            <value>   specific   </value>
+            <value><data>   specific   </data></value>
         </attribute>
         <attribute type="IDREF">
             <ws>
@@ -60,7 +60,7 @@
             </ws>
             <name>idref</name>
             <eq></eq>
-            <value>   specific   </value>
+            <value><data>   specific   </data></value>
         </attribute>
         <attribute type="IDREFS">
             <ws>
@@ -69,7 +69,7 @@
             </ws>
             <name>idrefs</name>
             <eq></eq>
-            <value>   spe   ci   fic   </value>
+            <value><data>   spe   ci   fic   </data></value>
         </attribute>
         <attribute type="NMTOKEN">
             <ws>
@@ -78,7 +78,7 @@
             </ws>
             <name>nmtoken</name>
             <eq></eq>
-            <value>   specific   </value>
+            <value><data>   specific   </data></value>
         </attribute>
         <attribute type="NMTOKENS">
             <ws>
@@ -87,7 +87,7 @@
             </ws>
             <name>nmtokens</name>
             <eq></eq>
-            <value>   spe   ci   fic   </value>
+            <value><data>   spe   ci   fic   </data></value>
         </attribute>
         <ws>
             <nl/>

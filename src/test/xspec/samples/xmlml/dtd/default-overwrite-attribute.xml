@@ -4,7 +4,9 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>&lt;!ELEMENT root EMPTY&gt;&lt;!ATTLIST root attribute CDATA "default-value"&gt;</inline>
+        <inline>
+            <data><![CDATA[<!ELEMENT root EMPTY><!ATTLIST root attribute CDATA "default-value">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
@@ -12,7 +14,9 @@
             <ws space="1"/>
             <name>attribute</name>
             <eq/>
-            <value>overwrite</value>
+            <value>
+                <data>overwrite</data>
+            </value>
         </attribute>
     </element>
 </document>

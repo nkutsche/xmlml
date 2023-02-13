@@ -9,16 +9,20 @@
             <value/>
         </attribute>
         <namespace>
-            <ws space="1"></ws>
+            <ws space="1"/>
             <name>ns</name>
             <eq/>
-            <value>namespace.com</value>
+            <value>
+                <data>namespace.com</data>
+            </value>
         </namespace>
         <attribute>
             <ws space="1"/>
             <name>ns:attribute</name>
             <eq/>
-            <value>value</value>
+            <value>
+                <data>value</data>
+            </value>
         </attribute>
     </element>
 </document>

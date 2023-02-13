@@ -5,13 +5,17 @@
             <ws space="1"/>
             <name/>
             <eq/>
-            <value quotes="single">1.0</value>
+            <value quotes="single">
+                <data>1.0</data>
+            </value>
         </version>
         <encoding>
             <ws space="1"/>
             <name/>
             <eq/>
-            <value quotes="single">UTF-8</value>
+            <value quotes="single">
+                <data>UTF-8</data>
+            </value>
         </encoding>
     </xml-decl>
     <element>

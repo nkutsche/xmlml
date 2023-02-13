@@ -3,42 +3,32 @@
     <element>
         <name>root</name>
         <attribute>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <name>attribute</name>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <eq/>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
-            <value>line<entity codepoint="xA"/>break</value>
+            <ws> <nl/> <space amount="4"/> </ws>
+            <value>
+                <data>line</data>
+                <entity codepoint="xA"/>
+                <data>break</data>
+            </value>
         </attribute>
         <attribute>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <name>attribute2</name>
-            <ws>
-                <nl/>
-                <space amount="4"/>
-            </ws>
+            <ws> <nl/> <space amount="4"/> </ws>
             <eq/>
-            <ws>
+            <ws> <nl/> <space amount="4"/> </ws>
+            <value>
+                <data>other</data>
+                <entity codepoint="xD"/>
+                <entity codepoint="xA"/>
+                <data>linebreak</data>
                 <nl/>
-                <space amount="4"/>
-            </ws>
-            <value>other<entity codepoint="xD"/><entity codepoint="xA"/>linebreak<nl/>    </value>
+                <data>    </data>
+            </value>
         </attribute>
-        <ws>
-            <nl/>
-            <space amount="4"/>
-        </ws>
+        <ws> <nl/> <space amount="4"/> </ws>
     </element>
 </document>

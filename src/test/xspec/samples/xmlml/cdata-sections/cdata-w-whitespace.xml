@@ -3,7 +3,12 @@
     <element>
         <name>root</name>
         <content>
-            <text><cdata><nl amount="4"/>cdata-section             </cdata></text>
+            <text>
+                <cdata-section>
+                    <nl amount="4"/>
+                    <data>cdata-section             </data>
+                </cdata-section>
+            </text>
         </content>
     </element>
 </document>

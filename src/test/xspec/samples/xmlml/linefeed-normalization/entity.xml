@@ -4,12 +4,24 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>&lt;!ENTITY ent "line<nl/>break"&gt;</inline>
+        <inline>
+            <data><![CDATA[<!ENTITY ent "line]]></data>
+            <nl/>
+            <data><![CDATA[break">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
         <content>
-            <text><entity name="ent"><text>line<nl/>break</text></entity></text>
+            <text>
+                <entity name="ent">
+                    <text>
+                        <data>line</data>
+                        <nl/>
+                        <data>break</data>
+                    </text>
+                </entity>
+            </text>
         </content>
     </element>
 </document>

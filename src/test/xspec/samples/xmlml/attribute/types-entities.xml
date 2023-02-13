@@ -12,7 +12,17 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline><nl/><![CDATA[<!ELEMENT root EMPTY>]]><nl/><![CDATA[<!NOTATION ndata SYSTEM "file:/null">]]><nl/><![CDATA[<!ENTITY unparsed-entity PUBLIC "-//some public//ID" "file:/null" NDATA ndata>]]><nl/><![CDATA[<!ATTLIST root unparsed-entity ENTITIES #IMPLIED>]]><nl/></inline>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ELEMENT root EMPTY>]]></data>
+            <nl/>
+            <data><![CDATA[<!NOTATION ndata SYSTEM "file:/null">]]></data>
+            <nl/>
+            <data><![CDATA[<!ENTITY unparsed-entity PUBLIC "-//some public//ID" "file:/null" NDATA ndata>]]></data>
+            <nl/>
+            <data><![CDATA[<!ATTLIST root unparsed-entity ENTITIES #IMPLIED>]]></data>
+            <nl/>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
@@ -20,7 +30,9 @@
             <ws space="1"/>
             <name>unparsed-entity</name>
             <eq/>
-            <value>    unparsed-entity  unparsed-entity  </value>
+            <value>
+                <data>    unparsed-entity  unparsed-entity  </data>
+            </value>
         </attribute>
     </element>
 </document>

@@ -6,7 +6,12 @@
             <ws space="1"/>
             <name>charcter_ent</name>
             <eq/>
-            <value>e: <entity codepoint="x65"/> <entity codepoint="101"/></value>
+            <value>
+                <data>e: </data>
+                <entity codepoint="x65"/>
+                <data> </data>
+                <entity codepoint="101"/>
+            </value>
         </attribute>
     </element>
 </document>

@@ -5,25 +5,33 @@
             <ws space="1"/>
             <name/>
             <eq/>
-            <value>1.0</value>
+            <value>
+                <data>1.0</data>
+            </value>
         </version>
         <encoding>
             <ws space="1"/>
             <name/>
             <eq/>
-            <value>ISO-8859-1</value>
+            <value>
+                <data>ISO-8859-1</data>
+            </value>
         </encoding>
         <standalone>
             <ws space="1"/>
             <name/>
             <eq/>
-            <value>yes</value>
+            <value>
+                <data>yes</data>
+            </value>
         </standalone>
     </xml-decl>
     <element>
         <name>root</name>
         <content>
-            <text>äß~</text>
+            <text>
+                <data>äß~</data>
+            </text>
         </content>
     </element>
 </document>

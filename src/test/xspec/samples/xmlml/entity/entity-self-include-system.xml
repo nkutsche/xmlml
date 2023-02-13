@@ -4,7 +4,13 @@
         <ws space="1"/>
         <name>doc</name>
         <ws space="1"/>
-        <inline><nl/>&lt;!ENTITY e SYSTEM &quot;entity-self-include-system.xml&quot;&gt;<nl/>&lt;!ELEMENT doc (#PCDATA)&gt;<nl/></inline>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ENTITY e SYSTEM "entity-self-include-system.xml">]]></data>
+            <nl/>
+            <data><![CDATA[<!ELEMENT doc (#PCDATA)>]]></data>
+            <nl/>
+        </inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>

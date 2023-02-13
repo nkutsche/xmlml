@@ -3,7 +3,17 @@
     <element>
         <name>root</name>
         <content>
-            <text>before<cdata>cdata-section</cdata>between<cdata>cdata-section</cdata>after</text>
+            <text>
+                <data>before</data>
+                <cdata-section>
+                    <data>cdata-section</data>
+                </cdata-section>
+                <data>between</data>
+                <cdata-section>
+                    <data>cdata-section</data>
+                </cdata-section>
+                <data>after</data>
+            </text>
         </content>
     </element>
 </document>

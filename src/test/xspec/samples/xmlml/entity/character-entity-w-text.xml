@@ -3,7 +3,11 @@
     <element>
         <name>root</name>
         <content>
-            <text>text1<entity codepoint="x65"/>text2</text>
+            <text>
+                <data>text1</data>
+                <entity codepoint="x65"/>
+                <data>text2</data>
+            </text>
         </content>
     </element>
 </document>

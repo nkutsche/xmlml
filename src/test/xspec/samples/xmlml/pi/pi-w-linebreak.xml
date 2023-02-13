@@ -6,7 +6,10 @@
             <pi>
                 <name>pi</name>
                 <ws nl="1"/>
-                <value>value                     <nl amount="3"/></value>
+                <value>
+                    <data>value                     </data>
+                    <nl amount="3"/>
+                </value>
             </pi>
         </content>
     </element>

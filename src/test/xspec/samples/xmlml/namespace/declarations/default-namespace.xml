@@ -3,10 +3,12 @@
     <element element-default-namespace="default-namespace.com">
         <name>root</name>
         <namespace>
-            <ws space="1"></ws>
+            <ws space="1"/>
             <name/>
             <eq/>
-            <value>default-namespace.com</value>
+            <value>
+                <data>default-namespace.com</data>
+            </value>
         </namespace>
     </element>
 </document>

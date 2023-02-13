@@ -6,13 +6,20 @@
             <ws space="1"/>
             <name>tab-char</name>
             <eq/>
-            <value>foo		bar</value>
+            <value>
+                <data>foo		bar</data>
+            </value>
         </attribute>
         <attribute>
             <ws space="1"/>
             <name>tab-entity</name>
             <eq/>
-            <value>foo<entity codepoint="x9"/><entity codepoint="x9"/>bar</value>
+            <value>
+                <data>foo</data>
+                <entity codepoint="x9"/>
+                <entity codepoint="x9"/>
+                <data>bar</data>
+            </value>
         </attribute>
     </element>
 </document>

@@ -3,7 +3,17 @@
     <element>
         <name>root</name>
         <content>
-            <comment> <nl/>    comment<nl/>    with<nl/>    line breaks<nl/>    </comment>
+            <comment>
+                <data> </data>
+                <nl/>
+                <data>    comment</data>
+                <nl/>
+                <data>    with</data>
+                <nl/>
+                <data>    line breaks</data>
+                <nl/>
+                <data>    </data>
+            </comment>
         </content>
     </element>
 </document>

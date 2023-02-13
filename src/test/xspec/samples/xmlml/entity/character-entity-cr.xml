@@ -4,12 +4,27 @@
         <ws space="1"/>
         <name>doc</name>
         <ws space="1"/>
-        <inline>&lt;!ENTITY ln "<nl/>"&gt;&lt;!ENTITY lne "&amp;#13;"&gt;</inline>
+        <inline>
+            <data><![CDATA[<!ENTITY ln "]]></data>
+            <nl/>
+            <data><![CDATA["><!ENTITY lne "&#13;">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
         <content>
-            <text><entity name="ln"><text><nl/></text></entity><entity name="lne"><text><entity codepoint="13"></entity></text></entity></text>
+            <text>
+                <entity name="ln">
+                    <text>
+                        <nl/>
+                    </text>
+                </entity>
+                <entity name="lne">
+                    <text>
+                        <entity codepoint="13"/>
+                    </text>
+                </entity>
+            </text>
         </content>
     </element>
 </document>

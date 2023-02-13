@@ -6,7 +6,9 @@
             <element>
                 <name>text</name>
                 <content>
-                    <text>òòòòò</text>
+                    <text>
+                        <data>òòòòò</data>
+                    </text>
                 </content>
             </element>
             <element>
@@ -15,7 +17,9 @@
                     <ws space="1"/>
                     <name>a</name>
                     <eq/>
-                    <value>b</value>
+                    <value>
+                        <data>b</data>
+                    </value>
                 </attribute>
             </element>
         </content>

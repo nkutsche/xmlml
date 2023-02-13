@@ -4,12 +4,34 @@
         <ws space="1"/>
         <name>root</name>
         <ws space="1"/>
-        <inline>&lt;!ENTITY foo "foo"&gt;&lt;!ENTITY bar "bar"&gt;&lt;!ENTITY foobar "&amp;foo;-&amp;bar;"&gt;</inline>
+        <inline>
+            <data><![CDATA[<!ENTITY foo "foo"><!ENTITY bar "bar"><!ENTITY foobar "&foo;-&bar;">]]></data>
+        </inline>
     </doc-type-decl>
     <element>
         <name>root</name>
         <content>
-            <text><entity name="foobar"><text><entity name="foo"><text>foo</text></entity></text><text>-</text><text><entity name="bar"><text>bar</text></entity></text></entity></text>
+            <text>
+                <entity name="foobar">
+                    <text>
+                        <entity name="foo">
+                            <text>
+                                <data>foo</data>
+                            </text>
+                        </entity>
+                    </text>
+                    <text>
+                        <data>-</data>
+                    </text>
+                    <text>
+                        <entity name="bar">
+                            <text>
+                                <data>bar</data>
+                            </text>
+                        </entity>
+                    </text>
+                </entity>
+            </text>
         </content>
     </element>
 </document>

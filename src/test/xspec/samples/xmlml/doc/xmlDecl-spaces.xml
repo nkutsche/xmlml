@@ -7,7 +7,9 @@
             <ws nl="1"/>
             <eq/>
             <ws nl="1"/>
-            <value>1.0</value>
+            <value>
+                <data>1.0</data>
+            </value>
         </version>
         <encoding>
             <ws space="1"/>
@@ -15,7 +17,9 @@
             <ws space="2"/>
             <eq/>
             <ws space="2"/>
-            <value>UTF-8</value>
+            <value>
+                <data>UTF-8</data>
+            </value>
         </encoding>
     </xml-decl>
     <element>

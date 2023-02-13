@@ -6,7 +6,9 @@
         <ws space="1"/>
         <system>
             <ws space="1"/>
-            <value>doctype.dtd</value>
+            <value>
+                <data>doctype.dtd</data>
+            </value>
         </system>
     </doc-type-decl>
     <element>

@@ -6,7 +6,9 @@
             <ws space="6"/>
             <name>attribute</name>
             <eq/>
-            <value>value</value>
+            <value>
+                <data>value</data>
+            </value>
         </attribute>
     </element>
 </document>

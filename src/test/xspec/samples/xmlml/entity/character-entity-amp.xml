@@ -3,7 +3,14 @@
     <element>
         <name>root</name>
         <content>
-            <text>amp:<entity name="amp"><text>&amp;</text></entity></text>
+            <text>
+                <data>amp:</data>
+                <entity name="amp">
+                    <text>
+                        <data>&amp;</data>
+                    </text>
+                </entity>
+            </text>
         </content>
     </element>
 </document>
