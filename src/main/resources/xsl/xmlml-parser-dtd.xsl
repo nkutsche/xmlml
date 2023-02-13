@@ -589,6 +589,10 @@
         </content>
     </xsl:template>
 
+    <xsl:template match="contentspec[TOKEN = 'ANY']" mode="mlml:dtd-parse">
+        <content any="true"/>
+    </xsl:template>
+
     <xsl:template match="contentspec" mode="mlml:dtd-parse">
         <content>
             <xsl:apply-templates mode="#current"/>
