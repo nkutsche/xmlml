@@ -102,6 +102,25 @@
             </x:variable>
             <x:like label="generic-dtd-test"/>
         </x:scenario>
+
+        <x:scenario label="Duplicate Parameter Entity">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ENTITY % foo "baz">
+                    <!ELEMENT %foo; EMPTY>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % foo "bar">
+                    <!ENTITY % foo "baz">
+                    <!ELEMENT bar EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        
         <x:scenario label="Parameter Entity as value">
             <x:variable name="src-dtd">
                 <![CDATA[
@@ -285,6 +304,60 @@
             <x:like label="generic-dtd-test"/>
         </x:scenario>
 
+        <x:scenario label="Percents in attribute values are ignored">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ATTLIST root a CDATA #FIXED "%not-pe;">
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ATTLIST root a CDATA #FIXED "%not-pe;">
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Percents in PublicIDs are ignored">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ENTITY % e PUBLIC "%not-pe;" "foo.ent">
+                    %e;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ENTITY % e PUBLIC "%not-pe;" "http://www.nkutsche.com/xmlml/foo.ent">
+                    <!ELEMENT foo EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
+        <x:scenario label="Percents in PublicIDs are ignored (more complex)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ENTITY % publ "PUBLIC">
+                    <!ENTITY % e %publ; "%not-pe;" "foo.ent">
+                    %e;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ELEMENT root EMPTY>
+                    <!ENTITY % publ "PUBLIC">
+                    <!ENTITY % e PUBLIC "%not-pe;" "http://www.nkutsche.com/xmlml/foo.ent">
+                    <!ELEMENT foo EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+
         <x:scenario label="Insert space before and after PE reference">
             <x:variable name="src-dtd">
                 <![CDATA[
@@ -303,6 +376,26 @@
             <x:like label="generic-dtd-test"/>
         </x:scenario>
 
+        <x:scenario label="Insert space before and after PE reference (2)">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ELEMENT doc (#PCDATA)>
+                    <!ENTITY % e1 "'v1'">
+                    <!ENTITY % e2 "a1 CDATA %e1;">
+                    <!ATTLIST doc %e2;>
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ELEMENT doc (#PCDATA)>
+                    <!ENTITY % e1 "'v1'">
+                    <!ENTITY % e2 "a1 CDATA 'v1'">
+                    <!ATTLIST doc a1 CDATA 'v1' >
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        
         <x:scenario label="Quotes may need to be escaped, if they are inserted by">
             
             <x:scenario label="a character entity (double quote)">
@@ -379,6 +472,163 @@
             </x:scenario>
             
         </x:scenario>
+        <x:scenario label="Quotes may need to be unescaped, if they are inserted by a parameter entity">
+            
+            <x:scenario label="with a quoted value only">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY % value "%q;value%q;">
+                        <!ENTITY e %value;> 
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY % value "&#34;value&#34;">
+                        <!ENTITY e "value" > 
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+
+            <x:scenario label="as full declaration">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY % e2 "<!ATTLIST e a CDATA %q;value%q;>">
+                        %e2;
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % q '"'>
+                        <!ENTITY % e2 "<!ATTLIST e a CDATA &#34;value&#34;>">
+                        <!ATTLIST e a CDATA "value">
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+
+            <x:scenario label="multiple samples">
+                
+                <x:scenario label="multiple samples">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % q '"'>
+                            <!ENTITY % e2 "<!ATTLIST doc a2 CDATA #FIXED %q;value%q;>">
+                            %e2;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % q '"'>
+                            <!ENTITY % e2 "<!ATTLIST doc a2 CDATA #FIXED &#34;value&#34;>">
+                            <!ATTLIST doc a2 CDATA #FIXED "value">
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+                <x:scenario label="decimal character entity are resolved">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % e3 "<!ATTLIST doc a3 CDATA #FIXED &#34;value&#34;>">
+                            %e3;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % e3 "<!ATTLIST doc a3 CDATA #FIXED &#34;value&#34;>">
+                            <!ATTLIST doc a3 CDATA #FIXED "value">
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+                <x:scenario label="hexadecimal character entity are resolved">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % e4 "<!ATTLIST doc a4 CDATA #FIXED &#x22;value&#x22;>">
+                            %e4;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % e4 "<!ATTLIST doc a4 CDATA #FIXED &#34;value&#34;>">
+                            <!ATTLIST doc a4 CDATA #FIXED "value">
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+                <x:scenario label="useless escaped character entities are resolved">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % e5 '<!ATTLIST doc a5 CDATA #FIXED &#39;value&#39;>'>
+                            %e5;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % e5 '<!ATTLIST doc a5 CDATA #FIXED &#39;value&#39;>'>
+                            <!ATTLIST doc a5 CDATA #FIXED 'value'>
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+                <x:scenario label="ampercent are not resolved">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % e6 '<!ATTLIST doc a6 CDATA #FIXED &#39;value&amp;#39;&#39;>'>
+                            %e6;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % e6 '<!ATTLIST doc a6 CDATA #FIXED &#39;value&amp;#39;&#39;>'>
+                            <!ATTLIST doc a6 CDATA #FIXED 'value&amp;#39;'>
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+                <x:scenario label="named (predefined or not) entities are not resolved">
+                    <x:variable name="src-dtd">
+                        <![CDATA[
+                            <!ENTITY % e7 '<!ATTLIST doc a7 CDATA #FIXED &#39;value&apos;&#39;>'>
+                            %e7;
+                        ]]>
+                    </x:variable>
+                    <x:variable name="resolved-dtd">
+                        <![CDATA[
+                            <!ENTITY % e7 '<!ATTLIST doc a7 CDATA #FIXED &#39;value&apos;&#39;>'>
+                            <!ATTLIST doc a7 CDATA #FIXED 'value&apos;'>
+                        ]]>
+                    </x:variable>
+                    <x:like label="generic-dtd-test"/>
+                </x:scenario>
+
+                
+            </x:scenario>
+
+            
+        </x:scenario>
+        <x:scenario label="no change for linebreaks">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY ln "
+">
+<!ENTITY lne "&#13;">
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY ln "
+">
+<!ENTITY lne "&#13;">
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        
+    </x:scenario>
         
     </x:scenario>
     
