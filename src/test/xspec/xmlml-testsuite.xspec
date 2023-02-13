@@ -188,7 +188,7 @@
             <x:variable name="path" select="'doc/xmlDecl-dtdDecl.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
-        <x:scenario label="Test: doc/xmlDecl-encoding-8859-1.xml" pending="endcoding issue!">
+        <x:scenario label="Test: doc/xmlDecl-encoding-8859-1.xml">
             <x:variable name="path" select="'doc/xmlDecl-encoding-8859-1.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
