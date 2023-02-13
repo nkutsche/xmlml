@@ -5,17 +5,10 @@
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:mlml="http://www.nkutsche.com/xmlml"
     xmlns:dtdml="http://www.nkutsche.com/dtdml"
-    xmlns:err="http://www.w3.org/2005/xqt-errors"
     exclude-result-prefixes="xs math xd"
     version="3.0">
-    <!--<xd:doc scope="stylesheet">
-        <xd:desc>
-            <xd:p><xd:b>Created on:</xd:b> Nov 11, 2022</xd:p>
-            <xd:p><xd:b>Author:</xd:b> Nico</xd:p>
-            <xd:p></xd:p>
-        </xd:desc>
-    </xd:doc>-->
     <xsl:import href="http://www.nkutsche.com/xmlml/xmlml-main.xsl"/>
+    <xsl:import href="../../resources/xsl/helper.xsl"/>
     
     <xsl:function name="mlml:parse-and-serialize" as="xs:string">
         <xsl:param name="src" as="xs:string"/>
@@ -51,31 +44,7 @@
         
     </xsl:function>
 
-    <xsl:function name="mlml:try-catch">
-        <xsl:param name="do" as="function(*)"/>
-        <xsl:sequence select="mlml:try-catch($do, function($e){$e})"/>
-    </xsl:function>
-
-    <xsl:function name="mlml:try-catch">
-        <xsl:param name="do" as="function(*)"/>
-        <xsl:param name="error" as="function(map(*)) as item()*"/>
-        
-        <xsl:try>
-            <xsl:sequence select="$do()"/>
-            <xsl:catch>
-                <xsl:sequence select="$error(
-                    map{
-                    'code' : $err:code, 
-                    'description' : $err:description, 
-                    'line-number' : $err:line-number, 
-                    'column-number' : $err:column-number, 
-                    'module' : $err:module, 
-                    'value' : $err:value 
-                    }
-                    )"/>
-            </xsl:catch>
-        </xsl:try>
-    </xsl:function>
+    
     
     
 </xsl:stylesheet>
