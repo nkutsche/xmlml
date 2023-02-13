@@ -382,11 +382,18 @@
     </xsl:template>
     
     <xsl:template match="Reference/EntityRef[Name]" mode="mlml:parse">
+        <xsl:param name="config" tunnel="yes"/>
         <xsl:param name="dtd" tunnel="yes"/>
         <xsl:variable name="nameRef" select="Name"/>
         
+        <xsl:variable name="entity-decl" select="$dtd/dtdml:entity-decl[@name = $nameRef][1]"/>
         <xsl:variable name="value" select="
-            $dtd/dtdml:entity-decl[@name = $nameRef][1]/dtdml:value
+            
+            if ($entity-decl/dtdml:external) 
+            then 
+                $entity-decl/dtdml:external/($config($mlml:URI_RESOLVER)(@systemId, @xml:base))?content 
+            else 
+                $entity-decl/dtdml:value
             "/>
         
         <xsl:variable name="fragment-parsed" select="xmlfp:parse-document-fragment(string($value))"/>
