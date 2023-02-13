@@ -1,0 +1,26 @@
+<!--
+<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!NOTATION ndata SYSTEM "file:/null">
+<!ENTITY unparsed-entity PUBLIC "-//some public//ID" "file:/null" NDATA ndata>
+<!ATTLIST root unparsed-entity ENTITIES #IMPLIED>
+]><root unparsed-entity="    unparsed-entity  unparsed-entity  "></root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline><nl/><![CDATA[<!ELEMENT root EMPTY>]]><nl/><![CDATA[<!NOTATION ndata SYSTEM "file:/null">]]><nl/><![CDATA[<!ENTITY unparsed-entity PUBLIC "-//some public//ID" "file:/null" NDATA ndata>]]><nl/><![CDATA[<!ATTLIST root unparsed-entity ENTITIES #IMPLIED>]]><nl/></inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute type="ENTITIES">
+            <ws space="1"/>
+            <name>unparsed-entity</name>
+            <eq/>
+            <value>    unparsed-entity  unparsed-entity  </value>
+        </attribute>
+    </element>
+</document>

@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ELEMENT root EMPTY><!ATTLIST root attribute CDATA #IMPLIED><!ATTLIST root attribute CDATA "default">]><root></root>

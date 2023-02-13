@@ -1,0 +1,6 @@
+<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!NOTATION ndata SYSTEM "file:/null">
+<!ENTITY unparsed-entity PUBLIC "-//some public//ID" "file:/null" NDATA ndata>
+<!ATTLIST root unparsed-entity ENTITIES #IMPLIED>
+]><root unparsed-entity="    unparsed-entity  unparsed-entity  "></root>

@@ -1,0 +1,20 @@
+<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!ATTLIST root cdata-def CDATA "   de  fau  lt   ">
+<!ATTLIST root cdata CDATA #IMPLIED>
+<!ATTLIST root id ID #REQUIRED>
+<!ATTLIST root idref-def IDREF "     default     ">
+<!ATTLIST root idref IDREF #IMPLIED>
+<!ATTLIST root idrefs-def IDREFS "   de  fau  lt   ">
+<!ATTLIST root idrefs IDREFS #IMPLIED>
+<!ATTLIST root nmtoken-def NMTOKEN "     default     ">
+<!ATTLIST root nmtoken NMTOKEN #IMPLIED>
+<!ATTLIST root nmtokens-def NMTOKENS "   de  fau  lt   ">
+<!ATTLIST root nmtokens NMTOKENS #IMPLIED>
+]><root cdata="  spe  ci  fic   "
+    id="   specific   "
+    idref="   specific   "
+    idrefs="   spe   ci   fic   "
+    nmtoken="   specific   "
+    nmtokens="   spe   ci   fic   "
+    ></root>

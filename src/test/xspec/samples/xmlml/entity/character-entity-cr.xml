@@ -1,0 +1,15 @@
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="r">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>doc</name>
+        <ws space="1"/>
+        <inline>&lt;!ENTITY ln "<nl/>"&gt;&lt;!ENTITY lne "&amp;#13;"&gt;</inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <content>
+            <text><entity name="ln"><text><nl/></text></entity><entity name="lne"><text><entity codepoint="13"></entity></text></entity></text>
+        </content>
+    </element>
+</document>

@@ -1,0 +1,19 @@
+<!--<!DOCTYPE doc [<!ENTITY ln "&#xA;">]><root a="&ln;"></root>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>doc</name>
+        <ws space="1"/>
+        <inline><![CDATA[<!ENTITY ln "&#xA;">]]></inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute>
+            <ws space="1"/>
+            <name>a</name>
+            <eq/>
+            <value><entity name="ln"><text><entity codepoint="xA"/></text></entity></value>
+        </attribute>
+    </element>
+</document>
