@@ -49,14 +49,6 @@
         <xsl:sequence select="(1 to $amount) ! $char"/>
     </xsl:template>
 
-    <xsl:variable name="line-separators" select="
-        map{
-            'r' : '&#xD;',
-            'n' : '&#xA;',
-            'rn' : '&#xD;&#xA;',
-            '#default' : system-property('line.separator') 
-        }
-        "/>
     <xsl:template match="ws[@nl] | nl" mode="mlml:serialize">
         <xsl:variable name="lf-format" select="(@line-feed-format, ancestor::document/@line-feed-format, '#default')[1]"/>
         <xsl:variable name="char" select="$line-separators($lf-format)"/>

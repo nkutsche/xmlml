@@ -177,6 +177,7 @@
         </xsl:variable>
         
         <xsl:variable name="el_name" select="$content/self::mlml:name"/>
+        
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-adjacent="@name">
                 <xsl:if test="@default">
@@ -460,7 +461,7 @@
                     </xsl:choose>
                 </xsl:matching-substring>
                 <xsl:non-matching-substring>
-                    <xsl:sequence select="error(xs:QName('fatal-error'), 'This should never happen!')"/>
+                    <xsl:sequence select="error(xs:QName('fatal-error'), 'This should never happen! mlml:white-space function must not be called with ''' || $space || ''' as input.')"/>
                 </xsl:non-matching-substring>
             </xsl:analyze-string>
         </xsl:variable>

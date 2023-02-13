@@ -16,6 +16,16 @@
         </xd:desc>
     </xd:doc>
     
+    
+    <xsl:variable name="line-separators" select="
+        map{
+        'r' : '&#xD;',
+        'n' : '&#xA;',
+        'rn' : '&#xD;&#xA;',
+        '#default' : system-property('line.separator') 
+        }
+        "/>
+    
     <xsl:function name="mlml:validate-xmlml" as="node()">
         <xsl:param name="instance" as="node()"/>
         <xsl:sequence select="mlml:validate($instance, doc(resolve-uri('../rnc/xmlml.rng', static-base-uri())))"/>
