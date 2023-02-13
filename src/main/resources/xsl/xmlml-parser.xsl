@@ -164,18 +164,21 @@
         <xsl:variable name="el_name" select="$content/self::mlml:name"/>
         <xsl:variable name="attribute-list" select="$dtd/dtdml:attribute-list[@ref = $el_name]"/>
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
-            <xsl:for-each select="$attribute-list/dtdml:attribute[@default]">
-                <attribute default="true">
-                    <ws space="1" />
-                    <name>
-                        <xsl:value-of select="@name"/>
-                    </name>
-                    <eq />
-                    <value>
-                        <xsl:value-of select="@default"/>
-                    </value>
-                </attribute>
-            </xsl:for-each>
+            <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-adjacent="@name">
+                <xsl:if test="@default">
+                    <attribute default="true">
+                        <ws space="1" />
+                        <name>
+                            <xsl:value-of select="@name"/>
+                        </name>
+                        <eq />
+                        <value>
+                            <xsl:value-of select="@default"/>
+                        </value>
+                    </attribute>
+                </xsl:if>
+                
+            </xsl:for-each-group>
         </xsl:variable>
         <xsl:variable name="default-attributes" select="
             $default-attributes[not(mlml:name = $content/self::mlml:attribute/mlml:name)]
