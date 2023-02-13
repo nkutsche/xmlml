@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://www.nkutsche.com/dtdml" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <ref name="dtd"/>
+  </start>
+  <define name="dtd">
+    <element name="dtd">
+      <ref name="common_attr"/>
+      <ref name="dtd_content"/>
+    </element>
+  </define>
+  <define name="dtd_content">
+    <zeroOrMore>
+      <choice>
+        <ref name="element_decl"/>
+        <ref name="attribute_list_decl"/>
+        <ref name="entity_decl"/>
+        <ref name="notation_decl"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="element_decl">
+    <element name="element-decl">
+      <ref name="common_attr"/>
+      <ref name="name"/>
+      <ref name="dtd_el_content"/>
+    </element>
+  </define>
+  <define name="dtd_el_content">
+    <element name="content">
+      <ref name="common_attr"/>
+      <choice>
+        <ref name="preset_content"/>
+        <group>
+          <optional>
+            <ref name="mixed_content"/>
+          </optional>
+          <ref name="content_model"/>
+        </group>
+      </choice>
+    </element>
+  </define>
+  <define name="content_model">
+    <optional>
+      <ref name="optional"/>
+    </optional>
+    <optional>
+      <ref name="repeating"/>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <ref name="sequence"/>
+        <ref name="choice"/>
+        <ref name="element_ref"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="attribute_list_decl">
+    <element name="attribute-list">
+      <ref name="common_attr"/>
+      <ref name="ref"/>
+      <zeroOrMore>
+        <ref name="attribute_decl"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attribute_decl">
+    <element name="attribute">
+      <ref name="common_attr"/>
+      <ref name="name"/>
+      <optional>
+        <choice>
+          <ref name="optional"/>
+          <group>
+            <ref name="fixed"/>
+            <ref name="attr_value"/>
+          </group>
+          <ref name="attr_value"/>
+        </choice>
+      </optional>
+      <ref name="attr_type"/>
+    </element>
+  </define>
+  <define name="notation_decl">
+    <element name="notation">
+      <ref name="common_attr"/>
+      <ref name="name"/>
+      <choice>
+        <group>
+          <ref name="systemId"/>
+          <ref name="publicId"/>
+        </group>
+        <ref name="systemId"/>
+        <ref name="publicId"/>
+      </choice>
+    </element>
+  </define>
+  <define name="entity_decl">
+    <element name="entity-decl">
+      <ref name="common_attr"/>
+      <ref name="name"/>
+      <choice>
+        <ref name="dtd_ent_value"/>
+        <ref name="dtd_ent_external"/>
+      </choice>
+    </element>
+  </define>
+  <define name="attr_type">
+    <choice>
+      <ref name="attr_data_type"/>
+      <ref name="attr_enum_type"/>
+    </choice>
+  </define>
+  <define name="attr_enum_type">
+    <element name="type">
+      <ref name="common_attr"/>
+      <optional>
+        <ref name="notation"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="enum"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="enum">
+    <element name="enum">
+      <ref name="common_attr"/>
+      <text/>
+    </element>
+  </define>
+  <define name="attr_data_type">
+    <attribute name="type">
+      <choice>
+        <value>CDATA</value>
+        <value>ID</value>
+        <value>IDREF</value>
+        <value>IDREFS</value>
+        <value>ENTITY</value>
+        <value>ENTITIES</value>
+        <value>NMTOKEN</value>
+        <value>NMTOKENS</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="sequence">
+    <element name="sequence">
+      <ref name="common_attr"/>
+      <ref name="content_model"/>
+    </element>
+  </define>
+  <define name="choice">
+    <element name="choice">
+      <ref name="common_attr"/>
+      <ref name="content_model"/>
+    </element>
+  </define>
+  <define name="element_ref">
+    <element name="element">
+      <ref name="common_attr"/>
+      <optional>
+        <ref name="optional"/>
+      </optional>
+      <optional>
+        <ref name="repeating"/>
+      </optional>
+      <ref name="ref"/>
+    </element>
+  </define>
+  <define name="dtd_ent_external">
+    <element name="external">
+      <ref name="common_attr"/>
+      <ref name="systemId"/>
+      <optional>
+        <ref name="publicId"/>
+      </optional>
+    </element>
+  </define>
+  <define name="dtd_ent_value">
+    <element name="value">
+      <ref name="common_attr"/>
+      <optional>
+        <ref name="ndata_ref"/>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <!-- Attributes -->
+  <define name="name">
+    <attribute name="name">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="attr_value">
+    <attribute name="default">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ref">
+    <attribute name="ref">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="optional">
+    <attribute name="optional">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="notation">
+    <attribute name="notation">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="fixed">
+    <attribute name="fixed">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="repeating">
+    <attribute name="repeating">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="mixed_content">
+    <attribute name="mixed">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="preset_content">
+    <attribute name="preset">
+      <choice>
+        <value>ANY</value>
+        <value>EMPTY</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="systemId">
+    <attribute name="systemId">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="publicId">
+    <attribute name="publicId">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ndata_ref">
+    <attribute name="ndata-ref">
+      <data type="NCName"/>
+    </attribute>
+  </define>
+  <define name="common_attr">
+    <optional>
+      <ref name="xml_base"/>
+    </optional>
+  </define>
+  <define name="xml_base">
+    <attribute name="xml:base">
+      <data type="anyURI"/>
+    </attribute>
+  </define>
+</grammar>

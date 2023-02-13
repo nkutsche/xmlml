@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <include href="dtdml.rng"/>
+  <include href="xmlml.rng">
+    <start combine="choice">
+      <ref name="document"/>
+    </start>
+  </include>
+</grammar>

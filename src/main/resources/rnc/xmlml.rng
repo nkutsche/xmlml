@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://www.nkutsche.com/xmlml" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <ref name="document"/>
+  </start>
+  <define name="document">
+    <element name="document">
+      <optional>
+        <ref name="lf_format"/>
+      </optional>
+      <ref name="prolog"/>
+      <ref name="elem"/>
+      <ref name="epilog"/>
+    </element>
+  </define>
+  <define name="prolog">
+    <optional>
+      <ref name="xmlDecl"/>
+    </optional>
+    <zeroOrMore>
+      <choice>
+        <ref name="pi"/>
+        <ref name="comment"/>
+        <ref name="doctypeDecl"/>
+        <ref name="ws"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="epilog">
+    <zeroOrMore>
+      <choice>
+        <ref name="pi"/>
+        <ref name="comment"/>
+        <ref name="ws"/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <define name="elem">
+    <choice>
+      <ref name="empty_elem"/>
+      <ref name="non_empty_elem"/>
+    </choice>
+  </define>
+  <define name="non_empty_elem">
+    <element name="element">
+      <optional>
+        <ref name="non_collapsed"/>
+      </optional>
+      <optional>
+        <ref name="element_default_ns"/>
+      </optional>
+      <ref name="qname"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="attr"/>
+          <ref name="namespace_decl"/>
+        </choice>
+      </zeroOrMore>
+      <optional>
+        <ref name="ws"/>
+      </optional>
+      <ref name="el_content"/>
+      <optional>
+        <ref name="closeTagSpace"/>
+      </optional>
+    </element>
+  </define>
+  <define name="empty_elem">
+    <element name="element">
+      <optional>
+        <ref name="collapsed"/>
+      </optional>
+      <optional>
+        <ref name="element_default_ns"/>
+      </optional>
+      <ref name="qname"/>
+      <zeroOrMore>
+        <choice>
+          <ref name="attr"/>
+          <ref name="namespace_decl"/>
+        </choice>
+      </zeroOrMore>
+      <optional>
+        <ref name="ws"/>
+      </optional>
+      <optional>
+        <ref name="closeTagSpace"/>
+      </optional>
+    </element>
+  </define>
+  <define name="el_content">
+    <element name="content">
+      <zeroOrMore>
+        <ref name="childNode"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="childNode">
+    <choice>
+      <ref name="ws"/>
+      <ref name="textNode"/>
+      <ref name="pi"/>
+      <ref name="comment"/>
+      <ref name="elem"/>
+    </choice>
+  </define>
+  <define name="closeTagSpace">
+    <element name="close-tag-space">
+      <ref name="ws"/>
+    </element>
+  </define>
+  <define name="attr">
+    <element name="attribute">
+      <optional>
+        <ref name="defaultAttr"/>
+      </optional>
+      <optional>
+        <ref name="attr_data_type"/>
+      </optional>
+      <ref name="attrContent"/>
+    </element>
+  </define>
+  <define name="namespace_decl">
+    <element name="namespace">
+      <ref name="nsContent"/>
+    </element>
+  </define>
+  <define name="attrContent">
+    <ref name="ws"/>
+    <ref name="qname"/>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="equal"/>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="quotedValue"/>
+  </define>
+  <define name="nsContent">
+    <ref name="ws"/>
+    <choice>
+      <ref name="ncname"/>
+      <ref name="emptyName"/>
+    </choice>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="equal"/>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="quotedValue"/>
+  </define>
+  <define name="textNode">
+    <element name="text">
+      <zeroOrMore>
+        <choice>
+          <ref name="entity"/>
+          <ref name="cdata"/>
+          <ref name="node_content"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="cdata">
+    <element name="cdata">
+      <ref name="node_content"/>
+    </element>
+  </define>
+  <define name="entity">
+    <choice>
+      <ref name="name_entity"/>
+      <ref name="char_entity"/>
+    </choice>
+  </define>
+  <define name="name_entity">
+    <element name="entity">
+      <attribute name="name">
+        <data type="NCName"/>
+      </attribute>
+      <zeroOrMore>
+        <ref name="childNode"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="char_entity">
+    <element name="entity">
+      <attribute name="codepoint">
+        <ref name="ent_charref_name"/>
+      </attribute>
+    </element>
+  </define>
+  <define name="pi">
+    <element name="pi">
+      <ref name="ncname"/>
+      <optional>
+        <ref name="ws"/>
+        <optional>
+          <ref name="piValue"/>
+        </optional>
+      </optional>
+    </element>
+  </define>
+  <define name="comment">
+    <element name="comment">
+      <ref name="node_content"/>
+    </element>
+  </define>
+  <define name="xmlDecl">
+    <element name="xml-decl">
+      <ref name="xmlDecl_version"/>
+      <optional>
+        <ref name="xmlDecl_encoding"/>
+      </optional>
+      <optional>
+        <ref name="xmlDecl_standalone"/>
+      </optional>
+      <optional>
+        <ref name="ws"/>
+      </optional>
+    </element>
+  </define>
+  <define name="xmlDecl_Content">
+    <ref name="ws"/>
+    <ref name="emptyName"/>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="equal"/>
+    <optional>
+      <ref name="ws"/>
+    </optional>
+    <ref name="quotedValue"/>
+  </define>
+  <define name="xmlDecl_version">
+    <element name="version">
+      <ref name="xmlDecl_Content"/>
+    </element>
+  </define>
+  <define name="xmlDecl_encoding">
+    <element name="encoding">
+      <ref name="xmlDecl_Content"/>
+    </element>
+  </define>
+  <define name="xmlDecl_standalone">
+    <element name="standalone">
+      <ref name="xmlDecl_Content"/>
+    </element>
+  </define>
+  <define name="doctypeDecl">
+    <element name="doc-type-decl">
+      <ref name="ws"/>
+      <ref name="qname"/>
+      <optional>
+        <ref name="ws"/>
+        <ref name="dtd_external"/>
+      </optional>
+      <optional>
+        <optional>
+          <ref name="ws"/>
+        </optional>
+        <ref name="dtd_inline"/>
+      </optional>
+    </element>
+  </define>
+  <define name="dtd_inline">
+    <element name="inline">
+      <ref name="node_content"/>
+    </element>
+  </define>
+  <define name="dtd_external">
+    <choice>
+      <ref name="dtd_system"/>
+      <ref name="dtd_public"/>
+    </choice>
+  </define>
+  <define name="dtd_system">
+    <element name="system">
+      <ref name="ws"/>
+      <ref name="quotedValue"/>
+    </element>
+  </define>
+  <define name="dtd_public">
+    <element name="public">
+      <ref name="ws"/>
+      <ref name="quotedValue"/>
+      <ref name="ws"/>
+      <ref name="quotedValue"/>
+    </element>
+  </define>
+  <define name="quotedValue">
+    <element name="value">
+      <optional>
+        <ref name="quotes"/>
+      </optional>
+      <zeroOrMore>
+        <choice>
+          <ref name="entity"/>
+          <ref name="node_content"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="piValue">
+    <element name="value">
+      <ref name="node_content"/>
+    </element>
+  </define>
+  <define name="ws">
+    <choice>
+      <ref name="ws_simple"/>
+      <ref name="ws_mixed"/>
+    </choice>
+  </define>
+  <define name="ws_simple">
+    <element name="ws">
+      <choice>
+        <attribute name="space">
+          <data type="integer"/>
+        </attribute>
+        <attribute name="tab">
+          <data type="integer"/>
+        </attribute>
+        <attribute name="nl">
+          <data type="integer"/>
+        </attribute>
+      </choice>
+    </element>
+  </define>
+  <define name="ws_mixed">
+    <element name="ws">
+      <oneOrMore>
+        <choice>
+          <ref name="nl"/>
+          <ref name="space"/>
+          <ref name="tab"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="qname">
+    <element name="name">
+      <data type="QName"/>
+    </element>
+  </define>
+  <define name="ncname">
+    <element name="name">
+      <data type="NCName"/>
+    </element>
+  </define>
+  <define name="emptyName">
+    <element name="name">
+      <empty/>
+    </element>
+  </define>
+  <define name="equal">
+    <element name="eq">
+      <empty/>
+    </element>
+  </define>
+  <define name="nl">
+    <element name="nl">
+      <optional>
+        <ref name="amount"/>
+      </optional>
+      <optional>
+        <ref name="lf_format"/>
+      </optional>
+    </element>
+  </define>
+  <define name="space">
+    <element name="space">
+      <optional>
+        <ref name="amount"/>
+      </optional>
+    </element>
+  </define>
+  <define name="tab">
+    <element name="tab">
+      <optional>
+        <ref name="amount"/>
+      </optional>
+    </element>
+  </define>
+  <define name="node_content">
+    <zeroOrMore>
+      <choice>
+        <ref name="nl"/>
+        <text/>
+      </choice>
+    </zeroOrMore>
+  </define>
+  <!-- attributes -->
+  <define name="collapsed">
+    <attribute name="collapsed">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="non_collapsed">
+    <attribute name="collapsed">
+      <value>false</value>
+    </attribute>
+  </define>
+  <define name="element_default_ns">
+    <attribute name="element-default-namespace">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="quotes">
+    <attribute name="quotes">
+      <choice>
+        <value>double</value>
+        <value>single</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="lf_format">
+    <attribute name="line-feed-format">
+      <choice>
+        <value>rn</value>
+        <value>r</value>
+        <value>n</value>
+      </choice>
+    </attribute>
+  </define>
+  <define name="amount">
+    <attribute name="amount">
+      <data type="integer"/>
+    </attribute>
+  </define>
+  <define name="ent_value">
+    <attribute name="value">
+      <data type="string"/>
+    </attribute>
+  </define>
+  <define name="defaultAttr">
+    <attribute name="default">
+      <data type="boolean"/>
+    </attribute>
+  </define>
+  <define name="attr_data_type">
+    <attribute name="type">
+      <choice>
+        <value>CDATA</value>
+        <value>ID</value>
+        <value>IDREF</value>
+        <value>IDREFS</value>
+        <value>ENTITY</value>
+        <value>ENTITIES</value>
+        <value>NMTOKEN</value>
+        <value>NMTOKENS</value>
+        <value>ENUM</value>
+      </choice>
+    </attribute>
+  </define>
+  <!-- Types -->
+  <define name="ent_charref_name">
+    <data type="string">
+      <param name="pattern">(x[0-9a-fA-F]+|[0-9]+)</param>
+    </data>
+  </define>
+</grammar>
