@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:dtdpe="http://www.nkutsche.com/dtd-pe-parser" xmlns:mlml="http://www.nkutsche.com/xmlml"
-     xmlns:map="http://www.w3.org/2005/xpath-functions/map" stylesheet="../../../main/resources/xsl/xmlml-main.xsl">
+    xmlns:mlmlt="http://www.nkutsche.com/xmlml/test-helper"
+    xmlns:dml="http://www.nkutsche.com/dtdml"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map" xmlns:xs="http://www.w3.org/2001/XMLSchema" stylesheet="../../../main/resources/xsl/xmlml-main.xsl">
+    
+    <x:helper stylesheet="../../resources/xsl/helper.xsl"/>
+    
     <x:variable name="si" select="map{'base-uri' : 'http://www.nkutsche.com/xmlml/xspec-test.xml'}"/>
     
     <x:variable name="resources" select="res">
@@ -17,11 +22,14 @@
     
     <x:variable name="config" select="map:put(
         $default-config, $mlml:URI_RESOLVER, function($href, $baseuri){
-            map{'content' : string($resources[resolve-uri(@id, $si?base-uri) = $href]), 'base-uri' : resolve-uri($href, $baseuri)}
-            (:if($resources[@id = $href])
+            if($resources[resolve-uri(@id, $si?base-uri) = $href])
             then 
+                (map{'content' : string($resources[resolve-uri(@id, $si?base-uri) = $href]), 'base-uri' : resolve-uri($href, $baseuri)},
+                mlmlt:message('systemId: ' || $href), 
+                mlmlt:message('content: ' || string($resources[resolve-uri(@id, $si?base-uri) = $href]))
+                )
             else 
-                mlml:default-uri-resolver($href, $baseuri):)
+                error(xs:QName('mlml:missing-resource'), 'Coult not find resource with base-uri ' || $href )
         }
         )"/>
     <x:scenario label="generic-dtd-test" shared="true">
@@ -30,13 +38,21 @@
                 <x:param select="$src-dtd ! map:put($si, 'content', string(.))"/>
                 <x:param select="$config"/>
             </x:call>
-            <x:expect label="Effective DTD as plain text" test="normalize-space($x:result)" select="normalize-space($resolved-dtd)"/>
+            <x:expect label="Effective DTD as plain text" test="
+                if($x:result instance of map(*)) 
+                then $x:result 
+                else normalize-space($x:result => string-join())
+                " select="normalize-space($resolved-dtd)"/>
         </x:scenario>
 
         <x:scenario label="validate DTD">
             <x:call function="mlml:validate-dtd">
                 <x:param select="
-                    mlml:parse-dtds-from-string(string($src-dtd), $si?base-uri, $config)
+                    mlmlt:try-catch(
+                        function(){
+                            mlml:parse-dtds-from-string(string($src-dtd), $si?base-uri, $config)
+                        }
+                    )
                     "/>
             </x:call>
             <x:expect label="expected valid dtd">
@@ -46,7 +62,7 @@
         
     </x:scenario>
     
-    <x:scenario label="Testing function mlml:dtd-pre-parse">
+    <x:scenario label="Testing function mlml:dtd-pre-parse" catch="true">
         <x:scenario label="No Parameter Entity">
             <x:variable name="src-dtd">
                 <![CDATA[<!ELEMENT foo EMPTY>]]>
