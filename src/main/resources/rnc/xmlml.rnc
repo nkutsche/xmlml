@@ -18,7 +18,7 @@ empty_elem = element element {collapsed?, element_default_ns?, qname, (attr | na
 
 el_content = element content {childNode*}
 
-childNode = (textNode | pi | comment | elem)
+childNode = (ws | textNode | pi | comment | elem)
 
 closeTagSpace = element close-tag-space {ws}
 

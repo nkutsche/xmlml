@@ -161,9 +161,18 @@
             <xsl:apply-templates select="Name" mode="#current"/>
         </xsl:variable>
         <xsl:variable name="attribute-lists" select="$dtd//dtdml:attribute-list[@ref = $el_name]"/>
+        <xsl:variable name="element-decl" select="$dtd//dtdml:element-decl[@name = $el_name]"/>
+        
+        <xsl:variable name="mixed" select="
+            if ($element-decl) 
+            then ($element-decl/dtdml:content/(@mixed | @any), 'false')[1] = 'true' 
+            else 
+                true()
+            "/>
         <xsl:variable name="content" as="element()*">
             <xsl:apply-templates mode="#current">
                 <xsl:with-param name="attribute-lists" select="$attribute-lists" tunnel="yes"/>
+                <xsl:with-param name="mixed-content" select="$mixed" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         
@@ -306,9 +315,18 @@
     </xsl:template>
 
     <xsl:template match="CharData" mode="mlml:parse">
-        <text>
-            <xsl:apply-templates mode="#current"/>
-        </text>
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
+        <xsl:param name="mixed-content" select="false()" as="xs:boolean" tunnel="yes"/>
+        <xsl:choose>
+            <xsl:when test="$mixed-content or normalize-space(.) != ''">
+                <text>
+                    <xsl:apply-templates mode="#current"/>
+                </text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="mlml:white-space(., $properties?line-feed-format)"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="CDSect" mode="mlml:parse">
