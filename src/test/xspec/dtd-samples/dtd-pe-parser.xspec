@@ -629,6 +629,121 @@
         </x:scenario>
         
     </x:scenario>
+    
+    <x:scenario label="Testing function mlml:parse-entity" catch="true">
+        <x:call function="mlml:parse-entity">
+            <x:param select="$si?base-uri" position="2"/>
+            <x:param select="$config" position="3"/>
+        </x:call>
+        
+        <x:scenario label="for External System Entity">
+            <x:call>
+                <x:param select="'&lt;!ENTITY e SYSTEM ''http://www.nkutsche.com/xmlml/foo.ent''&gt;'"/>
+            </x:call>
+            <x:expect label="name" select="'e'" test="$x:result?name"/>
+            <x:expect label="external-type" select="'SYSTEM'" test="$x:result?external"/>
+            <x:expect label="resolve" select="'&lt;!ELEMENT foo EMPTY&gt;'" 
+                test="$x:result?resolve ! .()?content
+                => normalize-space()
+                "/>
+            <x:expect label="not an error" test="$x:result?err" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="for External Public Entity">
+            <x:call>
+                <x:param select="'&lt;!ENTITY e PUBLIC ''whatever'' ''http://www.nkutsche.com/xmlml/foo.ent''&gt;'"/>
+            </x:call>
+            <x:expect label="name" select="'e'" test="$x:result?name"/>
+            <x:expect label="external-type" select="'PUBLIC'" test="$x:result?external"/>
+            <x:expect label="resolve" select="'&lt;!ELEMENT foo EMPTY&gt;'" 
+                test="$x:result?resolve ! .()?content
+                => normalize-space()
+                "/>
+            <x:expect label="not an error" test="$x:result?err" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="for NDATA Entity">
+            <x:call>
+                <x:param select="'&lt;!ENTITY e SYSTEM ''http://www.w3.org/'' NDATA n&gt;'"/>
+            </x:call>
+            <x:expect label="name" select="'e'" test="$x:result?name"/>
+            <x:expect label="external-type" select="'SYSTEM-NDATA'" test="$x:result?external"/>
+            <x:expect label="not an error" test="$x:result?err" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="for public NDATA Entity">
+            <x:call>
+                <x:param select="'&lt;!ENTITY e PUBLIC ''whatever'' ''http://www.w3.org/'' NDATA n&gt;'"/>
+            </x:call>
+            <x:expect label="name" select="'e'" test="$x:result?name"/>
+            <x:expect label="external-type" select="'PUBLIC-NDATA'" test="$x:result?external"/>
+            <x:expect label="not an error" test="$x:result?err" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="Testing function mlml:unescape-character-entities">
+        <x:call function="mlml:unescape-character-entities"/>
+        
+        <x:scenario label="empty string">
+            <x:call>
+                <x:param select="''"/>
+            </x:call>
+            <x:expect label="result value" select="''"/>
+        </x:scenario>
+
+        <x:scenario label="trivial">
+            <x:call>
+                <x:param select="'foo'"/>
+            </x:call>
+            <x:expect label="result value" select="'foo'"/>
+        </x:scenario>
+
+        <x:scenario label="simple decimal char entity">
+            <x:call>
+                <x:param select="'&amp;#34;'"/>
+            </x:call>
+            <x:expect label="result value" select="'&quot;'"/>
+        </x:scenario>
+
+        <x:scenario label="simple hexa char entity">
+            <x:call>
+                <x:param select="'&amp;#x27;'"/>
+            </x:call>
+            <x:expect label="result value" select="''''"/>
+        </x:scenario>
+
+        
+        <x:scenario label="two decimal char entity in a row">
+            <x:call>
+                <x:param select="'&amp;#34;&amp;#39;'"/>
+            </x:call>
+            <x:expect label="result value" select="'&quot;'''"/>
+        </x:scenario>
+    </x:scenario>
+    
+    
+    <x:scenario label="Testing function mlml:parse-dtds-from-string">
+        <x:call function="mlml:parse-dtds-from-string"/>
+        
+        <x:scenario label="entity escaping">
+            <x:variable name="path" select="resolve-uri('dtd/non-pe-percents/invalid.dtd', base-uri())" href="dummy.xml"/>
+            <x:call>
+                <x:param>
+                    <![CDATA[
+                        <!ELEMENT doc (#PCDATA)>
+                        <!ENTITY % e '"'>
+                        <!ENTITY e "%e;">
+                    ]]>
+                </x:param>
+                <x:param select="$path"/>
+                <x:param select="$default-config"/>
+            </x:call>
+            <x:expect label="entity declaration" test="$x:result/dml:entity-decl">
+                <entity-decl name="e" xmlns="http://www.nkutsche.com/dtdml">
+                    <value>"</value>
+                </entity-decl>
+            </x:expect>
+        </x:scenario>
         
     </x:scenario>
     
