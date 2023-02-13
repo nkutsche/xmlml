@@ -470,7 +470,9 @@
     </x:scenario>
 
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
-        <x:call function="mlml:white-space"/>
+        <x:call function="mlml:white-space">
+            <x:param position="2" select="'#default'"/>
+        </x:call>
         <x:scenario label="Single space">
             <x:call>
                 <x:param select="' '"/>
@@ -520,6 +522,7 @@
             <x:scenario label="Unix break \n">
                 <x:call>
                     <x:param select="'&#xA;'"/>
+                    <x:param select="'n'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="1"/>
@@ -528,6 +531,7 @@
             <x:scenario label="MacOS break \r">
                 <x:call>
                     <x:param select="'&#xD;'"/>
+                    <x:param select="'r'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="1"/>
@@ -536,6 +540,7 @@
             <x:scenario label="Windows break \r\n">
                 <x:call>
                     <x:param select="'&#xD;&#xA;'"/>
+                    <x:param select="'rn'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="1"/>
@@ -546,6 +551,7 @@
             <x:scenario label="Unix break \n\n\n">
                 <x:call>
                     <x:param select="'&#xA;&#xA;&#xA;'"/>
+                    <x:param select="'n'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="3"/>
@@ -554,6 +560,7 @@
             <x:scenario label="MacOS break \r\r\r">
                 <x:call>
                     <x:param select="'&#xD;&#xD;&#xD;'"/>
+                    <x:param select="'r'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="3"/>
@@ -562,6 +569,7 @@
             <x:scenario label="Windows break \r\n\r\n\r\n\r\n">
                 <x:call>
                     <x:param select="'&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;'"/>
+                    <x:param select="'rn'"/>
                 </x:call>
                 <x:expect label="result">
                     <ws nl="4"/>
@@ -572,6 +580,7 @@
             <x:scenario label="\s\s\t\t\n\t\t\n\s\s">
                 <x:call>
                     <x:param select="'  &#x9;&#x9;&#xA;&#x9;&#x9;&#xA;  '"/>
+                    <x:param select="'n'"/>
                 </x:call>
                 <x:expect label="result">
                 <ws>
