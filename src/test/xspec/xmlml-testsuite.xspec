@@ -458,7 +458,7 @@
     <!--
         Currently it workse only with -strip:none
     -->
-    <x:scenario label="Dir: whitespace/" catch="true" pending="DTD based whitespace stripping not implemented yet!">
+    <x:scenario label="Dir: whitespace/" catch="true">
         <x:scenario label="Test: whitespace/unrecognized-by-dtd-empty.xml">
             <x:variable name="path" select="'whitespace/unrecognized-by-dtd-empty.xml'"/>
             <x:like label="generic-serialize-test"/>

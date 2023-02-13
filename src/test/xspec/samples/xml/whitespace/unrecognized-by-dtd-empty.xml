@@ -1,13 +1,5 @@
-<!DOCTYPE src [
-    <!ELEMENT src (src-e*)>
-    <!ELEMENT src-e EMPTY>
-    <!ATTLIST src-e attr CDATA "default" 
-                    diff-attr CDATA "src-default" 
-                    src-attr CDATA "src-default">
-]>
+<!DOCTYPE src [<!ELEMENT src (src-e*)><!ELEMENT src-e EMPTY>]>
 <src>
-    <src-e>      
-    
-    </src-e>
-    <src-e src-attr="from-default"/>
+    <src-e/>
+    <src-e>     </src-e>
 </src>

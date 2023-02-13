@@ -1,33 +1,41 @@
+<!--
+<!DOCTYPE src [<!ELEMENT src (src-e*)><!ELEMENT src-e EMPTY>]>
+<src>
+    <src-e/>
+    <src-e>     </src-e>
+</src>
+-->
+
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
 <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
     <doc-type-decl>
         <ws space="1"/>
         <name>src</name>
         <ws space="1"/>
-        <inline><nl/>    &lt;!ELEMENT src (src-e*)&gt;<nl/>    &lt;!ELEMENT src-e EMPTY&gt;<nl/>    &lt;!ATTLIST src-e attr CDATA "default" <nl/>                    diff-attr CDATA "src-default" <nl/>                    src-attr CDATA "src-default"&gt;<nl/></inline>
+        <inline><![CDATA[<!ELEMENT src (src-e*)><!ELEMENT src-e EMPTY>]]></inline>
     </doc-type-decl>
     <ws nl="1"/>
     <element>
         <name>src</name>
         <content>
-            <text><nl/>    </text>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element collapsed="true">
+                <name>src-e</name>
+            </element>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
             <element>
                 <name>src-e</name>
                 <content>
-                    <text>      <nl/>    <nl/>    </text>
+                    <text>     </text>
                 </content>
             </element>
-            <text><nl/>    </text>
-            <element collapsed="true">
-                <name>src-e</name>
-                <attribute>
-                    <ws space="1"/>
-                    <name>src-attr</name>
-                    <eq/>
-                    <value>from-default</value>
-                </attribute>
-            </element>
-            <text><nl/></text>
+            <ws nl="1"/>
         </content>
     </element>
 </document>
