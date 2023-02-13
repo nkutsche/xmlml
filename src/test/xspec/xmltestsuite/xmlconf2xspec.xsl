@@ -4,6 +4,7 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml"
+    xmlns:mlmlt="http://www.nkutsche.com/xmlml/test-helper"
     exclude-result-prefixes="xs math xd"
     version="3.0">
     
@@ -30,8 +31,9 @@
             <xsl:apply-templates/>
         </x:scenario>
     </xsl:template>
-
-
+    
+    <xsl:template match="TEST[@NAMESPACE = 'no']" priority="10"/>
+    
     <xsl:template match="TEST">
         <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = @TYPE"/>
         <x:scenario label="{@ID}" catch="true">
@@ -76,6 +78,13 @@
                 </x:call>
                 <x:expect label="Parsed DTD is valid" select="true()"/>
             </x:scenario>
+            <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
+                <x:call function="mlml:doc">
+                    <x:param select="mlml:parse($src)"/>
+                </x:call>
+                
+                <x:expect label="XMLML as XDM" select="doc($src)"/>
+            </x:scenario>
         </x:scenario>
 
         <x:scenario label="valid" shared="true" catch="true">
@@ -87,10 +96,9 @@
                 <x:expect label="No change after parsed and serialized" select="unparsed-text($src)"/>
             </x:scenario>
             <x:scenario label="mlml:parse-dtd-and-validate">
-                <x:call function="mlml:parse-dtd-and-validate">
-                    <x:param select="$src"/>
+                
                 <x:variable name="dtdml" select="
-                    mlml:try-catch(
+                    mlmlt:try-catch(
                         function(){{
                             mlml:parse-dtds-from-xml($src, $default-config)
                         }}
@@ -101,6 +109,20 @@
                     <x:param select="$dtdml"/>
                 </x:call>
                 <x:expect label="Parsed DTD is valid" select="$dtdml"/>
+            </x:scenario>
+            <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
+                <x:variable name="xmlml" select="
+                    mlmlt:try-catch(
+                        function(){{
+                            mlml:parse($src)
+                        }}
+                    )
+                    "/>
+                <x:call function="mlml:doc">
+                    <x:param select="$xmlml"/>
+                </x:call>
+                
+                <x:expect label="XMLML as XDM" select="doc($src)"/>
             </x:scenario>
         </x:scenario>
     </xsl:template>
