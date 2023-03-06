@@ -627,6 +627,22 @@
             </x:variable>
             <x:like label="generic-dtd-test"/>
         </x:scenario>
+        <x:scenario label="not wellformed examples">
+            <x:scenario label="no change for linebreaks">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY e "<foo a='&#60;'></foo>">
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY e "<foo a='<'></foo>">
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+            
+        </x:scenario>
         
     </x:scenario>
     
