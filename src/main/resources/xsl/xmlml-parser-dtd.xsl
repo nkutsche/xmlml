@@ -760,6 +760,13 @@
         <xsl:variable name="this" select="."/>
 
         <xsl:variable name="entitydecl" select="key('entity-name', $name)[. &lt;&lt; $this][1]"/>
+        <xsl:if test="not($entitydecl)">
+            <xsl:sequence select="mlml:error('4.1.68.1', 'No declaration for the named entity ' || $name || '.')"/>
+        </xsl:if>
+        
+        <xsl:if test="$entitydecl/EntityDef/ExternalID">
+            <xsl:sequence select="mlml:error('3.1.41.2', 'The external entity reference ' || $name || ' is not permitted in attribute values.')"/>
+        </xsl:if>
         
         <xsl:apply-templates select="
             $entitydecl/EntityDef/EntityValue/

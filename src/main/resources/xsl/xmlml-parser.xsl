@@ -216,8 +216,14 @@
             "/>
         <xsl:variable name="attributes" select="($default-attributes, $attributes)"/>
         
+        <xsl:variable name="etag" select="ETag"/>
+        
+        <xsl:if test="Name != $etag/Name">
+            <xsl:sequence select="mlml:error('3.0.39.1', 'The end tag ' || $etag/Name || ' does not match to the start tag ' || Name || '.')"/>
+        </xsl:if>
+        
         <element>
-            <xsl:if test="not(ETag)">
+            <xsl:if test="not($etag)">
                 <xsl:attribute name="collapsed" select="'true'"/>
             </xsl:if>
             <xsl:for-each select="$attributes[@namespace = 'true']">
@@ -423,11 +429,19 @@
         <xsl:variable name="nameRef" select="Name"/>
         
         <xsl:variable name="entity-decl" select="$dtd/dtdml:entity-decl[@name = $nameRef][1]"/>
+        
+        <xsl:variable name="is-attribute-value" select="ancestor::AttValue"/>
+        
         <xsl:variable name="value" select="
-            
-            if ($entity-decl/dtdml:external) 
+            if (not($entity-decl)) 
+            then (mlml:error('4.1.68.1', 'No declaration for the named entity ' || $nameRef || '.')) 
+            else if ($entity-decl/dtdml:external and $is-attribute-value) 
+            then (mlml:error('3.1.41.2', 'The external entity reference ' || $nameRef || ' is not permitted in attribute values.')) 
+            else if ($entity-decl/dtdml:external) 
             then 
                 $entity-decl/dtdml:external/($config($mlml:URI_RESOLVER)(@systemId, @xml:base))?content 
+                else if ($entity-decl/dtdml:value/@ndata-ref) 
+                then mlml:error('4.1.68.3', 'Unparsed entity ' || $nameRef || ' must not be referenced.') 
             else 
                 $entity-decl/dtdml:value
             "/>
