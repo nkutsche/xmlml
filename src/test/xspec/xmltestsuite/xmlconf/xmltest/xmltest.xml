@@ -159,7 +159,7 @@
     Invalid empty element tag invalid whitespace </TEST>
 <TEST TYPE="not-wf" ENTITIES="none" ID="not-wf-sa-048"
 	URI="not-wf/sa/048.xml" SECTIONS="2.8 [27]">
-    Provides a CDATA section after the roor element.</TEST>
+    Provides a CDATA section after the root element.</TEST>
 <TEST TYPE="not-wf" ENTITIES="none" ID="not-wf-sa-049"
 	URI="not-wf/sa/049.xml" SECTIONS="3.1 [40]">
     Missing start tag </TEST>
@@ -466,11 +466,13 @@
 	URI="not-wf/sa/139.xml" SECTIONS="3.2.1 [46]">
     The element-content model should not be empty. </TEST>
 <TEST TYPE="not-wf" ENTITIES="none" ID="not-wf-sa-140"
-	URI="not-wf/sa/140.xml" SECTIONS="2.3 [4]">
+	URI="not-wf/sa/140.xml" SECTIONS="2.3 [4]"
+        EDITION="1 2 3 4">
     Character '&amp;#x309a;' is a CombiningChar, not a
     Letter, and so may not begin a name.</TEST>
 <TEST TYPE="not-wf" ENTITIES="none" ID="not-wf-sa-141"
-	URI="not-wf/sa/141.xml" SECTIONS="2.3 [5]">
+	URI="not-wf/sa/141.xml" SECTIONS="2.3 [5]"
+        EDITION="1 2 3 4">
     Character #x0E5C is not legal in XML names. </TEST>
 <TEST TYPE="not-wf" ENTITIES="none" ID="not-wf-sa-142"
 	URI="not-wf/sa/142.xml" SECTIONS="2.2 [2]">
@@ -855,6 +857,11 @@ everyting between the CDStart and CDEnd is recognized as character data not mark
 	URI="valid/sa/036.xml" SECTIONS="2.6 [16]"
 	OUTPUT="valid/sa/out/036.xml">
     Test demonstrates a valid processing instruction. </TEST>
+<TEST TYPE="valid" ENTITIES="none" ID="valid-sa-017a"
+	URI="valid/sa/017a.xml" SECTIONS="2.6 3.1 [16] [43]"
+	OUTPUT="valid/sa/out/017a.xml">
+    Test demonstrates that two apparently wrong Processing Instructions make a
+right one, with very odd content "some data ? > &lt;?". </TEST>
 <TEST TYPE="valid" ENTITIES="none" ID="valid-sa-037"
 	URI="valid/sa/037.xml" SECTIONS="2.6 [15]"
 	OUTPUT="valid/sa/out/037.xml">

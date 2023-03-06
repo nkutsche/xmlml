@@ -41,10 +41,10 @@
 <TEST URI="not-wf/attlist11.xml" ID="attlist11" TYPE="not-wf" SECTIONS="3.1 [44]">
     Whitespace required between attributes</TEST>
 
-<TEST URI="not-wf/cond01.xml" ID="cond01" TYPE="not-wf" SECTIONS="3.4 [61]">
+<TEST URI="not-wf/cond01.xml" ID="cond01" TYPE="not-wf" SECTIONS="3.4 [61]" ENTITIES="parameter">
     Only INCLUDE and IGNORE are conditional section keywords</TEST>
 
-<TEST URI="not-wf/cond02.xml" ID="cond02" TYPE="not-wf" SECTIONS="3.4 [61]">
+<TEST URI="not-wf/cond02.xml" ID="cond02" TYPE="not-wf" SECTIONS="3.4 [61]" ENTITIES="parameter">
     Must have keyword in conditional sections</TEST>
 
 <TEST URI="not-wf/content01.xml" ID="content01" TYPE="not-wf" SECTIONS="3.2.1 [48]">
@@ -78,7 +78,7 @@
 <TEST URI="not-wf/dtd05.xml" ID="dtd05" TYPE="not-wf" SECTIONS="4.2.2 [75]">
     SYSTEM identifier must be quoted</TEST>
 
-<TEST URI="not-wf/dtd07.xml" ID="dtd07" TYPE="not-wf" SECTIONS="4.3.1 [77]">
+<TEST URI="not-wf/dtd07.xml" ID="dtd07" TYPE="not-wf" SECTIONS="4.3.1 [77]" ENTITIES="parameter">
     Text declarations (which optionally begin any external entity)
     are required to have "encoding=...". </TEST>
 
@@ -116,7 +116,7 @@
 <TEST URI="not-wf/encoding06.xml" ID="encoding06" TYPE="not-wf" SECTIONS="4.3.3 [81]">
     Illegal character "+" in encoding name</TEST>
 
-<TEST URI="not-wf/encoding07.xml" ID="encoding07" TYPE="not-wf" SECTIONS="4.3.1 [77]">
+<TEST URI="not-wf/encoding07.xml" ID="encoding07" TYPE="not-wf" SECTIONS="4.3.1 [77]" ENTITIES="general">
     Text declarations (which optionally begin any external entity)
     are required to have "encoding=...". </TEST>
 
