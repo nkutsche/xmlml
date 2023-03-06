@@ -26,7 +26,7 @@
     
     <xsl:template match="element" mode="mlml:serialize">
         <xsl:text>&lt;</xsl:text>
-        <xsl:variable name="startTag" select="name | attribute | namespace | ws"/>
+        <xsl:variable name="startTag" select="name | attribute | ws"/>
         <xsl:variable name="endTag" select="name, close-tag-space"/>
         <xsl:apply-templates select="$startTag" mode="#current"/>
         <xsl:if test="@collapsed = 'true'">
@@ -65,7 +65,6 @@
     
     <xsl:template match="
         attribute/value[@quotes = 'single'] 
-        | namespace/value[@quotes = 'single']
         | xml-decl/*/value[@quotes = 'single']
         | attribute-decl/value[@quotes = 'single']
         | doc-type-decl//value[@quotes = 'single']
@@ -77,7 +76,6 @@
     
     <xsl:template match="
         attribute/value 
-        | namespace/value 
         | xml-decl/*/value 
         | attribute-decl/value
         | doc-type-decl//value
@@ -87,11 +85,11 @@
         <xsl:text>"</xsl:text>
     </xsl:template>
     
-    <xsl:template match="namespace/name[. = '']" mode="mlml:serialize" priority="10">
+    <xsl:template match="attribute[@namespace='true']/name[. = '']" mode="mlml:serialize" priority="10">
         <xsl:text>xmlns</xsl:text>
     </xsl:template>
 
-    <xsl:template match="namespace/name" mode="mlml:serialize">
+    <xsl:template match="attribute[@namespace='true']/name" mode="mlml:serialize">
         <xsl:text>xmlns:</xsl:text>
         <xsl:apply-templates mode="#current"/>
     </xsl:template>

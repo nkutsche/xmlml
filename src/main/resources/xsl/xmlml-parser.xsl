@@ -187,10 +187,17 @@
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-adjacent="@name">
                 <xsl:if test="@default">
                     <attribute default="true">
-                        <xsl:sequence select="mlml:attribute-type(.)"/>
+                        <xsl:choose>
+                            <xsl:when test="matches(@name, '^xmlns(:|$)')">
+                                <xsl:attribute name="namespace" select="'true'"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:sequence select="mlml:attribute-type(.)"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                         <ws space="1" />
                         <name>
-                            <xsl:value-of select="@name"/>
+                            <xsl:value-of select="replace(@name, '^xmlns(:|$)', '')"/>
                         </name>
                         <eq />
                         <value>
@@ -203,15 +210,17 @@
                 
             </xsl:for-each-group>
         </xsl:variable>
+        <xsl:variable name="attributes" select="$content/self::mlml:attribute"/>
         <xsl:variable name="default-attributes" select="
-            $default-attributes[not(mlml:name = $content/self::mlml:attribute/mlml:name)]
+            $default-attributes[not(mlml:name = $attributes/mlml:name)]
             "/>
+        <xsl:variable name="attributes" select="($default-attributes, $attributes)"/>
         
         <element>
             <xsl:if test="not(ETag)">
                 <xsl:attribute name="collapsed" select="'true'"/>
             </xsl:if>
-            <xsl:for-each select="$content/self::mlml:namespace">
+            <xsl:for-each select="$attributes[@namespace = 'true']">
                 <xsl:choose>
                     <xsl:when test="mlml:name = ''">
                         <xsl:attribute name="element-default-namespace" select="mlml:value"/>
@@ -251,9 +260,9 @@
     </xsl:template>
 
     <xsl:template match="Attribute[matches(Name, '^xmlns(:|$)')]" mode="mlml:parse">
-        <namespace>
+        <attribute namespace="true">
             <xsl:apply-templates mode="#current"/>
-        </namespace>
+        </attribute>
     </xsl:template>
 
     <xsl:template match="Attribute/Name[matches(., '^xmlns(:|$)')]" mode="mlml:parse">

@@ -76,8 +76,8 @@
       <ref name="qname"/>
       <zeroOrMore>
         <choice>
-          <ref name="attr"/>
           <ref name="namespace_decl"/>
+          <ref name="attr"/>
         </choice>
       </zeroOrMore>
       <optional>
@@ -121,7 +121,13 @@
     </element>
   </define>
   <define name="namespace_decl">
-    <element name="namespace">
+    <element name="attribute">
+      <attribute name="namespace">
+        <value>true</value>
+      </attribute>
+      <optional>
+        <ref name="defaultAttr"/>
+      </optional>
       <ref name="nsContent"/>
     </element>
   </define>
@@ -139,10 +145,7 @@
   </define>
   <define name="nsContent">
     <ref name="ws"/>
-    <choice>
-      <ref name="ncname"/>
-      <ref name="emptyName"/>
-    </choice>
+    <ref name="nsname"/>
     <optional>
       <ref name="ws"/>
     </optional>
@@ -151,6 +154,13 @@
       <ref name="ws"/>
     </optional>
     <ref name="quotedValue"/>
+  </define>
+  <define name="nsname">
+    <element name="name">
+      <optional>
+        <data type="NCName"/>
+      </optional>
+    </element>
   </define>
   <define name="textNode">
     <element name="text">
@@ -164,7 +174,7 @@
     </element>
   </define>
   <define name="cdata">
-    <element name="cdata">
+    <element name="cdata-section">
       <ref name="node_content"/>
     </element>
   </define>
@@ -387,9 +397,14 @@
     <zeroOrMore>
       <choice>
         <ref name="nl"/>
-        <text/>
+        <ref name="data"/>
       </choice>
     </zeroOrMore>
+  </define>
+  <define name="data">
+    <element name="data">
+      <data type="string"/>
+    </element>
   </define>
   <!-- attributes -->
   <define name="collapsed">

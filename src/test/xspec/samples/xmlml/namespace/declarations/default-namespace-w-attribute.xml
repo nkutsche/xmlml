@@ -2,14 +2,14 @@
 <document xmlns="http://www.nkutsche.com/xmlml">
     <element element-default-namespace="default-namespace.com">
         <name>root</name>
-        <namespace>
+        <attribute namespace="true">
             <ws space="1"/>
             <name/>
             <eq/>
             <value>
                 <data>default-namespace.com</data>
             </value>
-        </namespace>
+        </attribute>
         <attribute>
             <ws space="1"/>
             <name>attribute</name>

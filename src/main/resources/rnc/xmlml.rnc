@@ -14,7 +14,7 @@ elem = (empty_elem | non_empty_elem)
 
 non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, el_content, closeTagSpace?}
 
-empty_elem = element element {collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, closeTagSpace?}
+empty_elem = element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
 
 el_content = element content {childNode*}
 
@@ -24,11 +24,13 @@ closeTagSpace = element close-tag-space {ws}
 
 attr = element attribute {defaultAttr?, attr_data_type?, attrContent}
 
-namespace_decl = element namespace {nsContent}
+namespace_decl = element attribute {attribute namespace {"true"}, defaultAttr?, nsContent}
 
 attrContent = ws, qname, ws?, equal, ws?, quotedValue
 
-nsContent = ws, (ncname|emptyName), ws?, equal, ws?, quotedValue
+nsContent = ws, (nsname), ws?, equal, ws?, quotedValue
+
+nsname = element name {xs:NCName?}
 
 textNode = element text {(entity | cdata | node_content)*}
 

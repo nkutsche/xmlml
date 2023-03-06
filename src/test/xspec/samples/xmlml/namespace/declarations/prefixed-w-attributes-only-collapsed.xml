@@ -16,13 +16,13 @@
             <eq/>
             <value/>
         </attribute>
-        <namespace>
+        <attribute namespace="true">
             <ws space="1"/>
             <name>ns</name>
             <eq/>
             <value>
                 <data>namespace.com</data>
             </value>
-        </namespace>
+        </attribute>
     </element>
 </document>
