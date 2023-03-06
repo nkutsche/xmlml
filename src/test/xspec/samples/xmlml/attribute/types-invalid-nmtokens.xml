@@ -1,0 +1,36 @@
+<!--
+<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!ATTLIST root nmtokens NMTOKENS #IMPLIED>
+]><root nmtokens="   spe&#xA;ci &#xD;  fic   "></root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ELEMENT root EMPTY>]]></data>
+            <nl/>
+            <data><![CDATA[<!ATTLIST root nmtokens NMTOKENS #IMPLIED>]]></data>
+            <nl/>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute type="NMTOKENS">
+            <ws space="1"/>
+            <name>nmtokens</name>
+            <eq/>
+            <value>
+                <data>   spe</data>
+                <entity codepoint="xA"/>
+                <data>ci </data>
+                <entity codepoint="xD"/>
+                <data>  fic   </data>
+            </value>
+        </attribute>
+    </element>
+</document>

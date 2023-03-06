@@ -1,0 +1,4 @@
+<!DOCTYPE root [
+<!ELEMENT root EMPTY>
+<!ATTLIST root nmtokens NMTOKENS #IMPLIED>
+]><root nmtokens="   spe&#xA;ci &#xD;  fic   "></root>

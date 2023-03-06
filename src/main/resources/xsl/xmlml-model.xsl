@@ -77,7 +77,7 @@
         <xsl:text>&#xA;</xsl:text>
     </xsl:template>
 
-    <xsl:template match="attribute/value//text()" mode="mlml:doc">
+    <xsl:template match="attribute/value//data/text()" mode="mlml:doc">
         <xsl:value-of select="replace(., '\t', ' ')"/>
     </xsl:template>
     
@@ -175,26 +175,22 @@
         <xsl:param name="value" as="xs:string"/>
         <xsl:param name="type" as="xs:string?"/>
         
+        <xsl:variable name="is-valid" select="mlml:type-validate($value, $type)"/>
+        
+        <xsl:variable name="type-def" select="if($type) then $Type-Defs($type) else ()"/>
+        
         <xsl:variable name="value" select="
-            if ($type = 'ID' and $value castable as xs:ID) 
-            then (xs:ID($value)) 
-            else 
-            if ($type = 'IDREF' and $value castable as xs:IDREF) 
-            then (xs:IDREF($value)) 
-            else 
-            if ($type = 'NMTOKEN' and $value castable as xs:NMTOKEN) 
-            then (xs:NMTOKEN($value)) 
-            else 
-            if ($type = 'ENTITY' and $value castable as xs:NCName) 
-            then (xs:NCName($value)) 
-            else 
-            if ($type = 'ENUM') 
-            then (normalize-space($value)) 
-            else 
+            
             if ($type = ('IDREFS', 'NMTOKENS', 'ENTITIES')) 
             then (
-                (tokenize($value, '\s+')[. != ''] ! mlml:type-convert(., mlml:single-type($type))) => string-join(' ')
+                (tokenize($value, ' ')[. != ''] ! mlml:type-convert(., mlml:single-type($type))) => string-join(' ')
             ) 
+            else 
+            if (not($is-valid)) 
+            then ($value) 
+            else 
+            if (exists($type-def)) 
+            then ($type-def?convert($value)) 
             else 
                 $value
             "/>
@@ -209,6 +205,59 @@
             "/>
     </xsl:function>
     
+    <xsl:function name="mlml:type-validate" as="xs:boolean">
+        <xsl:param name="value" as="xs:string"/>
+        <xsl:param name="type" as="xs:string?"/>
+        
+        <xsl:variable name="type-def" select="if($type) then $Type-Defs($type) else ()"/>
+        
+        <xsl:variable name="is-valid" select="
+            if (exists($type-def)) 
+            then (matches($value, $type-def?regex)) 
+            else 
+            if ($type = ('IDREFS', 'NMTOKENS', 'ENTITIES')) 
+            then (
+                (
+                    every $t in tokenize($value, ' ')[. != ''] 
+                    satisfies mlml:type-validate($t, mlml:single-type($type))
+                )
+            ) 
+            else 
+                false()
+            "/>
+        
+        <xsl:sequence select="$is-valid"/>
+        
+    </xsl:function>
+    
+    <xsl:variable name="NameStartChar" select="':|[A-Z]|_|[a-z]|[&#xC0;-&#xD6;]|[&#xD8;-&#xF6;]|[&#xF8;-&#x2FF;]|[&#x370;-&#x37D;]|[&#x37F;-&#x1FFF;]|[&#x200C;-&#x200D;]|[&#x2070;-&#x218F;]|[&#x2C00;-&#x2FEF;]|[&#x3001;-&#xD7FF;]|[&#xF900;-&#xFDCF;]|[&#xFDF0;-&#xFFFD;]|[&#x10000;-&#xEFFFF;]'"/>
+    <xsl:variable name="NameChar" select="$NameStartChar || '|-|\.|[0-9]|&#xB7;|[&#x0300;-&#x036F;]|[&#x203F;-&#x2040;]'"/>
+    
+    <xsl:variable name="Name" select="'^[&#x20;]*(' || $NameStartChar || ')' || '(' || $NameChar || ')*[&#x20;]*$'"/>
+    <xsl:variable name="Type-Defs" select="map{
+            'NMTOKEN' : map{
+                'regex' : '^[&#x20;]*(' || $NameChar || ')+[&#x20;]*$',
+                'convert' : function($raw){xs:NMTOKEN($raw)}
+            },
+            'ENTITY' : map{
+                'regex' : $Name,
+                'convert' : function($raw){xs:NCName($raw)}
+            },
+            'ID' : map{
+                'regex' : $Name,
+                'convert' : function($raw){xs:ID($raw)}
+            },
+            'IDREF' : map{
+                'regex' : $Name,
+                'convert' : function($raw){xs:IDREF($raw) => normalize-space()}
+            },
+            'ENUM' : map{
+                'regex' : '.*',
+                'convert' : function($raw){normalize-space($raw)}
+            }
+        }">
+        
+    </xsl:variable>
     
 
 

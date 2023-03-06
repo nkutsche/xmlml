@@ -127,6 +127,10 @@
             <x:variable name="path" select="'attribute/types-entities.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: attribute/types-invalid-nmtokens.xml">
+            <x:variable name="path" select="'attribute/types-invalid-nmtokens.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Dir: cdata-sections/" catch="true">
