@@ -65,13 +65,13 @@
             <x:call function="mlml:parse">
                 <x:param select="$src"/>
             </x:call>
-            <x:expect label="Expected an error message" select="map{{}}"/>
+            <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
         </x:scenario>
         <x:scenario label="error" shared="true" catch="true">
             <x:call function="mlml:parse">
                 <x:param select="$src"/>
             </x:call>
-            <x:expect label="Expected an error message" select="map{{}}"/>
+            <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
         </x:scenario>
 
         <x:scenario label="invalid" shared="true" catch="true">
