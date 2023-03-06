@@ -152,11 +152,11 @@ Name     ::= NameStartChar NameChar*
 Nmtoken  ::= NameChar+
 
 
-EntityStaticValueDouble ::= [^%&"]*
-EntityStaticValueSingle ::= [^%&']*
+EntityStaticValueDouble ::= [^%&"]+
+EntityStaticValueSingle ::= [^%&']+
 
-AttValueDoubleVal ::= [^<&"]*
-AttValueSingleVal ::= [^<&']*
+AttValueDoubleVal ::= [^<&"]+
+AttValueSingleVal ::= [^<&']+
 
 SystemLiteralDouble ::= [^"]*
 SystemLiteralSingle ::= [^']*

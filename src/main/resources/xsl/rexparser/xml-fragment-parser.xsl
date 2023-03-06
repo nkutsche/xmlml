@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file was generated on Mon Feb 13, 2023 10:46 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
+<!-- This file was generated on Sun Feb 19, 2023 03:04 (UTC+01) by REx v5.56 which is Copyright (c) 1979-2023 by Gunther Rademacher <grd@gmx.net> -->
 <!-- REx command line: XML-fragment.ebnf -xslt -tree -->
 
 <xsl:stylesheet version="2.0"
@@ -111,7 +111,7 @@
    ! The token-set-id to DFA-initial-state mapping.
   -->
   <xsl:variable name="p:INITIAL" as="xs:integer+" select="
-    1, 1026, 3, 4, 1541, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 674, 803, 36, 37, 38
+    1, 1026, 3, 4, 1541, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38
   "/>
 
   <!--~

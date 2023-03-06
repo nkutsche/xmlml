@@ -70,8 +70,8 @@ NameChar ::= NameStartChar
 Name     ::= NameStartChar NameChar*
 
 
-AttValueDoubleVal ::= [^<&"]*
-AttValueSingleVal ::= [^<&']*
+AttValueDoubleVal ::= [^<&"]+
+AttValueSingleVal ::= [^<&']+
 
 
 CharData ::= ( [^<&#x005D] | ']' [^<&#x005D] | ']' ']'+ [^<&#x005D>] )+ ']'*
