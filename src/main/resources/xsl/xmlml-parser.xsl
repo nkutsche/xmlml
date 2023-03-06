@@ -147,12 +147,15 @@
 
     <xsl:template match="document" mode="mlml:parse">
         <xsl:param name="properties" tunnel="yes" as="map(*)?"/>
-        <document>
-            <xsl:if test="$properties?line-feed-format != '#default'">
-                <xsl:attribute name="line-feed-format" select="$properties?line-feed-format"/>
-            </xsl:if>
-            <xsl:apply-templates mode="#current"/>
-        </document>
+        <xsl:variable name="document" as="element(mlml:document)">
+            <document>
+                <xsl:if test="$properties?line-feed-format != '#default'">
+                    <xsl:attribute name="line-feed-format" select="$properties?line-feed-format"/>
+                </xsl:if>
+                <xsl:apply-templates mode="#current"/>
+            </document>
+        </xsl:variable>
+        <xsl:sequence select="mlml:verify-constraints($document)"/>
     </xsl:template>
 
     <xsl:template match="element" mode="mlml:parse">

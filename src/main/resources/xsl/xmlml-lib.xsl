@@ -69,4 +69,45 @@
         <xsl:sequence select="error($name, $description)"/>
     </xsl:function>
     
+<!--    
+    XML Constraint Check
+    -->
+    
+    
+    
+    <xsl:function name="mlml:verify-constraints" as="element(mlml:document)">
+        <xsl:param name="document" as="element(mlml:document)"/>
+        <xsl:variable name="elements" select="$document//mlml:element"/>
+        <xsl:for-each select="$elements">
+            <xsl:sequence select="mlml:check-unique-attribute-constr(mlml:attribute)"/>
+        </xsl:for-each>
+        
+        <xsl:sequence select="$document"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:check-unique-attribute-constr" as="empty-sequence()">
+        <xsl:param name="attributes" as="element(mlml:attribute)*"/>
+        <xsl:for-each-group select="$attributes" group-by="mlml:attr-name(.)">
+            <xsl:if test="count(current-group()) gt 1">
+                <xsl:sequence select="mlml:error('3.1.40.1', 'Duplicate attribute with name ' || current-grouping-key() || '.') "/>
+            </xsl:if>
+        </xsl:for-each-group> 
+    </xsl:function>
+    
+    <xsl:function name="mlml:attr-name" as="xs:QName">
+        <xsl:param name="attr" as="element(mlml:attribute)"/>
+        <xsl:variable name="name" select="$attr/mlml:name"/>
+        <xsl:sequence select="
+            if ($name = '' and $attr/@namespace = 'true') 
+            then QName('', 'xmlns') 
+            else 
+            QName(
+            if ($attr/@namespace = 'true') 
+            then ('http://www.w3.org/2000/xmlns/') 
+            else (mlml:namespace($name)),
+            $name
+            )
+            "/>
+    </xsl:function>
+    
 </xsl:stylesheet>

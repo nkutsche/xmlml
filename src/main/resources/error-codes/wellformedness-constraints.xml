@@ -4,6 +4,7 @@
         <code id="3.0.39.1" href="https://www.w3.org/TR/xml/#GIMatch">The Name in an element's end-tag MUST match the element type in the start-tag.</code>
     </sect>
     <sect nr="3.1" href="https://www.w3.org/TR/xml/#sec-starttags">
+        <code id="3.1.40.1" href="https://www.w3.org/TR/xml/#uniqattspec">An attribute name MUST NOT appear more than once in the same start-tag or empty-element tag.</code>
         <code id="3.1.41.2" href="https://www.w3.org/TR/xml/#NoExternalRefs">Attribute values MUST NOT contain direct or indirect entity references to external entities.</code>
     </sect>
     <sect nr="4.1" href="https://www.w3.org/TR/xml/#sec-references">
