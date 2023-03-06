@@ -619,7 +619,383 @@
             </x:scenario>
         </x:scenario>
     </x:scenario>
+    
+    <x:scenario label="Matching on attribute value">
+<!--        
+        <attributes
+    token =	"b"
+    nmtokens =	" this&#x0d;&#x0a; also	 gets&#x20; normalized "
+    />
+        -->
+        <x:scenario label="Type nmtokens but invalid">
+            <x:variable name="attribute">
+                <attribute xmlns="http://www.nkutsche.com/xmlml" type="NMTOKENS">
+                    <ws space="1"/>
+                    <name>nmtokens</name>
+                    <eq/>
+                    <value>
+                        <data> this</data>
+                        <entity codepoint="x0d"/>
+                        <entity codepoint="x0a"/>
+                        <data> also   </data>
+                    </value>
+                </attribute>
+            </x:variable>
+            <x:scenario label="raw value">
+                <x:context select="$attribute/mlml:value/node()" mode="mlml:doc"/>
+                <x:expect label="value is untouched">
+                    <x:text> this</x:text>
+                    <x:text>&#xD;</x:text>
+                    <x:text>&#xA;</x:text>
+                    <x:text> also   </x:text>
+                </x:expect>
+                <x:expect label="codepoints" 
+                    test="$x:result ! string-to-codepoints(.)" 
+                    select="string-to-codepoints(' this&#xD;&#xA; also   ')"/>
+            </x:scenario>
+            <x:scenario label="converted value">
+                <x:context select="$attribute/mlml:value" mode="mlml:doc"/>
+                <x:expect label="value is untouched">
+                    <x:text>this&#xD;&#xA; also</x:text>
+                </x:expect>
+                <x:expect label="codepoints" 
+                    test="$x:result ! string-to-codepoints(.)" 
+                    select="string-to-codepoints('this&#xD;&#xA; also')"/>
+            </x:scenario>
+        </x:scenario>
 
+        <x:scenario label="Type idref valid">
+            <x:variable name="attribute">
+                <attribute xmlns="http://www.nkutsche.com/xmlml" type="IDREF">
+                    <ws space="1"/>
+                    <name>idref</name>
+                    <eq/>
+                    <value>
+                        <data>   foo   </data>
+                    </value>
+                </attribute>
+            </x:variable>
+            <x:scenario label="raw value">
+                <x:context select="$attribute/mlml:value/node()" mode="mlml:doc"/>
+                <x:expect label="value is untouched">
+                    <x:text>   foo   </x:text>
+                </x:expect>
+                <x:expect label="codepoints" 
+                    test="$x:result ! string-to-codepoints(.)" 
+                    select="string-to-codepoints('   foo   ')"/>
+            </x:scenario>
+            <x:scenario label="converted value">
+                <x:context select="$attribute/mlml:value" mode="mlml:doc"/>
+                <x:expect label="value is untouched">
+                    <x:text>foo</x:text>
+                </x:expect>
+                <x:expect label="codepoints" 
+                    test="$x:result ! string-to-codepoints(.)" 
+                    select="string-to-codepoints('foo')"/>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Testing function mlml:type-validate">
+        <x:call function="mlml:type-validate"/>
+        
+        <x:scenario label="type = 'IDREF'">
+            <x:call>
+                <x:param position="2" select="'IDREF'"/>
+            </x:call>
+            <x:scenario label="value = 'foo'">
+                <x:call>
+                    <x:param position="1" select="'foo'"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '   foo   '">
+                <x:call>
+                    <x:param position="1" select="'   foo   '"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '_foo'">
+                <x:call>
+                    <x:param position="1" select="'_foo'"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '1foo'">
+                <x:call>
+                    <x:param position="1" select="'1foo'"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo,bar'">
+                <x:call>
+                    <x:param position="1" select="'foo,bar'"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo bar'">
+                <x:call>
+                    <x:param position="1" select="'foo bar'"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="type = 'IDREFS'">
+            <x:call>
+                <x:param position="2" select="'IDREFS'"/>
+            </x:call>
+            <x:scenario label="value = 'foo'">
+                <x:call>
+                    <x:param position="1" select="'foo'"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '   foo   '">
+                <x:call>
+                    <x:param position="1" select="'   foo   '"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '_foo'">
+                <x:call>
+                    <x:param position="1" select="'_foo'"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '1foo'">
+                <x:call>
+                    <x:param position="1" select="'1foo'"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo,bar'">
+                <x:call>
+                    <x:param position="1" select="'foo,bar'"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo bar'">
+                <x:call>
+                    <x:param position="1" select="'foo bar'"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo     bar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo     bar   '"/>
+                </x:call>
+                <x:expect label="is valid" select="true()"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo&#xA;bar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo&#xA;bar   '"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+            <x:scenario label="value = ' this&#x0d;&#x0a; also	 gets&#x20; normalized '">
+                <x:call>
+                    <x:param position="1" select="' this&#x0d;&#x0a; also	 gets&#x20; normalized '"/>
+                </x:call>
+                <x:expect label="is invalid" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+    <x:scenario label="Testing function mlml:type-convert">
+        <x:call function="mlml:type-convert"/>
+        
+        <x:scenario label="type = 'IDREF'">
+            <x:call>
+                <x:param position="2" select="'IDREF'"/>
+            </x:call>
+            <x:scenario label="value = 'foo'">
+                <x:call>
+                    <x:param position="1" select="'foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '   foo   '">
+                <x:call>
+                    <x:param position="1" select="'   foo   '"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '_foo'">
+                <x:call>
+                    <x:param position="1" select="'_foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'_foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '1foo'">
+                <x:call>
+                    <x:param position="1" select="'1foo'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'1foo'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo,bar'">
+                <x:call>
+                    <x:param position="1" select="'foo,bar'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo,bar'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo bar'">
+                <x:call>
+                    <x:param position="1" select="'foo   bar'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo   bar'"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="type = 'IDREFS'">
+            <x:call>
+                <x:param position="2" select="'IDREFS'"/>
+            </x:call>
+            <x:scenario label="value = 'foo'">
+                <x:call>
+                    <x:param position="1" select="'foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '   foo   '">
+                <x:call>
+                    <x:param position="1" select="'   foo   '"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '_foo'">
+                <x:call>
+                    <x:param position="1" select="'_foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'_foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '1foo'">
+                <x:call>
+                    <x:param position="1" select="'1foo'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'1foo'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo,bar'">
+                <x:call>
+                    <x:param position="1" select="'foo,bar'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo,bar'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo bar'">
+                <x:call>
+                    <x:param position="1" select="'foo bar'"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo bar'"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo     bar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo     bar   '"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo bar'"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo\nbar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo&#xA;bar   '"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo&#xA;bar'"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="type = 'NMTOKENS'">
+            <x:call>
+                <x:param position="2" select="'NMTOKENS'"/>
+            </x:call>
+            <x:scenario label="value = 'foo'">
+                <x:call>
+                    <x:param position="1" select="'foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '   foo   '">
+                <x:call>
+                    <x:param position="1" select="'   foo   '"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '_foo'">
+                <x:call>
+                    <x:param position="1" select="'_foo'"/>
+                </x:call>
+                <x:expect label="converted value" select="'_foo'"/>
+            </x:scenario>
+            <x:scenario label="value = '1foo'">
+                <x:call>
+                    <x:param position="1" select="'1foo'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'1foo'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo,bar'">
+                <x:call>
+                    <x:param position="1" select="'foo,bar'"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo,bar'"/>
+            </x:scenario>
+            <x:scenario label="value = 'foo bar'">
+                <x:call>
+                    <x:param position="1" select="'foo bar'"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo bar'"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo     bar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo     bar   '"/>
+                </x:call>
+                <x:expect label="converted value" select="'foo bar'"/>
+            </x:scenario>
+            <x:scenario label="value = '    foo\nbar   '">
+                <x:call>
+                    <x:param position="1" select="'    foo&#xD;&#xA;bar   '"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'foo&#xD;&#xA;bar'"/>
+            </x:scenario>
+            <x:scenario label="value = ' this\r\n also	 gets&#x20; normalized '">
+                <x:call>
+                    <x:param position="1" select="' this&#x0d;&#x0a; also	 gets&#x20; normalized '"/>
+                </x:call>
+                <x:expect label="invalid value is not converted" select="'this&#x0d;&#x0a; also gets normalized'"/>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+    <x:scenario label="Testing function mlml:attr-name" catch="true">
+        <x:call function="mlml:attr-name"/>
+        
+        <x:scenario label="for default namespace">
+            <x:call>
+                <x:param xmlns="http://www.nkutsche.com/xmlml">
+                    <attribute namespace="true">
+                        <ws space="1" />
+                        <name />
+                        <eq />
+                        <value>
+                           <data>default-namespace.com</data>
+                        </value>
+                     </attribute>
+                </x:param>
+            </x:call>
+            <x:expect label="result namespace" select="QName('', 'xmlns')"></x:expect>
+        </x:scenario>
+
+        <x:scenario label="for attribut in no namespace">
+            <x:call>
+                <x:param xmlns="http://www.nkutsche.com/xmlml">
+                    <attribute>
+                        <ws space="1" />
+                        <name>attribute</name>
+                        <eq />
+                        <value />
+                     </attribute>
+                </x:param>
+            </x:call>
+            <x:expect label="result namespace" select="QName('', 'attribute')"></x:expect>
+        </x:scenario>
+    </x:scenario>
+    
     <x:scenario label="Testing function mlml:hex-to-int">
         <x:call function="mlml:hex-to-int"/>
 
