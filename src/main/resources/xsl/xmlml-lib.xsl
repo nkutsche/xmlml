@@ -63,7 +63,7 @@
     </xsl:function>
     
     <xsl:function name="mlml:error" as="empty-sequence()">
-        <xsl:param name="code" as="xs:integer"/>
+        <xsl:param name="code" as="xs:string"/>
         <xsl:param name="description" as="xs:string"/>
         <xsl:variable name="name" select="xs:QName('mlml:code-' || $code)"/>
         <xsl:sequence select="error($name, $description)"/>

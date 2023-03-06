@@ -325,7 +325,7 @@
                                         'external': $ext-type,
                                         'resolve' : function(){
                                             if ($ndata) 
-                                            then mlml:error(413, 'Unparsed entity ' || $name || 'must not be referenced.') 
+                                            then mlml:error('4.1.68.3', 'Unparsed entity ' || $name || ' must not be referenced.') 
                                             else $uri-resolver($systemId, $base-uri)
                                         }
                                     }"/>
