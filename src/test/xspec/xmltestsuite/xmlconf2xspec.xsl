@@ -9,13 +9,21 @@
     version="3.0">
     
     <xsl:param name="focus" as="xs:string?"/>
+    <xsl:param name="pending" as="xs:string?"/>
     
     <xsl:variable name="focus-map" select="
         if(exists($focus)) then
         let $tk := tokenize($focus, '=')
         return
         map{$tk[1] : $tk[2] => tokenize(',')}
-        
+        else ()
+        "/>
+
+    <xsl:variable name="pending-map" select="
+        if(exists($pending)) then
+        let $tk := tokenize($pending, '=')
+        return
+        map{$tk[1] : $tk[2] => tokenize(',')}
         else ()
         "/>
     
@@ -36,10 +44,16 @@
     
     <xsl:template match="TEST">
         <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = @TYPE"/>
+        <xsl:variable name="is-pending" select="$pending-map?id = @ID or $pending-map?type = @TYPE"/>
         <x:scenario label="{@ID}" catch="true">
-            <xsl:if test="$is-focus">
-                <xsl:attribute name="focus" select="''"/>
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="$is-pending">
+                    <xsl:attribute name="pending" select="''"/>
+                </xsl:when>
+                <xsl:when test="$is-focus">
+                    <xsl:attribute name="focus" select="''"/>
+                </xsl:when>
+            </xsl:choose>
             <x:variable name="src" select="'{resolve-uri(@URI, base-uri(.))}'"/>
             <x:like label="{@TYPE}"/>
         </x:scenario>
