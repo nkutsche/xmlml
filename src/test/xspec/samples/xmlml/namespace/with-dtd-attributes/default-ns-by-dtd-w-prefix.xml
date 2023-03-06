@@ -1,0 +1,23 @@
+<!--<!DOCTYPE ns:root [<!ELEMENT ns:root EMPTY><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com">]><ns:root/>-->
+<?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" xmlns:ns="ns.namespace.com">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>ns:root</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ELEMENT ns:root EMPTY><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element collapsed="true">
+        <name>ns:root</name>
+        <attribute namespace="true" default="true">
+            <ws space="1"/>
+            <name>ns</name>
+            <eq/>
+            <value>
+                <data>ns.namespace.com</data>
+            </value>
+        </attribute>
+    </element>
+</document>

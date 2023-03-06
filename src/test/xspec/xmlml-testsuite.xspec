@@ -462,6 +462,18 @@
             <x:variable name="path" select="'namespace/declarations/redundant-prefixed-declarations.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/overwrite-default-ns-decl.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/overwrite-default-ns-decl.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
     <!--
         Currently it workse only with -strip:none
