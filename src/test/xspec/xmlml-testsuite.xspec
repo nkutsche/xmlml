@@ -479,6 +479,10 @@
         Currently it workse only with -strip:none
     -->
     <x:scenario label="Dir: whitespace/" catch="true">
+        <x:scenario label="Test: whitespace/invalid-mixed-content.xml">
+            <x:variable name="path" select="'whitespace/invalid-mixed-content.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: whitespace/unrecognized-by-dtd-empty.xml">
             <x:variable name="path" select="'whitespace/unrecognized-by-dtd-empty.xml'"/>
             <x:like label="generic-serialize-test"/>

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+<!DOCTYPE root [
+  <!ELEMENT root (a,b)>
+  <!ELEMENT a EMPTY>
+  <!ELEMENT b (#PCDATA|c)* >
+  <!ELEMENT c ANY>
+
+]>
+<!-\-* root element have text content *-\->
+<root>
+ root can't have text content
+<a></a><b>
+   <c></c> 
+   content of b element
+</b></root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <xml-decl>
+        <version>
+            <ws space="1"/>
+            <name/>
+            <eq/>
+            <value>
+                <data>1.0</data>
+            </value>
+        </version>
+    </xml-decl>
+    <ws nl="1"/>
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <nl/>
+            <data><![CDATA[  <!ELEMENT root (a,b)>]]></data>
+            <nl/>
+            <data><![CDATA[  <!ELEMENT a EMPTY>]]></data>
+            <nl/>
+            <data><![CDATA[  <!ELEMENT b (#PCDATA|c)* >]]></data>
+            <nl/>
+            <data><![CDATA[  <!ELEMENT c ANY>]]></data>
+            <nl amount="2"/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <comment>
+        <data>* root element have text content *</data>
+    </comment>
+    <ws nl="1"/>
+    <element>
+        <name>root</name>
+        <content>
+            <text>
+                <nl/>
+                <data> root can't have text content</data>
+            </text>
+            <element>
+                <name>a</name>
+            </element>
+            <element>
+                <name>b</name>
+                <content>
+                    <text>
+                        <nl/>
+                        <data>   </data>
+                    </text>
+                    <element>
+                        <name>c</name>
+                    </element>
+                    <text>
+                        <data> </data>
+                        <nl/>
+                        <data>   content of b element</data>
+                        <nl/>
+                    </text>
+                </content>
+            </element>
+        </content>
+    </element>
+    <ws nl="2"/>
+</document>
