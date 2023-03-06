@@ -678,9 +678,11 @@
                 <xsl:attribute name="fixed" select="true()"/>
             </xsl:if>
 
-            <xsl:variable name="defValue" select="DefaultDecl/AttValue/(AttValueDouble | AttValueSingle)"/>
+            <xsl:variable name="defValue">
+                <xsl:apply-templates select="DefaultDecl/AttValue/(AttValueDouble | AttValueSingle)" mode="mlml:dtd-parse-w-ents"/>
+            </xsl:variable>
 
-            <xsl:if test="$defValue">
+            <xsl:if test="DefaultDecl/AttValue">
                 <xsl:attribute name="default" select="$defValue"/>
             </xsl:if>
 
@@ -746,6 +748,24 @@
             <xsl:apply-templates/>
         </xsl:variable>
         <xsl:value-of select="replace($content, '&amp;#39;', '''')"/>        
+    </xsl:template>
+    
+    <xsl:key name="entity-name" match="EntityDecl/GEDecl" use="Name"/>
+    
+    <xsl:template match="EntityRef[$pre-def-entities(Name)]" mode="mlml:dtd-parse-w-ents" priority="10">
+        <xsl:value-of select="$pre-def-entities(Name)"/>
+    </xsl:template>
+    <xsl:template match="EntityRef[Name]" mode="mlml:dtd-parse-w-ents">
+        <xsl:variable name="name" select="Name"/>
+        <xsl:variable name="this" select="."/>
+
+        <xsl:variable name="entitydecl" select="key('entity-name', $name)[. &lt;&lt; $this][1]"/>
+        
+        <xsl:apply-templates select="
+            $entitydecl/EntityDef/EntityValue/
+            (EntityValueDouble|EntityValueSingle)
+            /node()
+            " mode="#current"/>
     </xsl:template>
     
     <xsl:template match="Reference" mode="mlml:dtd-parse">

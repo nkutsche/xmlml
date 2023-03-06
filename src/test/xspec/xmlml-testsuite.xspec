@@ -304,6 +304,10 @@
             <x:variable name="path" select="'entity/entity-in-attribute-predef2.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: entity/entity-in-default-attribute.xml">
+            <x:variable name="path" select="'entity/entity-in-default-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: entity/entity-self-include-system.xml">
             <x:variable name="path" select="'entity/entity-self-include-system.xml'"/>
             <x:like label="generic-serialize-test"/>

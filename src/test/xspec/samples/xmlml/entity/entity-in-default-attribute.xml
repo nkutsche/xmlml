@@ -1,0 +1,25 @@
+<!--
+<!DOCTYPE root [<!ENTITY ent "entity-value"><!ELEMENT root EMPTY><!ATTLIST root a CDATA "&ent;">]><root></root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ENTITY ent "entity-value"><!ELEMENT root EMPTY><!ATTLIST root a CDATA "&ent;">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute default="true" type="CDATA">
+            <ws space="1"/>
+            <name>a</name>
+            <eq/>
+            <value>
+                <data>entity-value</data>
+            </value>
+        </attribute>
+    </element>
+</document>

@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ENTITY ent "entity-value"><!ELEMENT root EMPTY><!ATTLIST root a CDATA "&ent;">]><root></root>
