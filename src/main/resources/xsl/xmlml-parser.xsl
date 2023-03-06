@@ -187,7 +187,7 @@
         <xsl:variable name="el_name" select="$content/self::mlml:name"/>
         
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
-            <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-adjacent="@name">
+            <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-by="@name">
                 <xsl:if test="@default">
                     <attribute default="true">
                         <xsl:choose>
