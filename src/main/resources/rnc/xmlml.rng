@@ -345,8 +345,41 @@
           <ref name="nl"/>
           <ref name="space"/>
           <ref name="tab"/>
+          <ref name="entity_ws"/>
         </choice>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="entity_ws">
+    <choice>
+      <ref name="entity_ws_name"/>
+      <ref name="entity_ws_cp"/>
+    </choice>
+  </define>
+  <define name="entity_ws_name">
+    <element name="entity">
+      <attribute name="name">
+        <data type="NCName"/>
+      </attribute>
+      <ref name="ws"/>
+    </element>
+  </define>
+  <define name="entity_ws_cp">
+    <element name="entity">
+      <attribute name="codepoint">
+        <choice>
+          <value>x9</value>
+          <value>xA</value>
+          <value>xa</value>
+          <value>xD</value>
+          <value>xd</value>
+          <value>x20</value>
+          <value>9</value>
+          <value>10</value>
+          <value>13</value>
+          <value>32</value>
+        </choice>
+      </attribute>
     </element>
   </define>
   <define name="qname">

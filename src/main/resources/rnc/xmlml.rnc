@@ -74,7 +74,13 @@ ws = (ws_simple | ws_mixed)
 
 ws_simple = element ws {attribute space {xs:integer} | attribute tab {xs:integer} | attribute nl {xs:integer}}
 
-ws_mixed = element ws {(nl | space | tab)+}
+ws_mixed = element ws {(nl | space | tab | entity_ws)+}
+
+entity_ws = (entity_ws_name | entity_ws_cp)
+
+entity_ws_name = element entity {attribute name {xs:NCName}, ws}
+
+entity_ws_cp = element entity {attribute codepoint {"x9" | "xA" | "xa" | "xD" | "xd" | "x20" | "9" | "10" | "13" | "32"}}
 
 qname = element name {xs:QName}
 
