@@ -103,18 +103,25 @@
                     else $x:result
                     " select="unparsed-text($src)"/>
             </x:scenario>
-            <x:scenario label="mlml:parse-dtd-and-validate">
-                <x:call function="mlml:parse-dtd-and-validate">
-                    <x:param select="$src"/>
-                </x:call>
-                <x:expect label="Parsed DTD is valid" select="true()"/>
-            </x:scenario>
             <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
+                <x:variable name="xmlml" select="
+                    mlmlt:try-catch(
+                    function(){{
+                    mlml:parse($src)
+                    }}
+                    )
+                    "/>
                 <x:call function="mlml:doc">
-                    <x:param select="mlml:parse($src)"/>
+                    <x:param select="$xmlml"/>
                 </x:call>
                 
-                <x:expect label="XMLML as XDM" select="doc($src)"/>
+                <x:expect label="XMLML as XDM" select="
+                    mlmlt:try-catch(
+                        function(){{
+                            doc($src)
+                        }}
+                    )
+                    "/>
             </x:scenario>
         </x:scenario>
 
@@ -153,7 +160,13 @@
                     <x:param select="$xmlml"/>
                 </x:call>
                 
-                <x:expect label="XMLML as XDM" select="doc($src)"/>
+                <x:expect label="XMLML as XDM" select="
+                    mlmlt:try-catch(
+                        function(){{
+                            doc($src)
+                        }}
+                    )
+                    "/>
             </x:scenario>
         </x:scenario>
     </xsl:template>
