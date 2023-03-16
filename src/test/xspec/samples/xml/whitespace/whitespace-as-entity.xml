@@ -1,0 +1,11 @@
+<!DOCTYPE root [
+<!ELEMENT root ((mixed | cont)*)>
+<!ELEMENT mixed (#PCDATA|mixed)*>
+<!ELEMENT cont (cont*)>
+<!ENTITY space "   ">
+]>
+<root>
+    <mixed><mixed/>&#32;<mixed/></mixed>
+    <cont><cont/>&#32;&#x9;&space;<cont/>&#x20;&#xA;&#10;&#9;</cont>
+    <cont><cont/>&#x61;<cont/></cont>
+</root>

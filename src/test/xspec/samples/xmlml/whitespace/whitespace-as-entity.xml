@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+<!DOCTYPE root [
+<!ELEMENT root ((mixed | cont)*)>
+<!ELEMENT mixed (#PCDATA|mixed)*>
+<!ELEMENT cont (cont*)>
+<!ENTITY space "   ">
+]>
+<root>
+    <mixed><mixed/>&#32;<mixed/></mixed>
+    <cont><cont/>&#32;&#x9;&space;<cont/>&#x20;&#xA;&#10;&#9;</cont>
+    <cont><cont/>&#x61;<cont/></cont>
+</root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ELEMENT root ((mixed | cont)*)>]]></data>
+            <nl/>
+            <data><![CDATA[<!ELEMENT mixed (#PCDATA|mixed)*>]]></data>
+            <nl/>
+            <data><![CDATA[<!ELEMENT cont (cont*)>]]></data>
+            <nl/>
+            <data><![CDATA[<!ENTITY space "   ">]]></data>
+            <nl/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <element>
+        <name>root</name>
+        <content>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element>
+                <name>mixed</name>
+                <content>
+                    <element collapsed="true">
+                        <name>mixed</name>
+                    </element>
+                    <text>
+                        <entity codepoint="32"/>
+                    </text>
+                    <element collapsed="true">
+                        <name>mixed</name>
+                    </element>
+                </content>
+            </element>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element>
+                <name>cont</name>
+                <content>
+                    <element collapsed="true">
+                        <name>cont</name>
+                    </element>
+                    <ws>
+                        <entity codepoint="32"/>
+                    </ws>
+                    <ws>
+                        <entity codepoint="x9"/>
+                    </ws>
+                    <ws>
+                        <entity name="space">
+                            <ws space="3"/>
+                        </entity>
+                    </ws>
+                    <element collapsed="true">
+                        <name>cont</name>
+                    </element>
+                    <ws>
+                        <entity codepoint="x20"/>
+                    </ws>
+                    <ws>
+                        <entity codepoint="xA"/>
+                    </ws>
+                    <ws>
+                        <entity codepoint="10"/>
+                    </ws>
+                    <ws>
+                        <entity codepoint="9"/>
+                    </ws>
+                </content>
+            </element>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element>
+                <name>cont</name>
+                <content>
+                    <element collapsed="true">
+                        <name>cont</name>
+                    </element>
+                    <text>
+                        <entity codepoint="x61"></entity>
+                    </text>
+                    <element collapsed="true">
+                        <name>cont</name>
+                    </element>
+                </content>
+            </element>
+            <ws nl="1"/>
+        </content>
+    </element>
+</document>
