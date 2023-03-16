@@ -132,6 +132,10 @@
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
         <xsl:variable name="pre-parsed" select="xmlp:parse-document($unparsed-xml)"/>
         
+        <xsl:if test="$pre-parsed/self::ERROR">
+            <xsl:sequence select="mlml:error('unknown', string($pre-parsed))"/>
+        </xsl:if>
+        
         <xsl:variable name="dtd" select="mlml:parse-dtds-from-preparsed-xml(
             $pre-parsed, 
             $properties?base-uri, 
