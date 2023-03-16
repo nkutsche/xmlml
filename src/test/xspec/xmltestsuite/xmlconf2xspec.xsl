@@ -56,20 +56,24 @@
     
     
     <xsl:template match="TEST">
-        <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = @TYPE"/>
-        <xsl:variable name="is-pending" select="$pending-map?id = @ID or $pending-map?type = @TYPE"/>
-        <x:scenario label="{@ID}" catch="true">
-            <xsl:choose>
-                <xsl:when test="$is-pending">
-                    <xsl:attribute name="pending" select="''"/>
-                </xsl:when>
-                <xsl:when test="$is-focus">
-                    <xsl:attribute name="focus" select="''"/>
-                </xsl:when>
-            </xsl:choose>
-            <x:variable name="src" select="'{resolve-uri(@URI, base-uri(.))}'"/>
-            <x:like label="{@TYPE}"/>
-        </x:scenario>
+        <xsl:variable name="type" select="@TYPE"/>
+        <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = $type"/>
+        <xsl:variable name="is-pending" select="$pending-map?id = @ID or $pending-map?type = $type"/>
+        <xsl:variable name="src" select="resolve-uri(@URI, base-uri(.))"/>
+        <xsl:if test="not($is-pending) and (doc-available($src) or $type = ('not-wf', 'error'))">
+            <x:scenario label="{@ID}" catch="true">
+                <xsl:choose>
+                    <xsl:when test="$is-pending">
+                        <xsl:attribute name="pending" select="''"/>
+                    </xsl:when>
+                    <xsl:when test="$is-focus">
+                        <xsl:attribute name="focus" select="''"/>
+                    </xsl:when>
+                </xsl:choose>
+                <x:variable name="src" select="'{$src}'"/>
+                <x:like label="{$type}"/>
+            </x:scenario>
+        </xsl:if>
     </xsl:template>
     
     <xsl:template name="test-caller">
