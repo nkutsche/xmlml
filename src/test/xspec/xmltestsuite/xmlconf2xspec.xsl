@@ -11,6 +11,11 @@
     <xsl:param name="focus" as="xs:string?"/>
     <xsl:param name="pending" as="xs:string?"/>
     
+    <xsl:param name="edition" select="'1 2 3 4'" as="xs:string"/>
+    <xsl:param name="xml-version" select="'1.0'" as="xs:string"/>
+    
+    <xsl:variable name="edition.seq" select="tokenize($edition, '\s')" as="xs:string*"/>
+    
     <xsl:variable name="focus-map" select="
         if(exists($focus)) then
         let $tk := tokenize($focus, '=')
@@ -40,7 +45,15 @@
         </x:scenario>
     </xsl:template>
     
-    <xsl:template match="TEST[@NAMESPACE = 'no']" priority="10"/>
+    <xsl:template match="TEST[@NAMESPACE = 'no']" priority="15"/>
+    
+    <xsl:template match="TEST[@VERSION][not(@VERSION = $xml-version)]" priority="10"/>
+    
+    <xsl:template match="TEST[@EDITION][not(@EDITION/tokenize(.,'\s') = $edition.seq)]" priority="5"/>
+        
+    
+    
+    
     
     <xsl:template match="TEST">
         <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = @TYPE"/>
