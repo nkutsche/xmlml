@@ -55,9 +55,11 @@
     </xsl:template>
     
     <xsl:template match="attribute[@namespace = 'true']" mode="mlml:doc">
-        <xsl:namespace name="{name}">
-            <xsl:apply-templates select="value" mode="#current"/>
-        </xsl:namespace>
+        <xsl:if test="not(value = '')">
+            <xsl:namespace name="{name}">
+                <xsl:apply-templates select="value" mode="#current"/>
+            </xsl:namespace>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="pi" mode="mlml:doc">
