@@ -446,8 +446,8 @@
         <xsl:variable name="resolved" select="$entity?resolve()"/>
         <xsl:variable name="value" select="$resolved?content"/>
         
-        <xsl:variable name="base-uri" select="($entity?base-uri, base-uri(.))[1]"/>
-
+        <xsl:variable name="base-uri" select="($resolved?base-uri, base-uri(.))[1]"/>
+        
         <xsl:variable name="contentObj" select="
             map{
                 'content' : $value, 
