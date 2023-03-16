@@ -230,10 +230,13 @@
         
     </xsl:function>
     
-    <xsl:variable name="NameStartChar" select="':|[A-Z]|_|[a-z]|[&#xC0;-&#xD6;]|[&#xD8;-&#xF6;]|[&#xF8;-&#x2FF;]|[&#x370;-&#x37D;]|[&#x37F;-&#x1FFF;]|[&#x200C;-&#x200D;]|[&#x2070;-&#x218F;]|[&#x2C00;-&#x2FEF;]|[&#x3001;-&#xD7FF;]|[&#xF900;-&#xFDCF;]|[&#xFDF0;-&#xFFFD;]|[&#x10000;-&#xEFFFF;]'"/>
+    <xsl:variable name="NCNameStartChar" select="'[A-Z]|_|[a-z]|[&#xC0;-&#xD6;]|[&#xD8;-&#xF6;]|[&#xF8;-&#x2FF;]|[&#x370;-&#x37D;]|[&#x37F;-&#x1FFF;]|[&#x200C;-&#x200D;]|[&#x2070;-&#x218F;]|[&#x2C00;-&#x2FEF;]|[&#x3001;-&#xD7FF;]|[&#xF900;-&#xFDCF;]|[&#xFDF0;-&#xFFFD;]|[&#x10000;-&#xEFFFF;]'"/>
+    <xsl:variable name="NameStartChar" select="':|' || $NCNameStartChar"/>
     <xsl:variable name="NameChar" select="$NameStartChar || '|-|\.|[0-9]|&#xB7;|[&#x0300;-&#x036F;]|[&#x203F;-&#x2040;]'"/>
+    <xsl:variable name="NCNameChar" select="$NCNameStartChar || '|-|\.|[0-9]|&#xB7;|[&#x0300;-&#x036F;]|[&#x203F;-&#x2040;]'"/>
     
     <xsl:variable name="Name" select="'^[&#x20;]*(' || $NameStartChar || ')' || '(' || $NameChar || ')*[&#x20;]*$'"/>
+    <xsl:variable name="NCName" select="'^[&#x20;]*(' || $NCNameStartChar || ')' || '(' || $NCNameChar || ')*[&#x20;]*$'"/>
     <xsl:variable name="Type-Defs" select="map{
             'NMTOKEN' : map{
                 'regex' : '^[&#x20;]*(' || $NameChar || ')+[&#x20;]*$',
@@ -244,11 +247,11 @@
                 'convert' : function($raw){xs:NCName($raw)}
             },
             'ID' : map{
-                'regex' : $Name,
+                'regex' : $NCName,
                 'convert' : function($raw){xs:ID($raw)}
             },
             'IDREF' : map{
-                'regex' : $Name,
+                'regex' : $NCName,
                 'convert' : function($raw){xs:IDREF($raw) => normalize-space()}
             },
             'ENUM' : map{
