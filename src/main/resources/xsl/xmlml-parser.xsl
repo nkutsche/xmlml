@@ -389,10 +389,39 @@
     </xsl:template>
 
     <xsl:template match="Reference" mode="mlml:parse">
-        <text>
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
+        <xsl:param name="mixed-content" select="false()" as="xs:boolean" tunnel="yes"/>
+        
+        <xsl:variable name="entity" as="element(mlml:entity)">
             <xsl:apply-templates mode="#current"/>
-        </text>
+        </xsl:variable>
+        
+        <xsl:choose>
+            <xsl:when test="$mixed-content or not(mlml:entity-is-whitespace($entity))">
+                <text>
+                    <xsl:sequence select="$entity"/>
+                </text>
+            </xsl:when>
+            <xsl:otherwise>
+                <ws>
+                    <xsl:sequence select="$entity"/>
+                </ws>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
+    
+    <xsl:function name="mlml:entity-is-whitespace" as="xs:boolean">
+        <xsl:param name="entity" as="element(mlml:entity)"/>
+        <xsl:variable name="ws-codepoints" select="
+            'x9', 'xa', 'xd', 'x20', 
+            '9', '10', '13', '32'
+            "/>
+        <xsl:sequence select="
+            $entity[@name][*][not(* except mlml:ws)] 
+            or 
+            $entity/@codepoint/lower-case(.) = $ws-codepoints"/>
+    </xsl:function>
+    
 
 
     <xsl:template match="Reference/CharRef[CharRefDec | CharRefHex]" mode="mlml:parse">
