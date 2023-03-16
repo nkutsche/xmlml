@@ -117,7 +117,7 @@
                                             <parameters>
                                                 <parameter>
                                                     <name>focus</name>
-                                                    <value>type=valid</value>
+                                                    <value>type=invalid,valid</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>testRunner</name>
