@@ -67,7 +67,8 @@
         attribute/value[@quotes = 'single'] 
         | xml-decl/*/value[@quotes = 'single']
         | attribute-decl/value[@quotes = 'single']
-        | doc-type-decl//value[@quotes = 'single']
+        | doc-type-decl/system//value[@quotes = 'single']
+        | doc-type-decl/public//value[@quotes = 'single']
         " mode="mlml:serialize" priority="10">
         <xsl:text>'</xsl:text>
         <xsl:apply-templates mode="#current"/>
@@ -78,7 +79,8 @@
         attribute/value 
         | xml-decl/*/value 
         | attribute-decl/value
-        | doc-type-decl//value
+        | doc-type-decl/system//value
+        | doc-type-decl/public//value
         " mode="mlml:serialize">
         <xsl:text>"</xsl:text>
         <xsl:apply-templates mode="#current"/>
