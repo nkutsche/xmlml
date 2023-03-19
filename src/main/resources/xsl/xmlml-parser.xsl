@@ -17,6 +17,8 @@
     <xsl:variable name="mlml:EXPAND-DEFAULT-ATTRIBUTES" select="QName($feature_ns, 'EXPAND-DEFAULT-ATTRIBUTES')" visibility="final"/>
     <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
 
+    <xsl:variable name="mlml:IGNORE-INLINE-DTD-PIS" select="QName($feature_ns, 'IGNORE-INLINE-DTD-PIS')" visibility="final"/>
+
     <xsl:variable name="default-config" select="
         mlml:detect-default-config()
         " as="map(*)"/>
@@ -56,6 +58,14 @@
         <xsl:variable name="expand-default-attributes" select="
                 exists($expand-default-attributes.doc/*/@*)
                 "/>
+        
+        <xsl:variable name="ignore-inline-dtd-pis.doc" select="
+                $get-detection-file('ignore-inline-dtd-pis')
+                "/>
+        
+        <xsl:variable name="ignore-inline-dtd-pis" select="
+                empty($ignore-inline-dtd-pis.doc/processing-instruction())
+                "/>
 
         <xsl:variable name="resolve-dtd-uris.doc" select="
                 $get-detection-file('resolve-dtd-uris')
@@ -69,6 +79,7 @@
             $mlml:STRIP-WHITESPACE : $strip-whitespace,
             $mlml:RESOLVE-DTD-URIS : $resolve-dtd-uris,
             $mlml:EXPAND-DEFAULT-ATTRIBUTES : $expand-default-attributes,
+            $mlml:IGNORE-INLINE-DTD-PIS : $ignore-inline-dtd-pis,
             $mlml:URI_RESOLVER : mlml:default-uri-resolver#2
             }"/>
 
