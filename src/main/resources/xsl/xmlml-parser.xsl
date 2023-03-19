@@ -815,9 +815,21 @@
 
 
     <xsl:template match="doctypedecl/intSubset" mode="mlml:parse">
+        <xsl:param name="config" as="map(*)" tunnel="yes"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <inline>
-            <xsl:sequence select="mlml:line-breaks(., $properties?line-feed-format)"/>
+            
+            <xsl:for-each-group select="node()" group-adjacent="exists(self::markupdecl[PI]) and not($config($mlml:IGNORE-INLINE-DTD-PIS))">
+                <xsl:choose>
+                    <xsl:when test="current-grouping-key()">
+                        <xsl:apply-templates select="current-group()/PI" mode="#current"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:sequence select="mlml:line-breaks(string-join(current-group()), $properties?line-feed-format)"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                
+            </xsl:for-each-group> 
         </inline>
     </xsl:template>
     
