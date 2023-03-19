@@ -12,7 +12,7 @@ epilog = (pi | comment | ws)*
 
 elem = (empty_elem | non_empty_elem)
 
-non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (attr | namespace_decl)*, ws?, el_content, closeTagSpace?}
+non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, el_content, closeTagSpace?}
 
 empty_elem = element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
 
@@ -58,7 +58,7 @@ xmlDecl_standalone = element standalone {xmlDecl_Content}
 
 doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?}
 
-dtd_inline = element inline {node_content}
+dtd_inline = element inline {(pi | node_content)}
 
 dtd_external = dtd_system | dtd_public
 

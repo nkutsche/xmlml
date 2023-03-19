@@ -52,8 +52,8 @@
       <ref name="qname"/>
       <zeroOrMore>
         <choice>
-          <ref name="attr"/>
           <ref name="namespace_decl"/>
+          <ref name="attr"/>
         </choice>
       </zeroOrMore>
       <optional>
@@ -276,7 +276,10 @@
   </define>
   <define name="dtd_inline">
     <element name="inline">
-      <ref name="node_content"/>
+      <choice>
+        <ref name="pi"/>
+        <ref name="node_content"/>
+      </choice>
     </element>
   </define>
   <define name="dtd_external">
