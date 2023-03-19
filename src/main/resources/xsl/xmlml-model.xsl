@@ -14,7 +14,7 @@
 
     <xsl:template match="document" mode="mlml:doc">
         <xsl:document>
-            <xsl:apply-templates select="pi | comment | element" mode="#current"/>
+            <xsl:apply-templates select="doc-type-decl/inline/pi | pi | comment | element " mode="#current"/>
         </xsl:document>
     </xsl:template>
 
