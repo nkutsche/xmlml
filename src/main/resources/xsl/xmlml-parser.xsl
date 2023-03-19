@@ -175,6 +175,8 @@
 
     <xsl:template match="element" mode="mlml:parse">
         <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:param name="config" tunnel="yes" as="map(*)"/>
+        
         <xsl:variable name="el_name" as="element(mlml:name)">
             <xsl:apply-templates select="Name" mode="#current"/>
         </xsl:variable>
@@ -182,24 +184,13 @@
         <xsl:variable name="element-decl" select="$dtd//dtdml:element-decl[@name = $el_name]"/>
         
         <xsl:variable name="content-model" select="$element-decl/dtdml:content"/>
-        <xsl:variable name="mixed" select="
-            if ($content-model/@mixed = 'true' or $content-model/@preset = ('ANY', 'EMPTY'))
-            then 
-                true()
-            else if ($content-model)
-            then 
-                false()
-            else 
-                true()
-            "/>
-        <xsl:variable name="content" as="element()*">
-            <xsl:apply-templates mode="#current">
+        <xsl:variable name="attributes" as="element()*">
+            <xsl:apply-templates select="Attribute" mode="#current">
                 <xsl:with-param name="attribute-lists" select="$attribute-lists" tunnel="yes"/>
-                <xsl:with-param name="mixed-content" select="$mixed" tunnel="yes"/>
+                <xsl:with-param name="space-preserve" select="true()" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         
-        <xsl:variable name="el_name" select="$content/self::mlml:name"/>
         
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-by="@name">
@@ -228,11 +219,22 @@
                 
             </xsl:for-each-group>
         </xsl:variable>
-        <xsl:variable name="attributes" select="$content/self::mlml:attribute"/>
         <xsl:variable name="default-attributes" select="
             $default-attributes[not(mlml:name = $attributes/mlml:name)]
             "/>
         <xsl:variable name="attributes" select="($default-attributes, $attributes)"/>
+        
+        <xsl:variable name="space-preserve" select="
+            mlml:preserve-space($content-model, $attributes[mlml:name = 'xml:space'], $config)
+            "/>
+        
+        <xsl:variable name="content" as="element()*">
+            <xsl:apply-templates select="node() except Attribute" mode="#current">
+                <xsl:with-param name="attribute-lists" select="$attribute-lists" tunnel="yes"/>
+                <xsl:with-param name="space-preserve" select="$space-preserve" tunnel="yes"/>
+            </xsl:apply-templates>
+        </xsl:variable>
+        <xsl:variable name="el_name" select="$content/self::mlml:name"/>
         
         <xsl:variable name="etag" select="ETag"/>
         
@@ -256,11 +258,38 @@
             </xsl:for-each>
             <xsl:variable name="el_start" select="$content[. &lt;&lt; $el_name] | $el_name"/>
             <xsl:sequence select="$el_start"/>
-            <xsl:sequence select="$default-attributes"/>
+            <xsl:sequence select="$attributes"/>
             <xsl:sequence select="$content except $el_start"/>
         </element>
     </xsl:template>
-
+    
+    <xsl:function name="mlml:preserve-space" as="xs:boolean">
+        <xsl:param name="content-model" as="element(dtdml:content)?"/>
+        <xsl:param name="xml-space-attr" as="element(mlml:attribute)?"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="mixed-content" select="
+            $content-model/@mixed = 'true'
+            or $content-model/@preset = ('ANY', 'EMPTY')
+            "/>
+        <xsl:variable name="strip-space-cfg" select="($config($mlml:STRIP-WHITESPACE), 'ignorable')[1]"/>
+        
+        <xsl:sequence select="
+            if ($xml-space-attr/mlml:value = 'preserve') 
+            then true() 
+            else if ($strip-space-cfg = 'all') 
+            then false() 
+            else if ($strip-space-cfg = 'none') 
+            then true() 
+            (:assume that $strip-space-cfg = 'ignorable':)
+            else if ($mixed-content) 
+            then true() 
+            else if ($content-model) 
+            then false() 
+            else true()
+            "/>
+    </xsl:function>
+    
     <xsl:template match="content" mode="mlml:parse">
         <xsl:variable name="content" as="element()*">
             <xsl:apply-templates mode="#current"/>
@@ -357,9 +386,9 @@
 
     <xsl:template match="CharData" mode="mlml:parse">
         <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
-        <xsl:param name="mixed-content" select="false()" as="xs:boolean" tunnel="yes"/>
+        <xsl:param name="space-preserve" select="false()" as="xs:boolean" tunnel="yes"/>
         <xsl:choose>
-            <xsl:when test="$mixed-content or normalize-space(.) != ''">
+            <xsl:when test="$space-preserve or normalize-space(.) != ''">
                 <text>
                     <xsl:apply-templates mode="#current"/>
                 </text>
@@ -402,17 +431,18 @@
     <xsl:template match="AttValue//Reference | EntityValue//Reference" mode="mlml:parse" priority="10">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
-
+    
+    
     <xsl:template match="Reference" mode="mlml:parse">
         <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
-        <xsl:param name="mixed-content" select="false()" as="xs:boolean" tunnel="yes"/>
+        <xsl:param name="space-preserve" select="false()" as="xs:boolean" tunnel="yes"/>
         
         <xsl:variable name="entity" as="element(mlml:entity)">
             <xsl:apply-templates mode="#current"/>
         </xsl:variable>
         
         <xsl:choose>
-            <xsl:when test="$mixed-content or not(mlml:entity-is-whitespace($entity))">
+            <xsl:when test="$space-preserve or not(mlml:entity-is-whitespace($entity))">
                 <text>
                     <xsl:sequence select="$entity"/>
                 </text>
