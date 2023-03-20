@@ -1,0 +1,21 @@
+<!--<!DOCTYPE root [<?target value?>]><root/>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <pi>
+                <name>target</name>
+                <ws space="1"/>
+                <value>
+                    <data>value</data>
+                </value>
+            </pi>
+        </inline>
+    </doc-type-decl>
+    <element collapsed="true">
+        <name>root</name>
+    </element>
+</document>

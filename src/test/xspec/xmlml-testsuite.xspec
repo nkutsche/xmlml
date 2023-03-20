@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="../../main/resources/xsl/xmlml-main.xsl">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml"  xmlns:map="http://www.w3.org/2005/xpath-functions/map" stylesheet="../../main/resources/xsl/xmlml-main.xsl">
     <x:helper stylesheet="helper.xsl"/>
+    
+    <x:variable name="test-config" select="mlml:detect-default-config()"/>
 
     <x:scenario label="generic-serialize-test" shared="true" catch="true">
         <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
@@ -21,6 +23,7 @@
         <x:scenario label="xml -> xmlml">
             <x:call function="mlml:parse">
                 <x:param select="$xml-path"/>
+                <x:param select="$test-config"/>
             </x:call>
 
             <x:expect label="XMLML tree" select="mlml:clean-up($xmlml)"/>
@@ -32,6 +35,33 @@
             </x:call>
 
             <x:expect label="XMLML as XDM" select="doc($xml-path)"/>
+        </x:scenario>
+
+    </x:scenario>
+
+    <x:scenario label="generic-serialize-test-no-xerces" shared="true" catch="true">
+        <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
+
+        <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
+        <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
+        <x:variable name="xml" select="unparsed-text($xml-path)"/>
+        <x:variable name="xmlml" select="doc($xmlml-path)/*"/>
+
+        <x:scenario label="xmlml -> xml">
+            <x:call function="mlml:serialize">
+                <x:param select="$xmlml"/>
+            </x:call>
+
+            <x:expect label="XMLML serialized" select="$xml"/>
+        </x:scenario>
+
+        <x:scenario label="xml -> xmlml">
+            <x:call function="mlml:parse">
+                <x:param select="$xml-path"/>
+                <x:param select="$test-config"/>
+            </x:call>
+
+            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml)"/>
         </x:scenario>
 
     </x:scenario>
@@ -368,6 +398,12 @@
 
 
     <x:scenario label="Dir: pi/" catch="true">
+        <x:scenario label="Test: pi/pi-in-dtd-inline.xml">
+            <x:variable name="path" select="'pi/pi-in-dtd-inline.xml'"/>
+            <x:variable name="test-config" select="map:put($test-config, $mlml:IGNORE-INLINE-DTD-PIS, false())"/>
+            <!-- Ignore XDM compare, as Xerces result does not match to the XML TS for this case -->
+            <x:like label="generic-serialize-test-no-xerces"/>
+        </x:scenario>
         <x:scenario label="Test: pi/pi-trivial.xml">
             <x:variable name="path" select="'pi/pi-trivial.xml'"/>
             <x:like label="generic-serialize-test"/>
