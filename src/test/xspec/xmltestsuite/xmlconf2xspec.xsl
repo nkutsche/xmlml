@@ -103,83 +103,85 @@
             <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
         </x:scenario>
 
-        <x:scenario label="invalid" shared="true" catch="true">
-            <x:scenario label="mlml:parse-and-serialize">
-                <x:call function="mlml:parse-and-serialize">
-                    <x:param select="$src"/>
-                    <x:param select="true()"/>
-                </x:call>
-                <x:expect label="No change after parsed and serialized" test=" 
-                    if ($x:result instance of map(*)) 
-                    then $x:result?err?description 
-                    else $x:result
-                    " select="unparsed-text($src)"/>
-            </x:scenario>
-            <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
-                <x:variable name="xmlml" select="
-                    mlmlt:try-catch(
-                    function(){{
-                    mlml:parse($src)
-                    }}
-                    )
-                    "/>
-                <x:call function="mlml:doc">
-                    <x:param select="$xmlml"/>
-                </x:call>
-                
-                <x:expect label="XMLML as XDM" select="
+        <x:scenario label="mlml:parse-and-serialize" shared="true" catch="true">
+            <x:call function="mlml:parse-and-serialize">
+                <x:param select="$src"/>
+                <x:param select="true()"/>
+            </x:call>
+            <x:expect label="No change after parsed and serialized" test=" 
+                if ($x:result instance of map(*)) 
+                then $x:result?err?description 
+                else $x:result
+                " select="unparsed-text($src)"/>
+        </x:scenario>
+        
+        <x:scenario label="mlml:doc" shared="true" catch="true">
+            <x:variable name="xmlml" select="
+                mlmlt:try-catch(
+                function(){{
+                    mlml:parse($src, $default-config)
+                }}
+                )
+                "/>
+            <x:call function="mlml:doc">
+                <x:param select="$xmlml"/>
+            </x:call>
+            
+            <x:expect label="XMLML as XDM" test="$x:result" 
+                select="
                     mlmlt:try-catch(
                         function(){{
                             doc($src)
                         }}
                     )
                     "/>
+        </x:scenario>
+
+        
+
+        <x:scenario label="mlml:parse-dtd-and-validate" shared="true" catch="true">
+            
+            <x:variable name="dtdml" select="
+                mlmlt:try-catch(
+                    function(){{
+                        mlml:parse-dtds-from-xml($src, $default-config)
+                    }}
+                )
+                "/>
+            
+            <x:call function="mlml:validate-dtd">
+                <x:param select="$dtdml"/>
+            </x:call>
+            <x:expect label="Parsed DTD is valid" select="$dtdml"/>
+        </x:scenario>
+
+        <x:scenario label="invalid" shared="true" catch="true">
+
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
             </x:scenario>
+
+            <x:scenario label="DOM comparision">
+                <x:like label="mlml:doc"/>
+            </x:scenario>
+            
+            
         </x:scenario>
 
         <x:scenario label="valid" shared="true" catch="true">
-            <x:scenario label="mlml:parse-and-serialize">
-                <x:call function="mlml:parse-and-serialize">
-                    <x:param select="$src"/>
-                    <x:param select="true()"/>
-                </x:call>
-                <x:expect label="No change after parsed and serialized" select="unparsed-text($src)"/>
+            
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
             </x:scenario>
-            <x:scenario label="mlml:parse-dtd-and-validate">
-                
-                <x:variable name="dtdml" select="
-                    mlmlt:try-catch(
-                        function(){{
-                            mlml:parse-dtds-from-xml($src, $default-config)
-                        }}
-                    )
-                    "/>
-                
-                <x:call function="mlml:validate-dtd">
-                    <x:param select="$dtdml"/>
-                </x:call>
-                <x:expect label="Parsed DTD is valid" select="$dtdml"/>
+
+            <x:scenario label="parsing the DTD and validate it">
+                <x:like label="mlml:parse-dtd-and-validate"/>
             </x:scenario>
-            <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
-                <x:variable name="xmlml" select="
-                    mlmlt:try-catch(
-                        function(){{
-                            mlml:parse($src)
-                        }}
-                    )
-                    "/>
-                <x:call function="mlml:doc">
-                    <x:param select="$xmlml"/>
-                </x:call>
-                
-                <x:expect label="XMLML as XDM" select="
-                    mlmlt:try-catch(
-                        function(){{
-                            doc($src)
-                        }}
-                    )
-                    "/>
+            
+            <x:scenario label="DOM comparision">
+                <x:like label="mlml:doc"/>
             </x:scenario>
+            
         </x:scenario>
     </xsl:template>
     
