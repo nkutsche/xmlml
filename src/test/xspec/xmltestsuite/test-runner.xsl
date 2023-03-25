@@ -44,8 +44,22 @@
         </xsl:try>
         
     </xsl:function>
-
     
+    <xsl:function name="mlml:parse-and-validate" as="xs:boolean">
+        <xsl:param name="src" as="xs:string"/>
+        
+        <xsl:variable name="parsed" select="mlml:parse($src)"/>
+        
+        
+        <xsl:try>
+            <xsl:variable name="validate" select="mlml:validate-xmlml($parsed)"/>
+            <xsl:sequence select="exists($validate/self::mlml:document)"/>
+            <xsl:catch>
+                <xsl:sequence select="false()"/>
+            </xsl:catch>
+        </xsl:try>
+        
+    </xsl:function>
     
     <xsl:function name="mlml:ignore-comments">
         <xsl:param name="node"/>
