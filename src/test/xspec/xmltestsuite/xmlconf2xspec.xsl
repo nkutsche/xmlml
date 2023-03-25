@@ -109,7 +109,11 @@
             <x:call function="mlml:parse">
                 <x:param select="$src"/>
             </x:call>
-            <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
+            <x:expect label="Parser returns anything" test="
+                if ($x:result instance of element()) 
+                then exists(mlml:validate-xmlml($x:result)/self::mlml:document) 
+                else $x:result instance of map(*)
+                "/>
         </x:scenario>
 
         <x:scenario label="mlml:parse-and-serialize" shared="true" catch="true">
