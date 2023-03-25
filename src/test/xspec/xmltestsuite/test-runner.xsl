@@ -5,6 +5,7 @@
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:mlml="http://www.nkutsche.com/xmlml"
     xmlns:dtdml="http://www.nkutsche.com/dtdml"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     exclude-result-prefixes="xs math xd"
     version="3.0">
     <xsl:import href="http://www.nkutsche.com/xmlml/xmlml-main.xsl"/>
@@ -45,6 +46,29 @@
     </xsl:function>
 
     
+    
+    <xsl:function name="mlml:ignore-comments">
+        <xsl:param name="node"/>
+        <xsl:for-each select="$node">
+            <xsl:choose>
+                <xsl:when test="not(. instance of node())">
+                    <xsl:sequence select="."/>
+                </xsl:when>
+                <xsl:when test=". instance of comment()"/>
+                <xsl:otherwise>
+                    <xsl:copy>
+                        <xsl:sequence select="if(. instance of element()) then @* else ()"/>
+                        <xsl:sequence select="mlml:ignore-comments(node())"/>
+                    </xsl:copy>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
+    </xsl:function>
+
+    <xsl:variable name="cfg-w-outdef" select="
+        map:put($default-config, $mlml:STRIP-WHITESPACE, 'none') 
+        => map:put($mlml:IGNORE-INLINE-DTD-PIS, false())
+        "/>    
     
     
 </xsl:stylesheet>

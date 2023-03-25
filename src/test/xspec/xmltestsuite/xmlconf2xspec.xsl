@@ -54,6 +54,7 @@
     
     
     <xsl:template match="TEST">
+        <xsl:variable name="with-out-def" select="@OUTPUT"/>
         <xsl:variable name="type" select="@TYPE"/>
         
         <xsl:variable name="src" select="resolve-uri(@URI, base-uri(.))"/>
@@ -84,6 +85,14 @@
             </xsl:choose>
             
             <x:variable name="src" select="'{$src}'"/>
+            <xsl:if test="$with-out-def">
+                <x:variable name="out" select="'{$out}'"/>
+            </xsl:if>
+            <xsl:variable name="like" select="
+                if ($type = ('valid', 'invalid') and $with-out-def) 
+                then $type || '-w-outdef' 
+                else $type
+                "/>
             <x:like label="{$like}"/>
         </x:scenario>
     </xsl:template>
@@ -137,7 +146,27 @@
                     "/>
         </x:scenario>
 
-        
+        <x:scenario label="mlml:doc-w-outdef" shared="true" catch="true">
+            <x:variable name="xmlml" select="
+                mlmlt:try-catch(
+                function(){{
+                    mlml:parse($src, $cfg-w-outdef)
+                }}
+                )
+                "/>
+            <x:call function="mlml:doc">
+                <x:param select="$xmlml"/>
+            </x:call>
+            
+            <x:expect label="XMLML as XDM" test="mlml:ignore-comments($x:result)" 
+                select="
+                    mlmlt:try-catch(
+                        function(){{
+                            doc($out)
+                        }}
+                    )
+                    "/>
+        </x:scenario>
 
         <x:scenario label="mlml:parse-dtd-and-validate" shared="true" catch="true">
             
@@ -180,6 +209,35 @@
             
             <x:scenario label="DOM comparision">
                 <x:like label="mlml:doc"/>
+            </x:scenario>
+            
+        </x:scenario>
+
+        <x:scenario label="invalid-w-outdef" shared="true" catch="true">
+
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
+            </x:scenario>
+
+            <x:scenario label="DOM comparision">
+                <x:like label="mlml:doc-w-outdef"/>
+            </x:scenario>
+            
+            
+        </x:scenario>
+        
+        <x:scenario label="valid-w-outdef" shared="true" catch="true">
+            
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
+            </x:scenario>
+
+            <x:scenario label="parsing the DTD and validate it">
+                <x:like label="mlml:parse-dtd-and-validate"/>
+            </x:scenario>
+            
+            <x:scenario label="DOM comparision">
+                <x:like label="mlml:doc-w-outdef"/>
             </x:scenario>
             
         </x:scenario>
