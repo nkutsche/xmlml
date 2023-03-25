@@ -11,10 +11,11 @@
     <xsl:param name="focus" as="xs:string?"/>
     <xsl:param name="pending" as="xs:string?"/>
     
-    <xsl:param name="edition" select="'1 2 3 4'" as="xs:string"/>
+    <xsl:param name="edition" select="'1 2 3 4 5'" as="xs:string"/>
     <xsl:param name="xml-version" select="'1.0'" as="xs:string"/>
     
     <xsl:variable name="edition.seq" select="tokenize($edition, '\s')" as="xs:string*"/>
+    <xsl:variable name="xml-version.seq" select="tokenize($xml-version, '\s')" as="xs:string*"/>
     
     <xsl:variable name="focus-map" select="
         if(exists($focus)) then
@@ -26,9 +27,11 @@
 
     <xsl:variable name="pending-map" select="
         if(exists($pending)) then
-        let $tk := tokenize($pending, '=')
-        return
-        map{$tk[1] : $tk[2] => tokenize(',')}
+            for $p in tokenize($pending, ';')
+            return
+                let $tk := tokenize($p, '=')
+                return
+                    map{$tk[1] : $tk[2] => tokenize(',')}
         else ()
         "/>
     
@@ -47,33 +50,42 @@
     
     <xsl:template match="TEST[@NAMESPACE = 'no']" priority="15"/>
     
-    <xsl:template match="TEST[@VERSION][not(@VERSION = $xml-version)]" priority="10"/>
-    
-    <xsl:template match="TEST[@EDITION][not(@EDITION/tokenize(.,'\s') = $edition.seq)]" priority="5"/>
-        
-    
     
     
     
     <xsl:template match="TEST">
         <xsl:variable name="type" select="@TYPE"/>
-        <xsl:variable name="is-focus" select="$focus-map?id = @ID or $focus-map?type = $type"/>
-        <xsl:variable name="is-pending" select="$pending-map?id = @ID or $pending-map?type = $type"/>
+        
         <xsl:variable name="src" select="resolve-uri(@URI, base-uri(.))"/>
-        <xsl:if test="not($is-pending) and (doc-available($src) or $type = ('not-wf', 'error'))">
-            <x:scenario label="{@ID}" catch="true">
-                <xsl:choose>
-                    <xsl:when test="$is-pending">
-                        <xsl:attribute name="pending" select="''"/>
-                    </xsl:when>
-                    <xsl:when test="$is-focus">
-                        <xsl:attribute name="focus" select="''"/>
-                    </xsl:when>
-                </xsl:choose>
-                <x:variable name="src" select="'{$src}'"/>
-                <x:like label="{$type}"/>
-            </x:scenario>
-        </xsl:if>
+        <xsl:variable name="out" select=" if ($with-out-def) then resolve-uri(@OUTPUT, base-uri(.)) else $src "/>
+        <x:scenario label="{@ID}" catch="true">
+            <xsl:choose>
+                <xsl:when test="$pending-map?id = @ID">
+                    <xsl:attribute name="pending" select="'Ignored by ID'"/>
+                </xsl:when>
+                <xsl:when test="$pending-map?type = $type">
+                    <xsl:attribute name="pending" select="'Ignored by type ''' || $type || ''''"/>
+                </xsl:when>
+                <xsl:when test="not($type = ('not-wf', 'error') or doc-available($out))">
+                    <xsl:attribute name="pending" select="'Ignored as Xerces can not parse the expected output'"/>
+                </xsl:when>
+                <xsl:when test="@VERSION and not(@VERSION = $xml-version)">
+                    <xsl:attribute name="pending" select="'Ignored by version ''' || @VERSION || ''''"/>
+                </xsl:when>
+                <xsl:when test="@EDITION and not(@EDITION/tokenize(.,'\s') = $edition.seq)">
+                    <xsl:attribute name="pending" select="'Ignored by edition ''' || @EDITION || ''''"/>
+                </xsl:when>
+                <xsl:when test="$focus-map?id = @ID">
+                    <xsl:attribute name="focus" select="'Focused by ID'"/>
+                </xsl:when>
+                <xsl:when test="$focus-map?type = $type">
+                    <xsl:attribute name="focus" select="'Focused by type ''' || $type || ''''"/>
+                </xsl:when>
+            </xsl:choose>
+            
+            <x:variable name="src" select="'{$src}'"/>
+            <x:like label="{$like}"/>
+        </x:scenario>
     </xsl:template>
     
     <xsl:template name="test-caller">
