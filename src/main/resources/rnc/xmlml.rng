@@ -272,6 +272,9 @@
         </optional>
         <ref name="dtd_inline"/>
       </optional>
+      <optional>
+        <ref name="ws"/>
+      </optional>
     </element>
   </define>
   <define name="dtd_inline">

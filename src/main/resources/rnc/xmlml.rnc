@@ -56,7 +56,7 @@ xmlDecl_encoding = element encoding {xmlDecl_Content}
 
 xmlDecl_standalone = element standalone {xmlDecl_Content}
 
-doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?}
+doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?, ws?}
 
 dtd_inline = element inline {(pi | node_content)}
 
