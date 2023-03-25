@@ -120,6 +120,14 @@
                                                     <value>type=invalid,valid</value>
                                                 </parameter>
                                                 <parameter>
+                                                    <name>xml-version</name>
+                                                    <value>1.0</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>edition</name>
+                                                    <value>1 2 3 4 5</value>
+                                                </parameter>
+                                                <parameter>
                                                     <name>testRunner</name>
                                                     <value>${project.baseUri}/target/test-classes/xsl/testRunner.xsl</value>
                                                 </parameter>
