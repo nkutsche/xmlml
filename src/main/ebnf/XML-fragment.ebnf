@@ -1,5 +1,5 @@
 document-fragment ::= XMLDecl? content EOF
-XMLDecl  ::= '<?xml' VersionInfo? EncodingDecl? SDDecl? S? '?>'
+XMLDecl  ::= '<?xml' VersionInfo? EncodingDecl S? '?>'
 VersionInfo
          ::= S 'version' Eq ( "'" VersionNum "'" | '"' VersionNum '"' )
 Eq       ::= S? '=' S?
