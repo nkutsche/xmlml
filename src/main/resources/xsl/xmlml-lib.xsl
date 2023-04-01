@@ -111,6 +111,34 @@
     </xsl:function>
     
     
+    <xsl:function name="mlml:check-valid-xml-char" as="empty-sequence()">
+        <xsl:param name="codepoint" as="xs:integer"/>
+        
+        <!--
+        #x0009
+        | #x000A
+        | #x000D
+        | [#x0020-#xD7FF]
+        | [#xE000-#xFFFD]
+        | [#x10000-#x10FFFF]
+        -->
+        <xsl:choose>
+            <!-- #x0009 | #x000A | #x000D -->
+            <xsl:when test="$codepoint = (9, 10, 13)">
+            </xsl:when>
+            <!-- [#x0020-#xD7FF] -->
+            <xsl:when test="$codepoint ge 32 and $codepoint le 55295"/>
+            <!-- [#xE000-#xFFFD] -->
+            <xsl:when test="$codepoint ge 57344 and $codepoint le 65533"/>
+            <!-- [#x10000-#x10FFFF] -->
+            <xsl:when test="$codepoint ge 65536 and $codepoint le 1114111"/>
+            <xsl:otherwise>
+                <xsl:sequence select="mlml:error('2.2.2.0', 'Invalid character with codepoint ' || $codepoint || '.') "/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+    </xsl:function>
+    
 <!--    
     Hex
     -->

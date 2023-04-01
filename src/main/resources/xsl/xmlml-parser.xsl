@@ -477,6 +477,8 @@
             then 'x' || $charRef 
             else $charRef
             "/>
+        <xsl:variable name="codepoint" select="mlml:codepoint-by-charref($charRef)"/>
+        <xsl:sequence select="mlml:check-valid-xml-char($codepoint)"/>
         <entity>
             <xsl:attribute name="codepoint" select="$charRef"/>
         </entity>
