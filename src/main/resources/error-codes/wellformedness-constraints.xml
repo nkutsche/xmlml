@@ -3,6 +3,9 @@
     <sect nr="2.2" href="https://www.w3.org/TR/xml/#charsets">
         <code id="2.2.2.0" href="https://www.w3.org/TR/xml/#dt-character">A character is an atomic unit of text as specified by ISO/IEC 10646:2000 [ISO/IEC 10646]. Legal characters are tab, carriage return, line feed, and the legal characters of Unicode and ISO/IEC 10646. [...] Consequently, XML processors MUST accept any character in the range specified for Char.</code>
     </sect>
+    <sect nr="2.6" href="https://www.w3.org/TR/xml/#NT-PI">
+        <code id="2.6.17.0" href="https://www.w3.org/TR/xml/#NT-PITarget">The target names " XML ", " xml ", and so on are reserved for standardization in this or future versions of this specification.</code>
+    </sect>
     <sect nr="3" href="https://www.w3.org/TR/xml/#sec-logical-struct">
         <code id="3.0.39.1" href="https://www.w3.org/TR/xml/#GIMatch">The Name in an element's end-tag MUST match the element type in the start-tag.</code>
     </sect>

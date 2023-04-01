@@ -362,6 +362,9 @@
     </xsl:template>
 
     <xsl:template match="PITarget" mode="mlml:parse">
+        <xsl:if test="matches(., '^xml$', 'i')">
+            <xsl:sequence select="mlml:error('2.6.17.0', 'The target name ''xml'' is reserved for the XML declaration at the very beginning of the document.')"/>
+        </xsl:if>
         <name>
             <xsl:apply-templates mode="#current"/>
         </name>
