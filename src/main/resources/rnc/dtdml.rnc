@@ -27,7 +27,7 @@ attribute_decl = element attribute {common_attr, name, (optional | (fixed, attr_
 
 notation_decl = element notation {common_attr, name, ((systemId, publicId) | systemId | publicId)}
 
-entity_decl = element entity-decl {common_attr, name, (dtd_ent_value | dtd_ent_external)}
+entity_decl = element entity-decl {common_attr, ncname, (dtd_ent_value | dtd_ent_external)}
 
 attr_type = (attr_data_type | attr_enum_type)
 
@@ -59,6 +59,8 @@ dtd_ent_value = element value {common_attr, ndata_ref?, text}
 # Attributes
 
 name = attribute name {xs:string}
+
+ncname = attribute name {xs:NCName}
 
 attr_value = attribute default {xs:string}
 

@@ -98,7 +98,7 @@
   <define name="entity_decl">
     <element name="entity-decl">
       <ref name="common_attr"/>
-      <ref name="name"/>
+      <ref name="ncname"/>
       <choice>
         <ref name="dtd_ent_value"/>
         <ref name="dtd_ent_external"/>
@@ -188,6 +188,11 @@
   <define name="name">
     <attribute name="name">
       <data type="string"/>
+    </attribute>
+  </define>
+  <define name="ncname">
+    <attribute name="name">
+      <data type="NCName"/>
     </attribute>
   </define>
   <define name="attr_value">

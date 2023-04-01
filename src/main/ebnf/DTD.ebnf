@@ -73,12 +73,12 @@ Reference
 CharRef  ::= '&#' CharRefDec ';'
            | '&#x' CharRefHex ';'
 EntityRef
-         ::= '&' Name ';'
+         ::= '&' NCName ';'
 EntityDecl
          ::= GEDecl
            | PEDecl
-GEDecl   ::= '<!ENTITY' S Name S EntityDef S? '>'
-PEDecl   ::= '<!ENTITY' S '%' S Name S PEDef S? '>'
+GEDecl   ::= '<!ENTITY' S NCName S EntityDef S? '>'
+PEDecl   ::= '<!ENTITY' S '%' S NCName S PEDef S? '>'
 
 EntityDef
          ::= EntityValue
@@ -100,7 +100,7 @@ NDataDecl
          ::= S 'NDATA' S Name  
 
 NotationDecl
-         ::= '<!NOTATION' S Name S ExternalOrPublicID S? '>'
+         ::= '<!NOTATION' S NCName S ExternalOrPublicID S? '>'
 ExternalOrPublicID
          ::= 'SYSTEM' S SystemLiteral
            | 'PUBLIC' S PubidLiteral ( S SystemLiteral )?
@@ -129,9 +129,8 @@ Char     ::= #x0009
            | [#xE000-#xFFFD]
            | [#x10000-#x10FFFF]
 S        ::= ( #x0020 | #x0009 | #x000D | #x000A )+
-NameStartChar
-         ::= ':'
-           | [A-Z]
+NCNameStartChar
+         ::= [A-Z]
            | '_'
            | [a-z]
            | [#x00C0-#x00D6]
@@ -146,13 +145,19 @@ NameStartChar
            | [#xF900-#xFDCF]
            | [#xFDF0-#xFFFD]
 
-NameChar ::= NameStartChar
+NCNameChar ::= NCNameStartChar
            | '-'
            | '.'
            | [0-9]
            | #x00B7
            | [#x0300-#x036F]
            | [#x203F-#x2040]
+NCName     ::= NCNameStartChar NCNameChar*
+
+NameStartChar   ::= ':' | NCNameStartChar
+
+NameChar ::= ':' | NCNameChar
+
 Name     ::= NameStartChar NameChar*
 Nmtoken  ::= NameChar+
 
@@ -179,7 +184,7 @@ CharData ::= ( [^<&#x005D] | ']' [^<&#x005D] | ']' ']'+ [^<&#x005D>] )+ ']'*
 CommentContent  ::= ( Char - '-' | '-' ( Char - '-' ) )*
 PIStart ::= '<?'
 PIContentEnd     ::= ( S ( [^?] | '?'+ [^?>] )* '?'* )? '?>'
-PITarget ::= Name
+PITarget ::= NCName
 VersionNum
          ::= '1.' [0-9]+      
 
@@ -195,7 +200,7 @@ CharRefDec ::=  [0-9]+
 CharRefHex ::=  [0-9a-fA-F]+  
 
 EntityRef
-         ::= '&' Name ';'
+         ::= '&' NCName ';'
 
 EncName  ::= [A-Za-z] ( [A-Za-z0-9._] | '-' )*
 

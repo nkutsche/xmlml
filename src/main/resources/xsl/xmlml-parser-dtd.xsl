@@ -138,7 +138,7 @@
         <xsl:param name="entities" select="()" as="map(xs:string, item()?)*" tunnel="yes"/>
 
         <xsl:variable name="iterations" as="array(element()*)*">
-            <xsl:for-each-group select="*" group-starting-with="*[.//PEReference | .//PercentInEntityDecl[Name]]">
+            <xsl:for-each-group select="*" group-starting-with="*[.//PEReference | .//PercentInEntityDecl[NCName]]">
                 <xsl:sequence select="[current-group()]"/>
             </xsl:for-each-group>
         </xsl:variable>
@@ -384,14 +384,14 @@
 <!--    
     Avoids resolving PEReferences twice
     -->
-    <xsl:template match="PEReference[@resolved = 'true'] | PercentInEntityDecl[Name][@resolved = 'true']" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted" priority="100">
+    <xsl:template match="PEReference[@resolved = 'true'] | PercentInEntityDecl[NCName][@resolved = 'true']" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted" priority="100">
         <xsl:copy>
             <xsl:apply-templates select="@*" mode="#current"/>
             <xsl:apply-templates select="node()" mode="#current"/>
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="PEReference | PercentInEntityDecl[Name]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
+    <xsl:template match="PEReference | PercentInEntityDecl[NCName]" mode="mlml:dtd-pre-parse mlml:dtd-pre-parse-quoted">
         <xsl:param name="entities" as="map(xs:string, item()?)*" tunnel="yes"/>
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
         <xsl:variable name="entity" select="$entities[?is-param][?name = $name][1]"/>
@@ -725,7 +725,7 @@
     -->
 
     <xsl:template match="EntityDecl[GEDecl]" mode="mlml:dtd-parse">
-        <entity-decl name="{GEDecl/Name}">
+        <entity-decl name="{GEDecl/NCName}">
             <xsl:apply-templates select="GEDecl/EntityDef" mode="#current"/>
         </entity-decl>
     </xsl:template>
@@ -750,13 +750,13 @@
         <xsl:value-of select="replace($content, '&amp;#39;', '''')"/>        
     </xsl:template>
     
-    <xsl:key name="entity-name" match="EntityDecl/GEDecl" use="Name"/>
+    <xsl:key name="entity-name" match="EntityDecl/GEDecl" use="NCName"/>
     
-    <xsl:template match="EntityRef[$pre-def-entities(Name)]" mode="mlml:dtd-parse-w-ents" priority="10">
-        <xsl:value-of select="$pre-def-entities(Name)"/>
+    <xsl:template match="EntityRef[$pre-def-entities(NCName)]" mode="mlml:dtd-parse-w-ents" priority="10">
+        <xsl:value-of select="$pre-def-entities(NCName)"/>
     </xsl:template>
-    <xsl:template match="EntityRef[Name]" mode="mlml:dtd-parse-w-ents">
-        <xsl:variable name="name" select="Name"/>
+    <xsl:template match="EntityRef[NCName]" mode="mlml:dtd-parse-w-ents">
+        <xsl:variable name="name" select="NCName"/>
         <xsl:variable name="this" select="."/>
 
         <xsl:variable name="entitydecl" select="key('entity-name', $name)[. &lt;&lt; $this][1]"/>
@@ -806,7 +806,7 @@
     <xsl:template match="NotationDecl" mode="mlml:dtd-parse">
         <xsl:variable name="systemId" select="ExternalOrPublicID/SystemLiteral/(SystemLiteralDouble | SystemLiteralSingle)/string()"/>
         <xsl:variable name="publicId" select="ExternalOrPublicID/PubidLiteral/(PubidLiteralDouble | PubidLiteralSingle)/string()"/>
-        <notation name="{Name}">
+        <notation name="{NCName}">
             <xsl:if test="exists($systemId)">
                 <xsl:attribute name="systemId" select="$systemId"/>
             </xsl:if>
