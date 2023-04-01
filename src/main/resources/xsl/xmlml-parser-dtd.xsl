@@ -73,6 +73,12 @@
         <xsl:variable name="parsed" select="$preparsed ! dtdp:parse-document(.)"/>
         
         <xsl:variable name="parsed" select="$parsed ! mlml:check-preparsed-dtd-constrains(.)"/>
+        
+        <xsl:variable name="parsed" as="document-node()">
+            <xsl:document>
+                <xsl:sequence select="$parsed"/>
+            </xsl:document>
+        </xsl:variable>
         <dtd>
             <xsl:apply-templates select="$parsed" mode="mlml:dtd-parse">
                 <xsl:with-param name="config" select="$config" tunnel="yes"/>
