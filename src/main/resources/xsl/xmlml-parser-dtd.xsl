@@ -45,44 +45,32 @@
             then
                 $uri-resolver($dtd-external-path, $base-uri)
             else 
-                map{}
+                ()
+            "/>
+        
+        <xsl:variable name="internalSubset" select="
+            if (exists($inline[. != ''])) 
+                then map{
+                    'content' : $inline,
+                    'base-uri' : $base-uri
+                } 
+                else ()
             "/>
 
-        <xsl:variable name="contents" select="
-                $inline, $dtd-ext-resource?content
-                "/>
-        <xsl:variable name="base-uris" select="
-                $base-uri[$inline], $dtd-ext-resource?base-uri
-                "/>
-
-        <xsl:sequence select="mlml:parse-dtds-from-string($contents, $base-uris, $config)"/>
+        <xsl:sequence select="mlml:parse-dtds-from-string($internalSubset, $dtd-ext-resource, $config)"/>
 
     </xsl:function>
 
     <xsl:function name="mlml:parse-dtds-from-string">
-        <xsl:param name="content" as="xs:string*"/>
-        <xsl:param name="base-uris" as="xs:string*"/>
+        <xsl:param name="internalSubset" as="map(xs:string, item())?"/>
+        <xsl:param name="externalSubset" as="map(xs:string, item())?"/>
         <xsl:param name="config" as="map(*)"/>
-        <xsl:variable name="contentObjs" select="
-            for $i in (1 to count($content))
-            return map{
-            'content' : string($content[$i]),
-            'base-uri' : string($base-uris[$i])
-            }
-            " as="map(xs:string, xs:string)*"/>
-        <xsl:sequence select="mlml:parse-dtds-from-string($contentObjs, $config)"/>
         
-    </xsl:function>
+        <xsl:variable name="inlineSubset" select="$internalSubset ! map:put(., 'internal-subset', true())"/>
 
-    <xsl:function name="mlml:parse-dtds-from-string">
-        <xsl:param name="contentObjs" as="map(xs:string, xs:string)*"/>
-        <xsl:param name="config" as="map(*)"/>
-        <!--        <xsl:param name="properties" as="map(xs:string, xs:string)"/>-->
+        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse(($inlineSubset, $externalSubset), $config) ! string(.)"/>
 
-        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse($contentObjs, $config) => string-join()"/>
-
-        <xsl:variable name="parsed" select="dtdp:parse-document($preparsed)"/>
-
+        <xsl:variable name="parsed" select="$preparsed ! dtdp:parse-document(.)"/>
         
         <xsl:variable name="parsed" select="$parsed ! mlml:check-preparsed-dtd-constrains(.)"/>
         <dtd>
@@ -103,13 +91,13 @@
 
 
     <xsl:function name="mlml:dtd-pre-parse" as="node()*">
-        <xsl:param name="contents" as="map(xs:string, xs:string)*"/>
+        <xsl:param name="contents" as="map(xs:string, item())*"/>
         <xsl:param name="config" as="map(*)"/>
         <xsl:sequence select="mlml:dtd-pre-parse($contents, $config, ())"/>
     </xsl:function>
 
     <xsl:function name="mlml:dtd-pre-parse" as="node()*">
-        <xsl:param name="contents" as="map(xs:string, xs:string)*"/>
+        <xsl:param name="contents" as="map(xs:string, item())*"/>
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="entities" as="map(xs:string, item()?)*"/>
         
