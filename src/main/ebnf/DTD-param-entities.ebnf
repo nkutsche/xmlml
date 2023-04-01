@@ -57,9 +57,9 @@ Reference
 CharRef  ::= '&#' CharRefDec ';'
            | '&#x' CharRefHex ';'
 EntityRef
-         ::= '&' Name ';' 
+         ::= '&' NCName ';' 
 
-PercentInEntityDecl ::= '%' (Name ';' | S | PEReference)
+PercentInEntityDecl ::= '%' (NCName ';' | S | PEReference)
            
 <?TOKENS?>
 
@@ -71,9 +71,9 @@ Char     ::= #x0009
            | [#xE000-#xFFFD]
            | [#x10000-#x10FFFF]
 S        ::= ( #x0020 | #x0009 | #x000D | #x000A )+
-NameStartChar
-         ::= ':'
-           | [A-Z]
+
+NCNameStartChar
+         ::= [A-Z]
            | '_'
            | [a-z]
            | [#x00C0-#x00D6]
@@ -88,20 +88,19 @@ NameStartChar
            | [#xF900-#xFDCF]
            | [#xFDF0-#xFFFD]
 
-NameChar ::= NameStartChar
+NCNameChar ::= NCNameStartChar
            | '-'
            | '.'
            | [0-9]
            | #x00B7
            | [#x0300-#x036F]
            | [#x203F-#x2040]
-Name     ::= NameStartChar NameChar*
-
+NCName     ::= NCNameStartChar NCNameChar*
 
 CommentContent  ::= ( Char - '-' | '-' ( Char - '-' ) )*
 PIStart ::= '<?'
 PIContentEnd     ::= ( S ( [^?] | '?'+ [^?>] )* '?'* )? '?>'
-PITarget ::= Name
+PITarget ::= NCName
 VersionNum
          ::= '1.' [0-9]+      
 
@@ -110,7 +109,7 @@ CharRefDec ::=  [0-9]+
 CharRefHex ::=  [0-9a-fA-F]+  
 
 PEReference
-         ::= '%' Name ';'
+         ::= '%' NCName ';'
 
 PercentInQuote
          ::= '%'
