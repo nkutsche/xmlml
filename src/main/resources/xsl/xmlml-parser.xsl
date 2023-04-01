@@ -472,9 +472,13 @@
     <xsl:template match="Reference/CharRef[CharRefDec | CharRefHex]" mode="mlml:parse">
         <xsl:variable name="charRef" select="CharRefDec | CharRefHex"/>
         <xsl:variable name="isHexRef" select="exists($charRef/self::CharRefHex)" as="xs:boolean"/>
-
+        <xsl:variable name="charRef" select="
+            if ($isHexRef) 
+            then 'x' || $charRef 
+            else $charRef
+            "/>
         <entity>
-            <xsl:attribute name="codepoint" select="'x'[$isHexRef], $charRef" separator=""/>
+            <xsl:attribute name="codepoint" select="$charRef"/>
         </entity>
 
     </xsl:template>

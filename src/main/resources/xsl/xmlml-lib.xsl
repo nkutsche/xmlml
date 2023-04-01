@@ -110,4 +110,50 @@
             "/>
     </xsl:function>
     
+    
+<!--    
+    Hex
+    -->
+    <xsl:function name="mlml:codepoint-by-charref" as="xs:integer">
+        <xsl:param name="charref" as="xs:string"/>
+        <xsl:sequence select="
+            if (starts-with($charref, 'x')) 
+            then (mlml:hex-to-int(replace($charref, '^x', ''))) 
+            else xs:integer($charref)
+            "/>
+    </xsl:function>
+    
+    
+    <xsl:function name="mlml:hex-to-int" as="xs:integer">
+        <xsl:param name="in" as="xs:string"/>
+        <xsl:variable name="in" select="lower-case($in)"/>
+        <xsl:variable name="digits" select="string-length($in)"/>
+        
+        <xsl:variable name="hex-figures" select="((0 to 9) ! string(.), 'a', 'b', 'c', 'd', 'e', 'f')"/>
+        
+        <xsl:variable name="digit-values" select="
+            for $d in 1 to $digits
+            return
+            (index-of($hex-figures, substring($in, $d, 1)) - 1)
+            * (math:pow(16, $digits - $d))
+            "/>
+        
+        <xsl:sequence select="$digit-values => sum() => xs:integer()"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:int-to-hex" as="xs:string">
+        <xsl:param name="in" as="xs:integer"/>
+        <xsl:sequence select="
+            if ($in eq 0)
+            then
+            '0'
+            else
+            concat(if ($in ge 16)
+            then
+            mlml:int-to-hex($in idiv 16)
+            else
+            '',
+            substring('0123456789ABCDEF',
+            ($in mod 16) + 1, 1))"/>
+    </xsl:function>
 </xsl:stylesheet>
