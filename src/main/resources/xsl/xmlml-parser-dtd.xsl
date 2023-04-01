@@ -72,6 +72,10 @@
 
         <xsl:variable name="parsed" select="$preparsed ! dtdp:parse-document(.)"/>
         
+        <xsl:if test="$parsed[self::ERROR]">
+            <xsl:sequence select="mlml:error('unknown', string($parsed[self::ERROR][1]))"/>
+        </xsl:if>
+        
         <xsl:variable name="parsed" select="$parsed ! mlml:check-preparsed-dtd-constrains(.)"/>
         
         <xsl:variable name="parsed" as="document-node()">
@@ -118,6 +122,10 @@
             <xsl:for-each select="$head">
                 <xsl:variable name="ebnf-parsed" select="dtdpe:parse-document(?content)"/>
                 <xsl:variable name="base-uri" select="?base-uri"/>
+                
+                <xsl:if test="$ebnf-parsed/self::ERROR">
+                    <xsl:sequence select="mlml:error('unknown', string($ebnf-parsed))"/>
+                </xsl:if>
                 
                 <xsl:copy select="$ebnf-parsed">
                     <xsl:attribute name="xml:base" select="$base-uri"/>
