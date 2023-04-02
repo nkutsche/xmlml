@@ -17,5 +17,6 @@
         <code id="4.1.68.1" href="https://www.w3.org/TR/xml/#wf-entdeclared">In a document without any DTD, a document with only an internal DTD subset which contains no parameter entity references, or a document with " standalone='yes' ", for an entity reference that does not occur within the external subset or a parameter entity, the Name given in the entity reference MUST match that in an entity declaration that does not occur within the external subset or a parameter entity, except that well-formed documents need not declare any of the following entities: amp, lt, gt, apos, quot. The declaration of a general entity MUST precede any reference to it which appears in a default value in an attribute-list declaration.</code>
         <code id="4.1.68.3" href="https://www.w3.org/TR/xml/#textent">An entity reference MUST NOT contain the name of an unparsed entity. Unparsed entities may be referred to only in attribute values declared to be of type ENTITY or ENTITIES.</code>
         <code id="4.1.68.4" href="https://www.w3.org/TR/xml/#textent">https://www.w3.org/TR/xml/#norecursion</code>
+        <code id="4.1.69.0" href="https://www.w3.org/TR/xml/#NT-PEReference">Parameter-entity references use percent-sign (%) and semicolon (;) as delimiters.</code>
     </sect>
 </error-codes>

@@ -93,6 +93,9 @@
     <xsl:function name="mlml:check-preparsed-dtd-constrains" as="node()">
         <xsl:param name="parsed" as="node()"/>
         
+        <xsl:if test="$parsed//(EntityStaticValueDouble | EntityStaticValueSingle)[contains(string(.), '%')]">
+            <xsl:sequence select="mlml:error('4.1.69.0', 'The character ''%'' must be part of a parameter entity reference')"/>
+        </xsl:if>
         
         <xsl:if test="$parsed//PITarget[matches(., '^xml$', 'i')]">
             <xsl:sequence select="mlml:error('2.6.17.0', 'The target name ''xml'' is reserved for the XML declaration at the very beginning of the document.')"/>
