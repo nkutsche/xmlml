@@ -474,7 +474,11 @@
 
         <xsl:variable name="external-preparsed" select="mlml:dtd-pre-parse($contentObj, $config, $entities)"/>
         
-        <xsl:sequence select="$external-preparsed/(* except prolog)"/>
+        <xsl:sequence select="
+            if ($entity?external = ('SYSTEM', 'PUBLIC')) 
+            then $external-preparsed/(* except prolog) 
+            else $external-preparsed
+            "/>
 
     </xsl:template>
     
