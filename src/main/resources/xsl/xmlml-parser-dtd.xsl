@@ -755,14 +755,14 @@
     
     <xsl:template match="EntityValueDouble" mode="mlml:dtd-parse">
         <xsl:variable name="content">
-            <xsl:apply-templates/>
+            <xsl:apply-templates mode="#current"/>
         </xsl:variable>
         <xsl:value-of select="replace($content, '&amp;#34;', '&quot;')"/>        
     </xsl:template>
 
     <xsl:template match="EntityValueSingle" mode="mlml:dtd-parse">
         <xsl:variable name="content">
-            <xsl:apply-templates/>
+            <xsl:apply-templates mode="#current"/>
         </xsl:variable>
         <xsl:value-of select="replace($content, '&amp;#39;', '''')"/>        
     </xsl:template>
