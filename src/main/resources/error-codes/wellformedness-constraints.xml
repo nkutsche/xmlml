@@ -22,6 +22,9 @@
         <code id="4.1.68.4" href="https://www.w3.org/TR/xml/#textent">https://www.w3.org/TR/xml/#norecursion</code>
         <code id="4.1.69.0" href="https://www.w3.org/TR/xml/#NT-PEReference">Parameter-entity references use percent-sign (%) and semicolon (;) as delimiters.</code>
     </sect>
+    <sect nr="4.3.2" href="https://www.w3.org/TR/xml/#wf-entities">
+        <code id="4.3.2.78.0" href="https://www.w3.org/TR/xml/#NT-extParsedEnt">An internal general parsed entity is well-formed if its replacement text matches the production labeled content.</code>
+    </sect>
 
     <sect nr="XML-Names" href="https://www.w3.org/TR/xml-names">
         <code id="XML-Names.4.8.0" href="https://www.w3.org/TR/xml-names/#ns-qualnames">QNames must match the Production [8]:  Prefix ':' LocalPart.</code>

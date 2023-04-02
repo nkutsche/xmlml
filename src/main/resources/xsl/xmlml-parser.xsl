@@ -570,6 +570,10 @@
             <xsl:sequence select="error(xs:QName('mlml:fail'), serialize($fragment-parsed))"/>
         </xsl:if>
         
+        <xsl:if test="$fragment-parsed/XMLDecl and not($entity-decl/dtdml:external)">
+            <xsl:sequence select="mlml:error('4.3.2.78.0', 'An internal parsed entity must not start with a Text Declaration!')"/>
+        </xsl:if>
+        
         <xsl:variable name="doc-xml-version" select="$properties?xml-version"/>
         <xsl:variable name="ent-xml-version" select="($fragment-parsed/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]"/>
         
