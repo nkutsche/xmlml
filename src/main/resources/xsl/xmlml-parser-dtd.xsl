@@ -541,7 +541,7 @@
         </xsl:variable>
         <xsl:copy>
             <xsl:apply-templates select="@*" mode="#current"/>
-            <xsl:value-of select="replace($content, '&quot;', '&amp;#34;')"/>
+            <xsl:value-of select="replace($content, '&quot;', '&amp;#34;') ! replace(., '%', '&amp;#37;')"/>
         </xsl:copy>
     </xsl:template>
 
@@ -554,7 +554,7 @@
         </xsl:variable>
         <xsl:copy>
             <xsl:apply-templates select="@*" mode="#current"/>
-            <xsl:value-of select="replace($content, '''', '&amp;#39;')"/>
+            <xsl:value-of select="replace($content, '''', '&amp;#39;') ! replace(., '%', '&amp;#37;')"/>
         </xsl:copy>
     </xsl:template>
 

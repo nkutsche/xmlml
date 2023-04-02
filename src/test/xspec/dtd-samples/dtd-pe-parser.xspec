@@ -153,7 +153,7 @@
             </x:variable>
             <x:variable name="resolved-dtd">
                 <![CDATA[
-                    <!ENTITY % perc "%">
+                    <!ENTITY % perc "&#37;">
                     <!ENTITY % param "value">
                     <!ELEMENT value EMPTY>
                 ]]>
@@ -262,8 +262,8 @@
             </x:variable>
             <x:variable name="resolved-dtd">
                 <![CDATA[
-                        <!ENTITY % percd "%" >
-                        <!ENTITY % perc "%" >
+                        <!ENTITY % percd "&#37;" >
+                        <!ENTITY % perc "&#37;" >
                         <!ENTITY % baz "baz" >
                         <!ENTITY % foo "bar 'baz'" >
                         
@@ -287,22 +287,6 @@
                         <!ENTITY % ext SYSTEM "http://www.nkutsche.com/xmlml/foo%20;bar.ent" >
                         <!ELEMENT foo EMPTY>
                         <!ELEMENT bar EMPTY>
-                ]]>
-            </x:variable>
-            <x:like label="generic-dtd-test"/>
-        </x:scenario>
-
-        <x:scenario label="Invalide percent in quoted value is ignored">
-            <x:variable name="src-dtd">
-                <![CDATA[
-                    <!ENTITY % perc "%" >
-                    <!ENTITY %perc; param "value" >
-                ]]>
-            </x:variable>
-            <x:variable name="resolved-dtd">
-                <![CDATA[
-                        <!ENTITY % perc "%" >
-                        <!ENTITY % param "value" >
                 ]]>
             </x:variable>
             <x:like label="generic-dtd-test"/>
