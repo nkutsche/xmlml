@@ -19,4 +19,7 @@
         <code id="4.1.68.4" href="https://www.w3.org/TR/xml/#textent">https://www.w3.org/TR/xml/#norecursion</code>
         <code id="4.1.69.0" href="https://www.w3.org/TR/xml/#NT-PEReference">Parameter-entity references use percent-sign (%) and semicolon (;) as delimiters.</code>
     </sect>
+    <sect nr="Errata-2e" href="https://www.w3.org/XML/xml-V10-2e-errata">
+        <code id="E2e.38" href="https://www.w3.org/XML/xml-V10-2e-errata#E38">With the advent of XML 1.1, this clarifies that 1.0 documents may not refer to entities of versions other than 1.0.</code>
+    </sect>
 </error-codes>

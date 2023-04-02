@@ -152,9 +152,13 @@
             $properties?base-uri, 
             $config)"/>
         
+        <xsl:variable name="xml-version" select="
+            ($pre-parsed/document/prolog/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]
+            "/>
+        
         <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
             <xsl:with-param name="config" select="$config" tunnel="yes"/>
-            <xsl:with-param name="properties" select="$properties" tunnel="yes"/>
+            <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
             <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
         </xsl:apply-templates>
 
@@ -512,6 +516,7 @@
     <xsl:template match="Reference/EntityRef[Name]" mode="mlml:parse">
         <xsl:param name="config" tunnel="yes"/>
         <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <xsl:variable name="nameRef" select="Name"/>
         
         <xsl:variable name="entity-decl" select="$dtd/dtdml:entity-decl[@name = $nameRef][1]"/>
@@ -538,6 +543,13 @@
             <xsl:sequence select="error(xs:QName('mlml:fail'), serialize($fragment-parsed))"/>
         </xsl:if>
         
+        <xsl:variable name="doc-xml-version" select="$properties?xml-version"/>
+        <xsl:variable name="ent-xml-version" select="($fragment-parsed/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]"/>
+        
+        <xsl:if test="$doc-xml-version != $ent-xml-version">
+            <xsl:sequence select="mlml:error('E2e.38', 'An XML v' || $doc-xml-version || ' should not contain an external entity with XML v' || $ent-xml-version || '!')"/>
+        </xsl:if>
+
         <xsl:variable name="fragment-parsed" select="$fragment-parsed/content/node()"/>
         
         
