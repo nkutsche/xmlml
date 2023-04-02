@@ -257,6 +257,22 @@
                 <xsl:variable name="value" select="string-join($value)"/>
                 <xsl:variable name="name" select="mlml:name"/>
                 <xsl:choose>
+                    <xsl:when test="$name = 'xmlns'">
+                        <xsl:sequence select="mlml:error('XML-Names.3.2.2', 'The prefix xmlns must not be used for namespace declarations')"/>
+                    </xsl:when>
+                    <xsl:when test="$value = 'http://www.w3.org/2000/xmlns/'">
+                        <xsl:sequence select="mlml:error('XML-Names.3.2.2', 'The namespace URI http://www.w3.org/2000/xmlns/ is reserved and must not be used in namespace declarations')"/>
+                    </xsl:when>
+                    <xsl:when test="
+                        $name = 'xml' and not($value = 'http://www.w3.org/XML/1998/namespace')
+                        ">
+                        <xsl:sequence select="mlml:error('XML-Names.3.2.1', 'The prefix xml is reserved and must be used only for the namespace URI http://www.w3.org/XML/1998/namespace.')"/>
+                    </xsl:when>
+                    <xsl:when test="
+                        $value = 'http://www.w3.org/XML/1998/namespace' and not($name = 'xml') 
+                        ">
+                        <xsl:sequence select="mlml:error('XML-Names.3.2.1', 'The namespace URI http://www.w3.org/XML/1998/namespace is reserved and must be used only with the prefix xml.')"/>
+                    </xsl:when>
                     <xsl:when test="$name = ''">
                         <xsl:attribute name="element-default-namespace" select="$value"/>
                     </xsl:when>
