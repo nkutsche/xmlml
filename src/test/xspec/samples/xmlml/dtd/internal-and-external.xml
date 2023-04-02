@@ -1,0 +1,32 @@
+<!--
+<!DOCTYPE root SYSTEM "internal-and-external.dtd" [<!ATTLIST root attribute CDATA "internal-value">]><root></root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <system>
+            <ws space="1"/>
+            <value>
+                <data>internal-and-external.dtd</data>
+            </value>
+        </system>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ATTLIST root attribute CDATA "internal-value">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute default="true" type="CDATA">
+            <ws space="1"/>
+            <name>attribute</name>
+            <eq/>
+            <value>
+                <data>internal-value</data>
+            </value>
+        </attribute>
+    </element>
+</document>

@@ -1,0 +1,63 @@
+<!--
+<!DOCTYPE root [<!ENTITY ns "my.namespace.com"><!ENTITY defns "default.namespace.com">]><ns:root xmlns="&defns;" xmlns:ns="&ns;" xmlns:ns2="&#x6D;y.namespace.com"><el ns2:a="v"/></ns:root>
+-->
+<?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ENTITY ns "my.namespace.com"><!ENTITY defns "default.namespace.com">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element element-default-namespace="default.namespace.com" xmlns:ns="my.namespace.com" xmlns:ns2="my.namespace.com">
+        <name>ns:root</name>
+        <attribute namespace="true">
+            <ws space="1"/>
+            <name/>
+            <eq/>
+            <value>
+                <entity name="defns">
+                    <text>
+                        <data>default.namespace.com</data>
+                    </text>
+                </entity>
+            </value>
+        </attribute>
+        <attribute namespace="true">
+            <ws space="1"/>
+            <name>ns</name>
+            <eq/>
+            <value>
+                <entity name="ns">
+                    <text>
+                        <data>my.namespace.com</data>
+                    </text>
+                </entity>
+            </value>
+        </attribute>
+        <attribute namespace="true">
+            <ws space="1"/>
+            <name>ns2</name>
+            <eq/>
+            <value>
+                <entity codepoint="x6D"/>
+                <data>y.namespace.com</data>
+            </value>
+        </attribute>
+        <content>
+            <element collapsed="true">
+                <name>el</name>
+                <attribute>
+                    <ws space="1"/>
+                    <name>ns2:a</name>
+                    <eq/>
+                    <value>
+                        <data>v</data>
+                    </value>
+                </attribute>
+            </element>
+        </content>
+    </element>
+</document>

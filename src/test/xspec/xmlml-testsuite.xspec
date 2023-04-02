@@ -3,9 +3,9 @@
     <x:helper stylesheet="helper.xsl"/>
     
     <x:variable name="test-config" select="mlml:detect-default-config()"/>
+    <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
 
     <x:scenario label="generic-serialize-test" shared="true" catch="true">
-        <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
 
         <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
         <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
@@ -249,12 +249,20 @@
             <x:variable name="path" select="'dtd/implied-attribute.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: dtd/internal-and-external.xml">
+            <x:variable name="path" select="'dtd/internal-and-external.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: dtd/required-attribute.xml">
             <x:variable name="path" select="'dtd/required-attribute.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
         <x:scenario label="Test: dtd/fixed-attribute.xml">
             <x:variable name="path" select="'dtd/fixed-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/percent-in-default-attr.xml">
+            <x:variable name="path" select="'dtd/percent-in-default-attr.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
         <x:scenario label="Test: dtd/default-overwrite-attribute.xml">
@@ -501,6 +509,18 @@
         <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd.xml">
             <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd.xml'"/>
             <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/namespace-w-entity.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/namespace-w-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+            <x:scenario label="check namespace URIs">
+                <x:call function="mlml:parse">
+                    <x:param select="resolve-uri('xml/' || $path, $samples)"/>
+                    <x:param select="$test-config"/>
+                </x:call>
+                <x:expect label="Check URI of ns namespace" test="($x:result//namespace::ns)[1]/string(.)" select="'my.namespace.com'"/>
+                <x:expect label="Check URI of ns2 namespace" test="($x:result//namespace::ns2)[1]/string(.)" select="'my.namespace.com'"/>
+            </x:scenario>
         </x:scenario>
         <x:scenario label="Test: namespace/with-dtd-attributes/overwrite-default-ns-decl.xml">
             <x:variable name="path" select="'namespace/with-dtd-attributes/overwrite-default-ns-decl.xml'"/>
