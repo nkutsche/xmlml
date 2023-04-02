@@ -130,6 +130,16 @@
                     <xsl:sequence select="mlml:error('unknown', string($ebnf-parsed))"/>
                 </xsl:if>
                 
+                <xsl:variable name="internal-subset" select="($head?internal-subset, false())[1]"/>
+                <xsl:variable name="pe-refs" select="$ebnf-parsed//PEReference"/>
+                <xsl:variable name="allowed-pe-refs" select="
+                    $ebnf-parsed//DeclSep/PEReference
+                    | $ebnf-parsed//AttlistDecl//quotedDeclContent//PEReference
+                    "/>
+                <xsl:if test="$internal-subset and ($pe-refs except $allowed-pe-refs)">
+                    <xsl:sequence select="mlml:error('2.8.29.2', 'Parameter entities are not allowed in markup declarations of internal DTD subsets.')"/>
+                </xsl:if>
+                
                 <xsl:copy select="$ebnf-parsed">
                     <xsl:attribute name="xml:base" select="$base-uri"/>
                     <xsl:sequence select="node()"/>

@@ -6,6 +6,9 @@
     <sect nr="2.6" href="https://www.w3.org/TR/xml/#NT-PI">
         <code id="2.6.17.0" href="https://www.w3.org/TR/xml/#NT-PITarget">The target names " XML ", " xml ", and so on are reserved for standardization in this or future versions of this specification.</code>
     </sect>
+    <sect nr="2.8" href="https://www.w3.org/TR/xml/#sec-prolog-dtd">
+        <code id="2.8.29.2" href="https://www.w3.org/TR/xml/#wfc-PEinInternalSubset">In the internal DTD subset, parameter-entity references MUST NOT occur within markup declarations; they may occur where markup declarations can occur. (This does not apply to references that occur in external parameter entities or to the external subset.)</code>
+    </sect>
     <sect nr="3" href="https://www.w3.org/TR/xml/#sec-logical-struct">
         <code id="3.0.39.1" href="https://www.w3.org/TR/xml/#GIMatch">The Name in an element's end-tag MUST match the element type in the start-tag.</code>
     </sect>
