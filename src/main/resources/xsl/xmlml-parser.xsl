@@ -251,12 +251,17 @@
                 <xsl:attribute name="collapsed" select="'true'"/>
             </xsl:if>
             <xsl:for-each select="$attributes[@namespace = 'true']">
+                <xsl:variable name="value">
+                    <xsl:apply-templates select="mlml:value" mode="mlml:doc"/>
+                </xsl:variable>
+                <xsl:variable name="value" select="string-join($value)"/>
+                <xsl:variable name="name" select="mlml:name"/>
                 <xsl:choose>
-                    <xsl:when test="mlml:name = ''">
-                        <xsl:attribute name="element-default-namespace" select="mlml:value"/>
+                    <xsl:when test="$name = ''">
+                        <xsl:attribute name="element-default-namespace" select="$value"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:namespace name="{mlml:name}" select="mlml:value"/>
+                        <xsl:namespace name="{$name}" select="$value"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
