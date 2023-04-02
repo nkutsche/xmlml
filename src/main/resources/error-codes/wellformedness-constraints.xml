@@ -24,6 +24,7 @@
     </sect>
 
     <sect nr="XML-Names" href="https://www.w3.org/TR/xml-names">
+        <code id="XML-Names.4.8.0" href="https://www.w3.org/TR/xml-names/#ns-qualnames">QNames must match the Production [8]:  Prefix ':' LocalPart.</code>
         <code id="XML-Names.3.2.1" href="https://www.w3.org/TR/REC-xml-names/#xmlReserved">The prefix xml is by definition bound to the namespace name http://www.w3.org/XML/1998/namespace. It MAY, but need not, be declared, and MUST NOT be bound to any other namespace name. Other prefixes MUST NOT be bound to this namespace name, and it MUST NOT be declared as the default namespace. </code>
         <code id="XML-Names.3.2.2" href="https://www.w3.org/TR/REC-xml-names/#xmlReserved">The prefix xmlns is used only to declare namespace bindings and is by definition bound to the namespace name http://www.w3.org/2000/xmlns/. It MUST NOT be declared . Other prefixes MUST NOT be bound to this namespace name, and it MUST NOT be declared as the default namespace. Element names MUST NOT have the prefix xmlns.</code>
     </sect>

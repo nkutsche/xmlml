@@ -345,7 +345,13 @@
 
     <xsl:template match="Attribute/Name[matches(., '^xmlns(:|$)')]" mode="mlml:parse">
         <name>
-            <xsl:value-of select="replace(., '^xmlns(:|$)', '')"/>
+            <xsl:value-of select="
+                if (. = 'xmlns') 
+                then '' 
+                else if (matches(., '^xmlns:[^:]+$')) 
+                   then replace(., '^xmlns:', '') 
+                   else mlml:error('XML-Names.4.8.0', 'Invalid prefix name ' || . ||  ' for a namespace declaration!')
+                "/>
         </name>
     </xsl:template>
 
