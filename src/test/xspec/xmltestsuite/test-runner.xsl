@@ -45,19 +45,20 @@
         
     </xsl:function>
     
-    <xsl:function name="mlml:parse-and-validate" as="xs:boolean">
+    <xsl:function name="mlml:parse-and-validate" as="element(mlml:document)?">
         <xsl:param name="src" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
         
-        <xsl:variable name="parsed" select="mlml:parse($src)"/>
-        
-        
-        <xsl:try>
-            <xsl:variable name="validate" select="mlml:validate-xmlml($parsed)"/>
-            <xsl:sequence select="exists($validate/self::mlml:document)"/>
-            <xsl:catch>
-                <xsl:sequence select="false()"/>
-            </xsl:catch>
-        </xsl:try>
+        <xsl:variable name="parsed" select="mlml:parse($src, $config)"/>
+        <xsl:variable name="validated" select="mlml:validate-xmlml($parsed)"/>
+        <xsl:choose>
+            <xsl:when test="$validated/self::mlml:document">
+                <xsl:sequence select="$validated"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="error(QName('', 'invalid-mlml-result'))"/>
+            </xsl:otherwise>
+        </xsl:choose>
         
     </xsl:function>
     

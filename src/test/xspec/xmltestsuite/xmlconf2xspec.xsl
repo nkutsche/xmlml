@@ -100,8 +100,9 @@
     <xsl:template name="test-caller">
         
         <x:scenario label="not-wf" shared="true" catch="true">
-            <x:call function="mlml:parse">
+            <x:call function="mlml:parse-and-validate">
                 <x:param select="$src"/>
+                <x:param select="$cfg-w-outdef"/>
             </x:call>
             <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
         </x:scenario>
