@@ -89,9 +89,14 @@
                 <x:variable name="out" select="'{$out}'"/>
             </xsl:if>
             <xsl:variable name="like" select="
-                if ($type = ('valid', 'invalid') and $with-out-def) 
-                then $type || '-w-outdef' 
-                else $type
+                if (not($type = ('valid', 'invalid'))) 
+                then $type
+                else 
+                    if (not(doc-available($out))) 
+                    then $type || '-no-xerces' 
+                    else if ($with-out-def) 
+                    then $type || '-w-outdef'
+                    else $type
                 "/>
             <x:like label="{$like}"/>
         </x:scenario>
@@ -214,6 +219,26 @@
             
             <x:scenario label="DOM comparision">
                 <x:like label="mlml:doc"/>
+            </x:scenario>
+            
+        </x:scenario>
+
+        <x:scenario label="invalid-no-xerces" shared="true" catch="true">
+
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
+            </x:scenario>
+
+        </x:scenario>
+
+        <x:scenario label="valid-no-xerces" shared="true" catch="true">
+            
+            <x:scenario label="parsing and serialize">
+                <x:like label="mlml:parse-and-serialize"/>
+            </x:scenario>
+
+            <x:scenario label="parsing the DTD and validate it">
+                <x:like label="mlml:parse-dtd-and-validate"/>
             </x:scenario>
             
         </x:scenario>
