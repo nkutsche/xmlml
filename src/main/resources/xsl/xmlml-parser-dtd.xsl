@@ -850,7 +850,7 @@
             <xsl:apply-templates select="GEDecl/EntityDef" mode="#current"/>
         </notation>
     </xsl:template>
-
+    
     <xsl:template match="*" mode="mlml:dtd-parse" priority="-100">
         <NOT_SUPPORTED>
             <xsl:copy>
