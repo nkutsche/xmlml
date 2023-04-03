@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ignorings>
+    
+    <reason id="PE_1">
+        <description>The basic architecture of the internal DTD parser can not handle invalid usage of parameter entities.</description>
+        <ignore id="invalid--005"/>
+        <ignore id="invalid--006"/>
+        <ignore id="invalid-not-sa-022"/>
+        <ignore id="rmt-e2e-14"/>
+    </reason>
+    <reason id="SA_1">
+        <description><a href="https://www.w3.org/TR/xml/#wf-entdeclared">WFC Constraint</a> for <code>standalone='yes'</code> is not implemented yet.</description>
+        <ignore id="not-wf-sa03"/>
+        <ignore id="ibm-not-wf-P32-ibm32n09.xml"/>
+        <ignore id="ibm-not-wf-P68-ibm68n06.xml"/>
+    </reason>
+    <reason id="SA_2">
+        <description>Laxity of <a href="https://www.w3.org/TR/REC-xml/#vc-entdeclared">VC Constraint</a> regarding not declared entities is not implemented yet. The XmlML parser requires always that a named entity is declared in any case (except of the pre defined entities <code>lt</code>, <code>amp</code>, <code>gt</code>, <code>quot</code> and <code>apos</code>).</description>
+        <ignore id="rmt-e3e-13"/>
+    </reason>
+    <reason id="BIN_1">
+        <description>This test case is related of missplaced BOMs. As XSLT is not able to work on binary level, the parser depends on the implementation of the <code>unparsed-text()</code> function here.</description>
+        <ignore id="invalid-bo-4"/>
+        <ignore id="hst-lhs-007"/>
+        <ignore id="hst-lhs-008"/>
+    </reason>
+    <reason id="BIN_2">
+        <description>The test contains a combination of characters which is interpreted by the <code>unparsed-text()</code> function as a single character. The character comibnation is a well-formed element name since XML Edition 5, but the single character not. </description>
+        <ignore id="x-rmt5-016"/>
+        <ignore id="x-rmt5-019"/>
+    </reason>
+    <reason id="SXN_1">
+        <description>There is a <a href="https://saxonica.plan.io/issues/5952">bug in Saxon-HE</a> which causes that Saxon throws an uncatchable exception when it tries to read the non-wellformed file using <code>unparsed-text()</code> function and terminates any process.</description>
+        <ignore id="not-wf-sa-101"/>
+        <ignore id="encoding01"/>
+        <ignore id="encoding02"/>
+        <ignore id="encoding03"/>
+        <ignore id="encoding04"/>
+        <ignore id="encoding05"/>
+        <ignore id="encoding06"/>
+        <ignore id="ibm-not-wf-P81-ibm81n01.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n02.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n03.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n04.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n05.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n06.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n07.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n08.xml"/>
+        <ignore id="ibm-not-wf-P81-ibm81n09.xml"/>
+        <ignore id="dtd07"/>
+        <ignore id="encoding07"/>
+        <ignore id="ibm-not-wf-P80-ibm80n03.xml"/>
+        <ignore id="ibm-not-wf-P80-ibm80n04.xml"/>
+        <ignore id="ibm-not-wf-P80-ibm80n05.xml"/>
+        <ignore id="ibm-not-wf-P80-ibm80n06.xml"/>
+    </reason>
+    
+    
+    <reason id="XML-E5">
+        <description>The test case rules only for one of the earlier editions than the fifth of the XML 1.0 recommendation.</description>
+        <ignore edition="1"/>
+        <ignore edition="2"/>
+        <ignore edition="3"/>
+        <ignore edition="4"/>
+    </reason>
+    
+    <reason id="XML1-1">
+        <description>The test case rules only for the XML version 1.1. The XmlML parser supports XML 1.0 only.</description>
+        <ignore version="1.1"/>
+    </reason>    
+    
+</ignorings>

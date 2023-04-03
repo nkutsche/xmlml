@@ -116,18 +116,6 @@
                                             <stylesheet>${project.baseUri}/src/test/xspec/xmltestsuite/xmlconf2xspec.xsl</stylesheet>
                                             <parameters>
                                                 <parameter>
-                                                    <name>focus</name>
-                                                    <value>type=invalid,valid</value>
-                                                </parameter>
-                                                <parameter>
-                                                    <name>xml-version</name>
-                                                    <value>1.0</value>
-                                                </parameter>
-                                                <parameter>
-                                                    <name>edition</name>
-                                                    <value>5</value>
-                                                </parameter>
-                                                <parameter>
                                                     <name>testRunner</name>
                                                     <value>${project.baseUri}/target/test-classes/xsl/testRunner.xsl</value>
                                                 </parameter>
@@ -135,6 +123,19 @@
                                             <fileMappers>
                                                 <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
                                                     <targetExtension>.xspec</targetExtension>
+                                                </fileMapper>
+                                            </fileMappers>
+                                        </transformationSet>
+                                        <transformationSet>
+                                            <dir>${project.basedir}/src/test/xspec/xmltestsuite/</dir>
+                                            <outputDir>${project.basedir}/</outputDir>
+                                            <includes>
+                                                <include>XMLConf-Testsuite-Exclusions.xml</include>
+                                            </includes>
+                                            <stylesheet>${project.baseUri}/src/test/xspec/xmltestsuite/ignoring-table.xsl</stylesheet>
+                                            <fileMappers>
+                                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                                                    <targetExtension>.md</targetExtension>
                                                 </fileMapper>
                                             </fileMappers>
                                         </transformationSet>

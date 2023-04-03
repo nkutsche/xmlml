@@ -9,13 +9,6 @@
     version="3.0">
     
     <xsl:param name="focus" as="xs:string?"/>
-    <xsl:param name="pending" as="xs:string?"/>
-    
-    <xsl:param name="edition" select="'1 2 3 4 5'" as="xs:string"/>
-    <xsl:param name="xml-version" select="'1.0'" as="xs:string"/>
-    
-    <xsl:variable name="edition.seq" select="tokenize($edition, '\s')" as="xs:string*"/>
-    <xsl:variable name="xml-version.seq" select="tokenize($xml-version, '\s')" as="xs:string*"/>
     
     <xsl:variable name="focus-map" select="
         if(exists($focus)) then
@@ -25,15 +18,6 @@
         else ()
         "/>
 
-    <xsl:variable name="pending-map" select="
-        if(exists($pending)) then
-            for $p in tokenize($pending, ';')
-            return
-                let $tk := tokenize($p, '=')
-                return
-                    map{$tk[1] : $tk[2] => tokenize(',')}
-        else ()
-        "/>
     
     <xsl:template match="/">
         <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="{resolve-uri('test-runner.xsl', static-base-uri())}">
@@ -51,7 +35,11 @@
     <xsl:template match="TEST[@NAMESPACE = 'no']" priority="15"/>
     
     
+    <xsl:variable name="ignorings" select="doc('XMLConf-Testsuite-Exclusions.xml')"/>
     
+    <xsl:key name="ignore-id" match="ignore[@id]" use="@id"/>
+    <xsl:key name="ignore-edition" match="ignore[@edition]" use="@edition"/>
+    <xsl:key name="ignore-version" match="ignore[@version]" use="@version"/>
     
     <xsl:template match="TEST">
         <xsl:variable name="with-out-def" select="@OUTPUT"/>
@@ -59,22 +47,17 @@
         
         <xsl:variable name="src" select="resolve-uri(@URI, base-uri(.))"/>
         <xsl:variable name="out" select=" if ($with-out-def) then resolve-uri(@OUTPUT, base-uri(.)) else $src "/>
+        <xsl:variable name="ignore" select="
+            (key('ignore-id', @ID, $ignorings)
+            | key('ignore-edition', @EDITION/tokenize(.,'\s'), $ignorings)
+            | key('ignore-version', @VERSION, $ignorings))
+            "/>
         <x:scenario label="{@ID}" catch="true">
             <xsl:choose>
-                <xsl:when test="$pending-map?id = @ID">
-                    <xsl:attribute name="pending" select="'Ignored by ID'"/>
-                </xsl:when>
-                <xsl:when test="$pending-map?type = $type">
-                    <xsl:attribute name="pending" select="'Ignored by type ''' || $type || ''''"/>
-                </xsl:when>
-                <xsl:when test="not($type = ('not-wf', 'error') or doc-available($out))">
-                    <xsl:attribute name="pending" select="'Ignored as Xerces can not parse the expected output'"/>
-                </xsl:when>
-                <xsl:when test="@VERSION and not(@VERSION = $xml-version)">
-                    <xsl:attribute name="pending" select="'Ignored by version ''' || @VERSION || ''''"/>
-                </xsl:when>
-                <xsl:when test="@EDITION and not(@EDITION/tokenize(.,'\s') = $edition.seq)">
-                    <xsl:attribute name="pending" select="'Ignored by edition ''' || @EDITION || ''''"/>
+                <xsl:when test="$ignore">
+                    <xsl:variable name="ignore-ids" select="@ID, @EDITION, @VERSION"/>
+                    <xsl:variable name="ignore-attr" select="$ignore-ids[tokenize(., '\s') = $ignore/@*]"/>
+                    <xsl:attribute name="pending" select="'Ignored by ' || $ignore-attr/name() || '=''' || $ignore-attr || ''' (reason-code=' || $ignore/parent::reason/@id || ')'"/>
                 </xsl:when>
                 <xsl:when test="$focus-map?id = @ID">
                     <xsl:attribute name="focus" select="'Focused by ID'"/>
