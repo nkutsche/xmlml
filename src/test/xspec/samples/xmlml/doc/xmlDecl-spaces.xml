@@ -1,5 +1,5 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
     <xml-decl>
         <version>
             <ws space="1"/>

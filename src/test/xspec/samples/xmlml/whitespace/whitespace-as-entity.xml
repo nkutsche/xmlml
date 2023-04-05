@@ -13,7 +13,7 @@
 </root>
 -->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="rn">
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>
