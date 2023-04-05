@@ -358,6 +358,22 @@
             <x:variable name="path" select="'entity/trivial-dtd-entity.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: entity/complex/single-entity.xml">
+            <x:variable name="path" select="'entity/complex/single-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/single-entity-mixed.xml">
+            <x:variable name="path" select="'entity/complex/single-entity-mixed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/two-entities.xml">
+            <x:variable name="path" select="'entity/complex/two-entities.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/two-entities-mixed.xml">
+            <x:variable name="path" select="'entity/complex/two-entities-mixed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Dir: linefeed-normalization/" catch="true">

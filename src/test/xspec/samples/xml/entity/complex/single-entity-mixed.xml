@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">]><root>outer_start&foo;outer_end</root>

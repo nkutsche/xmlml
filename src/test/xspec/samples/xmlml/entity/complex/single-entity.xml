@@ -1,0 +1,35 @@
+<!--
+<!DOCTYPE root [<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">]><root>&foo;</root>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <content>
+            <text>
+                <entity name="foo">
+                    <text>
+                        <data>foo_start</data>
+                    </text>
+                    <element>
+                        <name>foo</name>
+                        <content>
+                            <text>
+                                <data>foo_inner</data>
+                            </text>
+                        </content>
+                    </element>
+                    <text><data>foo_end</data></text>
+                </entity>
+            </text>
+        </content>
+    </element>
+</document>
