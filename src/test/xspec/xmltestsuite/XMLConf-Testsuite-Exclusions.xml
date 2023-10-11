@@ -29,31 +29,6 @@
         <ignore id="x-rmt5-016"/>
         <ignore id="x-rmt5-019"/>
     </reason>
-    <reason id="SXN_1">
-        <description>There is a <a href="https://saxonica.plan.io/issues/5952">bug in Saxon-HE</a> which causes that Saxon throws an uncatchable exception when it tries to read the non-wellformed file using <code>unparsed-text()</code> function and terminates any process.</description>
-        <ignore id="not-wf-sa-101"/>
-        <ignore id="encoding01"/>
-        <ignore id="encoding02"/>
-        <ignore id="encoding03"/>
-        <ignore id="encoding04"/>
-        <ignore id="encoding05"/>
-        <ignore id="encoding06"/>
-        <ignore id="ibm-not-wf-P81-ibm81n01.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n02.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n03.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n04.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n05.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n06.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n07.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n08.xml"/>
-        <ignore id="ibm-not-wf-P81-ibm81n09.xml"/>
-        <ignore id="dtd07"/>
-        <ignore id="encoding07"/>
-        <ignore id="ibm-not-wf-P80-ibm80n03.xml"/>
-        <ignore id="ibm-not-wf-P80-ibm80n04.xml"/>
-        <ignore id="ibm-not-wf-P80-ibm80n05.xml"/>
-        <ignore id="ibm-not-wf-P80-ibm80n06.xml"/>
-    </reason>
     
     
     <reason id="XML-E5">

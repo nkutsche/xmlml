@@ -13,7 +13,6 @@ The following table lists all reasons to exclude a test case of the XML Conforma
 | `SA_2` | Laxity of [VC Constraint](https://www.w3.org/TR/REC-xml/#vc-entdeclared) regarding not declared entities is not implemented yet. The XmlML parser requires always that a named entity is declared in any case (except of the pre defined entities `lt`, `amp`, `gt`, `quot` and `apos`). | 1 |
 | `BIN_1` | This test case is related of missplaced BOMs. As XSLT is not able to work on binary level, the parser depends on the implementation of the `unparsed-text()` function here. | 3 |
 | `BIN_2` | The test contains a combination of characters which is interpreted by the `unparsed-text()` function as a single character. The character comibnation is a well-formed element name since XML Edition 5, but the single character not.  | 2 |
-| `SXN_1` | There is a [bug in Saxon-HE](https://saxonica.plan.io/issues/5952) which causes that Saxon throws an uncatchable exception when it tries to read the non-wellformed file using `unparsed-text()` function and terminates any process. | 22 |
 | `XML-E5` | The test case rules only for one of the earlier editions than the fifth of the XML 1.0 recommendation. | 313 |
 | `XML1-1` | The test case rules only for the XML version 1.1. The XmlML parser supports XML 1.0 only. | 271 |
 
@@ -36,28 +35,6 @@ The following table lists all test case of the XML Conformance TestSuite which a
 | `hst-lhs-008` | 008.xml | `not-wf` | UTF-16 BOM plus xml decl of utf-8 (using UTF-16 coding) incompatible | `BIN_1` |
 | `x-rmt5-016` | 016.xml | `invalid` | Has a Byzantine Musical Symbol Kratimata in a name, legal in XML 1.1, legal in XML 1.0 5th edition | `BIN_2` |
 | `x-rmt5-019` | 019.xml | `invalid` | Has the last legal namechar in XML 1.1, legal in XML 1.0 5th edition | `BIN_2` |
-| `not-wf-sa-101` | not-wf/sa/101.xml | `not-wf` | Space is not permitted in an encoding name. | `SXN_1` |
-| `encoding01` | not-wf/encoding01.xml | `not-wf` | Illegal character   in encoding name | `SXN_1` |
-| `encoding02` | not-wf/encoding02.xml | `not-wf` | Illegal character / in encoding name | `SXN_1` |
-| `encoding03` | not-wf/encoding03.xml | `not-wf` | Illegal character reference in encoding name | `SXN_1` |
-| `encoding04` | not-wf/encoding04.xml | `not-wf` | Illegal character : in encoding name | `SXN_1` |
-| `encoding05` | not-wf/encoding05.xml | `not-wf` | Illegal character @ in encoding name | `SXN_1` |
-| `encoding06` | not-wf/encoding06.xml | `not-wf` | Illegal character + in encoding name | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n01.xml` | not-wf/P81/ibm81n01.xml | `not-wf` | Tests EncName with an illegal character. The _ is used as the first character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n02.xml` | not-wf/P81/ibm81n02.xml | `not-wf` | Tests EncName with an illegal character. The - is used as the first character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n03.xml` | not-wf/P81/ibm81n03.xml | `not-wf` | Tests EncName with an illegal character. The . is used as the first character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n04.xml` | not-wf/P81/ibm81n04.xml | `not-wf` | Tests EncName with illegal characters. The 8- is used as the initial characters in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n05.xml` | not-wf/P81/ibm81n05.xml | `not-wf` | Tests EncName with an illegal character. The ~ is used as one character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n06.xml` | not-wf/P81/ibm81n06.xml | `not-wf` | Tests EncName with an illegal character. The # is used as one character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n07.xml` | not-wf/P81/ibm81n07.xml | `not-wf` | Tests EncName with an illegal character. The : is used as one character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n08.xml` | not-wf/P81/ibm81n08.xml | `not-wf` | Tests EncName with an illegal character. The / is used as one character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P81-ibm81n09.xml` | not-wf/P81/ibm81n09.xml | `not-wf` | Tests EncName with an illegal character. The ; is used as one character in the EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `dtd07` | not-wf/dtd07.xml | `not-wf` | Text declarations (which optionally begin any external entity) are required to have encoding=.... | `SXN_1` |
-| `encoding07` | not-wf/encoding07.xml | `not-wf` | Text declarations (which optionally begin any external entity) are required to have encoding=.... | `SXN_1` |
-| `ibm-not-wf-P80-ibm80n03.xml` | not-wf/P80/ibm80n03.xml | `not-wf` | Tests EncodingDecl with a required field missing. The double quoted EncName are missing in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P80-ibm80n04.xml` | not-wf/P80/ibm80n04.xml | `not-wf` | Tests EncodingDecl with wrong field ordering. The string encoding= occurs after the double quoted EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P80-ibm80n05.xml` | not-wf/P80/ibm80n05.xml | `not-wf` | Tests EncodingDecl with wrong field ordering. The encoding occurs after the double quoted EncName in the EncodingDecl in the XMLDecl. | `SXN_1` |
-| `ibm-not-wf-P80-ibm80n06.xml` | not-wf/P80/ibm80n06.xml | `not-wf` | Tests EncodingDecl with wrong key word. The string Encoding is used as the key word in the EncodingDecl in the XMLDecl. | `SXN_1` |
 | `not-wf-sa-140` | not-wf/sa/140.xml | `not-wf` | Character '&#x309a;' is a CombiningChar, not a Letter, and so may not begin a name. | `XML-E5` |
 | `not-wf-sa-141` | not-wf/sa/141.xml | `not-wf` | Character #x0E5C is not legal in XML names. | `XML-E5` |
 | `ibm-not-wf-P85-ibm85n03.xml` | not-wf/P85/ibm85n03.xml | `not-wf` | Tests BaseChar with an illegal character. The character #x0132 occurs as the first character of the PITarget in the PI in the DTD. | `XML-E5` |
