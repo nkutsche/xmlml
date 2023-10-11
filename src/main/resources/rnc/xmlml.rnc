@@ -18,7 +18,7 @@ empty_elem = element element {collapsed?, element_default_ns?, qname, (namespace
 
 el_content = element content {childNode*}
 
-childNode = (ws | textNode | pi | comment | elem)
+childNode = (ws | textNode | name_entity_complex | pi | comment | elem)
 
 closeTagSpace = element close-tag-space {ws}
 
@@ -38,7 +38,9 @@ cdata = element cdata-section {node_content}
 
 entity = (name_entity | char_entity)
 
-name_entity = element entity {attribute name {xs:NCName}, childNode*}
+name_entity = element entity {attribute name {xs:NCName}, (entity | cdata | node_content)*}
+
+name_entity_complex = element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
 
 char_entity = element entity {attribute codepoint {ent_charref_name}}
 

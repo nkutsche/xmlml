@@ -99,6 +99,7 @@
     <choice>
       <ref name="ws"/>
       <ref name="textNode"/>
+      <ref name="name_entity_complex"/>
       <ref name="pi"/>
       <ref name="comment"/>
       <ref name="elem"/>
@@ -188,6 +189,23 @@
     <element name="entity">
       <attribute name="name">
         <data type="NCName"/>
+      </attribute>
+      <zeroOrMore>
+        <choice>
+          <ref name="entity"/>
+          <ref name="cdata"/>
+          <ref name="node_content"/>
+        </choice>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="name_entity_complex">
+    <element name="entity">
+      <attribute name="name">
+        <data type="NCName"/>
+      </attribute>
+      <attribute name="complex">
+        <value>true</value>
       </attribute>
       <zeroOrMore>
         <ref name="childNode"/>
