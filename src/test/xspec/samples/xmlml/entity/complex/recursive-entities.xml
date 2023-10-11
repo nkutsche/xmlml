@@ -1,0 +1,80 @@
+<!--
+<!DOCTYPE root [
+<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">
+<!ENTITY bar "bar_start<bar>bar_inner</bar>bar_end">
+<!ENTITY foobar "foobar_start&foo;foobar_between&bar;foobar_end">
+]>
+<root>outer_start&foobar;outer_end</root>
+-->
+<?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">]]></data>
+            <nl/>
+            <data><![CDATA[<!ENTITY bar "bar_start<bar>bar_inner</bar>bar_end">]]></data>
+            <nl/>
+            <data><![CDATA[<!ENTITY foobar "foobar_start&foo;foobar_between&bar;foobar_end">]]></data>
+            <nl/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <element>
+        <name>root</name>
+        <content>
+            <text>
+                <data>outer_start</data>
+            </text>
+            <entity name="foobar" complex="true">
+                <text>
+                    <data>foobar_start</data>
+                </text>
+                <entity name="foo" complex="true">
+                    <text>
+                        <data>foo_start</data>
+                    </text>
+                    <element>
+                        <name>foo</name>
+                        <content>
+                            <text>
+                                <data>foo_inner</data>
+                            </text>
+                        </content>
+                    </element>    
+                    <text>
+                        <data>foo_end</data>
+                    </text>
+                </entity>
+                <text>
+                    <data>foobar_between</data>
+                </text>
+                <entity name="bar" complex="true">
+                    <text>
+                        <data>bar_start</data>
+                    </text>
+                    <element>
+                        <name>bar</name>
+                        <content>
+                            <text>
+                                <data>bar_inner</data>
+                            </text>
+                        </content>
+                    </element>    
+                    <text>
+                        <data>bar_end</data>
+                    </text>
+                </entity>
+                <text>
+                    <data>foobar_end</data>
+                </text>
+            </entity>
+            <text>
+                <data>outer_end</data>
+            </text>
+        </content>
+    </element>
+</document>

@@ -1,0 +1,6 @@
+<!DOCTYPE root [
+<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end">
+<!ENTITY bar "bar_start<bar>bar_inner</bar>bar_end">
+<!ENTITY foobar "foobar_start&foo;foobar_between&bar;foobar_end">
+]>
+<root>outer_start&foobar;outer_end</root>
