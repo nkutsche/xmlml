@@ -9,9 +9,7 @@
             <value>
                 <data>lower-then: </data>
                 <entity name="lt">
-                    <text>
-                        <data>&lt;</data>
-                    </text>
+                    <data>&lt;</data>
                 </entity>
             </value>
         </attribute>

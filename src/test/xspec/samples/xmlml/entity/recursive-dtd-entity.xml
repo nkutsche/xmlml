@@ -13,23 +13,13 @@
         <content>
             <text>
                 <entity name="foobar">
-                    <text>
-                        <entity name="foo">
-                            <text>
-                                <data>foo</data>
-                            </text>
-                        </entity>
-                    </text>
-                    <text>
-                        <data>-</data>
-                    </text>
-                    <text>
-                        <entity name="bar">
-                            <text>
-                                <data>bar</data>
-                            </text>
-                        </entity>
-                    </text>
+                    <entity name="foo">
+                        <data>foo</data>
+                    </entity>
+                    <data>-</data>
+                    <entity name="bar">
+                        <data>bar</data>
+                    </entity>
                 </entity>
             </text>
         </content>

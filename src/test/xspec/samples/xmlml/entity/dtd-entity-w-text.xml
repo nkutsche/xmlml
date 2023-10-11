@@ -14,9 +14,7 @@
             <text>
                 <data>text1</data>
                 <entity name="ent">
-                    <text>
-                        <data>entity-value</data>
-                    </text>
+                    <data>entity-value</data>
                 </entity>
                 <data>text2</data>
             </text>

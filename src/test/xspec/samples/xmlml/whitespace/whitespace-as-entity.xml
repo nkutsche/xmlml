@@ -64,11 +64,7 @@
                     </element>
                     <ws>
                         <entity codepoint="32"/>
-                    </ws>
-                    <ws>
                         <entity codepoint="x9"/>
-                    </ws>
-                    <ws>
                         <entity name="space">
                             <ws space="3"/>
                         </entity>
@@ -78,14 +74,8 @@
                     </element>
                     <ws>
                         <entity codepoint="x20"/>
-                    </ws>
-                    <ws>
                         <entity codepoint="xA"/>
-                    </ws>
-                    <ws>
                         <entity codepoint="10"/>
-                    </ws>
-                    <ws>
                         <entity codepoint="9"/>
                     </ws>
                 </content>

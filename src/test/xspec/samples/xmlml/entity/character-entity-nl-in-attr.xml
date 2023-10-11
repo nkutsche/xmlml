@@ -17,9 +17,7 @@
             <eq/>
             <value>
                 <entity name="ln">
-                    <text>
-                        <entity codepoint="xA"/>
-                    </text>
+                    <entity codepoint="xA"/>
                 </entity>
             </value>
         </attribute>

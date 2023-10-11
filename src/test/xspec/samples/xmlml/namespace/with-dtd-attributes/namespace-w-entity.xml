@@ -19,9 +19,7 @@
             <eq/>
             <value>
                 <entity name="defns">
-                    <text>
-                        <data>default.namespace.com</data>
-                    </text>
+                    <data>default.namespace.com</data>
                 </entity>
             </value>
         </attribute>
@@ -31,9 +29,7 @@
             <eq/>
             <value>
                 <entity name="ns">
-                    <text>
-                        <data>my.namespace.com</data>
-                    </text>
+                    <data>my.namespace.com</data>
                 </entity>
             </value>
         </attribute>

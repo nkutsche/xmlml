@@ -15,14 +15,10 @@
         <content>
             <text>
                 <entity name="ln">
-                    <text>
-                        <nl/>
-                    </text>
+                    <nl/>
                 </entity>
                 <entity name="lne">
-                    <text>
-                        <entity codepoint="13"/>
-                    </text>
+                    <entity codepoint="13"/>
                 </entity>
             </text>
         </content>

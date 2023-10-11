@@ -9,29 +9,19 @@
             <value>
                 <data>predef entities: </data>
                 <entity name="lt">
-                    <text>
-                        <data>&lt;</data>
-                    </text>
+                    <data>&lt;</data>
                 </entity>
                 <entity name="gt">
-                    <text>
-                        <data>&gt;</data>
-                    </text>
+                    <data>&gt;</data>
                 </entity>
                 <entity name="quot">
-                    <text>
-                        <data>"</data>
-                    </text>
+                    <data>"</data>
                 </entity>
                 <entity name="amp">
-                    <text>
-                        <data>&amp;</data>
-                    </text>
+                    <data>&amp;</data>
                 </entity>
                 <entity name="apos">
-                    <text>
-                        <data>'</data>
-                    </text>
+                    <data>'</data>
                 </entity>
             </value>
         </attribute>

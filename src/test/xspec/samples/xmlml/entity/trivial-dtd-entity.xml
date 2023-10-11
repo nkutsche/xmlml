@@ -13,9 +13,7 @@
         <content>
             <text>
                 <entity name="ent">
-                    <text>
-                        <data>entity-value</data>
-                    </text>
+                    <data>entity-value</data>
                 </entity>
             </text>
         </content>

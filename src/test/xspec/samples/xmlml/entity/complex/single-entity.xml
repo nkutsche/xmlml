@@ -14,22 +14,20 @@
     <element>
         <name>root</name>
         <content>
-            <text>
-                <entity name="foo">
-                    <text>
-                        <data>foo_start</data>
-                    </text>
-                    <element>
-                        <name>foo</name>
-                        <content>
-                            <text>
-                                <data>foo_inner</data>
-                            </text>
-                        </content>
-                    </element>
-                    <text><data>foo_end</data></text>
-                </entity>
-            </text>
+            <entity name="foo" complex="true">
+                <text>
+                    <data>foo_start</data>
+                </text>
+                <element>
+                    <name>foo</name>
+                    <content>
+                        <text>
+                            <data>foo_inner</data>
+                        </text>
+                    </content>
+                </element>
+                <text><data>foo_end</data></text>
+            </entity>
         </content>
     </element>
 </document>

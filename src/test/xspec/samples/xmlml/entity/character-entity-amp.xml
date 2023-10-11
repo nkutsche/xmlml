@@ -6,9 +6,7 @@
             <text>
                 <data>amp:</data>
                 <entity name="amp">
-                    <text>
-                        <data>&amp;</data>
-                    </text>
+                    <data>&amp;</data>
                 </entity>
             </text>
         </content>

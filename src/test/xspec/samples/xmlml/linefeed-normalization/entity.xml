@@ -15,11 +15,9 @@
         <content>
             <text>
                 <entity name="ent">
-                    <text>
-                        <data>line</data>
-                        <nl/>
-                        <data>break</data>
-                    </text>
+                    <data>line</data>
+                    <nl/>
+                    <data>break</data>
                 </entity>
             </text>
         </content>

@@ -19,9 +19,7 @@
             <eq/>
             <value>
                 <entity name="ent">
-                    <text>
-                        <data>bar</data>
-                    </text>
+                    <data>bar</data>
                 </entity>
             </value>
         </attribute>
@@ -31,9 +29,7 @@
             <eq/>
             <value>
                 <entity name="lt">
-                    <text>
-                        <data>&lt;</data>
-                    </text>
+                    <data>&lt;</data>
                 </entity>
             </value>
         </attribute>
