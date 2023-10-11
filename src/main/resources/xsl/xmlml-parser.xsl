@@ -316,12 +316,12 @@
     </xsl:function>
     
     <xsl:template match="content" mode="mlml:parse">
-        <xsl:variable name="content" as="element()*">
+        <xsl:variable name="content">
             <xsl:apply-templates mode="#current"/>
         </xsl:variable>
         <xsl:where-populated>
             <content>
-                <xsl:for-each-group select="$content" group-adjacent="exists(self::mlml:text)">
+                <xsl:for-each-group select="$content/*" group-adjacent="exists(self::mlml:text)">
                     <xsl:choose>
                         <xsl:when test="current-grouping-key()">
                             <xsl:copy>
@@ -329,7 +329,13 @@
                             </xsl:copy>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:sequence select="current-group()"/>
+                            <xsl:for-each-group select="current-group()" group-adjacent="exists(self::mlml:ws)">
+                                <xsl:sequence select=" 
+                                    if (current-grouping-key()) 
+                                    then mlml:merge-white-spaces(current-group()) 
+                                    else current-group()
+                                    "/>
+                            </xsl:for-each-group> 
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each-group>
@@ -476,6 +482,9 @@
         </xsl:variable>
         
         <xsl:choose>
+            <xsl:when test="$entity/@complex = 'true'">
+                <xsl:sequence select="$entity"/>
+            </xsl:when>
             <xsl:when test="$space-preserve or not(mlml:entity-is-whitespace($entity))">
                 <text>
                     <xsl:sequence select="$entity"/>
@@ -532,11 +541,9 @@
     <xsl:template match="Reference/EntityRef[$pre-def-entities(Name)]" mode="mlml:parse" priority="10">
         <entity>
             <xsl:attribute name="name" select="Name"/>
-            <text>
-                <data>
-                    <xsl:value-of select="$pre-def-entities(Name)"/>
-                </data>
-            </text>
+            <data>
+                <xsl:value-of select="$pre-def-entities(Name)"/>
+            </data>
         </entity>
     </xsl:template>
     
@@ -583,10 +590,27 @@
 
         <xsl:variable name="fragment-parsed" select="$fragment-parsed/content/node()"/>
         
+        <xsl:variable name="content">
+            <xsl:apply-templates select="$fragment-parsed" mode="#current"/>
+        </xsl:variable>
+        <xsl:variable name="simple-content" select="
+            $content/(
+                mlml:text | mlml:ws | mlml:entity[not(@complex = 'true')]
+            )
+            "/>
         
         <entity>
             <xsl:attribute name="name" select="Name"/>
-            <xsl:apply-templates select="$fragment-parsed" mode="#current"/>
+            <xsl:choose>
+                <xsl:when test="$content/* except $simple-content">
+                    <xsl:attribute name="complex" select="'true'"/>
+                    <xsl:sequence select="$content/*"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="ws" select="$simple-content/self::mlml:ws"/>
+                    <xsl:sequence select="($simple-content except $ws)/* | $ws"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </entity>
     </xsl:template>
 
@@ -679,6 +703,26 @@
             </xsl:otherwise>
         </xsl:choose>
 
+    </xsl:function>
+    
+    <xsl:function name="mlml:merge-white-spaces" as="element(mlml:ws)*">
+        <xsl:param name="ws" as="element(mlml:ws)*"/>
+        <xsl:for-each-group select="$ws" group-adjacent="
+            if (@space | @tab | @nl) then (@space, @tab, @nl)[1]/name() else 'complex'
+            ">
+            <xsl:choose>
+                <xsl:when test="current-grouping-key() = 'complex'">
+                    <ws>
+                       <xsl:sequence select="current-group()/*"/> 
+                    </ws>
+                </xsl:when>
+                <xsl:otherwise>
+                    <ws>
+                        <xsl:attribute name="{current-grouping-key()}" select="current-group()/@*[name() = current-grouping-key()] => sum()"/>
+                    </ws>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each-group> 
     </xsl:function>
 
     <xsl:function name="mlml:line-breaks" as="node()*">
