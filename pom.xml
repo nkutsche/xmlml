@@ -9,7 +9,7 @@
     <version>1.0.0-SNAPSHOT</version>
     
     <properties>
-        <saxon.version>12.1</saxon.version>
+        <saxon.version>12.3</saxon.version>
     </properties>
     
     <dependencies>
