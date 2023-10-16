@@ -11,6 +11,7 @@
     </xd:doc>
 
     <xsl:variable name="feature_ns" select="'http://www.nkutsche.com/xmlml/parser/features/'"/>
+    <xsl:variable name="xmlml_ns" select="'http://www.nkutsche.com/xmlml'"/>
 
     <xsl:variable name="mlml:STRIP-WHITESPACE" select="QName($feature_ns, 'STRIP-WHITESPACE')" visibility="final"/>
     <xsl:variable name="mlml:RESOLVE-DTD-URIS" select="QName($feature_ns, 'RESOLVE-DTD-URIS')" visibility="final"/>
@@ -18,6 +19,18 @@
     <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
 
     <xsl:variable name="mlml:IGNORE-INLINE-DTD-PIS" select="QName($feature_ns, 'IGNORE-INLINE-DTD-PIS')" visibility="final"/>
+
+    <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
+
+
+    <xsl:variable name="mlml:LOG-LEVEL-VERBOSE" select="'VERBOSE'" visibility="final"/>
+    
+    <xsl:variable name="mlml:LOG-LEVEL-DEBUG" select="'DEBUG'" visibility="final"/>
+
+    <xsl:variable name="mlml:LOG-LEVEL-WARN" select="'WARNING'" visibility="final"/>
+
+    <xsl:variable name="mlml:LOG-LEVEL-ERROR" select="'ERROR'" visibility="final"/>
+
 
     <xsl:variable name="default-config" select="
         mlml:detect-default-config()
@@ -80,7 +93,8 @@
             $mlml:RESOLVE-DTD-URIS : $resolve-dtd-uris,
             $mlml:EXPAND-DEFAULT-ATTRIBUTES : $expand-default-attributes,
             $mlml:IGNORE-INLINE-DTD-PIS : $ignore-inline-dtd-pis,
-            $mlml:URI_RESOLVER : mlml:default-uri-resolver#2
+            $mlml:URI_RESOLVER : mlml:default-uri-resolver#2,
+            $mlml:PARSER-LOG-LEVEL : $mlml:LOG-LEVEL-WARN
             }"/>
 
     </xsl:function>
