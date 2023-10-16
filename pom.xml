@@ -51,6 +51,21 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>com.nkutsche</groupId>
+                <artifactId>xslt-pkg-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package-info</goal>
+                        </goals>
+                        <configuration>
+                            <packagePath>${resource.subdir}/xsl/xmlml-pkg.xsl</packagePath>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>net.sigmalab.trang</groupId>
                 <artifactId>trang-maven-plugin</artifactId>
                 <version>1.2</version>
