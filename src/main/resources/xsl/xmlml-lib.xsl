@@ -69,6 +69,50 @@
         <xsl:sequence select="error($name, $description)"/>
     </xsl:function>
     
+    <xsl:function name="mlml:log-output" as="xs:boolean">
+        <xsl:param name="level" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:variable name="log-level-cfg" select="($config($mlml:PARSER-LOG-LEVEL), $mlml:LOG-LEVEL-WARN)[1]"/>
+        <xsl:variable name="hierarchy" select="
+            $mlml:LOG-LEVEL-VERBOSE,
+            $mlml:LOG-LEVEL-DEBUG,
+            $mlml:LOG-LEVEL-WARN,
+            $mlml:LOG-LEVEL-ERROR
+            "/>
+        <xsl:sequence select="
+            index-of($hierarchy, $level) ge index-of($hierarchy, $log-level-cfg)
+            "/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:warn" as="empty-sequence()">
+        <xsl:param name="message" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:sequence select="mlml:log($message, $mlml:LOG-LEVEL-WARN, $config)"/>
+    </xsl:function>
+
+    <xsl:function name="mlml:debug" as="empty-sequence()">
+        <xsl:param name="message" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:sequence select="mlml:log($message, $mlml:LOG-LEVEL-DEBUG, $config)"/>
+    </xsl:function>
+
+    <xsl:function name="mlml:verbose" as="empty-sequence()">
+        <xsl:param name="message" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:sequence select="mlml:log($message, $mlml:LOG-LEVEL-VERBOSE, $config)"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:log" as="empty-sequence()">
+        <xsl:param name="message" as="xs:string"/>
+        <xsl:param name="level" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:if test="mlml:log-output($level, $config)">
+            <xsl:message select="$message"/>
+        </xsl:if>
+        
+    </xsl:function>
+    
 <!--    
     XML Constraint Check
     -->
