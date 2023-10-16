@@ -108,12 +108,12 @@
         </xsl:choose>
     </xsl:function>
 
-    <xsl:function name="mlml:parse" as="node()">
+    <xsl:function name="mlml:parse" as="node()" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:sequence select="mlml:parse($href, map{})"/>
     </xsl:function>
 
-    <xsl:function name="mlml:parse" as="node()">
+    <xsl:function name="mlml:parse" as="node()" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
         
@@ -137,7 +137,7 @@
                 })"/>
     </xsl:function>
 
-    <xsl:function name="mlml:parse-from-string" as="node()">
+    <xsl:function name="mlml:parse-from-string" as="node()" visibility="final">
         <xsl:param name="unparsed-xml" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>

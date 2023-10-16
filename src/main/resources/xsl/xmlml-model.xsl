@@ -7,7 +7,7 @@
             <xd:p/>
         </xd:desc>
     </xd:doc>
-    <xsl:function name="mlml:doc" as="document-node()">
+    <xsl:function name="mlml:doc" as="document-node()" visibility="final">
         <xsl:param name="xmlml-documuent" as="element(mlml:document)"/>
         <xsl:apply-templates select="mlml:clean-up($xmlml-documuent)" mode="mlml:doc"/>
     </xsl:function>
