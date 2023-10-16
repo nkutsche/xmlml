@@ -194,7 +194,7 @@
                                 <phase>test</phase>
                                 <configuration>
                                     <testDir>${project.build.directory}/xspec-generated/</testDir>
-                                    <catalogFile>${project.build.directory}/classes/catalog.xml</catalogFile>
+                                    <catalogFile>${project.build.directory}/classes/${resource.subdir}/catalog.xml</catalogFile>
                                     <!--
                                     NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
                                     <xspecProperties>
