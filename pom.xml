@@ -10,6 +10,9 @@
     
     <properties>
         <saxon.version>12.3</saxon.version>
+        
+        <resource.subdir>com/nkutsche/xmlml</resource.subdir>
+        
     </properties>
     
     <dependencies>
@@ -34,6 +37,13 @@
     
     
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <targetPath>${resource.subdir}</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>net.sigmalab.trang</groupId>
@@ -55,7 +65,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <outputDirectory>${project.build.directory}/classes/rnc</outputDirectory>
+                    <outputDirectory>${project.build.directory}/classes/${resource.subdir}/rnc</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
