@@ -298,7 +298,7 @@
 
             <xsl:analyze-string select="$enitydecl" regex="{$regex_local}">
                 <xsl:matching-substring>
-                    <xsl:message expand-text="yes">Parsed Entity: {.}</xsl:message>
+                    <xsl:sequence select="mlml:debug('Parsed Entity: ' || ., $config)"/>
                     <xsl:variable name="value" select="((regex-group(4), regex-group(5))[. != ''], '')[1]"/>
 
                     <xsl:sequence select="
@@ -344,8 +344,8 @@
                                 "/>
 
                             <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
-
-                            <xsl:message expand-text="yes">Resolve external entity {regex-group(2)} to "{$systemId}".</xsl:message>
+                            
+                            <xsl:sequence select="mlml:debug('Resolve external entity ' || regex-group(2) || ' to &quot;' || $systemId || '&quot;.', $config)"/>
 
                             <xsl:variable name="name" select="regex-group(2)"/>
                             <xsl:sequence select="
