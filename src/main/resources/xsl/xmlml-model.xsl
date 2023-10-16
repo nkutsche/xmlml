@@ -12,6 +12,11 @@
         <xsl:apply-templates select="mlml:clean-up($xmlml-documuent)" mode="mlml:doc"/>
     </xsl:function>
 
+    <xsl:function name="mlml:as-node" as="node()" visibility="final">
+        <xsl:param name="node" as="element()"/>
+        <xsl:apply-templates select="mlml:clean-up($node)" mode="mlml:doc"/>
+    </xsl:function>
+
     <xsl:template match="document" mode="mlml:doc">
         <xsl:document>
             <xsl:apply-templates select="doc-type-decl/inline/pi | pi | comment | element " mode="#current"/>
@@ -67,7 +72,14 @@
             <xsl:apply-templates select="value" mode="#current"/>
         </xsl:processing-instruction>
     </xsl:template>
-
+    
+    <xsl:template match="text" mode="mlml:doc">
+        <xsl:variable name="content" as="text()*">
+            <xsl:apply-templates mode="#current"/>
+        </xsl:variable>
+        <xsl:value-of select="$content" separator=""/>
+    </xsl:template>
+    
     <xsl:template match="nl[@amount]" mode="mlml:doc" priority="20">
         <xsl:variable name="next-match" as="xs:string">
             <xsl:next-match/>

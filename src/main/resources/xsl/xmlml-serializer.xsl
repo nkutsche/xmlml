@@ -17,10 +17,19 @@
         </xsl:variable>
         <xsl:sequence select="$serialized => string-join()"/>    
     </xsl:function>
+
+    <xsl:function name="mlml:serialize-node" as="xs:string" visibility="final">
+        <xsl:param name="nodes" as="element()*"/>
+        <xsl:variable name="nodes" select="$nodes/mlml:clean-up(.)"/>
+        <xsl:variable name="serialized" as="xs:string*">
+            <xsl:apply-templates select="$nodes" mode="mlml:serialize"/>
+        </xsl:variable>
+        <xsl:sequence select="$serialized => string-join()"/>    
+    </xsl:function>
     
-    <xsl:function name="mlml:clean-up" as="element(document)">
-        <xsl:param name="document" as="element(document)"/>
-        <xsl:apply-templates select="$document" mode="mlml:clean-up"/>
+    <xsl:function name="mlml:clean-up" as="element()">
+        <xsl:param name="node" as="element()"/>
+        <xsl:apply-templates select="$node" mode="mlml:clean-up"/>
     </xsl:function>
     
     
