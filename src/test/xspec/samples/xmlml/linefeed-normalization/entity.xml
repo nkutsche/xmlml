@@ -12,7 +12,7 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <entity name="ent">
                     <data>line</data>

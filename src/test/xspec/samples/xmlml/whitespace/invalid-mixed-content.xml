@@ -51,7 +51,7 @@
     <ws nl="1"/>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <nl/>
                 <data> root can't have text content</data>
@@ -61,7 +61,7 @@
             </element>
             <element>
                 <name>b</name>
-                <content>
+                <content space="preserve">
                     <text>
                         <nl/>
                         <data>   </data>

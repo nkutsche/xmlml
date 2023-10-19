@@ -10,7 +10,7 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <entity name="foobar">
                     <entity name="foo">

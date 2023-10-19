@@ -2,7 +2,7 @@
 <document xmlns="http://www.nkutsche.com/xmlml">
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <data>before</data>
                 <cdata-section>

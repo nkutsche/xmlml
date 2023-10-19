@@ -10,7 +10,7 @@
                 <data>namespace.com</data>
             </value>
         </attribute>
-        <content>
+        <content space="preserve">
             <element collapsed="true">
                 <name>ns:el</name>
                 <attribute namespace="true">

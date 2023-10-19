@@ -25,7 +25,7 @@
     <ws nl="1"/>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <data>outer_start</data>
             </text>
@@ -39,7 +39,7 @@
                     </text>
                     <element>
                         <name>foo</name>
-                        <content>
+                        <content space="preserve">
                             <text>
                                 <data>foo_inner</data>
                             </text>
@@ -58,7 +58,7 @@
                     </text>
                     <element>
                         <name>bar</name>
-                        <content>
+                        <content space="preserve">
                             <text>
                                 <data>bar_inner</data>
                             </text>

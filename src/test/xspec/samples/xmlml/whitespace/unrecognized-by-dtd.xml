@@ -19,7 +19,7 @@
     <ws nl="1"/>
     <element>
         <name>src</name>
-        <content>
+        <content space="skip">
             <ws> <nl/> <space amount="4"/> </ws>
             <element collapsed="true">
                 <name>src-e</name>
@@ -27,7 +27,7 @@
             <ws> <nl/> <space amount="4"/> </ws>
             <element>
                 <name>src-e</name>
-                <content>
+                <content space="skip">
                     <ws space="5"/>
                 </content>
             </element>

@@ -42,7 +42,7 @@
                 <data>y.namespace.com</data>
             </value>
         </attribute>
-        <content>
+        <content space="preserve">
             <element collapsed="true">
                 <name>el</name>
                 <attribute>

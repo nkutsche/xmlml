@@ -13,14 +13,14 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <entity name="foo" complex="true">
                 <text>
                     <data>foo_start</data>
                 </text>
                 <element>
                     <name>foo</name>
-                    <content>
+                    <content space="preserve">
                         <text>
                             <data>foo_inner</data>
                         </text>

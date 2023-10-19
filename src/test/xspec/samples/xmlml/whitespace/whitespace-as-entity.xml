@@ -33,14 +33,14 @@
     <ws nl="1"/>
     <element>
         <name>root</name>
-        <content>
+        <content space="skip">
             <ws>
                 <nl/>
                 <space amount="4"/>
             </ws>
             <element>
                 <name>mixed</name>
-                <content>
+                <content space="preserve">
                     <element collapsed="true">
                         <name>mixed</name>
                     </element>
@@ -58,7 +58,7 @@
             </ws>
             <element>
                 <name>cont</name>
-                <content>
+                <content space="skip">
                     <element collapsed="true">
                         <name>cont</name>
                     </element>
@@ -86,7 +86,7 @@
             </ws>
             <element>
                 <name>cont</name>
-                <content>
+                <content space="preserve">
                     <element collapsed="true">
                         <name>cont</name>
                     </element>

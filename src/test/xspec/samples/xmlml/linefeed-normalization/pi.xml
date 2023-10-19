@@ -2,7 +2,7 @@
 <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <pi>
                 <name>pi</name>
                 <ws> <nl/> <space amount="8"/> </ws>

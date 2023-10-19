@@ -13,7 +13,7 @@
     </doc-type-decl>
     <element>
         <name>root</name>
-        <content>
+        <content space="preserve">
             <text>
                 <data>outer_start</data>
             </text>
@@ -23,7 +23,7 @@
                 </text>
                 <element>
                     <name>foo</name>
-                    <content>
+                    <content space="preserve">
                         <text>
                             <data>foo_inner</data>
                         </text>
