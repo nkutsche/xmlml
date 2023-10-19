@@ -573,9 +573,9 @@
         </x:scenario>
         <x:scenario label="Test: whitespace/custom-strip-spacing-no-dtd.xml">
             <x:variable name="path" select="'whitespace/custom-strip-spacing-no-dtd.xml'"/>
-            <x:variable name="test-config" select="map:put($test-config, $mlml:CUSTOM-STRIP-SPACING, 
+            <x:variable name="test-config" select="map:put($test-config, $mlml:CUSTOM-STRUCTUR-ELEMENTS, 
                     function($doc){
-                        $doc//mlml:element[not(mlml:name = 'preserve')]/mlml:content/mlml:text
+                        $doc//mlml:element[not(mlml:name = 'preserve')]
                         (:
                         :)
                     }
