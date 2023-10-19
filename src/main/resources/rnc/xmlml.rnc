@@ -16,9 +16,18 @@ non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (n
 
 empty_elem = element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
 
-el_content = element content {childNode*}
+el_content = (el_content_mixed | el_content_struct)
 
-childNode = (ws | textNode | name_entity_complex | pi | comment | elem)
+el_content_mixed = element content {attribute space {"preserve"}, childNode*}
+
+el_content_struct = element content {attribute space {"skip"}, childNode_struct*}
+
+
+childNode_base = (ws | pi | comment | elem)
+
+childNode_struct = (childNode_base | name_entity_complex_struct)
+
+childNode = (childNode_base | textNode | name_entity_complex)
 
 closeTagSpace = element close-tag-space {ws}
 
@@ -41,6 +50,8 @@ entity = (name_entity | char_entity)
 name_entity = element entity {attribute name {xs:NCName}, (entity | cdata | node_content)*}
 
 name_entity_complex = element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
+
+name_entity_complex_struct = element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode_struct*}
 
 char_entity = element entity {attribute codepoint {ent_charref_name}}
 

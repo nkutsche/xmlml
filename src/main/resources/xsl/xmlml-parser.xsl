@@ -381,11 +381,17 @@
     </xsl:function>
     
     <xsl:template match="content" mode="mlml:parse">
+        <xsl:param name="space-preserve" select="false()" as="xs:boolean" tunnel="yes"/>
         <xsl:variable name="content">
             <xsl:apply-templates mode="#current"/>
         </xsl:variable>
         <xsl:where-populated>
             <content>
+                <xsl:attribute name="space" select="
+                    if ($content/mlml:text or $space-preserve) 
+                    then 'preserve' 
+                    else 'skip'
+                    "/>
                 <xsl:for-each-group select="$content/*" group-adjacent="exists(self::mlml:text)">
                     <xsl:choose>
                         <xsl:when test="current-grouping-key()">
