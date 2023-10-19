@@ -20,6 +20,8 @@
 
     <xsl:variable name="mlml:IGNORE-INLINE-DTD-PIS" select="QName($feature_ns, 'IGNORE-INLINE-DTD-PIS')" visibility="final"/>
 
+    <xsl:variable name="mlml:CUSTOM-STRIP-SPACING" select="QName($xmlml_ns, 'CUSTOM-STRIP-SPACING')" visibility="final"/>
+    
     <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
 
 
@@ -170,14 +172,63 @@
             ($pre-parsed/document/prolog/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]
             "/>
         
-        <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
-            <xsl:with-param name="config" select="$config" tunnel="yes"/>
-            <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
-            <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
-        </xsl:apply-templates>
+        <xsl:variable name="result" as="node()">
+            <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
+                <xsl:with-param name="config" select="$config" tunnel="yes"/>
+                <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
+                <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
+            </xsl:apply-templates>
+        </xsl:variable>
+        
+        <xsl:sequence select="
+            if (map:contains($config, $mlml:CUSTOM-STRIP-SPACING)) 
+            then mlml:custom-strip-spacing($result, $config($mlml:CUSTOM-STRIP-SPACING)($result)) 
+            else $result
+            "/>        
 
     </xsl:function>
-
+    
+    <xsl:function name="mlml:custom-strip-spacing" as="node()">
+        <xsl:param name="document" as="node()"/>
+        <xsl:param name="stripped-nodes" as="node()*"/>
+        <xsl:apply-templates select="$document" mode="mlml:custom-strip-spacing">
+            <xsl:with-param name="stripped-nodes" select="$stripped-nodes" tunnel="yes"/>
+        </xsl:apply-templates>
+    </xsl:function>
+    
+    <xsl:mode name="mlml:custom-strip-spacing" on-no-match="shallow-copy"/>
+    <xsl:mode name="mlml:custom-strip-spacing-active" on-no-match="shallow-copy"/>
+    
+    <xsl:template match="mlml:text" mode="mlml:custom-strip-spacing">
+        <xsl:param name="stripped-nodes" as="node()*" tunnel="yes"/>
+        <xsl:choose>
+            <xsl:when test=". intersect $stripped-nodes">
+                <ws>
+                    <xsl:apply-templates mode="mlml:custom-strip-spacing-active"/>
+                </ws>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:next-match/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="mlml:data[normalize-space(.) = '']" mode="mlml:custom-strip-spacing-active">
+        <xsl:variable name="lf" select="(ancestor-or-self::*[@line-feed-format]/@line-feed-format, '#default')[1]"/>
+        <xsl:variable name="ws" select="mlml:white-space(string(.), $lf)"/>
+        <xsl:variable name="a" select="($ws/@*)[1]"/>
+        <xsl:choose>
+            <xsl:when test="$a">
+                <xsl:element name="{$a/local-name()}">
+                    <xsl:attribute name="amount" select="$a"/>
+                </xsl:element>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="$ws/*"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
     <xsl:template match="document" mode="mlml:parse">
         <xsl:param name="properties" tunnel="yes" as="map(*)?"/>
         <xsl:variable name="document" as="element(mlml:document)">

@@ -571,6 +571,19 @@
             <x:variable name="path" select="'whitespace/whitespace-as-entity.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: whitespace/custom-strip-spacing-no-dtd.xml">
+            <x:variable name="path" select="'whitespace/custom-strip-spacing-no-dtd.xml'"/>
+            <x:variable name="test-config" select="map:put($test-config, $mlml:CUSTOM-STRIP-SPACING, 
+                    function($doc){
+                        $doc//mlml:element[not(mlml:name = 'preserve')]/mlml:content/mlml:text
+                        (:
+                        :)
+                    }
+                )"/>
+            <!-- 
+                Ignore XDM compare, as custom strip spacing is not available for Xerces -->
+            <x:like label="generic-serialize-test-no-xerces"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">

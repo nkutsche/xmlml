@@ -1,0 +1,47 @@
+<!--<root>
+    <strip/>
+    <strip>     </strip>
+    <preserve>     </preserve>
+</root>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+    <element>
+        <name>root</name>
+        <content>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element collapsed="true">
+                <name>strip</name>
+            </element>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element>
+                <name>strip</name>
+                <content>
+                    <ws>
+                        <space amount="5"/>
+                    </ws>
+                </content>
+            </element>
+            <ws>
+                <nl/>
+                <space amount="4"/>
+            </ws>
+            <element>
+                <name>preserve</name>
+                <content>
+                    <text>
+                        <data>     </data>
+                    </text>
+                </content>
+            </element>
+            <ws>
+                <nl/>
+            </ws>
+        </content>
+    </element>
+</document>
