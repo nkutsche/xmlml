@@ -1,0 +1,8 @@
+<!ENTITY % IGN "IGNORE" >
+
+<![%IGN;[ 
+    BAD DATA IN IGNORE
+    <<<<!ENTITY  !--->
+]]>
+
+<!ELEMENT root EMPTY >

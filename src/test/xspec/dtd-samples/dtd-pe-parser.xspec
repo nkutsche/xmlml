@@ -631,6 +631,108 @@
             </x:scenario>
             
         </x:scenario>
+
+        <x:scenario label="IGNORE | INCLUDE kung fu">
+            <x:scenario label="Bad code in IGNORE section, marked by PE">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % ign "IGN">
+                        <!ENTITY % ore "ORE">
+                        <!ENTITY % ignore "%ign;%ore;">
+                        <![%ignore;[ 
+                            BAD DATA IN IGNORE
+                            <<<<!ENTITY  !--->
+                        ]]>]]&gt;
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % ign "IGN">
+                        <!ENTITY % ore "ORE">
+                        <!ENTITY % ignore "IGNORE">
+                        <![IGNORE[ 
+                            BAD DATA IN IGNORE
+                            <<<<!ENTITY  !--->
+                        ]]>]]&gt;
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+            <x:scenario label="Include section by PE">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % inc "INC">
+                        <!ENTITY % lude "LUDE">
+                        <!ENTITY % include "%inc;%lude;">
+                        <![%include;[ 
+                            <!ENTITY % pe "<!ELEMENT root EMPTY>">
+                    ]]>]]&gt;
+                    <![CDATA[
+                        <!ENTITY % pe "<!ELEMENT bad EMPTY>">
+                        %pe;
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % inc "INC">
+                        <!ENTITY % lude "LUDE">
+                        <!ENTITY % include "INCLUDE">
+                        <![INCLUDE[ 
+                            <!ENTITY % pe "<!ELEMENT root EMPTY>">
+                    ]]>]]&gt;
+                    <![CDATA[
+                        <!ENTITY % pe "<!ELEMENT bad EMPTY>">
+                        <!ELEMENT root EMPTY>
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+
+            <x:scenario label="Nested Include/Ignore sections">
+                <x:variable name="src-dtd">
+                    <![CDATA[
+                        <!ENTITY % inc "INC">
+                        <!ENTITY % lude "LUDE">
+                        <!ENTITY % include "%inc;%lude;">
+                        <!ENTITY % ign "IGN">
+                        <!ENTITY % ore "ORE">
+                        <!ENTITY % ignore "%ign;%ore;">
+                        <![%include;[ 
+                            <!ENTITY % pe "<!ELEMENT root EMPTY>">
+                            <![%ignore;[
+                                BAD DATA IN IGNORE
+                                <<<<!ENTITY  !--->
+                    ]]>
+                            ]]&gt;
+                        ]]&gt;
+                    <![CDATA[
+                        <!ENTITY % pe "<!ELEMENT bad EMPTY>">
+                        %pe;
+                    ]]>
+                </x:variable>
+                <x:variable name="resolved-dtd">
+                    <![CDATA[
+                        <!ENTITY % inc "INC">
+                        <!ENTITY % lude "LUDE">
+                        <!ENTITY % include "INCLUDE">
+                        <!ENTITY % ign "IGN">
+                        <!ENTITY % ore "ORE">
+                        <!ENTITY % ignore "IGNORE">
+                        <![INCLUDE[ 
+                            <!ENTITY % pe "<!ELEMENT root EMPTY>">
+                            <![IGNORE[
+                                BAD DATA IN IGNORE
+                                <<<<!ENTITY  !--->
+                    ]]>
+                            ]]&gt;
+                        ]]&gt;
+                    <![CDATA[
+                        <!ENTITY % pe "<!ELEMENT bad EMPTY>">
+                        <!ELEMENT root EMPTY>
+                    ]]>
+                </x:variable>
+                <x:like label="generic-dtd-test"/>
+            </x:scenario>
+            
+        </x:scenario>
         
     </x:scenario>
     

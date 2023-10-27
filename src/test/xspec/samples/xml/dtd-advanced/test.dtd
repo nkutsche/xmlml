@@ -1,0 +1,12 @@
+<!ENTITY % ign "IGN">
+<!ENTITY % ore "ORE">
+<!ENTITY % ignore "%ign;%ore;">
+
+<!--<!ENTITY % IGN "IGNORE" >-->
+
+<![%ignore;[ 
+    BAD DATA IN IGNORE
+    <<<<!ENTITY  !--->
+]]>
+
+<!ELEMENT root EMPTY >

@@ -1,0 +1,18 @@
+<!--<!DOCTYPE root SYSTEM "bad-data-in-ignore.dtd"><root/>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <system>
+            <ws space="1"/>
+            <value>
+                <data>bad-data-in-ignore.dtd</data>
+            </value>
+        </system>
+    </doc-type-decl>
+    <element collapsed="true">
+        <name>root</name>
+    </element>
+</document>

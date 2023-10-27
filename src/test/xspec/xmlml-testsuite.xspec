@@ -276,6 +276,10 @@
             <x:variable name="path" select="'dtd-advanced/multi-def-ext-pe.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: dtd-advanced/bad-data-in-ignore.xml">
+            <x:variable name="path" select="'dtd-advanced/bad-data-in-ignore.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
     
     <x:scenario label="Dir: element/" catch="true">
