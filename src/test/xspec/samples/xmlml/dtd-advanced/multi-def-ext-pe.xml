@@ -1,0 +1,26 @@
+<!--<!DOCTYPE root1 SYSTEM "multi-def-ext-pe.dtd"><root1/>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root1</name>
+        <ws space="1"/>
+        <system>
+            <ws space="1"/>
+            <value>
+                <data>multi-def-ext-pe.dtd</data>
+            </value>
+        </system>
+    </doc-type-decl>
+    <element collapsed="true">
+        <name>root1</name>
+        <attribute default="true" type="CDATA">
+            <ws space="1"/>
+            <name>a</name>
+            <eq/>
+            <value>
+                <data>value</data>
+            </value>
+        </attribute>
+    </element>
+</document>
