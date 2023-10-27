@@ -163,6 +163,72 @@
 
     </xsl:function>
 
+    <xsl:template match="extSubsetDecl[conditionalSect/ignoreSectPE]" mode="mlml:dtd-pre-parse" priority="10">
+        <xsl:param name="config" as="map(*)" tunnel="yes"/>
+        <xsl:param name="entities" select="()" as="map(xs:string, item()?)*" tunnel="yes"/>
+        <xsl:variable name="first-cond-pe-sect" select="conditionalSect[ignoreSectPE][1]"/>
+        <xsl:variable name="head" select="*[. &lt;&lt; $first-cond-pe-sect]"/>
+        <xsl:variable name="rest" select="* except ($head, $first-cond-pe-sect)"/>
+        
+        <xsl:variable name="head-resolved">
+            <xsl:call-template name="mlml:dtd-pre-parse-extSubsetDecl">
+                <xsl:with-param name="focus" select="$head"/>
+            </xsl:call-template>
+        </xsl:variable>
+        
+        <xsl:variable name="new-entities" as="map(xs:string, item()?)*" select="
+            $head-resolved//EntityDecl/mlml:parse-entity(., base-uri(.), $config)
+            "/>
+        
+        <xsl:variable name="entities" select="($entities, $new-entities)"/>
+        
+        <xsl:variable name="PERef" select="$first-cond-pe-sect/ignoreSectPE/PEReference"/>
+        <xsl:variable name="IGNORE-OR-INCLUDE" select="
+            mlml:dtd-resolve-parameter-entities([$PERef], $entities, $config)
+            "/>
+        <xsl:variable name="IGNORE-OR-INCLUDE" select="$IGNORE-OR-INCLUDE => string-join() => normalize-space()"/>
+        
+        <xsl:variable name="rest">
+            <xsl:copy>
+                <xsl:choose>
+                    <xsl:when test="$IGNORE-OR-INCLUDE = 'IGNORE'">
+                        <conditionalSect>
+                            <TOKEN>&lt;![</TOKEN>
+                            <TOKEN>IGNORE</TOKEN>
+                            <TOKEN>[</TOKEN>
+                            <xsl:sequence select="$first-cond-pe-sect/ignoreSectPE/ignoreSectContents"/>
+                            <TOKEN>]]&gt;</TOKEN>
+                        </conditionalSect>
+                    </xsl:when>
+                    <xsl:when test="$IGNORE-OR-INCLUDE = 'INCLUDE'">
+                        <conditionalSect>
+                            <includeSect>
+                                <TOKEN>&lt;![</TOKEN>
+                                <TOKEN>INCLUDE</TOKEN>
+                                <TOKEN>[</TOKEN>
+                                <extSubsetDecl>
+                                    <xsl:sequence select="dtdpe:parse-document(string($first-cond-pe-sect/ignoreSectPE/ignoreSectContents))"/>
+                                </extSubsetDecl>
+                                <TOKEN>]]&gt;</TOKEN>
+                            </includeSect>
+                        </conditionalSect>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:message terminate="yes" expand-text="yes"
+                            >Conditional section must have keyword "IGNORE" or "INCLUDE" but has "{$IGNORE-OR-INCLUDE}"!</xsl:message>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:sequence select="$rest"/>
+            </xsl:copy>
+        </xsl:variable>
+        
+        <xsl:sequence select="$head-resolved"/>
+        <xsl:apply-templates select="$rest/*" mode="#current">
+            <xsl:with-param name="entities" select="$entities" tunnel="yes"/>
+        </xsl:apply-templates>
+    </xsl:template>
+    
+    
     <xsl:template match="extSubsetDecl" mode="mlml:dtd-pre-parse" name="mlml:dtd-pre-parse-extSubsetDecl">
         <xsl:param name="config" as="map(*)" tunnel="yes"/>
         <xsl:param name="entities" select="()" as="map(xs:string, item()?)*" tunnel="yes"/>
