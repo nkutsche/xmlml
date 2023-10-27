@@ -163,12 +163,13 @@
 
     </xsl:function>
 
-    <xsl:template match="extSubsetDecl" mode="mlml:dtd-pre-parse">
+    <xsl:template match="extSubsetDecl" mode="mlml:dtd-pre-parse" name="mlml:dtd-pre-parse-extSubsetDecl">
         <xsl:param name="config" as="map(*)" tunnel="yes"/>
         <xsl:param name="entities" select="()" as="map(xs:string, item()?)*" tunnel="yes"/>
+        <xsl:param name="focus" select="*" as="element()*"/>
 
         <xsl:variable name="iterations" as="array(element()*)*">
-            <xsl:for-each-group select="*" group-starting-with="*[.//PEReference | .//PercentInEntityDecl[NCName]]">
+            <xsl:for-each-group select="$focus" group-starting-with="*[.//PEReference | .//PercentInEntityDecl[NCName]]">
                 <xsl:sequence select="[current-group()]"/>
             </xsl:for-each-group>
         </xsl:variable>
