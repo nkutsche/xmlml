@@ -462,7 +462,7 @@
 
         <xsl:variable name="name" select="replace(., '^%|;$', '')"/>
 
-        <xsl:variable name="entity" select="$entities[?is-param][?name = $name]"/>
+        <xsl:variable name="entity" select="$entities[?is-param][?name = $name][1]"/>
         
         <xsl:if test="empty($entity)">
             <xsl:sequence select="
