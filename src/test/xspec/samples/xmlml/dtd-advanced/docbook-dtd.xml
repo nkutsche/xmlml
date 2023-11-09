@@ -1,0 +1,53 @@
+<!--<!DOCTYPE book SYSTEM "docbook-dtd/docbookx.dtd"><book><title>this is a book</title><chapter><title>chapter title</title><para>non breaking&nbsp;space</para></chapter></book>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>book</name>
+        <ws space="1"/>
+        <system>
+            <ws space="1"/>
+            <value>
+                <data>docbook-dtd/docbookx.dtd</data>
+            </value>
+        </system>
+    </doc-type-decl>
+    <element>
+        <name>book</name>
+        <content space="skip">
+            <element>
+                <name>title</name>
+                <content space="preserve">
+                    <text>
+                        <data>this is a book</data>
+                    </text>
+                </content>
+            </element>
+            <element>
+                <name>chapter</name>
+                <content space="skip">
+                    <element>
+                        <name>title</name>
+                        <content space="preserve">
+                            <text>
+                                <data>chapter title</data>
+                            </text>
+                        </content>
+                    </element>
+                    <element>
+                        <name>para</name>
+                        <content space="preserve">
+                            <text>
+                                <data>non breaking</data>
+                                <entity name="nbsp">
+                                    <data>&#xA0;</data>
+                                </entity>
+                                <data>space</data>
+                            </text>
+                        </content>
+                    </element>
+                </content>
+            </element>
+        </content>
+    </element>
+</document>
