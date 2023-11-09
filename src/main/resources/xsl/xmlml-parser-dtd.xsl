@@ -190,6 +190,7 @@
         
         <xsl:variable name="rest">
             <xsl:copy>
+                <xsl:attribute name="xml:base" select="base-uri(.)"/>
                 <xsl:choose>
                     <xsl:when test="$IGNORE-OR-INCLUDE = 'IGNORE'">
                         <conditionalSect>
