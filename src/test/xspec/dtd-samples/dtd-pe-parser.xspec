@@ -18,6 +18,18 @@
                 <!ELEMENT bar EMPTY>
             ]]>
         </res>
+        <res id="recursive.ent">
+            <![CDATA[
+                <!ENTITY % foo SYSTEM "foo.ent">
+                %foo;
+            ]]>
+        </res>
+        <res id="subdir/foo.mod">
+            <![CDATA[
+                <!ENTITY % rec SYSTEM "../recursive.ent">
+                %rec;
+            ]]>
+        </res>
     </x:variable>
     
     <x:variable name="config" select="map:put(
@@ -225,6 +237,58 @@
                     <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent">
                     <!ELEMENT foo EMPTY>
                 ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        <x:scenario label="Recursive External Parameter Entity">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                <!ENTITY % rec SYSTEM "recursive.ent">
+                %rec;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % rec SYSTEM "http://www.nkutsche.com/xmlml/recursive.ent">
+                    <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent">
+                    <!ELEMENT foo EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        <x:scenario label="Recursive External Parameter Entity with sub dirs">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                <!ENTITY % mod SYSTEM "subdir/foo.mod">
+                %mod;
+                ]]>
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % mod SYSTEM "http://www.nkutsche.com/xmlml/subdir/foo.mod">
+                    <!ENTITY % rec SYSTEM "http://www.nkutsche.com/xmlml/recursive.ent">
+                    <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent">
+                    <!ELEMENT foo EMPTY>
+                ]]>
+            </x:variable>
+            <x:like label="generic-dtd-test"/>
+        </x:scenario>
+        <x:scenario label="External Parameter Entity in INCLUDE">
+            <x:variable name="src-dtd">
+                <![CDATA[
+                    <!ENTITY % title_feature "INCLUDE" >
+                    <![%title_feature;[ 
+                        <!ENTITY % foo SYSTEM "foo.ent" >
+                        %foo;
+                ]]>]]&gt;
+            </x:variable>
+            <x:variable name="resolved-dtd">
+                <![CDATA[
+                    <!ENTITY % title_feature "INCLUDE" >
+                    <![INCLUDE[ 
+                        <!ENTITY % foo SYSTEM "http://www.nkutsche.com/xmlml/foo.ent" >
+                        <!ELEMENT foo EMPTY>
+                ]]>]]&gt;
             </x:variable>
             <x:like label="generic-dtd-test"/>
         </x:scenario>
