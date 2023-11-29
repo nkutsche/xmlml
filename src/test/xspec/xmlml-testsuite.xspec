@@ -804,6 +804,266 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="Testing special cases of function mlml:serialize" catch="yes">
+        <x:call function="mlml:serialize"/>
+        <x:scenario label="escape (or not) &lt; and &amp;">
+            <x:scenario label="in text">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element>
+                                <name>root</name>
+                                <content space="preserve">
+                                    <text>
+                                        <data>&lt; and &amp;</data>
+                                    </text>
+                                </content>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root>&lt; and &amp;</root>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="in an attribute">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element collapsed="true">
+                                <name>root</name>
+                                <attribute>
+                                    <ws space="1"/>
+                                    <name>a</name>
+                                    <eq/>
+                                    <value>
+                                        <data>&lt; and &amp;</data>
+                                    </value>
+                                </attribute>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root a="&lt; and &amp;"/>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="in a CDATA (not escaped)">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element>
+                                <name>root</name>
+                                <content space="preserve">
+                                    <text>
+                                        <cdata-section>
+                                            <data>&lt; and &amp;</data>
+                                        </cdata-section>
+                                    </text>
+                                </content>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root>]]>&lt;![CDATA[&lt; and &amp;]]&gt;<![CDATA[</root>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="in a comment (not escaped)">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <comment>
+                                <data>&lt; and &amp;</data>
+                            </comment>
+                            <element collapsed="true">
+                                <name>root</name>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<!--< and &--><root/>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="in a PI (not escaped)">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <pi>
+                                <name>pi</name>
+                                <ws space="1"/>
+                                <value>
+                                    <data>&lt; and &amp;</data>
+                                </value>
+                            </pi>
+                            <element collapsed="true">
+                                <name>root</name>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<?pi < and &?><root/>]]></x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="escape ' or &quot; in attributes">
+            <x:scenario label="double quoted attribute">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element collapsed="true">
+                                <name>root</name>
+                                <attribute>
+                                    <ws space="1"/>
+                                    <name>a</name>
+                                    <eq/>
+                                    <value>
+                                        <data>' or "</data>
+                                    </value>
+                                </attribute>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root a="' or &quot;"/>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="single quoted attribute">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element collapsed="true">
+                                <name>root</name>
+                                <attribute>
+                                    <ws space="1"/>
+                                    <name>a</name>
+                                    <eq/>
+                                    <value quotes="single">
+                                        <data>' or "</data>
+                                    </value>
+                                </attribute>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root a='&apos; or "'/>]]></x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="escape ]]>">
+            <x:scenario label="in text">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element>
+                                <name>root</name>
+                                <content space="preserve">
+                                    <text>
+                                        <data>]]&gt;</data>
+                                    </text>
+                                </content>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<root>]]&gt;</root>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="in attribute (no escape)">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <element collapsed="true">
+                                <name>root</name>
+                                <attribute>
+                                    <ws space="1"/>
+                                    <name>a</name>
+                                    <eq/>
+                                    <value>
+                                        <data>]]&gt;</data>
+                                    </value>
+                                </attribute>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)">&lt;root a="]]&gt;"/></x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="insert space if -- occurs in comment">
+            <x:call>
+                <x:param>
+                    <document xmlns="http://www.nkutsche.com/xmlml">
+                        <comment>
+                            <data>comment with -- </data>
+                        </comment>
+                        <element collapsed="true">
+                            <name>root</name>
+                        </element>
+                    </document>
+                </x:param>
+            </x:call>
+            <x:expect label="result xml" select="string(.)"><![CDATA[<!--comment with - - --><root/>]]></x:expect>
+        </x:scenario>
+        <x:scenario label="add space if comments end with -">
+            <x:scenario label="just end with '-' -> add space ">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <comment>
+                                <data>comment end with: -</data>
+                            </comment>
+                            <element collapsed="true">
+                                <name>root</name>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<!--comment end with: - --><root/>]]></x:expect>
+            </x:scenario>
+            <x:scenario label="end with '-\n' -> no space add ">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+                            <comment>
+                                <data>comment end with: -</data>
+                                <nl/>
+                            </comment>
+                            <element collapsed="true">
+                                <name>root</name>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<!--comment end with: -]]>&#xA;-->&lt;root/&gt;</x:expect>
+            </x:scenario>
+            <x:scenario label="end with '-' and empty data -> add space ">
+                <x:call>
+                    <x:param>
+                        <document xmlns="http://www.nkutsche.com/xmlml">
+                            <comment>
+                                <data>comment end with: -</data>
+                                <data/>
+                            </comment>
+                            <element collapsed="true">
+                                <name>root</name>
+                            </element>
+                        </document>
+                    </x:param>
+                </x:call>
+                <x:expect label="result xml" select="string(.)"><![CDATA[<!--comment end with: - --><root/>]]></x:expect>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="insert space if ?> occurs in PI">
+            <x:call>
+                <x:param>
+                    <document xmlns="http://www.nkutsche.com/xmlml">
+                        <pi>
+                            <name>pi</name>
+                            <ws space="1"/>
+                            <value>
+                                <data>?></data>
+                            </value>
+                        </pi>
+                        <element collapsed="true">
+                            <name>root</name>
+                        </element>
+                    </document>
+                </x:param>
+            </x:call>
+            <x:expect label="result xml" select="string(.)"><![CDATA[<?pi ? >?><root/>]]></x:expect>
+        </x:scenario>
+    </x:scenario>
+    
     <x:scenario label="Testing function mlml:type-validate">
         <x:call function="mlml:type-validate"/>
         

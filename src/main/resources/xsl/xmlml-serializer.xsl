@@ -4,6 +4,7 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:mlml="http://www.nkutsche.com/xmlml"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     xpath-default-namespace="http://www.nkutsche.com/xmlml"
     exclude-result-prefixes="xs math xd"
     version="3.0">
@@ -167,12 +168,116 @@
         <xsl:text>;</xsl:text>
     </xsl:template>
     
+    <xsl:template match="text/data" priority="40" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'\]\]>' : ']]&amp;gt;'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+    
+    <xsl:template match="text/data | attribute" priority="50" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'&amp;' : '&amp;amp;'}, map{'&lt;' : '&amp;lt;'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+
+    <xsl:template match="attribute/value[@quotes = 'single']/data" priority="60" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'''' : '&amp;apos;'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+
+    <xsl:template match="attribute/value[not(@quotes) or @quotes = 'double']/data" priority="50" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'&quot;' : '&amp;quot;'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+    
+    <xsl:template match="comment/data[contains(., '--')]" mode="mlml:serialize" priority="100">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'--' : '- -'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+    
+    <xsl:template match="comment/data[ends-with(., '-')][not(following-sibling::nl|following-sibling::data[normalize-space(.) != ''])]" mode="mlml:serialize" priority="90">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'-$' : '- '}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+
+    <xsl:template match="pi/value/data" mode="mlml:serialize" priority="90">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'\?>' : '? >'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+    
+    
+    <xsl:template match="text()" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:value-of select="
+            mlml:escape-text(., $escape-maps)
+            "/>
+    </xsl:template>
+    
+    <xsl:function name="mlml:escape-text" as="xs:string">
+        <xsl:param name="content" as="xs:string"/>
+        <xsl:param name="escape-maps" as="map(xs:string, xs:string)*"/>
+        
+        <xsl:variable name="escape-maps-head" select="head($escape-maps)"/>
+        <xsl:variable name="escape-maps-tail" select="tail($escape-maps)"/>
+        
+        <xsl:choose>
+            <xsl:when test="empty($escape-maps)">
+                <xsl:sequence select="$content"/>
+            </xsl:when>
+            <xsl:when test="empty(map:keys($escape-maps-head))">
+                <xsl:sequence select="mlml:escape-text($content, $escape-maps-tail)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="match" select="head($escape-maps-head ! map:keys(.))"/>
+                <xsl:variable name="repl" select="$escape-maps-head($match)"/>
+                <xsl:variable name="escape-maps-head" select="map:remove($escape-maps-head, $match)"/>
+                
+                <xsl:variable name="next-escape-maps" select="
+                    if (empty(map:keys($escape-maps-head))) 
+                    then $escape-maps-tail 
+                    else ($escape-maps-head, $escape-maps-tail)
+                    "/>
+                <xsl:sequence select="mlml:escape-text(replace($content, $match, $repl), $next-escape-maps)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+        
+    </xsl:function>
+    
+    
     <xsl:template match="
         data/text() 
         | name/text()
         " mode="mlml:clean-up">
-        <xsl:value-of select="."/>
+       <xsl:value-of select="."/>
     </xsl:template>
+    
     
     <xsl:template match="text()" mode="mlml:clean-up"/>
         
