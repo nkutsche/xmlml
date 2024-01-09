@@ -718,7 +718,9 @@
             then (mlml:error('3.1.41.2', 'The external entity reference ' || $nameRef || ' is not permitted in attribute values.')) 
             else if ($entity-decl/dtdml:external) 
             then 
-                mlml:load-external-resource(@systemId, @xml:base, @pubId, 'entity', $config)?content
+                $entity-decl/dtdml:external/
+                    mlml:load-external-resource(@systemId, @xml:base, @publicId, 'entity', $config)
+                    ?content
             else if ($entity-decl/dtdml:value/@ndata-ref) 
                 then mlml:error('4.1.68.3', 'Unparsed entity ' || $nameRef || ' must not be referenced.') 
             else 

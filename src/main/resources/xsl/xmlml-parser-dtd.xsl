@@ -946,7 +946,7 @@
             "/>
         <external systemId="{$systemId}">
             <xsl:if test="$pubId">
-                <xsl:attribute name="pubId" select="$pubId"/>
+                <xsl:attribute name="publicId" select="$pubId"/>
             </xsl:if>
             <xsl:attribute name="xml:base" select="$base-uri"/>
         </external>
