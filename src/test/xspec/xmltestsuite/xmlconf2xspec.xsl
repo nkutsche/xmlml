@@ -11,7 +11,7 @@
     <xsl:param name="focus" as="xs:string?"/>
     
     <xsl:variable name="focus-map" select="
-        if(exists($focus)) then
+        if(exists($focus) and normalize-space($focus) != '') then
         let $tk := tokenize($focus, '=')
         return
         map{$tk[1] : $tk[2] => tokenize(',')}

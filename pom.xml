@@ -31,6 +31,7 @@
         
         <resource.subdir>com/nkutsche/xmlml</resource.subdir>
         
+        <xml.conf.focus>id=#none</xml.conf.focus>
     </properties>
     
     <dependencies>
@@ -180,6 +181,10 @@
                                                 <parameter>
                                                     <name>testRunner</name>
                                                     <value>${project.baseUri}/target/test-classes/xsl/testRunner.xsl</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>focus</name>
+                                                    <value>${xml.conf.focus}</value>
                                                 </parameter>
                                             </parameters>
                                             <fileMappers>
