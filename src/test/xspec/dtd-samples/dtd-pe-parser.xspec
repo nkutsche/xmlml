@@ -36,7 +36,7 @@
         $default-config, $mlml:URI_RESOLVER, function($href, $baseuri){
             if($resources[resolve-uri(@id, $si?base-uri) = $href])
             then 
-                (map{'content' : string($resources[resolve-uri(@id, $si?base-uri) = $href]), 'base-uri' : resolve-uri($href, $baseuri)},
+                (map{'content' : string($resources[resolve-uri(@id, $si?base-uri) = $href]), 'base-uri' : string(resolve-uri($href, $baseuri))},
                 mlmlt:message('systemId: ' || $href), 
                 mlmlt:message('content: ' || string($resources[resolve-uri(@id, $si?base-uri) = $href]))
                 )

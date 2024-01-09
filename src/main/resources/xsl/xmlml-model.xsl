@@ -12,7 +12,7 @@
         <xsl:apply-templates select="mlml:clean-up($xmlml-documuent)" mode="mlml:doc"/>
     </xsl:function>
 
-    <xsl:function name="mlml:as-node" as="node()" visibility="final">
+    <xsl:function name="mlml:as-node" as="node()?" visibility="final">
         <xsl:param name="node" as="element()"/>
         <xsl:apply-templates select="mlml:clean-up($node)" mode="mlml:doc"/>
     </xsl:function>

@@ -587,9 +587,16 @@
                 )
                 "/>
         </xsl:if>
+
+        <xsl:sequence select="mlml:debug('Resolves parameter entity reference ' || $name, $config)"/>
         
         <xsl:variable name="resolved" select="$entity?resolve()"/>
         <xsl:variable name="value" select="$resolved?content"/>
+        
+        <xsl:if test="empty($resolved?content)">
+            <xsl:sequence select="mlml:warn('Resolved parameter entity ' || $name || 'is empty!', $config)"/>
+            <xsl:sequence select="mlml:debug('Base URI is: ' || $resolved?base-uri, $config)"/>
+        </xsl:if>
         
         <xsl:variable name="base-uri" select="($resolved?base-uri, base-uri(.))[1]"/>
         

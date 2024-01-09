@@ -23,12 +23,13 @@
 
     <xsl:variable name="mlml:CUSTOM-STRUCTUR-ELEMENTS" select="QName($xmlml_ns, 'CUSTOM-STRUCTUR-ELEMENTS')" visibility="final"/>
     
-    <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
     <xsl:variable name="mlml:IGNORE-EXTERNAL-DTD" select="QName($feature_ns, 'IGNORE-EXTERNAL-DTD')" visibility="final"/>
 
     <xsl:variable name="mlml:IGNORE-INLINE-DTD" select="QName($feature_ns, 'IGNORE-INLINE-DTD')" visibility="final"/>
     
     <xsl:variable name="mlml:IGNORE-UNDECLARED-ENTITIES" select="QName($feature_ns, 'IGNORE-UNDECLARED-ENTITIES')" visibility="final"/>
+    
+    <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
 
     <xsl:variable name="mlml:LOG-LEVEL-VERBOSE" select="'VERBOSE'" visibility="final"/>
     
