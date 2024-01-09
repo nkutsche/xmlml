@@ -1,0 +1,22 @@
+<!--<!DOCTYPE doc [<!ENTITY e SYSTEM "inline-subset-w-ext-ent.ent">]><doc>&e;</doc>-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>doc</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ENTITY e SYSTEM "inline-subset-w-ext-ent.ent">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>doc</name>
+        <content space="preserve">
+            <text>
+                <entity name="e">
+                    <data>Data</data>
+                </entity>
+            </text>
+        </content>
+    </element>
+</document>

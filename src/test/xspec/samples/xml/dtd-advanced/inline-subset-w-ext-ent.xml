@@ -1,0 +1,1 @@
+<!DOCTYPE doc [<!ENTITY e SYSTEM "inline-subset-w-ext-ent.ent">]><doc>&e;</doc>
