@@ -11,6 +11,25 @@
             <xd:p/>
         </xd:desc>
     </xd:doc>
+    
+    <xsl:function name="mlml:parse-external-dtd" as="element(dtdml:dtd)?" visibility="final">
+        <xsl:param name="href" as="xs:string"/>
+        <xsl:param name="pubId" as="xs:string?"/>
+        <xsl:sequence select="mlml:parse-external-dtd($href, $pubId, $default-config)"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:parse-external-dtd" as="element(dtdml:dtd)?" visibility="final">
+        <xsl:param name="href" as="xs:string"/>
+        <xsl:param name="pubId" as="xs:string?"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="dtd-resource" select="
+            mlml:load-external-resource($href, static-base-uri(), $pubId, 'entity', $config)
+            "/>
+        
+        <xsl:sequence select="mlml:parse-dtds-from-string((), $dtd-resource, $config)"/>
+        
+    </xsl:function>
 
 
     <xsl:function name="mlml:parse-dtds-from-xml" as="element(dtdml:dtd)?">
