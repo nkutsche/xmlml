@@ -36,9 +36,17 @@
 
         <xsl:variable name="dtd-decl" select="$xml-preparsed/prolog/doctypedecl"/>
         
-        <xsl:variable name="inline" select="$dtd-decl/intSubset/string(.)"/>
+        <xsl:variable name="inline" select="
+            if($config($mlml:IGNORE-INLINE-DTD))
+            then ()
+            else $dtd-decl/intSubset/string(.)
+            "/>
         
-        <xsl:variable name="dtd-external-path" select="$dtd-decl/ExternalID/SystemLiteral/(SystemLiteralDouble | SystemLiteralSingle)/string(.)"/>
+        <xsl:variable name="dtd-external-path" select="
+            if($config($mlml:IGNORE-EXTERNAL-DTD))
+            then ()
+            else $dtd-decl/ExternalID/SystemLiteral/(SystemLiteralDouble | SystemLiteralSingle)/string(.)
+            "/>
 
         <xsl:variable name="dtd-ext-resource" select="
             if($dtd-external-path)

@@ -23,7 +23,11 @@
     <xsl:variable name="mlml:CUSTOM-STRUCTUR-ELEMENTS" select="QName($xmlml_ns, 'CUSTOM-STRUCTUR-ELEMENTS')" visibility="final"/>
     
     <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
+    <xsl:variable name="mlml:IGNORE-EXTERNAL-DTD" select="QName($feature_ns, 'IGNORE-EXTERNAL-DTD')" visibility="final"/>
 
+    <xsl:variable name="mlml:IGNORE-INLINE-DTD" select="QName($feature_ns, 'IGNORE-INLINE-DTD')" visibility="final"/>
+    
+    <xsl:variable name="mlml:IGNORE-UNDECLARED-ENTITIES" select="QName($feature_ns, 'IGNORE-UNDECLARED-ENTITIES')" visibility="final"/>
 
     <xsl:variable name="mlml:LOG-LEVEL-VERBOSE" select="'VERBOSE'" visibility="final"/>
     
@@ -96,7 +100,10 @@
             $mlml:EXPAND-DEFAULT-ATTRIBUTES : $expand-default-attributes,
             $mlml:IGNORE-INLINE-DTD-PIS : $ignore-inline-dtd-pis,
             $mlml:URI_RESOLVER : mlml:default-uri-resolver#2,
-            $mlml:PARSER-LOG-LEVEL : $mlml:LOG-LEVEL-WARN
+            $mlml:PARSER-LOG-LEVEL : $mlml:LOG-LEVEL-WARN,
+            $mlml:IGNORE-UNDECLARED-ENTITIES: false(),
+            $mlml:IGNORE-EXTERNAL-DTD: false(),
+            $mlml:IGNORE-INLINE-DTD: false()
             }"/>
 
     </xsl:function>
@@ -671,7 +678,9 @@
         <xsl:variable name="is-attribute-value" select="ancestor::AttValue"/>
         
         <xsl:variable name="value" select="
-            if (not($entity-decl)) 
+            if (not($entity-decl) and $config($mlml:IGNORE-UNDECLARED-ENTITIES))
+            then ()
+            else if (not($entity-decl)) 
             then (mlml:error('4.1.68.1', 'No declaration for the named entity ' || $nameRef || '.')) 
             else if ($entity-decl/dtdml:external and $is-attribute-value) 
             then (mlml:error('3.1.41.2', 'The external entity reference ' || $nameRef || ' is not permitted in attribute values.')) 
