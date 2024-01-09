@@ -77,8 +77,12 @@
         <xsl:param name="config" as="map(*)"/>
         
         <xsl:variable name="inlineSubset" select="$internalSubset ! map:put(., 'internal-subset', true())"/>
+        
+        <xsl:variable name="external-is-dtdml" select="
+            ($externalSubset ! matches(.?mediatype, 'xml$'), false())[1]
+            " as="xs:boolean"/>
 
-        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse(($inlineSubset, $externalSubset), $config) ! string(.)"/>
+        <xsl:variable name="preparsed" select="mlml:dtd-pre-parse(($inlineSubset, $externalSubset[not($external-is-dtdml)]), $config) ! string(.)"/>
 
         <xsl:variable name="parsed" select="$preparsed ! dtdp:parse-document(.)"/>
         
@@ -97,6 +101,20 @@
             <xsl:apply-templates select="$parsed" mode="mlml:dtd-parse">
                 <xsl:with-param name="config" select="$config" tunnel="yes"/>
             </xsl:apply-templates>
+            <xsl:if test="$external-is-dtdml">
+                <xsl:sequence select="mlml:debug('Detected DTDML as external subset', $config)"/>
+                <xsl:variable name="linefeed" select="
+                    if ($externalSubset?linefeed) then
+                        $externalSubset?linefeed
+                    else
+                        mlml:lf-type($externalSubset?content)
+                    "/>
+                <xsl:variable name="base-uri" select="$externalSubset?base-uri"/>
+                <xsl:sequence select="mlml:debug('Parses DTDML from ' || $base-uri , $config)"/>
+                <xsl:variable name="dtdml" select="parse-xml($externalSubset?content)"/>
+                <xsl:sequence select="$dtdml/*/node()"/>
+                <xsl:sequence select="mlml:debug('Finished parsing DTDML', $config)"/>
+            </xsl:if>
         </dtd>
     </xsl:function>
     
