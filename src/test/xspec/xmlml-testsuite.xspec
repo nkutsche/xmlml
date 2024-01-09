@@ -1062,6 +1062,25 @@
             </x:call>
             <x:expect label="result xml" select="string(.)"><![CDATA[<?pi ? >?><root/>]]></x:expect>
         </x:scenario>
+        <x:scenario label="insert space if ]]> occurs in CDATA">
+            <x:call>
+                <x:param>
+                    <document xmlns="http://www.nkutsche.com/xmlml">
+                        <element>
+                            <name>root</name>
+                            <content space="preserve">
+                                <text>
+                                    <cdata-section>
+                                        <data>ends of cdata: ]]&gt;</data>
+                                    </cdata-section>
+                                </text>
+                            </content>
+                        </element>
+                    </document>
+                </x:param>
+            </x:call>
+            <x:expect label="result xml" select="string(.)">&lt;root&gt;&lt;![CDATA[ends of cdata: ]] &gt;]]&gt;&lt;/root&gt;</x:expect>
+        </x:scenario>
     </x:scenario>
     
     <x:scenario label="Testing function mlml:type-validate">

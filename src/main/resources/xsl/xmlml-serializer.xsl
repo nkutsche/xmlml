@@ -177,6 +177,15 @@
         </xsl:next-match>
     </xsl:template>
     
+    <xsl:template match="cdata-section" priority="40" mode="mlml:serialize">
+        <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
+        <xsl:next-match>
+            <xsl:with-param name="escape-maps" tunnel="yes"
+                select="$escape-maps, map{'\]\]>' : ']] >'}"
+            />
+        </xsl:next-match>
+    </xsl:template>
+    
     <xsl:template match="text/data | attribute" priority="50" mode="mlml:serialize">
         <xsl:param name="escape-maps" select="map{}" as="map(xs:string, xs:string)*" tunnel="yes"/>
         <xsl:next-match>
