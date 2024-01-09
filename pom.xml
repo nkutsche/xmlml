@@ -8,6 +8,24 @@
     <artifactId>xmlml</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     
+    <name>XmlML</name>
+    <description>The X(ML)² structure enables to work on an XML document nodes (XDM tree) but also enables to reconstruct each character of the origin XML syntax. The project provides an XML parser, serializer and XDM tree converter as XSLT function library.</description>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>LICENSE</url>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <id>nkutsche</id>
+            <name>Nico Kutscherauer</name>
+            <email>nico@nkutsche.com</email>
+        </developer>
+    </developers>
+    
     <properties>
         <saxon.version>12.3</saxon.version>
         
