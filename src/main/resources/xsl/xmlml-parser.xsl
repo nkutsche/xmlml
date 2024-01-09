@@ -17,6 +17,7 @@
     <xsl:variable name="mlml:RESOLVE-DTD-URIS" select="QName($feature_ns, 'RESOLVE-DTD-URIS')" visibility="final"/>
     <xsl:variable name="mlml:EXPAND-DEFAULT-ATTRIBUTES" select="QName($feature_ns, 'EXPAND-DEFAULT-ATTRIBUTES')" visibility="final"/>
     <xsl:variable name="mlml:URI_RESOLVER" select="QName($feature_ns, 'URI_RESOLVER')" visibility="final"/>
+    <xsl:variable name="mlml:ENTITY_RESOLVER" select="QName($feature_ns, 'ENTITY_RESOLVER')" visibility="final"/>
 
     <xsl:variable name="mlml:IGNORE-INLINE-DTD-PIS" select="QName($feature_ns, 'IGNORE-INLINE-DTD-PIS')" visibility="final"/>
 
@@ -130,6 +131,34 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
+    
+    <xsl:function name="mlml:load-external-resource" as="map(xs:string, xs:string)?">
+        <xsl:param name="systemId" as="xs:string"/>
+        <xsl:param name="base-uri" as="xs:string?"/>
+        <xsl:param name="publicId" as="xs:string?"/>
+        <xsl:param name="mode" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:variable name="entity-resolver" select="$config($mlml:ENTITY_RESOLVER)"/>
+        <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
+        <xsl:variable name="resource" as="map(xs:string, xs:string)?">
+            <xsl:choose>
+                <xsl:when test="$mode = 'entity' and exists($entity-resolver)">
+                    <xsl:sequence select="$entity-resolver($publicId, resolve-uri($systemId, $base-uri))"/>
+                </xsl:when>
+                <xsl:when test="exists($uri-resolver)">
+                    <xsl:sequence select="$uri-resolver($systemId, $base-uri)"/>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="resource" select="
+            if (empty($resource)) 
+            then mlml:default-uri-resolver($systemId, $base-uri) 
+            else $resource
+            "/>
+        
+        <xsl:sequence select="$resource"/>
+        
+    </xsl:function>
 
     <xsl:function name="mlml:parse" as="node()" visibility="final">
         <xsl:param name="href" as="xs:string"/>
@@ -142,7 +171,9 @@
         
         <xsl:variable name="config" select="map:merge(($config, $default-config))"/>
         
-        <xsl:variable name="contentObj" select="$config($mlml:URI_RESOLVER)($href, ())"/>
+        <xsl:variable name="contentObj" select="
+            mlml:load-external-resource($href, (), (), 'regular', $config)
+            "/>
 
         <xsl:variable name="text" select="$contentObj?content"/>
 
@@ -686,8 +717,8 @@
             then (mlml:error('3.1.41.2', 'The external entity reference ' || $nameRef || ' is not permitted in attribute values.')) 
             else if ($entity-decl/dtdml:external) 
             then 
-                $entity-decl/dtdml:external/($config($mlml:URI_RESOLVER)(@systemId, @xml:base))?content 
-                else if ($entity-decl/dtdml:value/@ndata-ref) 
+                mlml:load-external-resource(@systemId, @xml:base, @pubId, 'entity', $config)?content
+            else if ($entity-decl/dtdml:value/@ndata-ref) 
                 then mlml:error('4.1.68.3', 'Unparsed entity ' || $nameRef || ' must not be referenced.') 
             else 
                 $entity-decl/dtdml:value

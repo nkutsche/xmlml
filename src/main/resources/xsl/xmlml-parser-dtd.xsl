@@ -16,8 +16,9 @@
     <xsl:function name="mlml:parse-dtds-from-xml" as="element(dtdml:dtd)?">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
-        <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
-        <xsl:variable name="xml-resource" select="$uri-resolver($href, static-base-uri())"/>
+        <xsl:variable name="xml-resource" select="
+            mlml:load-external-resource($href, static-base-uri(), (), 'regular', $config)
+            "/>
 
         <xsl:variable name="xml-base-uri" select="$xml-resource?base-uri"/>
 
@@ -32,8 +33,6 @@
         <xsl:param name="base-uri" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
         
-        <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
-
         <xsl:variable name="dtd-decl" select="$xml-preparsed/prolog/doctypedecl"/>
         
         <xsl:variable name="inline" select="
@@ -47,11 +46,14 @@
             then ()
             else $dtd-decl/ExternalID/SystemLiteral/(SystemLiteralDouble | SystemLiteralSingle)/string(.)
             "/>
+        <xsl:variable name="dtd-pub-id" select="
+            $dtd-decl/ExternalID/PubidLiteral/(PubidLiteralDouble | PubidLiteralSingle)/string(.)
+            "/>
 
         <xsl:variable name="dtd-ext-resource" select="
             if($dtd-external-path)
             then
-                $uri-resolver($dtd-external-path, $base-uri)
+                mlml:load-external-resource($dtd-external-path, $base-uri, $dtd-pub-id, 'entity', $config)
             else 
                 ()
             "/>
@@ -419,8 +421,6 @@
                                 if ($ndata) then $ext-type || '-NDATA' else $ext-type
                                 "/>
 
-                            <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
-                            
                             <xsl:sequence select="mlml:debug('Resolve external entity ' || regex-group(2) || ' to &quot;' || $systemId || '&quot;.', $config)"/>
 
                             <xsl:variable name="name" select="regex-group(2)"/>
@@ -431,8 +431,10 @@
                                         'external': $ext-type,
                                         'resolve' : function(){
                                             if ($ndata) 
-                                            then mlml:error('4.1.68.3', 'Unparsed entity ' || $name || ' must not be referenced.') 
-                                            else $uri-resolver($systemId, $base-uri)
+                                            then 
+                                                mlml:error('4.1.68.3', 'Unparsed entity ' || $name || ' must not be referenced.') 
+                                            else 
+                                                mlml:load-external-resource($systemId, $base-uri, $pubId, 'entity', $config)
                                         }
                                     }"/>
                         </xsl:matching-substring>
@@ -892,11 +894,16 @@
     <xsl:template match="EntityDef[ExternalID/SystemLiteral]" mode="mlml:dtd-parse">
         <xsl:param name="config" as="map(*)" tunnel="yes"/>
 
-        <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
         <xsl:variable name="systemId" select="ExternalID/SystemLiteral/string(SystemLiteralDouble | SystemLiteralSingle)"/>
+        <xsl:variable name="pubId" select="ExternalID/PubidLiteral/string(PubidLiteralDouble | PubidLiteralSingle)"/>
         <xsl:variable name="base-uri" select="base-uri(.) => string()"/>
-        <xsl:variable name="external_resolved" select="$uri-resolver($systemId, $base-uri)"/>
+        <xsl:variable name="external_resolved" select="
+            mlml:load-external-resource($systemId, $base-uri, $pubId, 'entity', $config)
+            "/>
         <external systemId="{$systemId}">
+            <xsl:if test="$pubId">
+                <xsl:attribute name="pubId" select="$pubId"/>
+            </xsl:if>
             <xsl:attribute name="xml:base" select="$base-uri"/>
         </external>
     </xsl:template>
