@@ -167,12 +167,12 @@
         
     </xsl:function>
 
-    <xsl:function name="mlml:parse" as="node()" visibility="final">
+    <xsl:function name="mlml:parse" as="element(mlml:document)" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:sequence select="mlml:parse($href, map{})"/>
     </xsl:function>
 
-    <xsl:function name="mlml:parse" as="node()" visibility="final">
+    <xsl:function name="mlml:parse" as="element(mlml:document)" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
         
@@ -198,7 +198,7 @@
                 })"/>
     </xsl:function>
 
-    <xsl:function name="mlml:parse-from-string" as="node()" visibility="final">
+    <xsl:function name="mlml:parse-from-string" as="element(mlml:document)">
         <xsl:param name="unparsed-xml" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
@@ -217,7 +217,7 @@
             ($pre-parsed/document/prolog/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]
             "/>
         
-        <xsl:variable name="result" as="node()">
+        <xsl:variable name="result" as="element(mlml:document)">
             <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
                 <xsl:with-param name="config" select="$config" tunnel="yes"/>
                 <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>

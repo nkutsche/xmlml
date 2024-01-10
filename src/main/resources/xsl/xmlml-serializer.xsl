@@ -11,7 +11,7 @@
     <xsl:mode name="mlml:clean-up" on-no-match="shallow-copy"/>
     
     <xsl:function name="mlml:serialize" as="xs:string" visibility="final">
-        <xsl:param name="document" as="element(document)"/>
+        <xsl:param name="document" as="element(mlml:document)"/>
         <xsl:variable name="document" select="mlml:clean-up($document)"/>
         <xsl:variable name="serialized" as="xs:string*">
             <xsl:apply-templates select="$document" mode="mlml:serialize"/>
