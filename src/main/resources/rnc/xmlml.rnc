@@ -4,7 +4,10 @@ default namespace = "http://www.nkutsche.com/xmlml"
 
 start = document
 
-document = element document {lf_format?, prolog, elem, epilog}
+document = 
+## root element of an XmlML document
+## XDM equivalent: document-node()
+element document {lf_format?, prolog, elem, epilog}
 
 prolog = (xmlDecl?, (pi | comment | doctypeDecl | ws)*)
 
@@ -12,15 +15,27 @@ epilog = (pi | comment | ws)*
 
 elem = (empty_elem | non_empty_elem)
 
-non_empty_elem = element element {non_collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, el_content, closeTagSpace?}
+non_empty_elem = 
+## non-empty element in a XmlML document
+## XDM equivalent: element()
+element element {non_collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, el_content, closeTagSpace?}
 
-empty_elem = element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
+empty_elem = 
+## empty element in a XmlML document
+## XDM equivalent: element()
+element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
 
 el_content = (el_content_mixed | el_content_struct)
 
-el_content_mixed = element content {attribute space {"preserve"}, childNode*}
+el_content_mixed = 
+## contains the content of an element node
+## specifies with @space='preserve' that whitespace as text content has to be preserved
+element content {attribute space {"preserve"}, childNode*}
 
-el_content_struct = element content {attribute space {"skip"}, childNode_struct*}
+el_content_struct = 
+## contains the content of an element node
+## specifies with @space='skip' that text can occur only as non-relevant whitespace
+element content {attribute space {"skip"}, childNode_struct*}
 
 
 childNode_base = (ws | pi | comment | elem)
@@ -29,110 +44,217 @@ childNode_struct = (childNode_base | name_entity_complex_struct)
 
 childNode = (childNode_base | textNode | name_entity_complex)
 
-closeTagSpace = element close-tag-space {ws}
+closeTagSpace = 
+## Specifies the non-relevant whitespace which follows a closing tag of an element
+## Example: </elname    > 
+element close-tag-space {ws}
 
-attr = element attribute {defaultAttr?, attr_data_type?, attrContent}
+attr = 
+## Attribute of an XmlML element
+## XDM equivalent: attribute()
+element attribute {defaultAttr?, attr_data_type?, attrContent}
 
-namespace_decl = element attribute {attribute namespace {"true"}, defaultAttr?, nsContent}
+namespace_decl = 
+## Namespace declaration of an XmlML element
+## XDM equivalent: namespace-node()
+## Difference: the <attribute namespace="true"> specifies only the namespace declaration. The namespace-node() in XDM is inherited to all child elements. 
+element attribute {attribute namespace {"true"}, defaultAttr?, nsContent}
 
 attrContent = ws, qname, ws?, equal, ws?, quotedValue
 
 nsContent = ws, (nsname), ws?, equal, ws?, quotedValue
 
-nsname = element name {xs:NCName?}
+nsname = 
+## Specifies the prefix for a namespace declaration 
+element name {xs:NCName?}
 
-textNode = element text {(entity | cdata | node_content)*}
+textNode = 
+## Text node in an XmlML tree
+## XDM equivalent: text()
+element text {(entity | cdata | node_content)*}
 
-cdata = element cdata-section {node_content}
+cdata = 
+## CDATA section as part of a XmlML text node
+element cdata-section {node_content}
 
 entity = (name_entity | char_entity)
 
-name_entity = element entity {attribute name {xs:NCName}, (entity | cdata | node_content)*}
+name_entity = 
+## Named entity with unstructured value as part of a XmlML text node or quoted value
+element entity {attribute name {xs:NCName}, (entity | cdata | node_content)*}
 
-name_entity_complex = element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
+name_entity_complex = 
+## Named entity with structured value as content of an XmlML element 
+element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
 
-name_entity_complex_struct = element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode_struct*}
+name_entity_complex_struct = 
+## Named entity with structured value as content of an XmlML element
+element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode_struct*}
 
-char_entity = element entity {attribute codepoint {ent_charref_name}}
+char_entity = 
+## Character reference entity
+## @codepoint references a Unicode codepoint with a hex (beginning with 'x') or decimal value
+element entity {attribute codepoint {ent_charref_name}}
 
-pi = element pi {ncname, (ws, piValue?)?}
+pi = 
+## Processing instruction in an XmlML tree
+## XDM equivalent: processing-instruction()
+element pi {ncname, (ws, piValue?)?}
 
-comment = element comment {node_content}
+comment = 
+## Comment node in an XmlML tree
+## XDM equivalent: comment()
+element comment {node_content}
 
-xmlDecl = element xml-decl {xmlDecl_version, xmlDecl_encoding?, xmlDecl_standalone?, ws?}
+xmlDecl = 
+## Representation of the XML declaration in the XmlML tree
+element xml-decl {xmlDecl_version, xmlDecl_encoding?, xmlDecl_standalone?, ws?}
 
 xmlDecl_Content = ws, emptyName, ws?, equal, ws?, quotedValue
 
-xmlDecl_version = element version {xmlDecl_Content}
+xmlDecl_version = 
+## Represents the pseudo attribute version in the XML declaration
+element version {xmlDecl_Content}
 
-xmlDecl_encoding = element encoding {xmlDecl_Content}
+xmlDecl_encoding = 
+## Represents the pseudo attribute encoding in the XML declaration
+element encoding {xmlDecl_Content}
 
-xmlDecl_standalone = element standalone {xmlDecl_Content}
+xmlDecl_standalone = 
+## Represents the pseudo attribute standalone in the XML declaration
+element standalone {xmlDecl_Content}
 
-doctypeDecl = element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?, ws?}
+doctypeDecl = 
+## Represents a doctype declaration in the XmlML tree
+element doc-type-decl {ws, qname, (ws, dtd_external)?, (ws?, dtd_inline)?, ws?}
 
-dtd_inline = element inline {(pi | node_content)}
+dtd_inline = 
+## Represents an internal subset of a doctype declaration
+element inline {(pi | node_content)}
 
 dtd_external = dtd_system | dtd_public
 
-dtd_system = element system {ws, quotedValue}
+dtd_system = 
+## Represents the reference to an external DTD prefixed by the keyword SYSTEM
+element system {ws, quotedValue}
 
-dtd_public = element public {ws, quotedValue, ws, quotedValue}
+dtd_public = 
+## Represents the reference to an external DTD prefixed by the keyword PUBLIC
+element public {ws, quotedValue, ws, quotedValue}
 
-quotedValue = element value {quotes?, (entity | node_content)*}
+quotedValue = 
+## Represents a quoted value. 
+## Default quotation is the double quote ("). With @quotes='single' the single quotes (') are used. 
+element value {quotes?, (entity | node_content)*}
 
-piValue = element value {node_content}
+piValue = 
+## Represents a value of a processing instruction. 
+element value {node_content}
 
 ws = (ws_simple | ws_mixed)
 
-ws_simple = element ws {attribute space {xs:integer} | attribute tab {xs:integer} | attribute nl {xs:integer}}
+ws_simple = 
+## Represents non-relevant whitespace.
+## With one of @space, @tab or @nl attribute a number of sequential whitespace characters are represented.
+## the integer value of the regarding attribute gives the number of characters which are represented.
+## @space represents a usual whitespace (&#x20;)
+## @tab represents the tabulator sign ($#x9;)
+## @nl represents a linefeed character. The used linefeed character depends on @line-feed-format
+element ws {attribute space {xs:integer} | attribute tab {xs:integer} | attribute nl {xs:integer}}
 
-ws_mixed = element ws {(nl | space | tab | entity_ws)+}
+ws_mixed = 
+## Represents non-relevant whitespace.
+## The content element specifies a combination of different whitespace characters 
+element ws {(nl | space | tab | entity_ws)+}
 
 entity_ws = (entity_ws_name | entity_ws_cp)
 
-entity_ws_name = element entity {attribute name {xs:NCName}, ws}
+entity_ws_name = 
+## Represents a named entity which must have only whitespace as value.
+element entity {attribute name {xs:NCName}, ws}
 
-entity_ws_cp = element entity {attribute codepoint {"x9" | "xA" | "xa" | "xD" | "xd" | "x20" | "9" | "10" | "13" | "32"}}
+entity_ws_cp = 
+## Represents a character reference entity which must reference only to whitespace characters.
+element entity {attribute codepoint {"x9" | "xA" | "xa" | "xD" | "xd" | "x20" | "9" | "10" | "13" | "32"}}
 
-qname = element name {xs:QName}
+qname = 
+## Represents the qualified name of an attribute or element node
+element name {xs:QName}
 
-ncname = element name {xs:NCName}
+ncname = 
+## Represents the name of a processing-instruction node
+element name {xs:NCName}
 
-emptyName = element name {empty}
+emptyName = 
+## Represents the static name of a pseudo attribute inside of an XML declaration
+element name {empty}
 
 
-equal = element eq{empty}
+equal = 
+## Represents the equal key character for attributes, namespace declarations 
+## or pseudo attributes in the XML declaration.
+element eq{empty}
 
-nl = element nl {amount?, lf_format?}
+nl = 
+## Represents one or more linefeed characters as relevant or non-relevant whitespace
+## With the optional amount attribute a number of sequential linefeed characters are represented.
+## The used linefeed character(s) depends on the linefeed format. 
+## The linefeed format is configured by the line-feed-format attribute which can be specified on the document element
+## or by each <nl>.
+element nl {amount?, lf_format?}
 
-space = element space {amount?}
+space = 
+## Represents one or more space characters (x20) as non-relevant whitespace
+## With the optional amount attribute a number of sequential space characters are represented.
+element space {amount?}
 
-tab = element tab {amount?}
+tab = 
+## Represents one or more tabulator characters (x9) as non-relevant whitespace
+## With the optional amount attribute a number of sequential tabulator characters are represented.
+element tab {amount?}
 
 node_content = (nl | data)*
 
-data = element data {xs:string}
+data = 
+## Represents charater data which is used as-it as node value
+element data {xs:string}
 
 # attributes
 
-collapsed = attribute collapsed {xs:boolean}
+collapsed = 
+## Specifies for an empty element if the collapsed syntax (e.g. <element/>) was used.
+attribute collapsed {xs:boolean}
 
-non_collapsed = attribute collapsed {"false"}
+non_collapsed = 
+## Specifies for an empty element if the collapsed syntax (e.g. <element/>) was used.
+attribute collapsed {"false"}
 
-element_default_ns = attribute element-default-namespace {xs:string}
+element_default_ns = 
+## Specifies the namespace for unprefixed element names
+attribute element-default-namespace {xs:string}
 
-quotes = attribute quotes {"double" | "single"}
+quotes = 
+## Specifies for a quoted value, if the single quotation sign (') or the double quotation sign (") should be used.
+attribute quotes {"double" | "single"}
 
-lf_format = attribute line-feed-format {"rn" | "r" | "n"}
+lf_format = 
+## Specifies for the document or for single linefeed (<nl/>) if linefeeds should be serialized in 
+## unix style ("n", characer: x10) mac style ("r", character: x13) or windows style ("rn", character combination x13 x10)
+attribute line-feed-format {"rn" | "r" | "n"}
 
-amount = attribute amount {xs:integer}
+amount = 
+## With the given integer the amount attribute specifies that a sequence of multiple characters (space, 
+## tabulator or line feeds) are represented. 
+attribute amount {xs:integer}
 
-ent_value = attribute value {xs:string}
+defaultAttr = 
+## Specifies with a boolean value if an attribute (or namesapce declaration) was derived as 
+## default value by the DTD.
+attribute default {xs:boolean}
 
-defaultAttr = attribute default {xs:boolean}
-
-attr_data_type = attribute type {
+attr_data_type = 
+## Datatype of an attribute derived by the DTD 
+attribute type {
            'CDATA'
            | 'ID'
            | 'IDREF'
