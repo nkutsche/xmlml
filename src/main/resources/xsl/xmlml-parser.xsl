@@ -21,7 +21,7 @@
 
     <xsl:variable name="mlml:IGNORE-INLINE-DTD-PIS" select="QName($feature_ns, 'IGNORE-INLINE-DTD-PIS')" visibility="final"/>
 
-    <xsl:variable name="mlml:CUSTOM-STRUCTUR-ELEMENTS" select="QName($xmlml_ns, 'CUSTOM-STRUCTUR-ELEMENTS')" visibility="final"/>
+    <xsl:variable name="mlml:CUSTOM-STRUCTUR-ELEMENTS" select="QName($feature_ns, 'CUSTOM-STRUCTUR-ELEMENTS')" visibility="final"/>
     
     <xsl:variable name="mlml:IGNORE-EXTERNAL-DTD" select="QName($feature_ns, 'IGNORE-EXTERNAL-DTD')" visibility="final"/>
 
@@ -29,7 +29,7 @@
     
     <xsl:variable name="mlml:IGNORE-UNDECLARED-ENTITIES" select="QName($feature_ns, 'IGNORE-UNDECLARED-ENTITIES')" visibility="final"/>
     
-    <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($xmlml_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
+    <xsl:variable name="mlml:PARSER-LOG-LEVEL" select="QName($feature_ns, 'PARSER-LOG-LEVEL')" visibility="final"/>
 
     <xsl:variable name="mlml:LOG-LEVEL-VERBOSE" select="'VERBOSE'" visibility="final"/>
     
@@ -141,16 +141,22 @@
         <xsl:param name="config" as="map(*)"/>
         <xsl:variable name="entity-resolver" select="$config($mlml:ENTITY_RESOLVER)"/>
         <xsl:variable name="uri-resolver" select="$config($mlml:URI_RESOLVER)"/>
-        <xsl:variable name="resource" as="map(xs:string, xs:string)?">
-            <xsl:choose>
-                <xsl:when test="$mode = 'entity' and exists($entity-resolver)">
-                    <xsl:sequence select="$entity-resolver($publicId, resolve-uri($systemId, $base-uri))"/>
-                </xsl:when>
-                <xsl:when test="exists($uri-resolver)">
-                    <xsl:sequence select="$uri-resolver($systemId, $base-uri)"/>
-                </xsl:when>
-            </xsl:choose>
-        </xsl:variable>
+        
+        <xsl:variable name="resource" as="map(xs:string, xs:string)?"
+            select="
+            if ($mode = 'entity' and exists($entity-resolver)) 
+            then $entity-resolver($publicId, resolve-uri($systemId, $base-uri)) 
+            else ()
+            "
+            />
+        <xsl:variable name="resource" as="map(xs:string, xs:string)?"
+            select="
+            if (empty($resource) and exists($uri-resolver)) 
+            then $uri-resolver($systemId, $base-uri) 
+            else $resource
+            "
+            />
+        
         <xsl:variable name="resource" select="
             if (empty($resource)) 
             then mlml:default-uri-resolver($systemId, $base-uri) 
