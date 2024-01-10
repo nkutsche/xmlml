@@ -15,13 +15,15 @@
     <xsl:function name="mlml:parse-external-dtd" as="element(dtdml:dtd)?" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="pubId" as="xs:string?"/>
-        <xsl:sequence select="mlml:parse-external-dtd($href, $pubId, $default-config)"/>
+        <xsl:sequence select="mlml:parse-external-dtd($href, $pubId, map{})"/>
     </xsl:function>
     
     <xsl:function name="mlml:parse-external-dtd" as="element(dtdml:dtd)?" visibility="final">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="pubId" as="xs:string?"/>
         <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="config" select="map:merge(($config, $default-config))"/>
         
         <xsl:variable name="dtd-resource" select="
             mlml:load-external-resource($href, static-base-uri(), $pubId, 'entity', $config)
@@ -941,9 +943,6 @@
         <xsl:variable name="systemId" select="ExternalID/SystemLiteral/string(SystemLiteralDouble | SystemLiteralSingle)"/>
         <xsl:variable name="pubId" select="ExternalID/PubidLiteral/string(PubidLiteralDouble | PubidLiteralSingle)"/>
         <xsl:variable name="base-uri" select="base-uri(.) => string()"/>
-        <xsl:variable name="external_resolved" select="
-            mlml:load-external-resource($systemId, $base-uri, $pubId, 'entity', $config)
-            "/>
         <external systemId="{$systemId}">
             <xsl:if test="$pubId">
                 <xsl:attribute name="publicId" select="$pubId"/>
