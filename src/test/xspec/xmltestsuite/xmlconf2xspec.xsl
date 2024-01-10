@@ -94,6 +94,13 @@
             </x:call>
             <x:expect label="Expected an error message" test="$x:result instance of map(*)"/>
         </x:scenario>
+        
+        <!--        
+            NOTE: the test type "error" means:
+            Conforming XML 1.0 Processors are permitted to ignore certain errors, or to report them at user option. 
+            See https://www.w3.org/XML/Test/xmlconf-20080827.html#error
+            That's why the test case just checks that result is an error or the result is a valid mlml:document
+        -->
         <x:scenario label="error" shared="true" catch="true">
             <x:call function="mlml:parse">
                 <x:param select="$src"/>
