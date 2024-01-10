@@ -13,9 +13,9 @@ If the Maven test phase is invoked with the profile `xml-conformance` active (`m
 The test harness generates XSpec tests for each test cases of the XML testsuite. The XSpec test checks that:
 
 * for wellformed test cases (valid or invalid)
-    * the input can be parsed to a valid XmlML document. 
-    * the input can be parsed and re-serialized without any change
-    * the function que `$path => mlml:parse() => mlml:doc()` returns an XDM document which is equal to the result of the `fn:doc($path)`
+    * the input can be parsed to a valid XmlML document (`exists(mlml:validate-xmlml(mlml:parse($path))/self::mlml:document)`). 
+    * the input can be parsed and re-serialized without any change (`mlml:serialize(mlml:parse($path)) = fn:unparsed-text($path)`)
+    * the function calls `$path => mlml:parse() => mlml:doc()` returns an XDM document which is equal to the result of the `fn:doc($path)`
 * parsing the input for non-wellformed test cases   
     * causes an XmlML parser error
 * parsing the input of test cases with optional errors 
