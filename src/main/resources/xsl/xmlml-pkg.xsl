@@ -10,6 +10,8 @@
     name="http://www.nkutsche.com/xmlml"
     declared-modes="false">
     
+    <xsl:use-package name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
     <xsl:import href="xmlml-main.xsl"/>
     
 </xsl:package>

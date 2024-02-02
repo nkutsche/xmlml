@@ -7,7 +7,6 @@
     xmlns:r="http://maxtoroq.github.io/rng.xsl"
     exclude-result-prefixes="xs math xd"
     version="3.0">
-    <xsl:import href="../rnc-compiler/rng.xsl"/>
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Created on:</xd:b> Dec 5, 2022</xd:p>
@@ -41,10 +40,7 @@
         <xsl:param name="schema" as="document-node()"/>
         <xsl:try>
             <xsl:variable name="rng-validate" as="xs:boolean">
-                <xsl:call-template name="r:main">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="instance" select="$instance"/>
-                </xsl:call-template>
+                <xsl:sequence select="r:is-valid($instance, $schema)"/>
             </xsl:variable>
             <xsl:choose>
                 <xsl:when test="$rng-validate">

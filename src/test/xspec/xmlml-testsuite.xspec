@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml"  xmlns:map="http://www.w3.org/2005/xpath-functions/map" stylesheet="../../main/resources/xsl/xmlml-main.xsl">
     <x:helper stylesheet="helper.xsl"/>
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
     
     <x:variable name="test-config" select="mlml:detect-default-config()"/>
     <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
