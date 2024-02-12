@@ -2,12 +2,19 @@ datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 default namespace = "http://www.nkutsche.com/xmlml"  
 
-start = document
+start = document | document-fragment
 
 document = 
 ## root element of an XmlML document
 ## XDM equivalent: document-node()
-element document {lf_format?, prolog, elem, epilog}
+element document {document_meta, prolog, elem, epilog}
+
+document-fragment = 
+## root element of an XmlML document
+## XDM equivalent: document-node()
+element xml-fragment {document_meta, fragment-content}
+
+fragment-content = (xmlDecl?, el_content)
 
 prolog = (xmlDecl?, (pi | comment | doctypeDecl | ws)*)
 
@@ -23,7 +30,7 @@ element element {non_collapsed?, element_default_ns?, qname, (namespace_decl | a
 empty_elem = 
 ## empty element in a XmlML document
 ## XDM equivalent: element()
-element element {collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
+element element {collapsed?, element_default_ns?, base_uri?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
 
 el_content = (el_content_mixed | el_content_struct)
 
@@ -71,7 +78,7 @@ element name {xs:NCName?}
 textNode = 
 ## Text node in an XmlML tree
 ## XDM equivalent: text()
-element text {(entity | cdata | node_content)*}
+element text {base_uri?, (entity | cdata | node_content)*}
 
 cdata = 
 ## CDATA section as part of a XmlML text node
@@ -85,7 +92,7 @@ element entity {attribute name {xs:NCName}, (entity | cdata | node_content)*}
 
 name_entity_complex = 
 ## Named entity with structured value as content of an XmlML element 
-element entity {attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
+element entity {base_uri?, attribute name {xs:NCName}, attribute complex {"true"}, childNode*}
 
 name_entity_complex_struct = 
 ## Named entity with structured value as content of an XmlML element
@@ -99,12 +106,12 @@ element entity {attribute codepoint {ent_charref_name}}
 pi = 
 ## Processing instruction in an XmlML tree
 ## XDM equivalent: processing-instruction()
-element pi {ncname, (ws, piValue?)?}
+element pi {base_uri?, ncname, (ws, piValue?)?}
 
 comment = 
 ## Comment node in an XmlML tree
 ## XDM equivalent: comment()
-element comment {node_content}
+element comment {base_uri?, node_content}
 
 xmlDecl = 
 ## Representation of the XML declaration in the XmlML tree
@@ -220,6 +227,14 @@ data =
 element data {xs:string}
 
 # attributes
+
+document_meta = lf_format?, doc_uri?, base_uri?, doc_id
+
+doc_id = attribute id {xs:NCName}
+
+doc_uri = attribute document-uri {xs:anyURI}
+
+base_uri = attribute xml:base {xs:anyURI}
 
 collapsed = 
 ## Specifies for an empty element if the collapsed syntax (e.g. <element/>) was used.
