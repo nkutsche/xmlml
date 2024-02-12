@@ -7,7 +7,10 @@
 ]><root unparsed-entity="    unparsed-entity  unparsed-entity  "></root>
 -->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n"
+    id="xmlml_d13"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/attribute/types-entities.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/attribute/types-entities.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>

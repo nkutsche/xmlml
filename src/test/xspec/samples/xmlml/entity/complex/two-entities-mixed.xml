@@ -2,7 +2,10 @@
 <!DOCTYPE root [<!ENTITY foo "foo_start<foo>foo_inner</foo>foo_end"><!ENTITY bar "bar_start<bar>bar_inner</bar>bar_end">]><root>outer_start&foo;outer_between&bar;outer_end</root>
 -->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d68"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/entity/complex/two-entities-mixed.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/entity/complex/two-entities-mixed.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>

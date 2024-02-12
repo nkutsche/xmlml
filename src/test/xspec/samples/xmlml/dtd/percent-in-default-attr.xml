@@ -1,6 +1,9 @@
 <!--<!DOCTYPE doc [<!ENTITY % e "foo"><!ELEMENT doc (#PCDATA)><!ATTLIST doc a1 CDATA "%e;">]><doc></doc>-->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d37"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/dtd/percent-in-default-attr.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/dtd/percent-in-default-attr.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>doc</name>

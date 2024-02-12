@@ -1,6 +1,9 @@
 <!--<!DOCTYPE doc [<!ENTITY e SYSTEM "inline-subset-w-ext-ent.ent">]><doc>&e;</doc>-->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d41"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/inline-subset-w-ext-ent.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/inline-subset-w-ext-ent.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>doc</name>

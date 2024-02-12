@@ -1,6 +1,9 @@
 <!--<!DOCTYPE book SYSTEM "docbook-dtd/docbookx.dtd"><book><title>this is a book</title><chapter><title>chapter title</title><para>non breaking&nbsp;space</para></chapter></book>-->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d40"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/docbook-dtd.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/docbook-dtd.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>book</name>

@@ -1,6 +1,9 @@
 <!--<!DOCTYPE root SYSTEM "bad-data-in-ignore.dtd"><root/>-->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d39"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/bad-data-in-ignore.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/bad-data-in-ignore.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>

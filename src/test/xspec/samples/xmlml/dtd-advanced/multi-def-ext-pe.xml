@@ -1,6 +1,9 @@
 <!--<!DOCTYPE root1 SYSTEM "multi-def-ext-pe.dtd"><root1/>-->
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d42"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/multi-def-ext-pe.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/dtd-advanced/multi-def-ext-pe.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root1</name>

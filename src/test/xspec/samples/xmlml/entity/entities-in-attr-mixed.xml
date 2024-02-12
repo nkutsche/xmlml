@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n" 
+    id="xmlml_d54"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/entity/entities-in-attr-mixed.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/entity/entities-in-attr-mixed.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>from</name>

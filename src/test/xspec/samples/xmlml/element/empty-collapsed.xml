@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d43"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/element/empty-collapsed.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/element/empty-collapsed.xml">
     <element collapsed="true">
         <name>root</name>
     </element>

@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d46"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/element/ending-starttag-ws.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/element/ending-starttag-ws.xml">
     <element>
         <name>root</name>
         <ws tab="2"/>

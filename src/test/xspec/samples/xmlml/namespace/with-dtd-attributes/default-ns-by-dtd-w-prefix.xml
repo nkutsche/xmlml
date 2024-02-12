@@ -1,6 +1,9 @@
 <!--<!DOCTYPE ns:root [<!ELEMENT ns:root EMPTY><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com">]><ns:root/>-->
 <?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" xmlns:ns="ns.namespace.com">
+<document xmlns="http://www.nkutsche.com/xmlml" xmlns:ns="ns.namespace.com" 
+    id="xmlml_d91"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>ns:root</name>

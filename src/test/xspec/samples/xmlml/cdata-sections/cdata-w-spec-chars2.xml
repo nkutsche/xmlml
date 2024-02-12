@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d18"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/cdata-sections/cdata-w-spec-chars2.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/cdata-sections/cdata-w-spec-chars2.xml">
     <element>
         <name>doc</name>
         <content space="preserve">

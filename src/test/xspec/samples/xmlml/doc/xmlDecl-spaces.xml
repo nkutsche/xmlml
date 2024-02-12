@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n">
+<document xmlns="http://www.nkutsche.com/xmlml" line-feed-format="n" 
+    id="xmlml_d31"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/doc/xmlDecl-spaces.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/doc/xmlDecl-spaces.xml">
     <xml-decl>
         <version>
             <ws space="1"/>

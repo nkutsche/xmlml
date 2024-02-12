@@ -2,7 +2,10 @@
 <!DOCTYPE root [<!ENTITY ns "my.namespace.com"><!ENTITY defns "default.namespace.com">]><ns:root xmlns="&defns;" xmlns:ns="&ns;" xmlns:ns2="&#x6D;y.namespace.com"><el ns2:a="v"/></ns:root>
 -->
 <?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d92"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/namespace-w-entity.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/namespace-w-entity.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>

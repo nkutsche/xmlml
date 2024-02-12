@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d102"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/root-el-comment-pi/root-comment.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/root-el-comment-pi/root-comment.xml">
     <comment>
         <data>comment</data>
     </comment>

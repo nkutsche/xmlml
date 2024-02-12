@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d85"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/namespace/declarations/prefixed-w-attributes.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/namespace/declarations/prefixed-w-attributes.xml">
     <element xmlns:ns="namespace.com">
         <name>ns:root</name>
         <attribute>

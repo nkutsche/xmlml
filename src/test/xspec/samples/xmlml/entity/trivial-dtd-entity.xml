@@ -1,5 +1,8 @@
 <?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
-<document xmlns="http://www.nkutsche.com/xmlml">
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d62"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/entity/trivial-dtd-entity.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/entity/trivial-dtd-entity.xml">
     <doc-type-decl>
         <ws space="1"/>
         <name>root</name>
