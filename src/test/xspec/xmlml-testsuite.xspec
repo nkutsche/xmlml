@@ -27,7 +27,7 @@
                 <x:param select="$test-config"/>
             </x:call>
 
-            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml)"/>
+            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml) => mlmlt:xmlml-ignore-doc-meta()"/>
         </x:scenario>
 
         <x:scenario label="mlml:doc(xmlxml) -> doc(xml)">
@@ -62,7 +62,7 @@
                 <x:param select="$test-config"/>
             </x:call>
 
-            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml)"/>
+            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml) => mlmlt:xmlml-ignore-doc-meta()"/>
         </x:scenario>
 
     </x:scenario>

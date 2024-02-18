@@ -110,6 +110,46 @@
 
     </xsl:function>
 
+    <!--    
+        This is a bit hacky, but works with Saxon 12.4 (maybe because of a bug?)
+        Problem: 
+        * you need to return for each document-uri a distinct ID
+        * But if you call mlml:document-id twice with the same $document-uri 
+          you need to return both the same ID.
+        Reason why it works:
+        * If you call fn:transform() with the a stylesheet-text and a specific stylesheet-base-uri 
+          Saxon stores the stylesheet text and the base-uri into the cache.
+        * If you use the exact same stylesheet-text with a different base-uri, it ignores this base-uri
+          but reuses the base-uri from cache.
+    -->
+    <xsl:function name="mlml:document-id" as="xs:string">
+        <xsl:param name="document-uri" as="xs:string"/>
+        <xsl:variable name="dummy">
+            <dummy/>
+        </xsl:variable>
+        <xsl:variable name="stylesheet" as="xs:string">
+            <![CDATA[
+                <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:template name="main">
+                        <result doc-uri="$document-uri">
+                            <xsl:value-of select="substring-after(static-base-uri(), '=')"/>
+                        </result>
+                    </xsl:template>
+                </xsl:stylesheet>
+            ]]>
+        </xsl:variable>
+        <xsl:variable name="transform" select="
+            transform(
+            map{
+            'stylesheet-text' : replace($stylesheet, '\$document-uri', $document-uri),
+            'initial-template' : QName('','main'),
+            'stylesheet-base-uri' : ($document-uri || '.xsl?=' || generate-id($dummy))
+            })('output')
+            "/>
+        <xsl:sequence select="'xmlml_' || string($transform)"/>
+        
+    </xsl:function>
+    
     <xsl:function name="mlml:default-uri-resolver" as="map(xs:string, xs:string)?">
         <xsl:param name="href" as="xs:string"/>
         <xsl:param name="base-uri" as="xs:string?"/>
@@ -124,6 +164,7 @@
                 <xsl:variable name="content" select="unparsed-text($base-uri)"/>
                 <xsl:sequence select="map{
                     'base-uri' : string($base-uri),
+                    'id' : mlml:document-id($base-uri),
                     'content' : $content
                     }"/>
             </xsl:when>
@@ -181,8 +222,17 @@
         <xsl:variable name="contentObj" select="
             mlml:load-external-resource($href, (), (), 'regular', $config)
             "/>
+        
+        <xsl:variable name="document-uri" select="resolve-uri($href) => string()"/>
 
         <xsl:variable name="text" select="$contentObj?content"/>
+        
+        <xsl:variable name="document-id" 
+            select="
+            if (exists($contentObj?id)) 
+            then ($contentObj?id) 
+            else mlml:document-id($document-uri)
+            "/>
 
         <xsl:variable name="linefeed" select="
                 if ($contentObj?linefeed) then
@@ -190,11 +240,13 @@
                 else
                     mlml:lf-type($text)
                 "/>
-        <xsl:variable name="base-uri" select="($contentObj?base-uri, $href)[1]"/>
+        <xsl:variable name="base-uri" select="($contentObj?base-uri, $document-uri)[1]"/>
         <xsl:sequence select="
                 mlml:parse-from-string($text, $config, map {
                     'line-feed-format': $linefeed,
-                    'base-uri': $base-uri
+                    'base-uri': $base-uri,
+                    'document-id' : $document-id,
+                    'document-uri' : $document-uri
                 })"/>
     </xsl:function>
 
@@ -203,6 +255,13 @@
         <xsl:param name="config" as="map(*)"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
         <xsl:variable name="pre-parsed" select="xmlp:parse-document($unparsed-xml)"/>
+        
+        
+        <xsl:variable name="properties" select="
+            if (map:contains($properties, 'document-id')) 
+            then $properties 
+            else map:put($properties, 'document-id', 'xmlml_' || generate-id(root($pre-parsed)))
+            "/>
         
         <xsl:if test="$pre-parsed/self::ERROR">
             <xsl:sequence select="mlml:error('unknown', string($pre-parsed))"/>
@@ -319,7 +378,8 @@
     <xsl:template match="document" mode="mlml:parse">
         <xsl:param name="properties" tunnel="yes" as="map(*)?"/>
         <xsl:variable name="document" as="element(mlml:document)">
-            <document>
+            <document id="{$properties?document-id}" document-uri="{$properties?document-uri}">
+                <xsl:attribute name="xml:base" select="$properties?base-uri"/>
                 <xsl:if test="$properties?line-feed-format != '#default'">
                     <xsl:attribute name="line-feed-format" select="$properties?line-feed-format"/>
                 </xsl:if>
