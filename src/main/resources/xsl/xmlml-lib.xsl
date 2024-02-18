@@ -134,6 +134,17 @@
         </xsl:for-each-group> 
     </xsl:function>
     
+    <xsl:function name="mlml:attr-raw-name" as="xs:Name">
+        <xsl:param name="attr" as="element(mlml:attribute)"/>
+        <xsl:variable name="name" select="$attr/mlml:name"/>
+        <xsl:sequence select="
+            if ($name = '' and $attr/@namespace = 'true') 
+            then xs:Name('xmlns') 
+            else if ($attr/@namespace = 'true') 
+            then xs:Name('xmlns:' || $name) 
+            else xs:Name($name)
+            "/>
+    </xsl:function>
     <xsl:function name="mlml:attr-name" as="xs:QName">
         <xsl:param name="attr" as="element(mlml:attribute)"/>
         <xsl:variable name="name" select="$attr/mlml:name"/>
@@ -147,6 +158,47 @@
             else (mlml:namespace($name)),
             $name
             )
+            "/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:el-name" as="xs:QName">
+        <xsl:param name="element" as="element(mlml:element)"/>
+        <xsl:variable name="name" select="$element/mlml:name"/>
+        <xsl:variable name="def-ns" select="
+            $element/ancestor-or-self::mlml:element[@element-default-namespace][1]
+            /@element-default-namespace
+            "/>
+        <xsl:sequence select="
+            QName(
+            mlml:namespace($name, ($def-ns, '')[1]),
+            $name
+            )
+            "/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:eqname" as="xs:string">
+        <xsl:param name="qname" as="xs:QName"/>
+        <xsl:sequence select="'Q{' || namespace-uri-from-QName($qname) || '}' || local-name-from-QName($qname)"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:namespace" as="xs:string">
+        <xsl:param name="name" as="element(mlml:name)"/>
+        <xsl:sequence select="mlml:namespace($name, '')"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:namespace" as="xs:string">
+        <xsl:param name="name" as="element(mlml:name)"/>
+        <xsl:param name="default-namespace" as="xs:string"/>
+        <xsl:variable name="prefix" select="replace($name, '^(([^:]+):)?.+', '$2')"/>
+        
+        <xsl:variable name="namespace" select="namespace-uri-for-prefix($prefix, $name)"/>
+        
+        <xsl:sequence select="
+            if ($prefix = '')
+            then
+            $default-namespace
+            else
+            $namespace
             "/>
     </xsl:function>
     

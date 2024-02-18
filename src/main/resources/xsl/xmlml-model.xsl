@@ -123,27 +123,6 @@
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
 
-    <xsl:function name="mlml:namespace" as="xs:string">
-        <xsl:param name="name" as="element(name)"/>
-        <xsl:sequence select="mlml:namespace($name, '')"/>
-    </xsl:function>
-
-    <xsl:function name="mlml:namespace" as="xs:string">
-        <xsl:param name="name" as="element(name)"/>
-        <xsl:param name="default-namespace" as="xs:string"/>
-        <xsl:variable name="prefix" select="replace($name, '^(([^:]+):)?.+', '$2')"/>
-
-        <xsl:variable name="namespace" select="namespace-uri-for-prefix($prefix, $name)"/>
-
-        <xsl:sequence select="
-                if ($prefix = '')
-                then
-                    $default-namespace
-                else
-                    $namespace
-                "/>
-    </xsl:function>
-
 
     
 
