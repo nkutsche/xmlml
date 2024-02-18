@@ -217,6 +217,156 @@
         
     </xsl:variable>
     
+    <xsl:function name="mlml:mlml-from-xdm" as="element()*" visibility="final">
+        <xsl:param name="xdm-nodes" as="node()*"/>
+        <xsl:apply-templates select="$xdm-nodes" mode="mlml:xdm-to-mlml"/>
+    </xsl:function>
+    
+    <xsl:template match="/" mode="mlml:xdm-to-mlml">
+        <document line-feed-format="n">
+            <xsl:apply-templates mode="#current"/>
+        </document>
+    </xsl:template>
+    
+    <xsl:template match="*" mode="mlml:xdm-to-mlml">
+        <xsl:variable name="qname" select="node-name(.)"/>
+        <xsl:variable name="prefix" select="prefix-from-QName($qname)"/>
+        <xsl:variable name="namespace" select="namespace-uri-from-QName($qname)"/>
+        <xsl:variable name="parent-ns" select="parent::*/namespace::*" as="namespace-node()*"/>
+        <element>
+            <xsl:choose>
+                <xsl:when test="$namespace = ''"/>
+                <xsl:when test="empty($prefix)">
+                    <xsl:attribute name="element-default-namespace" select="$namespace"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:namespace name="{$prefix}" select="$namespace"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            
+            <name>
+                <xsl:value-of select="$qname"/>
+            </name>
+            <xsl:apply-templates select="@* | namespace::*[not(mlml:ns-node-contains(., $parent-ns))]" mode="#current"/>
+            <xsl:variable name="space" select="
+                if (node() except *) 
+                then 'preserve' 
+                else 'skip'
+                "/>
+            <xsl:where-populated>
+                <content space="{$space}">
+                    <xsl:apply-templates mode="#current"/>
+                </content>
+            </xsl:where-populated>
+        </element>
+    </xsl:template>
+    
+    <xsl:template match="namespace-node()[name() = 'xml']" mode="mlml:xdm-to-mlml"/>
+    <xsl:template match="namespace-node()" mode="mlml:xdm-to-mlml">
+        <attribute namespace="true">
+            <ws space="1"/>
+            <name>
+                <xsl:value-of select="name()"/>
+            </name>
+            <eq/>
+            <value>
+                <data>
+                    <xsl:value-of select="string()"/>
+                </data>
+            </value>
+        </attribute>
+    </xsl:template>
+
+    <xsl:template match="@*" mode="mlml:xdm-to-mlml">
+        <xsl:variable name="qname" select="node-name(.)"/>
+        <xsl:variable name="prefix" select="prefix-from-QName($qname)"/>
+        <xsl:variable name="namespace" select="namespace-uri-from-QName($qname)"/>
+        <attribute>
+            <xsl:if test="$prefix != ''">
+                <xsl:namespace name="{$prefix}" select="$namespace"/>
+            </xsl:if>
+            <ws space="1"/>
+            <name>
+                <xsl:value-of select="name()"/>
+            </name>
+            <eq/>
+            <value>
+                <data>
+                    <xsl:value-of select="string()"/>
+                </data>
+            </value>
+        </attribute>
+    </xsl:template>
+    
+    <xsl:template match="text()" mode="mlml:xdm-to-mlml">
+        <text>
+            <xsl:sequence select="mlml:process-breaks(.)"/>
+        </text>
+    </xsl:template>
+    
+    <xsl:template match="comment()" mode="mlml:xdm-to-mlml">
+        <comment>
+            <xsl:sequence select="mlml:process-breaks(.)"/>
+        </comment>
+    </xsl:template>
+    
+    <xsl:template match="processing-instruction()" mode="mlml:xdm-to-mlml">
+        <pi>
+            <name>
+                <xsl:value-of select="name(.)"/>
+            </name>
+            <ws space="1"/>
+            <value>
+                <xsl:sequence select="mlml:process-breaks(.)"/>
+            </value>
+        </pi>
+    </xsl:template>
+    
+    <xsl:function name="mlml:process-breaks">
+        <xsl:param name="node" as="node()"/>
+        <xsl:analyze-string select="string($node)" regex="\r\n|\r|\n">
+            <xsl:matching-substring>
+                <xsl:variable name="format" select="
+                    map{
+                    '&#xD;&#xA;' : 'rn',
+                    '&#xD;' : 'r',
+                    '&#xA;' : ''
+                    }(.)
+                    "/>
+                
+                <nl>
+                    <xsl:if test="$format != ''">
+                        <xsl:attribute name="line-feed-format" select="$format"/>
+                    </xsl:if>
+                </nl>
+            </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <data>
+                    <xsl:value-of select="."/>
+                </data>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
+    
+    <xsl:function name="mlml:ns-node-contains" as="xs:boolean">
+        <xsl:param name="search" as="namespace-node()"/>
+        <xsl:param name="seq" as="namespace-node()*"/>
+        <xsl:sequence select="
+            some $ns in $seq 
+            satisfies mlml:ns-node-equal($search, $ns)
+            "/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:ns-node-equal" as="xs:boolean">
+        <xsl:param name="ns1" as="namespace-node()"/>
+        <xsl:param name="ns2" as="namespace-node()"/>
+        <xsl:sequence select="
+            $ns1/name() = $ns2/name()
+            and
+            $ns1/string() = $ns2/string()
+            "/>
+    </xsl:function>
+    
 
 
 </xsl:stylesheet>
