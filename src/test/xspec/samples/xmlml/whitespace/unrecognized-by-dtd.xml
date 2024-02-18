@@ -22,6 +22,14 @@
     <ws nl="1"/>
     <element>
         <name>src</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
         <content space="skip">
             <ws> <nl/> <space amount="4"/> </ws>
             <element collapsed="true">

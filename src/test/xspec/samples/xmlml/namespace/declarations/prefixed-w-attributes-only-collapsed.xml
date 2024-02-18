@@ -5,6 +5,14 @@
     xml:base="http://www.nkutsche.com/xmlml/sample-base/namespace/declarations/prefixed-w-attributes-only-collapsed.xml">
     <element xmlns:ns="namespace.com" collapsed="true">
         <name>root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
         <attribute>
             <ws space="1"/>
             <name>ns:attribute</name>

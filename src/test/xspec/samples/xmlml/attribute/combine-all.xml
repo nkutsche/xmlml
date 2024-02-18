@@ -5,6 +5,15 @@
     xml:base="http://www.nkutsche.com/xmlml/sample-base/attribute/combine-all.xml">
     <element>
         <name>root</name>
+        <attribute default="true"
+            namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
         <attribute>
             <ws space="6"/>
             <name>attribute</name>

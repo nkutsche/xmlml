@@ -4,7 +4,15 @@
     document-uri="http://www.nkutsche.com/xmlml/sample-base/linefeed-normalization/el.xml"
     xml:base="http://www.nkutsche.com/xmlml/sample-base/linefeed-normalization/el.xml">
     <element>
-       <name>root</name>
+        <name>root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
         <ws>
             <nl/>
             <space amount="4"/>
