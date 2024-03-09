@@ -337,13 +337,16 @@
             ($pre-parsed/document/prolog/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]
             "/>
         
-        <xsl:variable name="result" as="element(mlml:document)">
-            <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
-                <xsl:with-param name="config" select="$config" tunnel="yes"/>
-                <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
-                <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
-            </xsl:apply-templates>
+        <xsl:variable name="result" as="document-node(element(mlml:document))">
+            <xsl:document>
+                <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
+                    <xsl:with-param name="config" select="$config" tunnel="yes"/>
+                    <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
+                    <xsl:with-param name="dtd" select="$dtd" tunnel="yes"/>
+                </xsl:apply-templates>
+            </xsl:document>
         </xsl:variable>
+        <xsl:variable name="result" select="$result/mlml:document"  as="element(mlml:document)"/>
         
         <xsl:sequence select="
             if (map:contains($config, $mlml:CUSTOM-STRUCTUR-ELEMENTS)) 
@@ -353,8 +356,8 @@
 
     </xsl:function>
     
-    <xsl:function name="mlml:custom-strip-spacing" as="node()">
-        <xsl:param name="document" as="node()"/>
+    <xsl:function name="mlml:custom-strip-spacing" as="element(mlml:document)">
+        <xsl:param name="document" as="element(mlml:document)"/>
         <xsl:param name="struct-elements" as="element(mlml:element)*"/>
         
         
@@ -466,7 +469,7 @@
     </xsl:template>
 
     <xsl:template match="element" mode="mlml:parse">
-        <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:param name="dtd" select="()" as="element(dtdml:dtd)?" tunnel="yes"/>
         <xsl:param name="config" tunnel="yes" as="map(*)"/>
         
         <xsl:variable name="el_name" as="element(mlml:name)">
@@ -843,7 +846,7 @@
     
     <xsl:template match="Reference/EntityRef[Name]" mode="mlml:parse">
         <xsl:param name="config" tunnel="yes"/>
-        <xsl:param name="dtd" tunnel="yes"/>
+        <xsl:param name="dtd" select="()" as="element(dtdml:dtd)?" tunnel="yes"/>
         <xsl:param name="properties" as="map(xs:string, xs:string)" tunnel="yes"/>
         <xsl:variable name="nameRef" select="Name"/>
         

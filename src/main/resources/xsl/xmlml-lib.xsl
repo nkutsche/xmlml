@@ -115,8 +115,8 @@
     
     
     
-    <xsl:function name="mlml:verify-constraints" as="element(mlml:document)">
-        <xsl:param name="document" as="element(mlml:document)"/>
+    <xsl:function name="mlml:verify-constraints" as="element()">
+        <xsl:param name="document" as="element()"/>
         <xsl:variable name="elements" select="$document//mlml:element"/>
         <xsl:for-each select="$elements">
             <xsl:sequence select="mlml:verify-name(mlml:name)"/>
