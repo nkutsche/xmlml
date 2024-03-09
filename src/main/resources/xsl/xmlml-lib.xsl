@@ -205,6 +205,34 @@
             "/>
     </xsl:function>
     
+    <xsl:function name="mlml:is-eqname" as="xs:boolean">
+        <xsl:param name="eqname" as="xs:string"/>
+        <xsl:variable name="comp" select="mlml:parse-eqname-compontents($eqname)"/>
+        <xsl:sequence select="
+            if (empty($comp))
+            then false() 
+            else 
+            ($comp?local-name castable as xs:NCName and $comp?namespace-uri castable as xs:anyURI) 
+            "/>
+    </xsl:function>
+    <xsl:function name="mlml:parse-eqname" as="xs:QName">
+        <xsl:param name="eqname" as="xs:string"/>
+        <xsl:variable name="comp" select="mlml:parse-eqname-compontents($eqname)"/>
+        <xsl:sequence select="QName($comp?namespace-uri, $comp?local-name)"/>
+    </xsl:function>
+    <xsl:function name="mlml:parse-eqname-compontents" as="map(xs:string, xs:string)?">
+        <xsl:param name="eqname" as="xs:string"/>
+        <xsl:variable name="eqname" select="normalize-space($eqname)"/>
+        <xsl:analyze-string select="$eqname" regex="^Q\{{([^}}]*)\}}(.*)">
+            <xsl:matching-substring>
+                <xsl:sequence select="map{
+                    'local-name' : normalize-space(regex-group(2)),
+                    'namespace-uri' : normalize-space(regex-group(1))
+                    }"/>
+            </xsl:matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
+    
     <xsl:function name="mlml:eqname" as="xs:string">
         <xsl:param name="qname" as="xs:QName"/>
         <xsl:sequence select="'Q{' || namespace-uri-from-QName($qname) || '}' || local-name-from-QName($qname)"/>
