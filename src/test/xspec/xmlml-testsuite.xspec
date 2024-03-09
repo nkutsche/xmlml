@@ -180,6 +180,14 @@
             <x:variable name="path" select="'attribute/types-invalid-nmtokens.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: attribute/types-xml-id.xml">
+            <x:variable name="path" select="'attribute/types-xml-id.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/xml-base-attribute.xml">
+            <x:variable name="path" select="'attribute/xml-base-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Dir: cdata-sections/" catch="true">

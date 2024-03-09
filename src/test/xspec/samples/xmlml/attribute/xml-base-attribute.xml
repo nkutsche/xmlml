@@ -1,0 +1,28 @@
+<!--
+<root xml:base="http://www.nkutsche.com/sample-base-uri"/>
+-->
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml"
+    id="xmlml_d14000001"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/attribute/xml-base-attribute.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/attribute/xml-base-attribute.xml">
+    <element collapsed="true" xml:base="http://www.nkutsche.com/sample-base-uri">
+        <name>root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
+        <attribute>
+            <ws space="1"/>
+            <name>xml:base</name>
+            <eq/>
+            <value>
+                <data>http://www.nkutsche.com/sample-base-uri</data>
+            </value>
+        </attribute>
+    </element>
+</document>
