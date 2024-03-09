@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" xmlns:mlmlp="http://www.nkutsche.com/xmlml/xpath"  xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    stylesheet="../../main/resources/xsl/xpath-module/xmlml-xpath-module.xsl">
+    <x:helper package-name="http://www.nkutsche.com/xpath-model" package-version="*"/>
+    <x:helper package-name="http://www.nkutsche.com/xmlml" package-version="*"/>
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    <x:helper stylesheet="helper.xsl"/>
+    
+    
+    
+    <x:scenario label="Scenario for testing function mlmlp:node-test">
+        <x:call function="mlmlp:node-test"/>
+        
+        <x:scenario label="node-test: element(section)">
+            <x:call>
+                <x:param position="2">
+                    <nodeTest name="section" kind="element"/>
+                </x:param>
+            </x:call>
+            
+            <x:scenario label="node: element(section)">
+                <x:call>
+                    <x:param position="1">
+                        <element xmlns="http://www.nkutsche.com/xmlml">
+                            <name>section</name>
+                            <content space="skip"/>
+                        </element>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: true" select="true()"/>
+            </x:scenario>
+            <x:scenario label="node: element(title)">
+                <x:call>
+                    <x:param position="1">
+                        <element xmlns="http://www.nkutsche.com/xmlml">
+                            <name>title</name>
+                            <content space="skip"/>
+                        </element>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: false" select="false()"/>
+            </x:scenario>
+            <x:scenario label="node: text()">
+                <x:call>
+                    <x:param position="1">
+                        <text xmlns="http://www.nkutsche.com/xmlml">
+                            <data>Input data</data>
+                        </text>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: false" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="node-test: attribut(id)">
+            <x:call>
+                <x:param position="2">
+                    <nodeTest name="id" kind="attribute"/>
+                </x:param>
+            </x:call>
+            
+            <x:scenario label="node: element(id)">
+                <x:call>
+                    <x:param position="1">
+                        <element xmlns="http://www.nkutsche.com/xmlml">
+                            <name>id</name>
+                            <content space="skip"/>
+                        </element>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: false" select="false()"/>
+            </x:scenario>
+            <x:scenario label="node: attribute(id)">
+                <x:call>
+                    <x:param position="1">
+                        <attribute xmlns="http://www.nkutsche.com/xmlml">
+                            <ws space="1"/>
+                            <name>id</name>
+                            <eq/>
+                            <value>
+                                <data>foo</data>
+                            </value>
+                        </attribute>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: true" select="true()"/>
+            </x:scenario>
+            <x:scenario label="node: attribute(title)">
+                <x:call>
+                    <x:param position="1">
+                        <attribute xmlns="http://www.nkutsche.com/xmlml">
+                            <ws space="1"/>
+                            <name>title</name>
+                            <eq/>
+                            <value>
+                                <data>foo</data>
+                            </value>
+                        </attribute>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: false" select="false()"/>
+            </x:scenario>
+            <x:scenario label="node: text()">
+                <x:call>
+                    <x:param position="1">
+                        <text xmlns="http://www.nkutsche.com/xmlml">
+                            <data>Input data</data>
+                        </text>
+                    </x:param>
+                </x:call>
+                <x:expect label="return: false" select="false()"/>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+    
+    
+    
+    
+</x:description>

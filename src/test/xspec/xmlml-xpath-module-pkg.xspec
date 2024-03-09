@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" 
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:mlml="http://www.nkutsche.com/xmlml" 
+    xmlns:mlmlp="http://www.nkutsche.com/xmlml/xpath"  
+    xmlns:xpm="http://www.nkutsche.com/xpath-model"
+    xmlns:xpe="http://www.nkutsche.com/xpath-model/engine"
+    xmlns="http://www.nkutsche.com/xmlml"
+    stylesheet="../../main/resources/xsl/xpath-module/xmlml-xpath-module-pkg.xsl" run-as="external">
+    <x:helper stylesheet="helper.xsl"/>
+    <x:helper stylesheet="../../main/resources/xsl/xmlml-main.xsl"/>
+    <x:helper package-name="http://www.nkutsche.com/xpath-model" package-version="*"/>
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
+    
+    
+    <x:scenario label="Scenario for testing function mlmlp:xpath-evaluate" catch="yes">
+        <x:call function="mlmlp:xpath-evaluate"/>
+        
+        
+        <x:variable name="namespaces" select="map{
+            'fn' : 'http://www.w3.org/2005/xpath-functions',
+            'xs' : 'http://www.w3.org/2001/XMLSchema',
+            'map' : 'http://www.w3.org/2005/xpath-functions/map',
+            'array' : 'http://www.w3.org/2005/xpath-functions/array'
+            }"/>
+        <x:variable name="test-config" select="map{
+            'namespaces' : $namespaces,
+            'base-uri' : static-base-uri()
+            }"/>
+
+        <x:scenario label="with test config">
+            <x:call>
+                <x:param position="3" select="$test-config"/>
+            </x:call>
+            
+            <x:scenario label="fn:data() for X(ml)²">
+                <x:variable name="context-doc-href" select="base-uri(/)" href="xpath-samples/asterix.xml"/>
+                <x:variable name="context-doc" select="mlml:parse($context-doc-href)"/>
+                <x:scenario label="context: first name">
+                    <x:variable name="context" select="($context-doc//mlml:element[not(.//mlml:element)])[1]"/>
+                    <x:call>
+                        <x:param position="1" select="$context"/>
+                    </x:call>
+                    <x:scenario label="xpath: fn:data(.)">
+                        <x:call>
+                            <x:param position="2" select="'data(.)'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result" select="'Galier'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: fn:string(.)">
+                        <x:call>
+                            <x:param position="2" select="'string(.)'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result" select="'Galier'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: fn:string()">
+                        <x:call>
+                            <x:param position="2" select="'string()'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result" select="'Galier'"/>
+                    </x:scenario>
+                </x:scenario>
+            </x:scenario>
+            <x:scenario label="extension functions in X(ml)²">
+                <x:variable name="context-doc-href" select="base-uri(/)" href="xpath-samples/asterix-dtd.xml"/>
+                <x:variable name="context-doc" select="mlml:parse($context-doc-href)"/>
+                <x:scenario label="context: root">
+                    <x:variable name="context" select="$context-doc"/>
+                    <x:call>
+                        <x:param position="1" select="$context"/>
+                    </x:call>
+                    <x:scenario label="function: entity()">
+                        <x:scenario label="xpath: /asterix-universe/group[1]/character[1]/name[1]/entity()">
+                            <x:call>
+                                <x:param position="2" select="'/asterix-universe/group[1]/character[1]/name[1]/entity()'"/>
+                            </x:call>
+                            <x:expect label="String value" test="$x:result">
+                                <entity name="r">
+                                    <data>®</data>
+                                </entity>
+                            </x:expect>
+                        </x:scenario>
+                        <x:scenario label="xpath: //entity()/name()">
+                            <x:call>
+                                <x:param position="2" select="'//entity()/name()'"/>
+                            </x:call>
+                            <x:expect label="String value" test="$x:result" select="'r', 'r', 'r', 'oe', 'xe4'"/>
+                        </x:scenario>
+                        
+                        <x:scenario label="xpath: //*[entity('oe')] ! string()">
+                            <x:call>
+                                <x:param position="2" select="'//*[entity(''oe'')] ! string()'"/>
+                            </x:call>
+                            <x:expect label="String value" test="$x:result" select="'Römer'"/>
+                        </x:scenario>
+                    </x:scenario>
+                    
+                    <x:scenario label="function: is-default-attribute()">
+                        <x:scenario label="xpath: //*[not(is-default-attribute(@species))]/name">
+                            <x:call>
+                                <x:param position="2" select="'//*[@species[not(is-default-attribute())]]/name ! string(.)'"/>
+                            </x:call>
+                            <x:expect label="String value" test="$x:result" select="'Obelix®', 'Idefix®'"/>
+                        </x:scenario>
+                    </x:scenario>
+
+                    <x:scenario label="function: cdata-section()">
+                        <x:variable name="cdata-doc" select="base-uri(/)" href="xpath-samples/cdata-section.xml"/>
+                        <x:scenario label="xpath: //code[cdata-section()]">
+                            <x:call>
+                                <x:param position="2" select="'doc($cdata-doc)//code[cdata-section()] ! string(.)'"/>
+                                <x:param position="3" select="map{'variable-context' : map{QName('', 'cdata-doc') : $cdata-doc}}"/>
+                            </x:call>
+                            <x:expect label="String value" test="$x:result" select="'&lt;bar/&gt;'"/>
+                        </x:scenario>
+                    </x:scenario>
+                </x:scenario>
+                
+                
+            </x:scenario>
+            <x:scenario label="tree walk in X(ml)²">
+                <x:variable name="context-doc-href" select="base-uri(/)" href="xpath-samples/asterix.xml"/>
+                <x:variable name="context-doc" select="mlml:parse($context-doc-href)"/>
+                <x:scenario label="context: root">
+                    <x:variable name="context" select="$context-doc"/>
+                    <x:call>
+                        <x:param position="1" select="$context"/>
+                    </x:call>
+                    <x:scenario label="xpath: /asterix-universe/group/name/string(.)">
+                        <x:call>
+                            <x:param position="2" select="'/asterix-universe/group/name/string(.)'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result" select="'Galier', 'Römer'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: /asterix-universe/group/name">
+                        <x:call>
+                            <x:param position="2" select="'/asterix-universe/group/name'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result">
+                            <element>
+                                <name>name</name>
+                                <content space="preserve">
+                                   <text>
+                                      <data>Galier</data>
+                                   </text>
+                                </content>
+                             </element>
+                             <element>
+                                <name>name</name>
+                                <content space="preserve">
+                                   <text>
+                                      <data>Römer</data>
+                                   </text>
+                                </content>
+                             </element>
+                        </x:expect>
+                    </x:scenario>
+                    <x:scenario label="xpath: /asterix-universe/group/*/name()">
+                        <x:call>
+                            <x:param position="2" select="'/asterix-universe/group/*/name()'"/>
+                        </x:call>
+                        <x:expect label="Element names" 
+                            select="
+                            'name', 'character', 'character', 'character', 'character', 
+                            'name', 'character', 'character'"
+                        />
+                    </x:scenario>
+                    <x:scenario label="xpath: /asterix-universe/group/*/name/string(.)">
+                        <x:call>
+                            <x:param position="2" select="'/asterix-universe/group/*/name/string(.)'"/>
+                        </x:call>
+                        <x:expect label="Child elements name" 
+                            select="
+                            'Asterix', 'Obelix', 'Idefix', 'Majestix',
+                            'Cäsar', 'Gaius Bonus'"
+                        />
+                    </x:scenario>
+                    <x:scenario label="xpath: //character[@xml:id = 'maj']/name/string(.)">
+                        <x:call>
+                            <x:param position="2" select="'//character[@xml:id = ''maj'']/name/string(.)'"/>
+                        </x:call>
+                        <x:expect label="String value of Majestix' name" select="'Majestix'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: //character[@xml:id = 'maj']/preceding-sibling::*[1]/@xml:id/string(.)">
+                        <x:call>
+                            <x:param position="2" select="
+                                '//character[@xml:id = ''maj'']/preceding-sibling::*[1]/@xml:id/string(.)'
+                                "/>
+                        </x:call>
+                        <x:expect label="ID of Idefix" select="'idf'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: //character[@xml:id = 'maj']/preceding-sibling::*[last() - 1]/name/string(.)">
+                        <x:call>
+                            <x:param position="2" select="string(.)"
+                                >//character[@xml:id = 'maj']/preceding-sibling::*[last() - 1]/@xml:id/string(.)</x:param>
+                        </x:call>
+                        <x:expect label="ID of Asterix" select="'ast'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: //character[@xml:id = 'maj']/following-sibling::*/name">
+                        <x:call>
+                            <x:param position="2" select="string(.)"
+                                >//character[@xml:id = 'maj']/following-sibling::*/name</x:param>
+                        </x:call>
+                        <x:expect label="Empty sequence" select="()"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: //character[@xml:id = 'maj']/following::character[1]/name/string(.)">
+                        <x:call>
+                            <x:param position="2" select="string(.)"
+                                >//character[@xml:id = 'maj']/following::character[1]/name/string(.)</x:param>
+                        </x:call>
+                        <x:expect label="String value of Cäsar's name" select="'Cäsar'"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: count(/asterix-universe/group[1]/ancestor::*)">
+                        <x:call>
+                            <x:param position="2" select="'count(/asterix-universe/group[1]/ancestor::*)'"/>
+                        </x:call>
+                        <x:expect label="String value" test="$x:result" select="1"/>
+                    </x:scenario>
+                    
+                    <x:scenario label="xpath: //following-sibling::*/name()">
+                        <x:call>
+                            <x:param position="2" select="'//following-sibling::*/name()'"/>
+                        </x:call>
+                        <x:expect label="Comparing with Saxon result" test="$x:result" select="//following-sibling::*/name()" 
+                            href="xpath-samples/asterix.xml"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: (//following-sibling::*)/name()">
+                        <x:call>
+                            <x:param position="2" select="'(//following-sibling::*)/name()'"/>
+                        </x:call>
+                        <x:expect label="Comparing with Saxon result" test="$x:result" 
+                            select="(//following-sibling::*)/name()" href="xpath-samples/asterix.xml"/>
+                    </x:scenario>
+                </x:scenario>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+    
+    
+    
+    
+</x:description>
