@@ -472,6 +472,7 @@
         <xsl:param name="dtd" select="()" as="element(dtdml:dtd)?" tunnel="yes"/>
         <xsl:param name="config" tunnel="yes" as="map(*)"/>
         
+        <xsl:variable name="is-root-el" select="exists(parent::document)" as="xs:boolean"/>
         <xsl:variable name="el_name" as="element(mlml:name)">
             <xsl:apply-templates select="Name" mode="#current"/>
         </xsl:variable>
@@ -488,6 +489,16 @@
         
         
         <xsl:variable name="default-attributes" as="element(mlml:attribute)*">
+            <xsl:if test="not($attribute-lists/dtdml:attribute[@name = 'xmlns:xml']) and $is-root-el">
+                <attribute default="true" namespace="true">
+                    <ws space="1" />
+                    <name>xml</name>
+                    <eq />
+                    <value>
+                        <data>http://www.w3.org/XML/1998/namespace</data>
+                    </value>
+                </attribute>
+            </xsl:if>
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-by="@name">
                 <xsl:if test="@default">
                     <attribute default="true">
