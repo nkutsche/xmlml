@@ -671,6 +671,21 @@
             </x:scenario>
         </x:scenario>
     </x:scenario>
+
+    <x:scenario label="Testing function mlml:document-id" catch="true">
+        <x:call function="mlml:document-id"/>
+        
+        <x:scenario label="doc-uri is equal">
+            <x:variable name="doc-uri" select="'http://www.nkutsche.com/xmlml/document.xml'"/>
+            <x:variable name="doc-uri2" select="'http://www.nkutsche.com/xmlml/document2.xml'"/>
+            <x:call>
+                <x:param select="$doc-uri"/>
+            </x:call>
+            <x:expect label="is equal to another call" select="mlml:document-id($doc-uri)"/>
+            <x:expect label="is equal to another call 2" select="mlml:document-id($doc-uri)"/>
+            <x:expect label="is not equal to another call 2" test="not(codepoint-equal($x:result, $doc-uri2))"/>
+        </x:scenario>
+    </x:scenario>
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
         <x:call function="mlml:white-space">
             <x:param position="2" select="'#default'"/>
