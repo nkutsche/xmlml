@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT asterix-universe (group+) >
+
+<!ELEMENT group (name, character+) >
+
+<!ELEMENT name (#PCDATA) >
+
+<!ELEMENT position (#PCDATA) >
+
+<!ELEMENT character (name, position) >
+
+<!ATTLIST group xml:id ID #IMPLIED >
+<!ATTLIST character xml:id ID #IMPLIED  
+                    species CDATA "human">
+
+<!ENTITY r "®" >
+<!ENTITY oe "ö" >
+<!ENTITY ae "ä" >

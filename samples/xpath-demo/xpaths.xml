@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpaths>
+        <xpath>/asterix-universe/group[1]/name[1]</xpath>
+    <!--    
+    -->
+    <!--    
+    <xpath>(
+        (//character)[position() mod 2 = 0]/name/substring(., 1, 1) => string-join() 
+        ) || '!'</xpath>
+    -->
+    <!--    
+        <xpath>/asterix-universe/group/character[@xml:id = 'ast']/name</xpath>
+    -->
+    <!--     
+        <xpath>id('obel')</xpath>
+        <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
+    -->
+    <!--     
+        <xpath>count(//entity())</xpath>
+    -->
+    <!--     
+        <xpath>count(//entity('r'))</xpath>
+    -->
+    <!--     
+        <xpath>//*[entity('oe')]</xpath>
+    -->
+    <!--     
+        <xpath>/asterix-universe/group/character[@species = 'human']/name</xpath>
+    -->
+    <!--     
+        <xpath>/asterix-universe/group/character[no-defaults(@species) = 'human']/name</xpath>
+    -->
+    <!--     
+        <xpath>doc(resolve-uri('cdata-section.xml', base-uri(/)))/*/code</xpath>
+    -->
+    <!--     
+        <xpath>doc(resolve-uri('cdata-section.xml', base-uri(/)))/*/code[cdata-section()]</xpath>
+    -->
+</xpaths>

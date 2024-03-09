@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <code>&lt;foo/&gt;</code>
+    <code><![CDATA[<bar/>]]></code>
+    <code>&lt;baz/&gt;</code>
+</root>
