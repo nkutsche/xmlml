@@ -325,7 +325,7 @@
             "/>
         
         <xsl:if test="$pre-parsed/self::ERROR">
-            <xsl:sequence select="mlml:error('unknown', string($pre-parsed))"/>
+            <xsl:sequence select="error(xs:QName('mlml:xml-syntax-error'), string($pre-parsed))"/>
         </xsl:if>
         
         <xsl:variable name="dtd" select="mlml:parse-dtds-from-preparsed-xml(

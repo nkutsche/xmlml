@@ -108,7 +108,7 @@
         <xsl:variable name="parsed" select="$preparsed ! dtdp:parse-document(.)"/>
         
         <xsl:if test="$parsed[self::ERROR]">
-            <xsl:sequence select="mlml:error('unknown', string($parsed[self::ERROR][1]))"/>
+            <xsl:sequence select="error(xs:QName('mlml:dtd-syntax-error'), string($parsed[self::ERROR][1]))"/>
         </xsl:if>
         
         <xsl:variable name="parsed" select="$parsed ! mlml:check-preparsed-dtd-constrains(.)"/>
@@ -176,7 +176,7 @@
                 <xsl:variable name="base-uri" select="?base-uri"/>
                 
                 <xsl:if test="$ebnf-parsed/self::ERROR">
-                    <xsl:sequence select="mlml:error('unknown', string($ebnf-parsed))"/>
+                    <xsl:sequence select="error(xs:QName('mlml:dtd-syntax-error'), string($ebnf-parsed))"/>
                 </xsl:if>
                 
                 <xsl:variable name="internal-subset" select="($head?internal-subset, false())[1]"/>
