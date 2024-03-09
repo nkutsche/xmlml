@@ -648,6 +648,29 @@
             <x:like label="generic-non-wellformed-test"/>
         </x:scenario>
     </x:scenario>
+    <x:scenario label="Testing function mlml:parse-xml-fragment" catch="true">
+        <x:call function="mlml:parse-xml-fragment"/>
+        <x:scenario label="base-uri: http://www.nkutche.com/mlml/sample.xml">
+            <x:call>
+                <x:param position="2" select="'http://www.nkutche.com/mlml/sample.xml'"/>
+            </x:call>
+            <x:scenario>
+                <x:label>Content: <![CDATA[<xml/>]]></x:label>
+                <x:call>
+                    <x:param position="1" select="string(.)"><![CDATA[<xml/>]]></x:param>
+                </x:call>
+                <x:expect label="result tree">
+                    <document xmlns="http://www.nkutsche.com/xmlml" id="..." fragment="true">
+                        <content space="preserve">
+                           <element collapsed="true">
+                              <name>xml</name>
+                           </element>
+                        </content>
+                    </document>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
         <x:call function="mlml:white-space">
             <x:param position="2" select="'#default'"/>
