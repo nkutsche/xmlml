@@ -686,6 +686,48 @@
             <x:expect label="is not equal to another call 2" test="not(codepoint-equal($x:result, $doc-uri2))"/>
         </x:scenario>
     </x:scenario>
+
+
+    <x:scenario label="Testing function mlml:mlml-from-xdm" catch="true">
+        <x:call function="mlml:mlml-from-xdm"/>
+        
+        <x:scenario>
+            <x:label>Content: <![CDATA[<xml/>]]></x:label>
+            <x:call>
+                <x:param select="parse-xml(.)"><![CDATA[<xml/>]]></x:param>
+            </x:call>
+            <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
+               <document line-feed-format="n">
+                   <element>
+                       <name>xml</name>
+                   </element>
+               </document>
+            </x:expect>
+        </x:scenario>
+        <x:scenario>
+            <x:label>Content: <![CDATA[<xml xmlns="foo.com"/>]]></x:label>
+            <x:call>
+                <x:param select="parse-xml(.)"><![CDATA[<xml xmlns="foo.com"/>]]></x:param>
+            </x:call>
+            <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
+               <document line-feed-format="n">
+                   <element element-default-namespace="foo.com">
+                       <name>xml</name>
+                       <attribute xmlns="http://www.nkutsche.com/xmlml"
+                                  namespace="true">
+                        <ws space="1" />
+                        <name />
+                        <eq />
+                        <value>
+                           <data>foo.com</data>
+                        </value>
+                     </attribute>
+                   </element>
+               </document>
+            </x:expect>
+        </x:scenario>
+        
+    </x:scenario>
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
         <x:call function="mlml:white-space">
             <x:param position="2" select="'#default'"/>
