@@ -142,7 +142,7 @@
             <plugin>
                 <groupId>com.nkutsche</groupId>
                 <artifactId>xspec-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>2.0.1</version>
                 <executions>
                     <execution>
                         <id>run-xspec</id>
@@ -159,8 +159,9 @@
                 <plugin>
                     <groupId>com.nkutsche</groupId>
                     <artifactId>xspec-maven-plugin</artifactId>
-                    <version>2.0.0</version>
+                    <version>2.0.1</version>
                     <configuration>
+                        <addDependenciesToClasspath>true</addDependenciesToClasspath>
                         <xspecProperties>
                             <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager</saxon.custom.options>
                         </xspecProperties>
@@ -169,7 +170,7 @@
                         <dependency>
                             <groupId>io.xspec</groupId>
                             <artifactId>xspec</artifactId>
-                            <version>2.2.4</version>
+                            <version>2.3.2</version>
                             <classifier>enduser-files</classifier>
                             <type>zip</type>
                         </dependency>
@@ -273,7 +274,7 @@
                     <plugin>
                         <groupId>com.nkutsche</groupId>
                         <artifactId>xspec-maven-plugin</artifactId>
-                        <version>2.0.0</version>
+                        <version>2.0.1</version>
                         <executions>
                             <execution>
                                 <id>run-xspec-xmlconf</id>
