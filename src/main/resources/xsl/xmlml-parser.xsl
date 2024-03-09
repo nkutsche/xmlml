@@ -365,7 +365,6 @@
         <xsl:param name="document" as="element(mlml:document)"/>
         <xsl:param name="struct-elements" as="element(mlml:element)*"/>
         
-        
         <xsl:apply-templates select="$document" mode="mlml:custom-strip-spacing">
             <xsl:with-param name="struct-elements" select="$struct-elements" tunnel="yes"/>
         </xsl:apply-templates>
@@ -536,7 +535,6 @@
                         </value>
                     </attribute>
                 </xsl:if>
-                
             </xsl:for-each-group>
         </xsl:variable>
         <xsl:variable name="default-attributes" select="
@@ -610,6 +608,9 @@
             <xsl:sequence select="$content except $el_start"/>
         </element>
     </xsl:template>
+    
+
+
     
     <xsl:function name="mlml:preserve-space" as="xs:boolean">
         <xsl:param name="content-model" as="element(dtdml:content)?"/>
