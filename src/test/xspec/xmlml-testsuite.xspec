@@ -596,6 +596,10 @@
             <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
     </x:scenario>
     <!--
         Currently it workse only with -strip:none

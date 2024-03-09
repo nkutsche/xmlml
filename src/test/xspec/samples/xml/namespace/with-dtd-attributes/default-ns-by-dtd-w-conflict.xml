@@ -1,0 +1,5 @@
+<!DOCTYPE ns:root [
+<!ELEMENT ns:root (ns:child?)><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com" ns CDATA #IMPLIED>
+<!ELEMENT ns:child EMPTY><!ATTLIST ns:child xmlns:ns CDATA #IMPLIED ns CDATA "default-value">
+]>
+<ns:root ns="some-attribute"><ns:child xmlns:ns="some-other-namespace"/></ns:root>

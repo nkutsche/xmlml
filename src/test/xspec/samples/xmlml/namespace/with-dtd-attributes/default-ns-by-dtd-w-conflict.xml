@@ -1,0 +1,74 @@
+<!--
+<!DOCTYPE ns:root [
+<!ELEMENT ns:root (ns:child?)><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com" ns CDATA #IMPLIED>
+<!ELEMENT ns:child EMPTY><!ATTLIST ns:child xmlns:ns CDATA #IMPLIED ns CDATA "default-value">
+]>
+<ns:root ns="some-attribute"><ns:child xmlns:ns="some-other-namespace"/></ns:root>
+-->
+<?xml-model href="../../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" xmlns:ns="ns.namespace.com" 
+    id="xmlml_d93000001"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml" line-feed-format="n">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>ns:root</name>
+        <ws space="1"/>
+        <inline>
+            <nl/>
+            <data><![CDATA[<!ELEMENT ns:root (ns:child?)><!ATTLIST ns:root xmlns:ns CDATA "ns.namespace.com" ns CDATA #IMPLIED>]]></data>
+            <nl/>
+            <data><![CDATA[<!ELEMENT ns:child EMPTY><!ATTLIST ns:child xmlns:ns CDATA #IMPLIED ns CDATA "default-value">]]></data>
+            <nl/>
+        </inline>
+    </doc-type-decl>
+    <ws nl="1"/>
+    <element>
+        <name>ns:root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
+        <attribute namespace="true" default="true">
+            <ws space="1"/>
+            <name>ns</name>
+            <eq/>
+            <value>
+                <data>ns.namespace.com</data>
+            </value>
+        </attribute>
+        <attribute type="CDATA">
+            <ws space="1"/>
+            <name>ns</name>
+            <eq/>
+            <value>
+                <data>some-attribute</data>
+            </value>
+        </attribute>
+        <content space="skip">
+            <element xmlns:ns="some-other-namespace" collapsed="true">
+                <name>ns:child</name>
+                <attribute default="true" type="CDATA">
+                    <ws space="1"/>
+                    <name>ns</name>
+                    <eq/>
+                    <value>
+                        <data>default-value</data>
+                    </value>
+                </attribute>
+                <attribute namespace="true">
+                    <ws space="1"/>
+                    <name>ns</name>
+                    <eq/>
+                    <value>
+                        <data>some-other-namespace</data>
+                    </value>
+                </attribute>
+            </element>
+        </content>
+    </element>
+</document>
