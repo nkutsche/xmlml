@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<asterix-universe>
+    <group xml:id="galier">
+        <name>Galier</name>
+        <character xml:id="ast">
+            <name>Asterix</name>
+            <position>Warrior</position>
+        </character>
+        <character xml:id="obel">
+            <name>Obelix</name>
+            <position>Menhir supplier</position>
+        </character>
+        <character xml:id="idf">
+            <name>Idefix</name>
+            <position>Dog of Obelix</position>
+        </character>
+        <character xml:id="maj">
+            <name>Majestix</name>
+            <position>Chief</position>
+        </character>
+    </group>
+    <group xml:id="roman">
+        <name>Römer</name>
+        <character xml:id="cäs">
+            <name>Cäsar</name>
+            <position>Imperator</position>
+        </character>
+        <character xml:id="gabo">
+            <name>Gaius Bonus</name>
+            <position>Centurion</position>
+        </character>
+    </group>
+</asterix-universe>
