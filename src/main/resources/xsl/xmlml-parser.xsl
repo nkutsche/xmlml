@@ -533,6 +533,7 @@
         <xsl:variable name="space-preserve" select="
             mlml:preserve-space($content-model, $attributes[mlml:name = 'xml:space'], $config)
             "/>
+        <xsl:variable name="namespace-attributes" select="$attributes[@namespace = 'true']"/>
         
         <xsl:variable name="content" as="element()*">
             <xsl:apply-templates select="node() except Attribute" mode="#current">
@@ -548,11 +549,16 @@
             <xsl:sequence select="mlml:error('3.0.39.1', 'The end tag ' || $etag/Name || ' does not match to the start tag ' || Name || '.')"/>
         </xsl:if>
         
+        <xsl:variable name="xml-base" select="$attributes[mlml:name = 'xml:base']/mlml:as-node(.)"/>
+        
         <element>
             <xsl:if test="not($etag)">
                 <xsl:attribute name="collapsed" select="'true'"/>
             </xsl:if>
-            <xsl:for-each select="$attributes[@namespace = 'true']">
+            <xsl:if test="$xml-base">
+                <xsl:attribute name="xml:base" select="$xml-base"/>
+            </xsl:if>
+            <xsl:for-each select="$namespace-attributes">
                 <xsl:variable name="value">
                     <xsl:apply-templates select="mlml:value" mode="mlml:doc"/>
                 </xsl:variable>
