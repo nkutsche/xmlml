@@ -30,7 +30,7 @@
         <saxon.version>12.4</saxon.version>
         
         <resource.subdir>com/nkutsche/xmlml</resource.subdir>
-        
+        <run.xspecs>*.xspec</run.xspecs>
         <xml.conf.focus>id=#none</xml.conf.focus>
     </properties>
     
@@ -162,6 +162,7 @@
                     <version>2.0.1</version>
                     <configuration>
                         <addDependenciesToClasspath>true</addDependenciesToClasspath>
+                        <includes>${run.xspecs}</includes>
                         <xspecProperties>
                             <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager</saxon.custom.options>
                         </xspecProperties>
