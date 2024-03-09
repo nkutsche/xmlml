@@ -535,7 +535,7 @@
             </xsl:for-each-group>
         </xsl:variable>
         <xsl:variable name="default-attributes" select="
-            $default-attributes[not(mlml:name = $attributes/mlml:name)]
+            $default-attributes[ not(mlml:attr-raw-name(.) = $attributes/mlml:attr-raw-name(.))]
             "/>
         <xsl:variable name="attributes" select="($default-attributes, $attributes)"/>
         
