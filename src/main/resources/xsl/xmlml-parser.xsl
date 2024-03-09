@@ -317,6 +317,11 @@
         <xsl:param name="properties" as="map(xs:string, xs:string)"/>
         <xsl:variable name="pre-parsed" select="xmlp:parse-document($unparsed-xml)"/>
         
+        <xsl:variable name="properties" select="
+            if (map:contains($properties, 'line-feed-format')) 
+            then $properties 
+            else map:put($properties, 'line-feed-format', mlml:lf-type($unparsed-xml))
+            "/>
         
         <xsl:variable name="properties" select="
             if (map:contains($properties, 'document-id')) 
