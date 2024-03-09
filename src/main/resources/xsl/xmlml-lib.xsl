@@ -119,10 +119,39 @@
         <xsl:param name="document" as="element(mlml:document)"/>
         <xsl:variable name="elements" select="$document//mlml:element"/>
         <xsl:for-each select="$elements">
+            <xsl:sequence select="mlml:verify-name(mlml:name)"/>
+            <xsl:for-each select="mlml:attribute">
+                <xsl:sequence select="mlml:verify-name(mlml:name, 'attribute')"/>
+            </xsl:for-each>
             <xsl:sequence select="mlml:check-unique-attribute-constr(mlml:attribute)"/>
         </xsl:for-each>
         
         <xsl:sequence select="$document"/>
+    </xsl:function>
+    
+    
+    <xsl:function name="mlml:verify-name" as="empty-sequence()">
+        <xsl:param name="name" as="element(mlml:name)"/>
+        <xsl:sequence select="mlml:verify-name($name, 'element')"/>
+    </xsl:function>
+    <xsl:function name="mlml:verify-name" as="empty-sequence()">
+        <xsl:param name="name" as="element(mlml:name)"/>
+        <xsl:param name="context" as="xs:string"/>
+        <xsl:variable name="prefix" select="substring-before($name, ':')"/>
+        <xsl:sequence select="
+            if (not(contains($name, ':'))) 
+            then ()
+            else if (in-scope-prefixes($name) = $prefix) 
+            then ()
+            else 
+            if ($context = 'attribute') 
+            then 
+            mlml:error('XML-Names.5.16.1', 
+            'Undeclared prefix ' || $prefix || ' in attribute name ' || $name || '.')
+            else 
+            mlml:error('XML-Names.5.12.1', 
+            'Undeclared prefix ' || $prefix || ' in element name ' || $name || '.')
+            "/>
     </xsl:function>
     
     <xsl:function name="mlml:check-unique-attribute-constr" as="empty-sequence()">
