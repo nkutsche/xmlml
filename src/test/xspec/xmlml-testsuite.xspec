@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml"  xmlns:map="http://www.w3.org/2005/xpath-functions/map" stylesheet="../../main/resources/xsl/xmlml-main.xsl">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" 
+    xmlns:mlmlt="http://www.nkutsche.com/xmlml/tester" xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    stylesheet="../../main/resources/xsl/xmlml-main.xsl">
     <x:helper stylesheet="helper.xsl"/>
     <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
     
@@ -86,6 +89,21 @@
 
     </x:scenario>
     
+    <x:scenario label="generic-non-wellformed-test" shared="true" catch="true">
+        
+        <x:variable name="xml-path" select="resolve-uri('not-wf/' || $path, $samples)"/>
+        <x:variable name="xml" select="unparsed-text($xml-path)"/>
+        
+        <x:scenario label="xml -> xmlml">
+            <x:call function="mlml:parse">
+                <x:param select="$xml-path"/>
+                <x:param select="$test-config"/>
+            </x:call>
+            <x:expect label="failure" test="$x:result instance of map(*)"/>
+            <x:expect label="failure code" test="if($x:result instance of map(*)) then $x:result?err?code else ()" select="$code"/>
+        </x:scenario>
+        
+    </x:scenario>
 <!--    
     Use this XPath expression to create scenarios:
     
@@ -606,6 +624,18 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="Not wellformed" catch="true">
+        <x:scenario label="Test: undeclared-prefixes/undecl-prefix-el.xml">
+            <x:variable name="path" select="'undeclared-prefixes/undecl-prefix-el.xml'"/>
+            <x:variable name="code" select="xs:QName('mlml:code-XML-Names.5.12.1')"/>
+            <x:like label="generic-non-wellformed-test"/>
+        </x:scenario>
+        <x:scenario label="Test: undeclared-prefixes/undecl-prefix-attr.xml">
+            <x:variable name="path" select="'undeclared-prefixes/undecl-prefix-attr.xml'"/>
+            <x:variable name="code" select="xs:QName('mlml:code-XML-Names.5.16.1')"/>
+            <x:like label="generic-non-wellformed-test"/>
+        </x:scenario>
+    </x:scenario>
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
         <x:call function="mlml:white-space">
             <x:param position="2" select="'#default'"/>
