@@ -12,7 +12,7 @@ element document {document_meta, prolog, elem, epilog}
 document-fragment = 
 ## root element of an XmlML document
 ## XDM equivalent: document-node()
-element xml-fragment {document_meta, fragment-content}
+element document {document_meta, attribute fragment {"true"}, fragment-content}
 
 fragment-content = (xmlDecl?, el_content)
 

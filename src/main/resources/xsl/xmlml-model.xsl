@@ -23,6 +23,12 @@
         </xsl:document>
     </xsl:template>
 
+    <xsl:template match="document[@fragment = 'true']" mode="mlml:doc">
+        <xsl:document>
+            <xsl:apply-templates select="content/*" mode="#current"/>
+        </xsl:document>
+    </xsl:template>
+
     <xsl:template match="ws" mode="mlml:doc"/>
 
 

@@ -249,7 +249,68 @@
                     'document-uri' : $document-uri
                 })"/>
     </xsl:function>
+    
+    <xsl:function name="mlml:parse-xml-fragment" as="element(mlml:document)" visibility="final">
+        <xsl:param name="unparsed-xml" as="xs:string"/>
+        <xsl:param name="base-uri" as="xs:string"/>
+        <xsl:sequence select="mlml:parse-xml-fragment($unparsed-xml, $default-config, map{
+                'base-uri' : $base-uri
+            })"/>
+    </xsl:function>
+    
+    <xsl:function name="mlml:parse-xml-fragment" as="element(mlml:document)" visibility="final">
+        <xsl:param name="unparsed-xml" as="xs:string"/>
+        <xsl:param name="config" as="map(*)"/>
+        <xsl:param name="properties" as="map(xs:string, xs:string)"/>
+        
+        <xsl:variable name="pre-parsed" select="xmlfp:parse-document-fragment($unparsed-xml)"/>
+        
+        <xsl:variable name="properties" select="
+            if (map:contains($properties, 'line-feed-format')) 
+            then $properties 
+            else map:put($properties, 'line-feed-format', mlml:lf-type($unparsed-xml))
+            "/>
+        
+        <xsl:variable name="properties" select="
+            if (map:contains($properties, 'document-id')) 
+            then $properties 
+            else map:put($properties, 'document-id', 'xmlml_' || generate-id(root($pre-parsed)))
+            "/>
+        
+        <xsl:if test="$pre-parsed/self::ERROR">
+            <xsl:sequence select="error(xs:QName('mlml:xml-syntax-error'), string($pre-parsed))"/>
+        </xsl:if>
+        
+        <xsl:variable name="xml-version" select="
+            ($pre-parsed/document/prolog/XMLDecl/VersionInfo/VersionNum/string(.), '1.0')[1]
+            "/>
+        
+        <xsl:variable name="result" as="document-node(element(mlml:document))">
+            <xsl:document>
+                <xsl:apply-templates select="$pre-parsed" mode="mlml:parse">
+                    <xsl:with-param name="config" select="$config" tunnel="yes"/>
+                    <xsl:with-param name="properties" select="map:put($properties, 'xml-version', $xml-version)" tunnel="yes"/>
+                </xsl:apply-templates>
+            </xsl:document>
+        </xsl:variable>
+        <xsl:variable name="result" select="$result/mlml:document"  as="element(mlml:document)"/>
+        
+        <xsl:sequence select="
+            if (map:contains($config, $mlml:CUSTOM-STRUCTUR-ELEMENTS)) 
+            then mlml:custom-strip-spacing($result, $config($mlml:CUSTOM-STRUCTUR-ELEMENTS)($result)) 
+            else $result
+            "/>        
 
+    </xsl:function>
+    
+    <xsl:function name="mlml:parse-from-string" as="element(mlml:document)" visibility="final">
+        <xsl:param name="unparsed-xml" as="xs:string"/>
+        <xsl:param name="base-uri" as="xs:string"/>
+        <xsl:sequence select="mlml:parse-from-string($unparsed-xml, $default-config, map{
+            'base-uri': $base-uri
+            })"/>
+    </xsl:function>
+    
     <xsl:function name="mlml:parse-from-string" as="element(mlml:document)">
         <xsl:param name="unparsed-xml" as="xs:string"/>
         <xsl:param name="config" as="map(*)"/>
@@ -373,6 +434,21 @@
                 <xsl:next-match/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="document-fragment" mode="mlml:parse">
+        <xsl:param name="properties" tunnel="yes" as="map(*)?"/>
+        <xsl:variable name="document" as="element(mlml:document)">
+            <document id="{$properties?document-id}" fragment="true">
+                <xsl:if test="$properties?line-feed-format != '#default'">
+                    <xsl:attribute name="line-feed-format" select="$properties?line-feed-format"/>
+                </xsl:if>
+                <xsl:apply-templates mode="#current">
+                    <xsl:with-param name="space-preserve" select="true()" tunnel="yes"/>
+                </xsl:apply-templates>
+            </document>
+        </xsl:variable>
+        <xsl:sequence select="mlml:verify-constraints($document)"/>
     </xsl:template>
     
     <xsl:template match="document" mode="mlml:parse">
