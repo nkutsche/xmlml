@@ -1,0 +1,1 @@
+mvn clean dependency:unpack-dependencies
