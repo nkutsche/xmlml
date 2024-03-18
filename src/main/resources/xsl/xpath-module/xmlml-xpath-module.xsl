@@ -62,10 +62,13 @@
     
     <xsl:function name="mlmlp:generate-id" as="xs:string">
         <xsl:param name="arg" as="node()?"/>
-        <xsl:variable name="doc-id" select="mlmlp:root($arg)/@id"/>
+        <xsl:variable name="root" select="mlmlp:root($arg)"/>
+        <xsl:variable name="doc-id" select="$root/@id"/>
         <xsl:variable name="underline-id" select="$arg/generate-id(.)"/>
         <xsl:sequence select="
-            if ($arg) 
+            if ($arg is $root) 
+            then ($doc-id) 
+            else if ($arg) 
             then replace($underline-id, '^d\d+', $doc-id) 
             else ''
             "/>
@@ -371,6 +374,7 @@
                 mlmlp:create-fn-wrap('mlmlp:name', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:local-name', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:namespace-uri', 1, false()),
+                mlmlp:create-fn-wrap('mlmlp:generate-id', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:in-scope-prefixes', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:path', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:node-name', 1, false()),
