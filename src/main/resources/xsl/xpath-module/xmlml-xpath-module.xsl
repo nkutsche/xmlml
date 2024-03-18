@@ -1034,9 +1034,6 @@
         <xsl:param name="arg" as="item()*"/>
         <xsl:param name="itemType" as="element(itemType)"/>
         
-        <!--<xsl:variable name="arg" select="trace($arg)"/>
-        <xsl:variable name="itemType" select="trace($itemType, serialize($itemType))"/>-->
-        
         <xsl:apply-templates select="$itemType" mode="mlmlp:instance-of">
             <xsl:with-param name="input" select="$arg" tunnel="yes"/>
             <xsl:with-param name="exec-context" select="$exec-context" tunnel="yes"/>
