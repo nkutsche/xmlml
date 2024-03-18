@@ -16,7 +16,14 @@
         <xsl:param name="node" as="element()"/>
         <xsl:apply-templates select="mlml:clean-up($node)" mode="mlml:doc"/>
     </xsl:function>
-
+    
+    <xsl:template match="document[@xml:base]" mode="mlml:doc">
+        <xsl:variable name="next-match" as="document-node()">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:sequence select="mlml:attach-base-uri($next-match, @xml:base)"/>
+    </xsl:template>
+    
     <xsl:template match="document" mode="mlml:doc">
         <xsl:document>
             <xsl:apply-templates select="doc-type-decl/inline/pi | pi | comment | element " mode="#current"/>
@@ -230,6 +237,7 @@
     
     <xsl:template match="/" mode="mlml:xdm-to-mlml">
         <document line-feed-format="n">
+            <xsl:attribute name="xml:base" select="base-uri(/)"/>
             <xsl:apply-templates mode="#current"/>
         </document>
     </xsl:template>

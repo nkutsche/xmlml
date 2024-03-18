@@ -333,4 +333,21 @@
             substring('0123456789ABCDEF',
             ($in mod 16) + 1, 1))"/>
     </xsl:function>
+
+    <xsl:function name="mlml:attach-base-uri" as="document-node()">
+        <xsl:param name="document" as="document-node()"/>
+        <xsl:param name="base-uri" as="xs:string"/>
+        <xsl:variable name="copysheet" as="xs:string">
+            <![CDATA[
+        <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:mode on-no-match="deep-copy"/></xsl:stylesheet>
+        ]]>
+        </xsl:variable>
+        <xsl:variable name="result" select="transform(map{
+            'source-node' : $document,
+            'stylesheet-text' : $copysheet,
+            'base-output-uri' : $base-uri
+            })($base-uri)
+            "/>
+        <xsl:sequence select="$result"/>
+    </xsl:function>
 </xsl:stylesheet>
