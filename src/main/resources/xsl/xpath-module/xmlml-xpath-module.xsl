@@ -15,6 +15,20 @@
     version="3.0">
     <xsl:import href="../xmlml-lib.xsl"/>
     
+    <xsl:function name="mlmlp:resolve-QName" as="xs:QName?">
+        <xsl:param name="qname" as="xs:string?"/>
+        <xsl:param name="element" as="element()"/>
+        <xsl:if test="$qname">
+            <xsl:variable name="namespaces" select="
+                mlmlp:tree-walk($element, 'namespace') ! mlml:as-node(.)
+                " as="namespace-node()*"/>
+            <xsl:variable name="prefix" select="
+                if (contains($qname, ':')) then substring-before($qname, ':') else ''
+                "/>
+            <xsl:sequence select="QName($namespaces[name() = $prefix], $qname)"/>
+        </xsl:if>
+    </xsl:function>
+    
     <xsl:function name="mlmlp:node-name" as="xs:QName?">
         <xsl:param name="node" as="node()?"/>
         <xsl:if test="$node/mlml:name[. != '']">
@@ -378,6 +392,7 @@
                 mlmlp:create-fn-wrap('mlmlp:in-scope-prefixes', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:path', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:node-name', 1, false()),
+                mlmlp:create-fn-wrap('mlmlp:resolve-QName', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:nilled', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:analyze-string', 2 to 3, false()),
                 mlmlp:create-fn-wrap('mlmlp:doc', 2, true()),
