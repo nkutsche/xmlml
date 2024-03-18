@@ -292,7 +292,8 @@
     <xsl:function name="mlmlp:id" as="element()*">
         <xsl:param name="arg" as="xs:string*"/>
         <xsl:param name="node" as="node()"/>
-        <xsl:sequence select="key('mlml-id', $arg, $node)/parent::mlml:element"/>
+        <xsl:variable name="idrefs" select="$arg ! tokenize(., '\s+')"/>
+        <xsl:sequence select="key('mlml-id', $idrefs, root($node))/parent::mlml:element"/>
     </xsl:function>
     
     
