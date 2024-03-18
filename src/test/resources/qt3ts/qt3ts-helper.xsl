@@ -247,11 +247,16 @@
         <xsl:param name="base-uri" as="xs:string"/>
         <xsl:choose>
             <xsl:when test="$document/self::mlml:document">
-                <xsl:copy select="$document">
-                    <xsl:sequence select="@*"/>
-                    <xsl:attribute name="xml:base" select="$base-uri"/>
-                    <xsl:sequence select="node()"/>
-                </xsl:copy>
+                <xsl:variable name="doc" as="document-node()">
+                    <xsl:document>
+                        <xsl:copy select="$document">
+                            <xsl:sequence select="@*"/>
+                            <xsl:attribute name="xml:base" select="$base-uri"/>
+                            <xsl:sequence select="node()"/>
+                        </xsl:copy>
+                    </xsl:document>
+                </xsl:variable>
+                <xsl:sequence select="$doc/*"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="copysheet" as="xs:string">

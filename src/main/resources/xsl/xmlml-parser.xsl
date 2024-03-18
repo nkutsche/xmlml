@@ -365,9 +365,15 @@
         <xsl:param name="document" as="element(mlml:document)"/>
         <xsl:param name="struct-elements" as="element(mlml:element)*"/>
         
-        <xsl:apply-templates select="$document" mode="mlml:custom-strip-spacing">
-            <xsl:with-param name="struct-elements" select="$struct-elements" tunnel="yes"/>
-        </xsl:apply-templates>
+        <xsl:variable name="result" as="document-node(element(mlml:document))">
+            <xsl:document>
+                <xsl:apply-templates select="$document" mode="mlml:custom-strip-spacing">
+                    <xsl:with-param name="struct-elements" select="$struct-elements" tunnel="yes"/>
+                </xsl:apply-templates>
+            </xsl:document>
+        </xsl:variable>
+        <xsl:sequence select="$result/mlml:document"/>
+        
     </xsl:function>
     
     <xsl:mode name="mlml:custom-strip-spacing" on-no-match="shallow-copy"/>
