@@ -338,21 +338,9 @@
     
     <xsl:function name="mlml:process-breaks">
         <xsl:param name="node" as="node()"/>
-        <xsl:analyze-string select="string($node)" regex="\r\n|\r|\n">
+        <xsl:analyze-string select="string($node)" regex="\n">
             <xsl:matching-substring>
-                <xsl:variable name="format" select="
-                    map{
-                    '&#xD;&#xA;' : 'rn',
-                    '&#xD;' : 'r',
-                    '&#xA;' : ''
-                    }(.)
-                    "/>
-                
-                <nl>
-                    <xsl:if test="$format != ''">
-                        <xsl:attribute name="line-feed-format" select="$format"/>
-                    </xsl:if>
-                </nl>
+                <nl/>
             </xsl:matching-substring>
             <xsl:non-matching-substring>
                 <data>
