@@ -267,8 +267,7 @@
     
     <xsl:function name="mlmlp:document-uri" as="xs:anyURI?">
         <xsl:param name="arg" as="node()?"/>
-        <xsl:variable name="root" select="mlmlp:root($arg)"/>
-        <xsl:sequence select="$root/@document-uri[. != '']/xs:anyURI(.)"/>
+        <xsl:sequence select="$arg/@document-uri[. != '']/xs:anyURI(.)"/>
     </xsl:function>
     
     <xsl:function name="mlmlp:uri-resolver" as="element(mlml:document)?">
