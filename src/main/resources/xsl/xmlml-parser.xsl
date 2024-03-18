@@ -146,7 +146,7 @@
             'stylesheet-base-uri' : ($document-uri || '.xsl?=' || generate-id($dummy))
             })('output')
             "/>
-        <xsl:sequence select="'xmlml_' || string($transform)"/>
+        <xsl:sequence select="'xmlml' || string($transform)"/>
         
     </xsl:function>
     
