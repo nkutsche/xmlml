@@ -288,6 +288,9 @@
     <xsl:key name="mlml-id" match="mlml:attribute[@type = 'ID' or mlml:attr-name(.) = xs:QName('xml:id')]"
      use="mlmlp:data(.)"
     />
+    <xsl:key name="mlml-genid" match="mlml:*"
+     use="mlmlp:generate-id(.)"
+    />
     
     <xsl:function name="mlmlp:id" as="element()*">
         <xsl:param name="arg" as="xs:string*"/>
@@ -431,6 +434,9 @@
         <xsl:variable name="extension-operators" as="map(*)"
             select="map{
                 'node-compare#eq' : mlmlp:op-node-eq#3,
+                'union' : mlmlp:op-union#3,
+                'except' : mlmlp:op-except#3,
+                'intersect' : mlmlp:op-intersect#3,
                 'instance-of' : mlmlp:instance-of#3
             }"
         />
@@ -744,6 +750,66 @@
             else mlmlp:generate-id($arg1) = mlmlp:generate-id($arg2)
             "/>
     </xsl:function>
+
+    <xsl:function name="mlmlp:op-union" as="node()*">
+        <xsl:param name="exec-context" as="map(*)"/>
+        <xsl:param name="arg1" as="node()*"/>
+        <xsl:param name="arg2" as="node()*"/>
+        
+        <xsl:variable name="nodes" select="$arg1 | $arg2"/>
+        <xsl:variable name="roots" select="$nodes/mlmlp:root(.)"/>
+        
+        <xsl:variable name="result-nodes" as="node()*">
+            <xsl:for-each-group select="$roots" group-by="mlmlp:generate-id(.)">
+                <xsl:sort select="current-grouping-key()"/>
+                <xsl:sequence select="key('mlml-genid', $nodes/mlmlp:generate-id(.))"/>
+            </xsl:for-each-group> 
+        </xsl:variable>
+        
+        <xsl:sequence select="$result-nodes"/>
+        
+    </xsl:function>
+
+    <xsl:function name="mlmlp:op-except" as="node()*">
+        <xsl:param name="exec-context" as="map(*)"/>
+        <xsl:param name="arg1" as="node()*"/>
+        <xsl:param name="arg2" as="node()*"/>
+        <xsl:variable name="arg2-ids" select="$arg2/mlmlp:generate-id(.)"/>
+        
+        <xsl:variable name="nodes" select="$arg1[not(mlmlp:generate-id(.) = $arg2-ids)]"/>
+        <xsl:variable name="roots" select="$nodes/mlmlp:root(.)"/>
+        
+        <xsl:variable name="result-nodes" as="node()*">
+            <xsl:for-each-group select="$roots" group-by="mlmlp:generate-id(.)">
+                <xsl:sort select="current-grouping-key()"/>
+                <xsl:sequence select="key('mlml-genid', $nodes/mlmlp:generate-id(.))"/>
+            </xsl:for-each-group> 
+        </xsl:variable>
+        
+        <xsl:sequence select="$result-nodes"/>
+        
+    </xsl:function>
+
+    <xsl:function name="mlmlp:op-intersect" as="node()*">
+        <xsl:param name="exec-context" as="map(*)"/>
+        <xsl:param name="arg1" as="node()*"/>
+        <xsl:param name="arg2" as="node()*"/>
+        <xsl:variable name="arg2-ids" select="$arg2/mlmlp:generate-id(.)"/>
+        
+        <xsl:variable name="nodes" select="$arg1[mlmlp:generate-id(.) = $arg2-ids]"/>
+        <xsl:variable name="roots" select="$nodes/mlmlp:root(.)"/>
+        
+        <xsl:variable name="result-nodes" as="node()*">
+            <xsl:for-each-group select="$roots" group-by="mlmlp:generate-id(.)">
+                <xsl:sort select="current-grouping-key()"/>
+                <xsl:sequence select="key('mlml-genid', $nodes/mlmlp:generate-id(.))"/>
+            </xsl:for-each-group> 
+        </xsl:variable>
+        
+        <xsl:sequence select="$result-nodes"/>
+        
+    </xsl:function>
+    
     <!--    
         TODO
     -->
