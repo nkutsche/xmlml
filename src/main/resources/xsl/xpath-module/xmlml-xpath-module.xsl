@@ -508,27 +508,45 @@
     
     <xsl:function name="mlmlp:serialize" as="xs:string" xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
         <xsl:param name="arg" as="item()*"/>
+        <xsl:sequence select="mlmlp:serialize($arg, ())"/>
+    </xsl:function>
+    <xsl:function name="mlmlp:serialize" as="xs:string" xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+        <xsl:param name="arg" as="item()*"/>
         <xsl:param name="params" as="item()?"/>
         
-        <xsl:variable name="params" select="mlml:as-node($params)"/>
+        <xsl:variable name="params" select="
+            if ($params instance of node()) 
+            then mlml:as-node($params) 
+            else $params
+            "/>
+        
+        <xsl:variable name="method" select="
+            if ($params instance of map(*)) 
+            then $params?method 
+            else $params ! output:method/resolve-QName(@value, .)
+            "/>
+        
+        <xsl:variable name="method" select="
+            if ($method instance of xs:string) 
+            then QName('', $method)
+            else $method 
+            
+            "/>
         <xsl:choose>
-            <xsl:when test="not($params instance of element(output:serialization-parameters)?)">
-                <xsl:sequence select="error(xpe:error-code('SEPM0017'), 'Bad type of serial')"/>
+            <xsl:when test="not($method = xs:QName('mlml:xmlml'))">
+                <xsl:variable name="arg" select="mlmlp:item-to-xdm($arg)"/>
+                <xsl:sequence select="serialize($arg, $params)"/>
+            </xsl:when>
+            <xsl:when test="not($arg instance of element()+)">
+                <xsl:sequence select="error(xs:QName('mlml:serialization-type-error'), 
+                    'Only nodes can be serialize with method mlml:xmlml'
+                    )"/>
             </xsl:when>
             <xsl:otherwise>
-                
+                <xsl:sequence select="mlml:serialize-node($arg)"/>
             </xsl:otherwise>
         </xsl:choose>
         
-        <xsl:variable name="results" select="
-            for $a in $arg
-            return
-            if ($a instance of element()) 
-            then mlml:serialize($a) 
-            else serialize($a, $params)"/>
-        <xsl:sequence select="
-            $results => string-join()
-            "/>
         
     </xsl:function>
 
@@ -580,8 +598,8 @@
                 mlmlp:create-fn-wrap('mlmlp:doc', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:parse-xml', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:parse-xml-fragment', 2, true()),
-                mlmlp:create-fn-wrap('mlmlp:serialize', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:transform', 2, true()),
+                mlmlp:create-fn-wrap('mlmlp:serialize', 1 to 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:json-to-xml', 2 to 3, true()),
                 mlmlp:create-fn-wrap('mlmlp:xml-to-json', 1 to 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:document-uri', 1, false()),
