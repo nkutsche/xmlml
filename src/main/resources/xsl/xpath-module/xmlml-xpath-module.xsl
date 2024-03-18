@@ -373,6 +373,17 @@
         <xsl:sequence select="xpf:json-to-xml($exec-context, $json-text, $options) => mlml:mlml-from-xdm()"/>
     </xsl:function>
     
+    <xsl:function name="mlmlp:xml-to-json" as="xs:string?">
+        <xsl:param name="input" as="node()?"/>
+        <xsl:sequence select="mlmlp:xml-to-json($input, map{})"/>
+    </xsl:function>
+    
+    <xsl:function name="mlmlp:xml-to-json" as="xs:string?">
+        <xsl:param name="input" as="node()?"/>
+        <xsl:param name="options" as="map(*)"/>
+        <xsl:sequence select="$input ! xml-to-json(mlml:as-node(.), $options)"/>
+    </xsl:function>
+    
     <!--    <xsl:expose component="function" names="xpe:xpath-evaluate#3" visibility="final"/>-->
     
     <xsl:function name="mlmlp:xpath-evaluate" visibility="final">
@@ -399,6 +410,7 @@
                 mlmlp:create-fn-wrap('mlmlp:parse-xml-fragment', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:serialize', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:json-to-xml', 2 to 3, true()),
+                mlmlp:create-fn-wrap('mlmlp:xml-to-json', 1 to 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:document-uri', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:id', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:has-children', 1, false()),
