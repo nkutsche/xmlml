@@ -237,6 +237,20 @@
     </xsl:function>
     
     
+    <xsl:function name="mlmlp:deep-equal" as="xs:boolean">
+        <xsl:param name="parameter1" as="item()*"/>
+        <xsl:param name="parameter2" as="item()*"/>
+        <xsl:param name="collation" as="xs:string"/>
+        
+        <xsl:variable name="parameter1" as="item()*">
+            <xsl:apply-templates select="$parameter1" mode="mlmlp:item-to-xdm"/>
+        </xsl:variable>
+        <xsl:variable name="parameter2" as="item()*">
+            <xsl:apply-templates select="$parameter2" mode="mlmlp:item-to-xdm"/>
+        </xsl:variable>
+        <xsl:sequence select="deep-equal($parameter1, $parameter2, $collation)"/>
+    </xsl:function>
+    
     <xsl:function name="mlmlp:has-children" as="xs:boolean">
         <xsl:param name="arg" as="node()?"/>
         <xsl:variable name="children" select="$arg ! mlmlp:tree-walk(., 'child', ())"/>
@@ -607,6 +621,7 @@
                 mlmlp:create-fn-wrap('mlmlp:has-children', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:lang', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:root', 1, false()),
+                mlmlp:create-fn-wrap('mlmlp:deep-equal', 3, false()),
                 (: EXTENSION FUNCTIONS:)
                 mlmlp:create-fn-wrap('mlmlp:entity', 1 to 3, true()),
                 mlmlp:create-fn-wrap('mlmlp:cdata-section', 1 to 2, true()),
