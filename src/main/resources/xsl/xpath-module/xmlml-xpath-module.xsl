@@ -507,6 +507,11 @@
     <xsl:function name="mlmlp:tree-walk" as="node()*">
         <xsl:param name="context" as="element()"/>
         <xsl:param name="axis" as="xs:string"/>
+        <xsl:sequence select="mlmlp:tree-walk($context, $axis, ())"/>
+    </xsl:function>
+    <xsl:function name="mlmlp:tree-walk" as="node()*">
+        <xsl:param name="context" as="element()"/>
+        <xsl:param name="axis" as="xs:string"/>
         <xsl:param name="node-test" as="element()?"/>
         <xsl:choose>
             <xsl:when test="$axis = 'child'">
@@ -579,7 +584,7 @@
                 </xsl:apply-templates>
             </xsl:when>
             <xsl:when test="$axis = 'preceding-sibling'">
-                <xsl:variable name="siblings" as="node()*">
+                <xsl:variable name="siblings" as="element()*">
                     <xsl:apply-templates select="
                         mlmlp:next-sibl($context, 'preceding')
                         " mode="mlmlp:tree-side-sibl">
@@ -602,7 +607,7 @@
         
     </xsl:function>
     
-    <xsl:function name="mlmlp:next-sibl" as="node()?">
+    <xsl:function name="mlmlp:next-sibl" as="element()?">
         <xsl:param name="context" as="node()"/>
         <xsl:param name="direction" as="xs:string"/>
         
@@ -647,7 +652,7 @@
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
-    <xsl:template match="*" mode="mlmlp:tree-step-down mlmlp:tree-step-up" priority="-10"/>
+    <xsl:template match="*" mode="mlmlp:tree-step-down mlmlp:tree-step-up mlmlp:tree-side-sibl" priority="-10"/>
     
     
     <xsl:template match="mlml:element | mlml:document" mode="mlmlp:tree-step-up">
