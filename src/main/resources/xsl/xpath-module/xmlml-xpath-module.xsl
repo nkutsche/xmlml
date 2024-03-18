@@ -744,9 +744,15 @@
             if (empty($arg1) or empty($arg2)) 
             then () 
             else if (not(mlmlp:instance-of($exec-context, $arg1, $nodeType))) 
-            then error((:TODO:)) 
+            then error(error(xpe:error-code('XPTY0004'), 
+            ' Required item type of first operand of ''is'' is node(); supplied value has type ' 
+            || xpe:type-info($arg1) || '.'
+            )) 
             else if (not(mlmlp:instance-of($exec-context, $arg2, $nodeType)))  
-            then error((:TODO:)) 
+            then error(error(xpe:error-code('XPTY0004'), 
+            ' Required item type of first operand of ''is'' is node(); supplied value has type ' 
+            || xpe:type-info($arg1) || '.'
+            )) 
             else mlmlp:generate-id($arg1) = mlmlp:generate-id($arg2)
             "/>
     </xsl:function>
