@@ -323,7 +323,7 @@
         <xsl:variable name="location" select="resolve-uri(@file, base-uri(.))"/>
         <xsl:variable name="base-uri" select="(@uri, $location)[1]"/>
         <xsl:map-entry key="QName($ns-uri, $name)">
-            <xsl:sequence select="mlml:parse(trace($location))=> xpmt:attach-base-uri($base-uri)"/>
+            <xsl:sequence select="mlml:parse($location)=> xpmt:attach-base-uri($base-uri)"/>
         </xsl:map-entry>
     </xsl:template>
     
@@ -411,10 +411,8 @@
         <xsl:try>
             <xsl:variable name="compare" as="item()*">
                 <xsl:sequence select="mlmlp:xpath-evaluate((), string(.), $context)"/>
-                <!--<xsl:evaluate xpath="." namespace-context="$predef-nscontext-for-saxon" with-params="
-                        map{QName('', 'result') : $result}
-                    "/>-->
             </xsl:variable>
+            
             <xsl:sequence select="boolean($compare)"/>
             <xsl:catch xmlns:err="http://www.w3.org/2005/xqt-errors">
                 <xsl:message select="'MESSAGE: ' || $err:description"/>
