@@ -9,6 +9,7 @@
     xmlns:mlmlp="http://www.nkutsche.com/xmlml/xpath"
     xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:array="http://www.w3.org/2005/xpath-functions/array"
     xmlns:err="http://www.w3.org/2005/xqt-errors"
     xmlns:xpt="http://www.nkutsche.com/xmlml/xpath-engine/types"
     exclude-result-prefixes="math"
@@ -337,6 +338,173 @@
             </xsl:catch>
         </xsl:try>
     </xsl:function>
+
+    <xsl:function name="mlmlp:transform" as="map(*)">
+        <xsl:param name="exec-context" as="map(*)"/>
+        <xsl:param name="options" as="map(*)"/>
+        <!--        
+            Replace $options?stylesheet-location by $options?stylesheet-node and use URI resolver
+        -->
+        <xsl:variable name="stylesheet-location" select="$options?stylesheet-location"/>
+        <xsl:variable name="replace-style-loc" select="exists($stylesheet-location)"/>
+        <xsl:variable name="options" select="
+            if ($replace-style-loc) 
+            then 
+            mlmlp:doc($exec-context, $stylesheet-location) 
+            ! map:put($options, 'stylesheet-node', .)
+            => map:remove('stylesheet-location')
+            else $options
+            "/>
+        
+        <!--
+            In case of stylesheet location replacement, set the static-base-uri 
+        -->
+        <xsl:variable name="options" select="
+            if ($replace-style-loc and empty($options?stylesheet-base-uri)) 
+            then map:put($options, 'stylesheet-base-uri', $stylesheet-location) 
+            else $options
+            "/>
+        
+        <xsl:variable name="options" select="
+            if (exists($options?package-location))
+            then 
+            mlmlp:doc($exec-context, $options?package-location)
+            ! map:put($options, 'package-node', .) 
+            => map:remove('package-location')
+            else $options
+            "/>
+        
+        <xsl:variable name="options" as="map(*)">
+            <xsl:apply-templates select="$options" mode="mlmlp:item-to-xdm"/>
+        </xsl:variable>
+        
+        <xsl:variable name="has-post-process" select="exists($options?post-process)"/>
+        <xsl:variable name="options" select="
+            if ($has-post-process) 
+            then map:put($options, 'post-process', mlmlp:transform-post-process-wrapper(?, ?, xpe:raw-function($options?post-process))) 
+            else $options
+            "/>
+        
+<!--    
+        global-context-item as item()
+        function-params as array(item()*)
+        initial-match-selection as item()*
+        package-node as node()
+        source-node as node()
+        static-params as map(xs:QName, item()*)
+        stylesheet-node as node()
+        stylesheet-params as map(xs:QName, item()*)
+        template-params as map(xs:QName, item()*)
+        tunnel-params as map(xs:QName, item()*)
+        vendor-options as map(xs:QName, item()*)
+        -->
+        
+        <xsl:variable name="result" select="xpf:transform($exec-context, $options)"/>
+        
+        <xsl:choose>
+            <xsl:when test="$has-post-process">
+                <xsl:sequence select="$result"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="$result" mode="mlmlp:item-to-xmlml"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+        
+    </xsl:function>
+    
+    <xsl:mode name="mlmlp:item-to-xdm"/>
+    <xsl:mode name="mlmlp:item-to-xmlml"/>
+    
+    <xsl:function name="mlmlp:transform-post-process-wrapper" as="item()*">
+        <xsl:param name="key" as="xs:string"/>
+        <xsl:param name="result" as="item()*"/>
+        <xsl:param name="post-process" as="function(xs:string, item()*) as item()*"/>
+        
+        <xsl:variable name="result" select="$result => trace('before')"/>
+        <xsl:variable name="xmlml-result" as="item()*">
+            <xsl:apply-templates select="$result" mode="mlmlp:item-to-xmlml"/>
+        </xsl:variable>
+        <xsl:variable name="xmlml-result" select="$xmlml-result => trace('between')"/>
+        <xsl:sequence select="$post-process($key, $xmlml-result) => trace('after')"/>
+    </xsl:function>
+    
+    <xsl:function name="mlmlp:item-to-xdm" as="item()*">
+        <xsl:param name="items" as="item()*"/>
+        <xsl:apply-templates select="$items" mode="mlmlp:item-to-xdm"/>
+    </xsl:function>
+    
+    <xsl:template match=".[. instance of map(*)]" mode="mlmlp:item-to-xdm mlmlp:item-to-xmlml">
+        <xsl:variable name="map" select="."/>
+        <xsl:map>
+            <xsl:for-each select="map:keys($map)">
+                <xsl:map-entry key=".">
+                    <xsl:variable name="value" select="$map(.)"/>
+                    <xsl:choose>
+                        <xsl:when test="$value instance of element()">
+                            <xsl:sequence select="mlmlp:subnode-in-xdm-tree($value)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="$value" mode="#current"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:map-entry>
+            </xsl:for-each>
+        </xsl:map>
+    </xsl:template>
+    
+    <xsl:template match=".[. instance of array(*)]" mode="mlmlp:item-to-xdm mlmlp:item-to-xmlml">
+        <xsl:variable name="array" select="."/>
+        <xsl:variable name="size" select="array:size($array)"/>
+        <xsl:variable name="members" as="array(*)*">
+            <xsl:for-each select="1 to $size">
+                <xsl:variable name="value" select="$array(.)"/>
+                <xsl:variable name="value" as="item()*">
+                    <xsl:choose>
+                        <xsl:when test="$value instance of element()">
+                            <xsl:sequence select="mlmlp:subnode-in-xdm-tree($value)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="$value" mode="#current"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+                <xsl:sequence select="[$value]"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:sequence select="array:join($members)"/>
+    </xsl:template>
+    
+    <xsl:function name="mlmlp:subnode-in-xdm-tree" as="node()">
+        <xsl:param name="mlml-node" as="element()"/>
+        <xsl:variable name="parent" select="mlmlp:tree-walk($mlml-node, 'parent')"/>
+        <xsl:choose>
+            <xsl:when test="not($parent)">
+                <xsl:apply-templates select="$mlml-node" mode="mlmlp:item-to-xdm"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="root" select="mlmlp:root($mlml-node)"/>
+                <xsl:variable name="path" select="mlmlp:path($mlml-node)"/>
+                <xsl:variable name="root" as="node()">
+                    <xsl:apply-templates select="$root" mode="mlmlp:item-to-xdm"/>
+                </xsl:variable>
+                <xsl:evaluate context-item="$root" xpath="$path"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
+    <xsl:template match="mlml:*" mode="mlmlp:item-to-xdm" priority="10">
+        <xsl:sequence select="mlml:as-node(.)"/>
+    </xsl:template>
+    
+    <xsl:template match="node() | /" mode="mlmlp:item-to-xmlml" priority="10">
+        <xsl:sequence select="mlml:mlml-from-xdm(.)"/>
+    </xsl:template>
+    
+    <xsl:template match=".[. instance of item()]" mode="mlmlp:item-to-xdm mlmlp:item-to-xmlml" priority="-10">
+        <xsl:sequence select="."/>
+    </xsl:template>
+    
     
     <xsl:function name="mlmlp:serialize" as="xs:string" xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
         <xsl:param name="arg" as="item()*"/>
@@ -413,6 +581,7 @@
                 mlmlp:create-fn-wrap('mlmlp:parse-xml', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:parse-xml-fragment', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:serialize', 2, false()),
+                mlmlp:create-fn-wrap('mlmlp:transform', 2, true()),
                 mlmlp:create-fn-wrap('mlmlp:json-to-xml', 2 to 3, true()),
                 mlmlp:create-fn-wrap('mlmlp:xml-to-json', 1 to 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:document-uri', 1, false()),
