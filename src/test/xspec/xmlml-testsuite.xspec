@@ -726,6 +726,26 @@
                </document>
             </x:expect>
         </x:scenario>
+        <x:scenario>
+            <x:label>Content: <![CDATA[<xml>&#xD;</xml>]]></x:label>
+            <x:call>
+                <x:param select="parse-xml(.)"><![CDATA[<xml>&#xD;</xml>]]></x:param>
+            </x:call>
+            <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
+               <document line-feed-format="n">
+                   <element>
+                       <name>xml</name>
+                       <content space="preserve">
+                           <text>
+                               <data>
+                                   <x:text>&#xD;</x:text>
+                               </data>
+                           </text>
+                       </content>
+                   </element>
+               </document>
+            </x:expect>
+        </x:scenario>
         
     </x:scenario>
     <x:scenario label="Testing function mlml:white-space" xmlns="http://www.nkutsche.com/xmlml">
