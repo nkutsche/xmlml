@@ -231,7 +231,7 @@
         <xsl:try>
             <xsl:variable name="docs" select="$uris ! (
                 if ($transform-workaround) 
-                then (unparsed-text(.) => parse-xml() => xpmt:attach-base-uri($base-uri)) 
+                then (unparsed-text(.) => mlml:parse-from-string($base-uri)) 
                 else mlml:parse(., map{'expand-namespace-nodes' : true()}))"/>
             <xsl:sequence select="$docs"/>
             <xsl:catch errors="mlml:xml-syntax-error">
