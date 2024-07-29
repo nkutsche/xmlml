@@ -13,7 +13,7 @@
             species="human"
             >
             <name>Obelix&r;</name>
-            <position>Menhir supplier</position>
+            <position>Menhir&#x2009;supplier</position>
         </character>
         <character xml:id="idf" species="dog">
             <name>Idefix&r;</name>

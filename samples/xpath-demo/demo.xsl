@@ -14,48 +14,40 @@
     <xsl:use-package name="http://www.nkutsche.com/xmlml/xpath" package-version="*"/>
     
     <xsl:param name="xpath" as="xs:string" select="string-join(/*/*, ',')"/>
+    <xsl:variable name="path" select="resolve-uri('asterix-dtd.xml')"/>
     
     <xsl:output method="text"/>
     
-    
-    <xsl:variable name="doc" select="mlml:parse(resolve-uri('asterix-dtd.xml'))"/>
-    
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="result" select="mlmlp:xpath-evaluate($doc, $xpath, map{})"/>
+        <xsl:variable name="result" select="mlmlp:xpath-evaluate(mlml:parse($path), $xpath)"/>
         
-        <xsl:for-each select="$result">
-            <xsl:sequence select="
-                if (. instance of node()) 
-                then mlml:serialize-node(.) 
-                else .
-                "/>
-            <xsl:text>&#xA;</xsl:text>
-        </xsl:for-each>
+        <xsl:variable name="result" select="$result ! (if (. instance of node()) then mlml:serialize-node(.) else .)"/>
         
-        <xsl:call-template name="saxon-result"/>
-    </xsl:template>
-    
-    <xsl:template name="saxon-result">
-        <xsl:variable name="doc" select="doc(resolve-uri('asterix-dtd.xml'))"/>
-        <xsl:result-document href="demo-saxon.txt">
+        <xsl:variable name="saxon-result" as="xs:string*">
             <xsl:try>
                 <xsl:variable name="result" as="item()*">
-                    <xsl:evaluate xpath="$xpath" context-item="$doc"/>
+                    <xsl:evaluate xpath="$xpath" context-item="doc($path)"/>
                 </xsl:variable>
-                <xsl:for-each select="$result">
-                    <xsl:sequence select="
-                        if (. instance of node()) 
-                        then serialize(.) 
-                        else .
-                        "/>
-                    <xsl:text>&#xA;</xsl:text>
-                </xsl:for-each>
+                <xsl:sequence select="$result ! serialize(.)"/>
                 <xsl:catch>
                     <xsl:value-of select="$err:description"/>
                 </xsl:catch>
             </xsl:try>
-        </xsl:result-document>
+        </xsl:variable>
         
+        <xsl:value-of select="
+            '',
+            'Result:',
+            '',
+            $result,
+            '',
+            '',
+            'Saxon-Result:',
+            '',
+            $saxon-result,
+            ''
+            " separator="&#xA;"/>
     </xsl:template>
+    
     
 </xsl:stylesheet>

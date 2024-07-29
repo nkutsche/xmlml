@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xpaths>
-        <xpath>/asterix-universe/group[1]/name[1]</xpath>
-    <!--    
-    -->
-    <!--    
+    
+    <!--
     <xpath>(
         (//character)[position() mod 2 = 0]/name/substring(., 1, 1) => string-join() 
-        ) || '!'</xpath>
+        ) || ', it''s XPath!'</xpath>
+    -->
+    
+    
+    <!-- 
+        <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
+    -->
+    <!--
+        <xpath>//name[entity('r')]/string(.)</xpath>
+    -->
+    
+    <!--    
+        <xpath>/asterix-universe/group[1]/name[1]</xpath>
+    -->
+    <!--    
     -->
     <!--    
         <xpath>/asterix-universe/group/character[@xml:id = 'ast']/name</xpath>
     -->
     <!--     
-        <xpath>id('obel')</xpath>
         <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
-    -->
-    <!--     
-        <xpath>count(//entity())</xpath>
+        <xpath>id('obel')</xpath>
     -->
     <!--     
         <xpath>count(//entity('r'))</xpath>
+    -->
+    <!--     
+        <xpath>count(//entity())</xpath>
     -->
     <!--     
         <xpath>//*[entity('oe')]</xpath>
