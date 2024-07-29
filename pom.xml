@@ -65,6 +65,12 @@
             <url>https://repo.data2type.de/repository/maven-public/</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>data2type-nexus-public</id>
+            <url>https://repo.data2type.de/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
     
     <distributionManagement>
         <repository>
