@@ -435,12 +435,12 @@
         <xsl:param name="result" as="item()*"/>
         <xsl:param name="post-process" as="function(xs:string, item()*) as item()*"/>
         
-        <xsl:variable name="result" select="$result => trace('before')"/>
+        <xsl:variable name="result" select="$result"/>
         <xsl:variable name="xmlml-result" as="item()*">
             <xsl:apply-templates select="$result" mode="mlmlp:item-to-xmlml"/>
         </xsl:variable>
-        <xsl:variable name="xmlml-result" select="$xmlml-result => trace('between')"/>
-        <xsl:sequence select="$post-process($key, $xmlml-result) => trace('after')"/>
+        <xsl:variable name="xmlml-result" select="$xmlml-result"/>
+        <xsl:sequence select="$post-process($key, $xmlml-result)"/>
     </xsl:function>
     
     <xsl:function name="mlmlp:item-to-xdm" as="item()*">
@@ -659,13 +659,14 @@
     <xsl:function name="mlmlp:create-fn-wrap" as="map(xs:QName, map(*))+">
         <xsl:param name="function-name" as="xs:string"/>
         <xsl:param name="arities" as="xs:integer+"/>
-        <xsl:param name="with-exec-context" as="xs:boolean"/>
+        <xsl:param name="context-dependent" as="xs:boolean"/>
         <xsl:for-each select="$arities">
             <xsl:variable name="arity" select="."/>
+            
             <xsl:variable name="fn-def" select="doc('')/*/xsl:function
                 [@name = $function-name]
                 [count(xsl:param) = $arity]"/>
-            <xsl:sequence select="mlmlp:create-fn-wrap($fn-def, $with-exec-context)"/>
+            <xsl:sequence select="mlmlp:create-fn-wrap($fn-def, $context-dependent)"/>
         </xsl:for-each>
     </xsl:function>
     <xsl:function name="mlmlp:create-fn-wrap" as="map(xs:QName, map(*))">
