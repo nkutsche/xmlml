@@ -697,7 +697,7 @@
                 <x:param select="parse-xml(.)"><![CDATA[<xml/>]]></x:param>
             </x:call>
             <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
-               <document line-feed-format="n">
+               <document line-feed-format="n" xml:base="...">
                    <element>
                        <name>xml</name>
                    </element>
@@ -710,7 +710,7 @@
                 <x:param select="parse-xml(.)"><![CDATA[<xml xmlns="foo.com"/>]]></x:param>
             </x:call>
             <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
-               <document line-feed-format="n">
+               <document line-feed-format="n" xml:base="...">
                    <element element-default-namespace="foo.com">
                        <name>xml</name>
                        <attribute xmlns="http://www.nkutsche.com/xmlml"
@@ -732,7 +732,7 @@
                 <x:param select="parse-xml(.)"><![CDATA[<xml>&#xD;</xml>]]></x:param>
             </x:call>
             <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
-               <document line-feed-format="n">
+               <document line-feed-format="n" xml:base="...">
                    <element>
                        <name>xml</name>
                        <content space="preserve">
