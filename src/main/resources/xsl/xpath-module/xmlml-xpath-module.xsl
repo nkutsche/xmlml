@@ -593,6 +593,12 @@
     <xsl:function name="mlmlp:xpath-evaluate" visibility="final">
         <xsl:param name="context" as="item()?"/>
         <xsl:param name="xpath" as="xs:string"/>
+        <xsl:sequence select="mlmlp:xpath-evaluate($context, $xpath, map{})"/>
+    </xsl:function>
+    
+    <xsl:function name="mlmlp:xpath-evaluate" visibility="final">
+        <xsl:param name="context" as="item()?"/>
+        <xsl:param name="xpath" as="xs:string"/>
         <xsl:param name="static-context" as="map(*)"/>
         
         
