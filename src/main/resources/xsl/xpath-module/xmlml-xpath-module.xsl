@@ -671,9 +671,9 @@
     </xsl:function>
     <xsl:function name="mlmlp:create-fn-wrap" as="map(xs:QName, map(*))">
         <xsl:param name="function-def" as="element(xsl:function)"/>
-        <xsl:param name="with-exec-context" as="xs:boolean"/>
+        <xsl:param name="context-dependent" as="xs:boolean"/>
         
-        <xsl:variable name="params" select="$function-def/xsl:param"/>
+        <xsl:variable name="params" select="$function-def/xsl:param[not($context-dependent) or position() > 1]"/>
         <xsl:variable name="arg-types" as="element(itemType)*">
             <xsl:for-each select="$params">
                 <xsl:variable name="as" select="(@mlmlp:as, @as)[1]"/>
@@ -684,15 +684,13 @@
             as="element(itemType)"/>
         <xsl:variable name="funct-name" select="resolve-QName($function-def/@name, $function-def)"/>
         <xsl:variable name="fn-name" select="xs:QName('fn:' || local-name-from-QName($funct-name))"/>
-        <xsl:variable name="overwrite-fn" select="
-            if ($with-exec-context) 
-            then xs:QName('xpf:' || local-name-from-QName($funct-name)) 
-            else $fn-name
-            "/>
-        <xsl:variable name="function" select="function-lookup($funct-name, count($params))"/>
+        <xsl:variable name="function" select="function-lookup($funct-name, count($function-def/xsl:param))"/>
         
+        
+        <xsl:variable name="function-item" select="xpe:create-function-item($function, $fn-name, $arg-types, $return-type)"/>
+        <xsl:variable name="function-item" select="map:put($function-item, 'context-dependent', $context-dependent)"/>
         <xsl:sequence select="map{
-                $overwrite-fn : xpe:create-function-wrapper($function, $fn-name, $arg-types, $return-type)
+            $fn-name : $function-item
             }"/>
     </xsl:function>
     
