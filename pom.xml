@@ -27,7 +27,7 @@
     </developers>
     
     <properties>
-        <saxon.version>12.4</saxon.version>
+        <saxon.version>12.5</saxon.version>
         
         <resource.subdir>com/nkutsche/xmlml</resource.subdir>
         <run.xspecs>*.xspec</run.xspecs>
