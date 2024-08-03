@@ -131,25 +131,26 @@
             </xsl:apply-templates>
         </xsl:variable>
         <xsl:for-each-group select="$scenarios[not(@shared = 'true')][(@xpmt:group, '*') = $group-focus]" group-by="@xpmt:group">
-            <xsl:result-document href="{$output-dir}qt3ts-runner-{current-grouping-key()}.xspec">
-                <x:description stylesheet="{resolve-uri('qt3ts-helper.xsl')}">
-                    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
-<!--                    <x:helper stylesheet=""/>-->
-                    
-                    <x:helper stylesheet="{resolve-uri('../../../main/resources/xsl/xmlml-main.xsl')}"/>
-<!--                    <x:helper package-name="http://www.nkutsche.com/xpath-model" package-version="*"/>-->
-                    <x:helper package-name="http://www.nkutsche.com/xmlml/xpath" package-version="*"/>
-                    
-                    <x:variable name="fn-transform-workaround" select="false()"/>
-                    <xsl:sequence select="$scenarios[@label = current-group()//x:like/@label]"/>
-                    <xsl:for-each select="current-group()">
-                        <xsl:copy select=".">
-                            <xsl:sequence select="@* except @xpmt:group"/>
-                            <xsl:sequence select="node()"/>
-                        </xsl:copy>
-                    </xsl:for-each>
-                </x:description>
-            </xsl:result-document>
+            <xsl:variable name="group-name" select="current-grouping-key()"/>
+            <xsl:for-each-group select="current-group()" group-adjacent="(position() - 1) idiv 1000">
+                <xsl:result-document href="{$output-dir}qt3ts-runner-{$group-name}-{current-grouping-key()}.xspec">
+                    <x:description stylesheet="{resolve-uri('qt3ts-helper.xsl')}">
+                        <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+                        
+                        <x:helper stylesheet="{resolve-uri('../../../main/resources/xsl/xmlml-main.xsl')}"/>
+                        <x:helper package-name="http://www.nkutsche.com/xmlml/xpath" package-version="*"/>
+                        
+                        <x:variable name="fn-transform-workaround" select="false()"/>
+                        <xsl:sequence select="$scenarios[@label = current-group()//x:like/@label]"/>
+                        <xsl:for-each select="current-group()">
+                            <xsl:copy select=".">
+                                <xsl:sequence select="@* except @xpmt:group"/>
+                                <xsl:sequence select="node()"/>
+                            </xsl:copy>
+                        </xsl:for-each>
+                    </x:description>
+                </xsl:result-document>
+            </xsl:for-each-group>
         </xsl:for-each-group> 
         
     </xsl:template>
@@ -334,7 +335,7 @@
                 </xsl:if>
                 <x:variable name="base-uri" select="'{base-uri(.)}'"/>
                 <x:variable name="xpath" select="string(.)">
-                    <xsl:value-of select="test"/>
+                    <xsl:copy-of select="test"/>
                 </x:variable>
                 <x:variable name="result" select="*">
                     <xsl:copy-of select="xpmt:copy-for-xspec(result)"/>

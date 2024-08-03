@@ -411,7 +411,7 @@
                                         <xspec.xml.version>1.1</xspec.xml.version>
                                     </xspecProperties>
                                     --> 
-                                    <includes>qt3ts-runner-${testsuite.qt3-id-group-focus}.xspec</includes>
+                                    <includes>qt3ts-runner-${testsuite.qt3-id-group-focus}-*.xspec</includes>
                                     <addDependenciesToClasspath>true</addDependenciesToClasspath>
                                     <xspecProperties>
                                         <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager -config:${project.basedir}/src/test/resources/qt3ts/saxon-config.xml</saxon.custom.options>
