@@ -388,10 +388,10 @@
 
     <xsl:template match="qt:assert-eq" mode="xpmt:result-compare" as="xs:boolean">
         <xsl:param name="result" as="item()*" tunnel="yes"/>
-        <xsl:variable name="compare" as="item()*">
-            <xsl:evaluate xpath="." namespace-context="$predef-nscontext-for-saxon"/>
-        </xsl:variable>
         <xsl:try>
+            <xsl:variable name="compare" as="item()*">
+                <xsl:evaluate xpath="." namespace-context="$predef-nscontext-for-saxon"/>
+            </xsl:variable>
             <xsl:sequence select="$result = $compare"/>
             <xsl:catch xmlns:err="http://www.w3.org/2005/xqt-errors">
                 <xsl:message select="$err:description"/>
@@ -402,13 +402,13 @@
 
     <xsl:template match="qt:assert" mode="xpmt:result-compare" as="xs:boolean">
         <xsl:param name="result" as="item()*" tunnel="yes"/>
-        
-        <xsl:variable name="context" select="map{
-            'variable-context' : map{QName('', 'result') : $result},
-            'namespaces' : $predef-ns
-            }"/>
-        
         <xsl:try>
+            
+            <xsl:variable name="context" select="map{
+                'variable-context' : map{QName('', 'result') : $result},
+                'namespaces' : $predef-ns
+                }"/>
+            
             <xsl:variable name="compare" as="item()*">
                 <xsl:sequence select="mlmlp:xpath-evaluate((), string(.), $context)"/>
             </xsl:variable>
