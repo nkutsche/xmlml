@@ -115,6 +115,10 @@
             <xpmt:ignore test="fn-unparsed-text-lines-023">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
             <xpmt:ignore test="fn-unparsed-text-lines-024">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
             <xpmt:ignore test="fn-unparsed-text-lines-055">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
+            
+            <xpmt:ignore test="PathExpr-17">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
+            <xpmt:ignore test="PathExpr-18">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
+            <xpmt:ignore test="PathExpr-19">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
         </xpmt:dependency>
         
         
