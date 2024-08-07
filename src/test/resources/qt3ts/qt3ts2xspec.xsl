@@ -104,17 +104,17 @@
                 TODO: FN - Test Errors
             -->
 
-            <xpmt:ignore test="K2-SeqDocFunc-4">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="json-doc-error-031">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-023">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-024">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-053">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-023">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-024">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-052">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-023">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-024">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-055">TODO: Saxon NullPointer by cp: protocoll in static-base-uri</xpmt:ignore>
+            <xpmt:ignore test="K2-SeqDocFunc-4">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="json-doc-error-031">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-053">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-available-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-available-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-available-052">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-lines-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-lines-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-unparsed-text-lines-055">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
             
             <xpmt:ignore test="PathExpr-17">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
             <xpmt:ignore test="PathExpr-18">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
