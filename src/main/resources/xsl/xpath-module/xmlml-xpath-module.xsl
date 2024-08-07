@@ -289,10 +289,10 @@
         <xsl:param name="exec-context" as="map(*)"/>
         <xsl:param name="relative" as="xs:string?"/>
         <xsl:param name="baseUri" as="xs:string"/>
-        <xsl:variable name="resolved" as="xs:anyURI?">
-            <xsl:sequence select="xpe:default-uri-mapper($exec-context, $relative, $baseUri)"/>
-        </xsl:variable>
         <xsl:try>
+            <xsl:variable name="resolved" as="xs:anyURI?">
+                <xsl:sequence select="xpe:default-uri-mapper($exec-context, $relative, $baseUri)"/>
+            </xsl:variable>
             <xsl:sequence select="$resolved ! mlml:parse(., map{'expand-namespace-nodes' : true()})"/>
             <xsl:catch>
                 <xsl:sequence select="error(xpe:error-code('FODC0002'), $err:description)"/>
