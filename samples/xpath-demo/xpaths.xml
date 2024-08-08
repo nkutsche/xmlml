@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xpaths>
-    
+    <!--    
+        <xpath>/asterix-universe/group[1]/name[1]</xpath>
+    -->
     <!--
-    <xpath>(
-        (//character)[position() mod 2 = 0]/name/substring(., 1, 1) => string-join() 
-        ) || ', it''s XPath!'</xpath>
+    <xpath>
+        let $characters := //character
+        return
+        let $OMG := $characters[position() mod 2 = 0]/name/substring(., 1, 1) => string-join()
+        return
+        let $A-Z := ( string-to-codepoints('A') to string-to-codepoints('Z') ) ! codepoints-to-string(.)
+        return
+        let $X := sort($A-Z, (), function($c){count($characters[matches(name, $c || '®?$', 'i')])})[last()]
+        return
+        $OMG  || ', it''s ' || $X || 'Path!'
+    </xpath>
     -->
     
     
@@ -14,38 +24,33 @@
     <!--
         <xpath>//name[entity('r')]/string(.)</xpath>
     -->
-    
-    <!--    
-        <xpath>/asterix-universe/group[1]/name[1]</xpath>
-    -->
-    <!--    
-    -->
-    <!--    
-        <xpath>/asterix-universe/group/character[@xml:id = 'ast']/name</xpath>
-    -->
-    <!--     
-        <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
-        <xpath>id('obel')</xpath>
-    -->
-    <!--     
-        <xpath>count(//entity('r'))</xpath>
-    -->
     <!--     
         <xpath>count(//entity())</xpath>
     -->
-    <!--     
-        <xpath>//*[entity('oe')]</xpath>
+    <!--      
+        <xpath>//entity('#228')/parent::node()</xpath>
     -->
     <!--     
         <xpath>/asterix-universe/group/character[@species = 'human']/name</xpath>
     -->
-    <!--     
+    <!--      
         <xpath>/asterix-universe/group/character[no-defaults(@species) = 'human']/name</xpath>
     -->
-    <!--     
+    <!--      
         <xpath>doc(resolve-uri('cdata-section.xml', base-uri(/)))/*/code</xpath>
     -->
-    <!--     
+    <!--      
         <xpath>doc(resolve-uri('cdata-section.xml', base-uri(/)))/*/code[cdata-section()]</xpath>
+    -->
+    
+    <!--    
+        <xpath>/asterix-universe/group/character[@xml:id = 'ast']/name</xpath>
+    -->
+    <!--      
+        <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
+        <xpath>id('obel')</xpath>
+    -->
+    <!--     
+        <xpath>//*[entity('oe')]</xpath>
     -->
 </xpaths>

@@ -32,5 +32,9 @@
             <name>Gaius Bonus</name>
             <position>Centurion</position>
         </character>
+        <character xml:id="brutus" species="human">
+            <name>Brutus</name>
+            <position>Sohn des C&#xe4;sars</position>
+        </character>
     </group>
 </asterix-universe>
