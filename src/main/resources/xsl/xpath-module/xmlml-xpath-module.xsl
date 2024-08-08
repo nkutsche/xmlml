@@ -1209,11 +1209,31 @@
     
     <xsl:template match="mlml:element" mode="mlmlp:entity"/>
 
-    <xsl:template match="mlml:entity" mode="mlmlp:entity">
+    <xsl:template match="mlml:entity[@name]" mode="mlmlp:entity">
         <xsl:param name="lookup" as="xs:string" tunnel="yes"/>
-        <xsl:if test="((@name | @codepoint), '*') = $lookup">
+        <xsl:if test="(@name , '*') = $lookup">
             <xsl:sequence select="."/>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="mlml:entity[@codepoint]" mode="mlmlp:entity">
+        <xsl:param name="lookup" as="xs:string" tunnel="yes"/>
+        
+        <xsl:choose>
+            <xsl:when test="$lookup = '*'">
+                <xsl:sequence select="."/>
+            </xsl:when>
+            <xsl:when test="starts-with($lookup, '#')">
+                <xsl:variable name="codepoint" select="mlml:codepoint-by-charref(@codepoint)"/>
+                <xsl:variable name="lookup-cp" select="
+                    mlml:codepoint-by-charref(substring($lookup, 2)) 
+                    " as="xs:integer"/>
+                <xsl:if test="$codepoint = $lookup-cp">
+                    <xsl:sequence select="."/>
+                </xsl:if>
+            </xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
     </xsl:template>
     
     <xsl:template match="text()" mode="mlmlp:entity"/>
