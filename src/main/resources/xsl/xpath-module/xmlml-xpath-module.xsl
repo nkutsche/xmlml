@@ -862,7 +862,7 @@
     <xsl:template match="*" mode="mlmlp:tree-step-down mlmlp:tree-step-up mlmlp:tree-side-sibl" priority="-10"/>
     
     
-    <xsl:template match="mlml:element | mlml:document" mode="mlmlp:tree-step-up">
+    <xsl:template match="mlml:element | mlml:document | mlml:text" mode="mlmlp:tree-step-up">
         <xsl:param name="node-test" as="element(nodeTest)?" tunnel="yes"/>
         <xsl:sequence select=".[mlmlp:node-test(., $node-test)]"/>
     </xsl:template>
