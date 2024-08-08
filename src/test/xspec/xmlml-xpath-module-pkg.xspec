@@ -120,6 +120,81 @@
                 
                 
             </x:scenario>
+            <x:scenario label="Special tree walk in X(ml)²">
+                <x:scenario label="input xml: &lt;el&gt;foo&amp;#xe4;bar&lt;/el&gt;">
+                    <x:variable name="xml" select="
+                        mlml:parse-xml-fragment(., 'http://www.nkutsche.com/xmlml/unit-tests.xml')
+                        "><![CDATA[
+                        <el>foo&#xe4;bar</el>
+                        ]]></x:variable>
+                    <x:call>
+                        <x:param position="1" select="$xml"/>
+                    </x:call>
+                    <x:scenario label="xpath: /el/entity()/parent::node()">
+                        <x:call>
+                            <x:param position="2" select="'/el/entity()/parent::node()'"/>
+                        </x:call>
+                        <x:expect label="Result node">
+                            <text>
+                                <data>foo</data>
+                                <entity codepoint="xe4" />
+                                <data>bar</data>
+                             </text>
+                        </x:expect>
+                    </x:scenario>
+                    <x:scenario label="xpath: /el/entity()/parent::*">
+                        <x:call>
+                            <x:param position="2" select="'/el/entity()/parent::*'"/>
+                        </x:call>
+                        <x:expect label="Result node" select="()"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: /el/entity()/parent::*">
+                        <x:call>
+                            <x:param position="2" select="'/el/entity()/ancestor::*'"/>
+                        </x:call>
+                        <x:expect label="Result node">
+                            <element>
+                                <name>el</name>
+                                <content space="preserve">
+                                   <text>
+                                      <data>foo</data>
+                                      <entity codepoint="xe4" />
+                                      <data>bar</data>
+                                   </text>
+                                </content>
+                             </element>
+                        </x:expect>
+                    </x:scenario>
+                    <x:scenario label="xpath: /el/text()/node()">
+                        <x:call>
+                            <x:param position="2" select="'/el/text()/node()'"/>
+                        </x:call>
+                        <x:expect label="Result should be empty" select="()"/>
+                    </x:scenario>
+                </x:scenario>
+                <x:scenario label="input xml: &lt;el&gt;foo&amp;#xe4;bar&amp;#xe4;&lt;/el&gt;">
+                    <x:variable name="xml" select="
+                        mlml:parse-xml-fragment(., 'http://www.nkutsche.com/xmlml/unit-tests.xml')
+                        "><![CDATA[
+                        <el>foo&#xe4;bar&#xe4;</el>
+                    ]]></x:variable>
+                    <x:call>
+                        <x:param position="1" select="$xml"/>
+                    </x:call>
+                    <x:scenario label="xpath: /el/entity()[1]/following-sibling::node()[1]">
+                        <x:call>
+                            <x:param position="2" select="'/el/entity()[1]/following-sibling::node()[1]'"/>
+                        </x:call>
+                        <x:expect label="Result node" select="()"/>
+                    </x:scenario>
+                    <x:scenario label="xpath: /el/entity()[2] >> /el/entity()[1]">
+                        <x:call>
+                            <x:param position="2" select="'/el/entity()[2] >> /el/entity()[1]'"/>
+                        </x:call>
+                        <x:expect label="Result node" select="true()"/>
+                    </x:scenario>
+                </x:scenario>
+            </x:scenario>
             <x:scenario label="tree walk in X(ml)²">
                 <x:variable name="context-doc-href" select="base-uri(/)" href="xpath-samples/asterix.xml"/>
                 <x:variable name="context-doc" select="mlml:parse($context-doc-href)"/>
