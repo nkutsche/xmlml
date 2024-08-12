@@ -350,4 +350,29 @@
             "/>
         <xsl:sequence select="$result"/>
     </xsl:function>
+    
+    
+    <xsl:key name="appender-start-id" match="mlml:text[@append-id]" use="@append-id"/>
+    <xsl:key name="appending-id" match="mlml:text[@appending]" use="@appending"/>
+    
+    <xsl:function name="mlml:redirect-appendings" as="node()">
+        <xsl:param name="node" as="node()"/>
+        <xsl:sequence select="
+            if ($node/self::mlml:text[@appending]) 
+            then $node/preceding::mlml:text[@append-id = $node/@appending][1]
+            else $node
+            "/>
+        
+    </xsl:function>
+
+    <xsl:function name="mlml:collect-appendings" as="node()*">
+        <xsl:param name="node" as="node()"/>
+        <xsl:variable name="node" select="mlml:redirect-appendings($node)"/>
+        <xsl:sequence select="
+            if ($node/self::mlml:text[@append-id]) 
+            then $node/(., following::mlml:text[@appending = $node/@append-id]) 
+            else $node
+            "/>
+        
+    </xsl:function>
 </xsl:stylesheet>
