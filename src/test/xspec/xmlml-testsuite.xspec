@@ -364,6 +364,14 @@
             <x:variable name="path" select="'entity/character-entity.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: entity/character-entity-dec.xml">
+            <x:variable name="path" select="'entity/character-entity-dec.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-dec-leading-zeros.xml">
+            <x:variable name="path" select="'entity/character-entity-dec-leading-zeros.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: entity/dtd-entity-w-text.xml">
             <x:variable name="path" select="'entity/dtd-entity-w-text.xml'"/>
             <x:like label="generic-serialize-test"/>
@@ -418,6 +426,10 @@
         </x:scenario>
         <x:scenario label="Test: entity/complex/two-entities-mixed.xml">
             <x:variable name="path" select="'entity/complex/two-entities-mixed.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/recursive-entities.xml">
+            <x:variable name="path" select="'entity/complex/recursive-entities.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
         <x:scenario label="Test: entity/complex/recursive-entities.xml">
@@ -672,6 +684,36 @@
         </x:scenario>
     </x:scenario>
 
+    <x:scenario label="Testing function mlml:collect-appendings" catch="true">
+        <x:call function="mlml:collect-appendings"/>
+        <x:scenario label="outer&amp;foo(inner&lt;el/&gt;);">
+            <x:call>
+                <x:param position="1" select="mlml:content/mlml:text">
+                    <mlml:content space="preserve">
+                        <mlml:text append-id="t1">
+                            <mlml:data>outer</mlml:data>
+                        </mlml:text>
+                        <mlml:entity name="foo" complex="true">
+                            <mlml:text appending="t1">
+                                <mlml:data>inner</mlml:data>
+                            </mlml:text>
+                            <mlml:element>
+                                <mlml:name>el</mlml:name>
+                            </mlml:element>
+                        </mlml:entity>
+                    </mlml:content>
+                </x:param>
+            </x:call>
+            <x:expect label="result two text nodes">
+                <mlml:text append-id="t1">
+                    <mlml:data>outer</mlml:data>
+                </mlml:text>
+                <mlml:text appending="t1">
+                    <mlml:data>inner</mlml:data>
+                </mlml:text>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
     <x:scenario label="Testing function mlml:document-id" catch="true">
         <x:call function="mlml:document-id"/>
         

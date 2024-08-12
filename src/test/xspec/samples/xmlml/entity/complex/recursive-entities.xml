@@ -37,15 +37,15 @@
             </value>
         </attribute>
         <content space="preserve">
-            <text>
+            <text append-id="t1">
                 <data>outer_start</data>
             </text>
             <entity name="foobar" complex="true">
-                <text>
+                <text appending="t1">
                     <data>foobar_start</data>
                 </text>
                 <entity name="foo" complex="true">
-                    <text>
+                    <text appending="t1">
                         <data>foo_start</data>
                     </text>
                     <element>
@@ -56,15 +56,15 @@
                             </text>
                         </content>
                     </element>    
-                    <text>
+                    <text append-id="t5">
                         <data>foo_end</data>
                     </text>
                 </entity>
-                <text>
+                <text appending="t5">
                     <data>foobar_between</data>
                 </text>
                 <entity name="bar" complex="true">
-                    <text>
+                    <text appending="t5">
                         <data>bar_start</data>
                     </text>
                     <element>
@@ -75,15 +75,15 @@
                             </text>
                         </content>
                     </element>    
-                    <text>
+                    <text append-id="t9">
                         <data>bar_end</data>
                     </text>
                 </entity>
-                <text>
+                <text appending="t9">
                     <data>foobar_end</data>
                 </text>
             </entity>
-            <text>
+            <text appending="t9">
                 <data>outer_end</data>
             </text>
         </content>

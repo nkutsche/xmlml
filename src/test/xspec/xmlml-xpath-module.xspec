@@ -115,6 +115,37 @@
     </x:scenario>
     
     
-    
+    <x:scenario label="Testing function mlmlp:next-sibl" catch="true">
+        <x:call function="mlmlp:next-sibl"/>
+        <x:scenario label="$direction = 'following'">
+            <x:call>
+                <x:param position="2" select="'following'"/>
+            </x:call>
+            <x:scenario label="outer&amp;foo(inner&lt;el/&gt;);">
+                <x:call>
+                    <x:param position="1" select="mlml:content/mlml:text">
+                        <mlml:content space="preserve">
+                            <mlml:text append-id="t1">
+                                <mlml:data>outer</mlml:data>
+                            </mlml:text>
+                            <mlml:entity name="foo" complex="true">
+                                <mlml:text appending="t1">
+                                    <mlml:data>inner</mlml:data>
+                                </mlml:text>
+                                <mlml:element>
+                                    <mlml:name>el</mlml:name>
+                                </mlml:element>
+                            </mlml:entity>
+                        </mlml:content>
+                    </x:param>
+                </x:call>
+                <x:expect label="result two text nodes">
+                    <mlml:element>
+                        <mlml:name>el</mlml:name>
+                    </mlml:element>
+                </x:expect>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
     
 </x:description>

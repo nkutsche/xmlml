@@ -25,11 +25,11 @@
             </value>
         </attribute>
         <content space="preserve">
-            <text>
+            <text append-id="t1">
                 <data>outer_start</data>
             </text>
             <entity name="foo" complex="true">
-                <text>
+                <text appending="t1">
                     <data>foo_start</data>
                 </text>
                 <element>
@@ -40,11 +40,11 @@
                         </text>
                     </content>
                 </element>
-                <text>
+                <text append-id="t4">
                     <data>foo_end</data>
                 </text>
             </entity>
-            <text>
+            <text appending="t4">
                 <data>outer_end</data>
             </text>
         </content>

@@ -37,10 +37,10 @@
                         </text>
                     </content>
                 </element>
-                <text><data>foo_end</data></text>
+                <text append-id="t3"><data>foo_end</data></text>
             </entity>
             <entity name="bar" complex="true">
-                <text>
+                <text appending="t3">
                     <data>bar_start</data>
                 </text>
                 <element>

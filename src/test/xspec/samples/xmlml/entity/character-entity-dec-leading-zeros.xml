@@ -1,0 +1,20 @@
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d48"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/entity/character-entity.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/entity/character-entity.xml">
+    <element>
+        <name>root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
+        <content space="preserve">
+            <text><entity codepoint="0000101"/></text>
+        </content>
+    </element>
+</document>
