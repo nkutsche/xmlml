@@ -14,6 +14,7 @@
     <xsl:use-package name="http://www.nkutsche.com/xmlml/xpath" package-version="*"/>
     
     <xsl:param name="xpath" as="xs:string" select="string-join(/*/*, ',')"/>
+    <xsl:param name="debug" as="xs:boolean" select="false()"/>
     <xsl:variable name="path" select="resolve-uri('asterix-dtd.xml')"/>
     
     <xsl:output method="text"/>
@@ -21,7 +22,11 @@
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="result" select="mlmlp:xpath-evaluate(mlml:parse($path), $xpath)"/>
         
-        <xsl:variable name="result" select="$result ! (if (. instance of node()) then mlml:serialize-node(.) else .)"/>
+        <xsl:variable name="xmlml-serializer" select="
+            if ($debug) then serialize#1 else mlml:serialize-node#1
+            "/>
+        
+        <xsl:variable name="result" select="$result ! (if (. instance of node()) then $xmlml-serializer(.) else .)"/>
         
         <xsl:variable name="saxon-result" as="xs:string*">
             <xsl:try>
