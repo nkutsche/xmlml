@@ -22,6 +22,7 @@
     <xsl:function name="mlml:serialize-node" as="xs:string" visibility="final">
         <xsl:param name="nodes" as="element()*"/>
         <xsl:variable name="nodes" select="$nodes/mlml:clean-up(.)"/>
+        <xsl:variable name="nodes" select="$nodes/mlml:collect-appendings(.)"/>
         <xsl:variable name="serialized" as="xs:string*">
             <xsl:apply-templates select="$nodes" mode="mlml:serialize"/>
         </xsl:variable>

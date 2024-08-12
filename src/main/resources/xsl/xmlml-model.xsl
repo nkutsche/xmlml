@@ -14,7 +14,32 @@
 
     <xsl:function name="mlml:as-node" as="node()?" visibility="final">
         <xsl:param name="node" as="element()"/>
-        <xsl:apply-templates select="mlml:clean-up($node)" mode="mlml:doc"/>
+        <xsl:variable name="default-namespace"
+            select="
+            $node/ancestor::element[@element-default-namespace][1]/@element-default-namespace
+            "/>
+        <xsl:choose>
+            <xsl:when test="$node/self::mlml:text[@append-id | @appending]">
+                <xsl:variable name="nodes" select="mlml:collect-appendings($node)"/>
+                <xsl:variable name="node" select="$nodes ! mlml:clean-up(.)"/>
+                <xsl:variable name="results" as="text()*">
+                    <xsl:apply-templates select="$nodes" mode="mlml:doc">
+                        <xsl:with-param name="inherit-default-namespace"
+                            select="($default-namespace, '')[1]" 
+                            tunnel="yes"/>
+                    </xsl:apply-templates>
+                </xsl:variable>
+                <xsl:value-of select="$results" separator=""/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="node" select="mlml:clean-up($node)"/>
+                <xsl:apply-templates select="$node" mode="mlml:doc">
+                    <xsl:with-param name="inherit-default-namespace"
+                        select="($default-namespace, '')[1]" 
+                        tunnel="yes"/>
+                </xsl:apply-templates>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
     
     <xsl:template match="document[@xml:base]" mode="mlml:doc">
