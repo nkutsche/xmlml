@@ -77,6 +77,7 @@
     
     <xsl:function name="mlmlp:generate-id" as="xs:string">
         <xsl:param name="arg" as="node()?"/>
+        <xsl:variable name="arg" select="mlml:redirect-appendings($arg)"/>
         <xsl:variable name="root" select="mlmlp:root($arg)"/>
         <xsl:variable name="doc-id" select="$root/@id"/>
         <xsl:variable name="underline-id" select="$arg/generate-id(.)"/>
@@ -97,6 +98,7 @@
     
     <xsl:function name="mlmlp:path" as="xs:string?">
         <xsl:param name="arg" as="node()?"/>
+        <xsl:variable name="arg" select="mlml:redirect-appendings($arg)"/>
         <xsl:variable name="parent" select="$arg ! mlmlp:tree-walk(., 'parent', ())"/>
         <xsl:choose>
             <xsl:when test="empty($arg)"/>
@@ -817,6 +819,13 @@
     <xsl:function name="mlmlp:next-sibl" as="element()?">
         <xsl:param name="context" as="node()"/>
         <xsl:param name="direction" as="xs:string"/>
+
+        <xsl:variable name="context" select="
+            if ($context/self::mlml:text[@append-id] and $direction = 'following') 
+            then mlml:collect-appendings($context)[last()]
+            else $context
+            "/>
+        
         
         <xsl:variable name="uncle" select="
             if ($direction = 'preceding') 
@@ -851,6 +860,15 @@
         <xsl:apply-templates select="*[if ($direction = 'preceding') then last() else 1]" mode="#current"/>
     </xsl:template>
     
+    <xsl:template match="mlml:text[@appending]" mode="mlmlp:tree-side-sibl" priority="10">
+        <xsl:param name="direction" select="'following'" as="xs:string" tunnel="yes"/>
+        <xsl:choose>
+            <xsl:when test="$direction = 'preceding'">
+                <xsl:apply-templates select="mlml:redirect-appendings(.)" mode="#current"/>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+    
     <xsl:template match="mlml:entity | mlml:content" mode="mlmlp:tree-step-up">
         <xsl:apply-templates select="parent::*" mode="#current"/>
     </xsl:template>
@@ -871,6 +889,8 @@
         <xsl:param name="node-test" as="element(nodeTest)?" tunnel="yes"/>
         <xsl:sequence select=".[mlmlp:node-test(., $node-test)]"/>
     </xsl:template>
+    
+    <xsl:template match="mlml:text[@appending]" mode="mlmlp:tree-step-down" priority="10"/>
     
     <xsl:function name="mlmlp:node-test" as="xs:boolean">
         <xsl:param name="node" as="element()"/>
