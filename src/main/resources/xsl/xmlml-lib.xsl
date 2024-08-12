@@ -359,7 +359,7 @@
         <xsl:param name="node" as="node()"/>
         <xsl:sequence select="
             if ($node/self::mlml:text[@appending]) 
-            then $node/preceding::mlml:text[@append-id = $node/@appending][1]
+            then $node/key('appender-start-id', @appending)[1]
             else $node
             "/>
         
@@ -370,7 +370,7 @@
         <xsl:variable name="node" select="mlml:redirect-appendings($node)"/>
         <xsl:sequence select="
             if ($node/self::mlml:text[@append-id]) 
-            then $node/(., following::mlml:text[@appending = $node/@append-id]) 
+            then $node/(., key('appending-id', @append-id)) 
             else $node
             "/>
         
