@@ -1,0 +1,35 @@
+<?xml-model href="../../../../../main/resources/rnc/xmlml.rnc" type="application/relax-ng-compact-syntax"?>
+<!--
+<!DOCTYPE root [<!ENTITY empty "">]><root>before_&empty;_after</root>
+-->
+<document xmlns="http://www.nkutsche.com/xmlml" 
+    id="xmlml_d5300001"
+    document-uri="http://www.nkutsche.com/xmlml/sample-base/entity/empty-entity.xml"
+    xml:base="http://www.nkutsche.com/xmlml/sample-base/entity/empty-entity.xml">
+    <doc-type-decl>
+        <ws space="1"/>
+        <name>root</name>
+        <ws space="1"/>
+        <inline>
+            <data><![CDATA[<!ENTITY empty "">]]></data>
+        </inline>
+    </doc-type-decl>
+    <element>
+        <name>root</name>
+        <attribute default="true" namespace="true">
+            <ws space="1" />
+            <name>xml</name>
+            <eq />
+            <value>
+                <data>http://www.w3.org/XML/1998/namespace</data>
+            </value>
+        </attribute>
+        <content space="preserve">
+            <text>
+                <data>before_</data>
+                <entity name="empty"/>
+                <data>_after</data>
+            </text>
+        </content>
+    </element>
+</document>

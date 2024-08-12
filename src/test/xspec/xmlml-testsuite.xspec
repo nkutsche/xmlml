@@ -376,6 +376,10 @@
             <x:variable name="path" select="'entity/dtd-entity-w-text.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: entity/empty-entity.xml">
+            <x:variable name="path" select="'entity/empty-entity.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: entity/entities-in-attr-mixed.xml">
             <x:variable name="path" select="'entity/entities-in-attr-mixed.xml'"/>
             <x:like label="generic-serialize-test"/>

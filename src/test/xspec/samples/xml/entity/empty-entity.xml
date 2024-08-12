@@ -1,0 +1,1 @@
+<!DOCTYPE root [<!ENTITY empty "">]><root>before_&empty;_after</root>
