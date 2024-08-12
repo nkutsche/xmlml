@@ -78,7 +78,7 @@ element name {xs:NCName?}
 textNode = 
 ## Text node in an XmlML tree
 ## XDM equivalent: text()
-element text {base_uri?, (entity | cdata | node_content)*}
+element text {base_uri?, (append_id | appending)?, (entity | cdata | node_content)*}
 
 cdata = 
 ## CDATA section as part of a XmlML text node
@@ -251,6 +251,14 @@ attribute element-default-namespace {xs:string}
 quotes = 
 ## Specifies for a quoted value, if the single quotation sign (') or the double quotation sign (") should be used.
 attribute quotes {"double" | "single"}
+
+append_id =
+## Provides an ID for a text node, that is used by other text nodes to append this node. 
+attribute append-id {xs:ID}
+
+appending =
+## Specifies for a text node, that it appends the text node with the referenced ID
+attribute appending {xs:IDREF}
 
 lf_format = 
 ## Specifies for the document or for single linefeed (<nl/>) if linefeeds should be serialized in 
