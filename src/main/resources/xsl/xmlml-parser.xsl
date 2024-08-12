@@ -295,11 +295,7 @@
         </xsl:variable>
         <xsl:variable name="result" select="$result/mlml:document"  as="element(mlml:document)"/>
         
-        <xsl:sequence select="
-            if (map:contains($config, $mlml:CUSTOM-STRUCTUR-ELEMENTS)) 
-            then mlml:custom-strip-spacing($result, $config($mlml:CUSTOM-STRUCTUR-ELEMENTS)($result)) 
-            else $result
-            "/>        
+        <xsl:sequence select="mlml:post-processing($result, $config)"/>        
 
     </xsl:function>
     
@@ -353,12 +349,26 @@
         </xsl:variable>
         <xsl:variable name="result" select="$result/mlml:document"  as="element(mlml:document)"/>
         
-        <xsl:sequence select="
-            if (map:contains($config, $mlml:CUSTOM-STRUCTUR-ELEMENTS)) 
-            then mlml:custom-strip-spacing($result, $config($mlml:CUSTOM-STRUCTUR-ELEMENTS)($result)) 
-            else $result
-            "/>        
+        <xsl:sequence select="mlml:post-processing($result, $config)"/>        
 
+    </xsl:function>
+    
+    <xsl:function name="mlml:post-processing" as="element(mlml:document)">
+        <xsl:param name="document" as="element(mlml:document)"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="document" select="
+            if (map:contains($config, $mlml:CUSTOM-STRUCTUR-ELEMENTS)) 
+            then mlml:custom-strip-spacing($document, $config($mlml:CUSTOM-STRUCTUR-ELEMENTS)($document)) 
+            else $document
+            "/>
+        
+        <xsl:variable name="document" select="
+            mlml:mark-appended-text-nodes($document, $config)
+            "/>
+        
+        <xsl:sequence select="$document"/>
+        
     </xsl:function>
     
     <xsl:function name="mlml:custom-strip-spacing" as="element(mlml:document)">
@@ -447,6 +457,88 @@
                 <xsl:next-match/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    
+    
+    <xsl:mode name="mlml:mark-appended-text-nodes" on-no-match="shallow-copy"/>
+    
+    <xsl:function name="mlml:mark-appended-text-nodes" as="element(mlml:document)">
+        <xsl:param name="document" as="element(mlml:document)"/>
+        <xsl:param name="config" as="map(*)"/>
+        
+        <xsl:variable name="appending-groups" as="element()*">
+            <xsl:for-each-group select="$document//mlml:text" group-starting-with="mlml:text[not(mlml:is-appending(.))]">
+                <xsl:if test="count(current-group()) gt 1">
+                    <xsl:variable name="head-id">
+                        <xsl:text>t</xsl:text>
+                        <xsl:number count="mlml:text" select="." level="any"/>
+                    </xsl:variable>
+                    <appendings aid="{$head-id}" id="{generate-id(.)}">
+                        <xsl:for-each select="current-group() except .">
+                            <appender id="{generate-id(.)}"/>
+                        </xsl:for-each>
+                    </appendings>
+                </xsl:if>
+            </xsl:for-each-group> 
+        </xsl:variable>
+        
+        <xsl:apply-templates select="$document" mode="mlml:mark-appended-text-nodes">
+            <xsl:with-param name="appending-groups" select="$appending-groups" tunnel="yes"/>
+        </xsl:apply-templates>
+    </xsl:function>
+    
+    <xsl:function name="mlml:is-appending" as="xs:boolean">
+        <xsl:param name="text" as="element(mlml:text)"/>
+        
+        <xsl:variable name="prec-text" select="
+            $text/preceding::mlml:text[1]
+            "/>
+        <xsl:variable name="parent" select="$text/ancestor::mlml:element[1]"/>
+        <xsl:variable name="has-same-parent" select="$text/ancestor::mlml:element[1] is $prec-text/ancestor::mlml:element[1]"/>
+        <xsl:variable name="prec-other-node" select="$text/(preceding::mlml:comment[1] | preceding::mlml:pi[1] | preceding::mlml:element[1])[last()]"/>
+        
+        <xsl:sequence select="
+            
+            if (not($prec-text)) 
+            then false() 
+            else if (not($has-same-parent)) 
+            then false() 
+            else if ($prec-other-node >> $prec-text) 
+            then false() 
+            else true()
+            
+            "/>
+        
+    </xsl:function>
+    
+    
+    <xsl:template match="mlml:text" mode="mlml:mark-appended-text-nodes">
+        <xsl:param name="appending-groups" as="element()*" tunnel="yes"/>
+        <xsl:variable name="id" select="generate-id(.)"/>
+        
+        <xsl:variable name="appending-head" select="$appending-groups[@id = $id]"/>
+        <xsl:variable name="appending-group" select="$appending-groups[*:appender/@id = $id]"/>
+        
+        <xsl:choose>
+            <xsl:when test="$appending-head">
+                <xsl:copy>
+                    <xsl:apply-templates select="@*" mode="#current"/>
+                    <xsl:attribute name="append-id" select="$appending-head/@aid"/>
+                    <xsl:apply-templates select="node()" mode="#current"/>
+                </xsl:copy>
+            </xsl:when>
+            <xsl:when test="$appending-group">
+                <xsl:copy>
+                    <xsl:apply-templates select="@*" mode="#current"/>
+                    <xsl:attribute name="appending" select="$appending-group/@aid"/>
+                    <xsl:apply-templates select="node()" mode="#current"/>
+                </xsl:copy>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:next-match/>
+            </xsl:otherwise>
+        </xsl:choose>
+        
     </xsl:template>
     
     <xsl:template match="document-fragment" mode="mlml:parse">
