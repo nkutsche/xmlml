@@ -77,7 +77,7 @@
     
     <xsl:function name="mlmlp:generate-id" as="xs:string">
         <xsl:param name="arg" as="node()?"/>
-        <xsl:variable name="arg" select="mlml:redirect-appendings($arg)"/>
+        <xsl:variable name="arg" select="$arg/mlml:redirect-appendings(.)"/>
         <xsl:variable name="root" select="mlmlp:root($arg)"/>
         <xsl:variable name="doc-id" select="$root/@id"/>
         <xsl:variable name="underline-id" select="$arg/generate-id(.)"/>
@@ -98,7 +98,7 @@
     
     <xsl:function name="mlmlp:path" as="xs:string?">
         <xsl:param name="arg" as="node()?"/>
-        <xsl:variable name="arg" select="mlml:redirect-appendings($arg)"/>
+        <xsl:variable name="arg" select="$arg/mlml:redirect-appendings(.)"/>
         <xsl:variable name="parent" select="$arg ! mlmlp:tree-walk(., 'parent', ())"/>
         <xsl:choose>
             <xsl:when test="empty($arg)"/>
