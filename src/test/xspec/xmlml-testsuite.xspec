@@ -136,6 +136,10 @@
             <x:variable name="path" select="'attribute/ending-name-ws-attribute.xml'"/>
             <x:like label="generic-serialize-test"/>
         </x:scenario>
+        <x:scenario label="Test: attribute/invalid-default-attribute.xml">
+            <x:variable name="path" select="'attribute/invalid-default-attribute.xml'"/>
+            <x:like label="generic-serialize-test"/>
+        </x:scenario>
         <x:scenario label="Test: attribute/leading-value-ws-attribute.xml">
             <x:variable name="path" select="'attribute/leading-value-ws-attribute.xml'"/>
             <x:like label="generic-serialize-test"/>
