@@ -282,6 +282,9 @@
                     <xsl:namespace name="{$prefix}" select="$namespace"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:if test="not(node())">
+                <xsl:attribute name="collapsed" select="true()"/>
+            </xsl:if>
             
             <name>
                 <xsl:value-of select="$qname"/>

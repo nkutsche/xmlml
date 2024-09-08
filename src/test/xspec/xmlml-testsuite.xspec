@@ -748,7 +748,7 @@
             </x:call>
             <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
                <document line-feed-format="n" xml:base="...">
-                   <element>
+                   <element collapsed="true">
                        <name>xml</name>
                    </element>
                </document>
@@ -761,7 +761,7 @@
             </x:call>
             <x:expect label="result tree" xmlns="http://www.nkutsche.com/xmlml">
                <document line-feed-format="n" xml:base="...">
-                   <element element-default-namespace="foo.com">
+                   <element element-default-namespace="foo.com" collapsed="true">
                        <name>xml</name>
                        <attribute xmlns="http://www.nkutsche.com/xmlml"
                                   namespace="true">
