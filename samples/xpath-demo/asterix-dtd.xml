@@ -2,13 +2,13 @@
 <!DOCTYPE asterix-universe SYSTEM "asterix.dtd">
 <asterix-universe>
     <group xml:id="galier">
-        <name>Galier</name>
+        <name>Gallier</name>
         <character xml:id="ast">
             <name>Asterix&r;</name>
             <position>Warrior</position>
         </character>
         <character
-            xml:id="obel"
+            xml:id='obel'
             >
             <name>Obelix&r;</name>
             <position>Menhir supplier</position>
