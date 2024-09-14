@@ -25,12 +25,12 @@ elem = (empty_elem | non_empty_elem)
 non_empty_elem = 
 ## non-empty element in a XmlML document
 ## XDM equivalent: element()
-element element {non_collapsed?, element_default_ns?, qname, (namespace_decl | attr)*, ws?, el_content, closeTagSpace?}
+element element {non_collapsed?, element_default_ns?, qname, (namespace_ref | namespace_decl | attr)*, ws?, el_content, closeTagSpace?}
 
 empty_elem = 
 ## empty element in a XmlML document
 ## XDM equivalent: element()
-element element {collapsed?, element_default_ns?, base_uri?, qname, (namespace_decl | attr)*, ws?, closeTagSpace?}
+element element {collapsed?, element_default_ns?, base_uri?, qname, (namespace_ref | namespace_decl | attr)*, ws?, closeTagSpace?}
 
 el_content = (el_content_mixed | el_content_struct)
 
@@ -64,8 +64,14 @@ element attribute {defaultAttr?, attr_data_type?, attrContent}
 namespace_decl = 
 ## Namespace declaration of an XmlML element
 ## XDM equivalent: namespace-node()
-## Difference: the <attribute namespace="true"> specifies only the namespace declaration. The namespace-node() in XDM is inherited to all child elements. 
+## Note: the <attribute namespace="true"> specifies only the namespace declaration. Inherited namespace nodes in XDM are represented as <attribute ref="..."/> (see below). 
 element attribute {attribute namespace {"true"}, defaultAttr?, nsContent}
+
+namespace_ref = 
+## Inherited namespace node
+## XDM equivalent: namespace-node()
+## Note: the ref attribute should reference to the ID of the namespace declaration. 
+element attribute {attribute nsref {xs:NCName | '#'}}
 
 attrContent = ws, qname, ws?, equal, ws?, quotedValue
 
@@ -227,6 +233,8 @@ data =
 element data {xs:string}
 
 # attributes
+
+id = attribute id {xs:ID}
 
 document_meta = lf_format?, doc_uri?, base_uri?, doc_id
 
