@@ -254,11 +254,11 @@ attribute quotes {"double" | "single"}
 
 append_id =
 ## Provides an ID for a text node, that is used by other text nodes to append this node. 
-attribute append-id {xs:ID}
+attribute append-id {xs:NCName}
 
 appending =
 ## Specifies for a text node, that it appends the text node with the referenced ID
-attribute appending {xs:IDREF}
+attribute appending {xs:NCName}
 
 lf_format = 
 ## Specifies for the document or for single linefeed (<nl/>) if linefeeds should be serialized in 
