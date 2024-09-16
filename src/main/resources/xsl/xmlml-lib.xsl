@@ -120,10 +120,11 @@
         <xsl:variable name="elements" select="$document//mlml:element"/>
         <xsl:for-each select="$elements">
             <xsl:sequence select="mlml:verify-name(mlml:name)"/>
-            <xsl:for-each select="mlml:attribute">
+            <xsl:variable name="attributes" select="mlml:attribute[not(@nsref)]"/>
+            <xsl:for-each select="$attributes">
                 <xsl:sequence select="mlml:verify-name(mlml:name, 'attribute')"/>
             </xsl:for-each>
-            <xsl:sequence select="mlml:check-unique-attribute-constr(mlml:attribute)"/>
+            <xsl:sequence select="mlml:check-unique-attribute-constr($attributes)"/>
         </xsl:for-each>
         
         <xsl:sequence select="$document"/>
@@ -167,8 +168,10 @@
         <xsl:param name="attr" as="element(mlml:attribute)"/>
         <xsl:variable name="name" select="$attr/mlml:name"/>
         <xsl:sequence select="
-            if ($name = '' and $attr/@namespace = 'true') 
+            if ($name = '' and $attr/@namespace = 'true' or $attr/@nsref = '#') 
             then xs:Name('xmlns') 
+            else if ($attr/@nsref) 
+            then xs:Name('xmlns:' || $attr/@nsref) 
             else if ($attr/@namespace = 'true') 
             then xs:Name('xmlns:' || $name) 
             else xs:Name($name)
@@ -178,8 +181,11 @@
         <xsl:param name="attr" as="element(mlml:attribute)"/>
         <xsl:variable name="name" select="$attr/mlml:name"/>
         <xsl:sequence select="
-            if ($name = '' and $attr/@namespace = 'true') 
+            if ($name = '' and $attr/@namespace = 'true' or $attr/@nsref = '#') 
             then QName('', 'xmlns') 
+            else 
+            if ($attr/@nsref) 
+            then QName('http://www.w3.org/2000/xmlns/', $attr/@nsref) 
             else 
             QName(
             if ($attr/@namespace = 'true') 

@@ -95,6 +95,17 @@
         <xsl:value-of select="mlml:type-convert($raw-value, $type)"/>
     </xsl:template>
     
+    
+    
+    <xsl:key name="namespace-declarations" match="attribute[@namespace = 'true']" use="(name[. != ''], '#')[1]"/>
+    
+    <xsl:template match="attribute[@nsref]" mode="mlml:doc">
+        <xsl:variable name="this" select="."/>
+        <xsl:variable name="decl" select="key('namespace-declarations', @nsref)[parent::element intersect $this/ancestor::element][last()]"/>
+        <xsl:apply-templates select="$decl" mode="#current"/>
+    </xsl:template>
+    
+    
     <xsl:template match="attribute[@namespace = 'true']" mode="mlml:doc">
         <xsl:if test="not(value = '')">
             <xsl:namespace name="{name}">

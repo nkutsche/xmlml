@@ -582,7 +582,6 @@
         <xsl:param name="config" tunnel="yes" as="map(*)"/>
         <xsl:param name="inherit-namespaces" select="()" as="element(mlml:attribute)*" tunnel="yes"/>
         
-        <xsl:variable name="expand-namespace-nodes" select="boolean($config?expand-namespace-nodes)"/>
         <xsl:variable name="is-root-el" select="exists(parent::document)" as="xs:boolean"/>
         <xsl:variable name="el_name" as="element(mlml:name)">
             <xsl:apply-templates select="Name" mode="#current"/>
@@ -610,11 +609,9 @@
                     </value>
                 </attribute>
             </xsl:if>
-            <xsl:for-each select="$inherit-namespaces[$expand-namespace-nodes]">
+            <xsl:for-each select="$inherit-namespaces">
                 <xsl:copy>
-                    <xsl:sequence select="@*"/>
-                    <xsl:attribute name="default" select="'true'"/>
-                    <xsl:sequence select="node()"/>
+                    <xsl:attribute name="nsref" select="(mlml:name[. != ''], '#')[1]"/>
                 </xsl:copy>
             </xsl:for-each>
             <xsl:for-each-group select="$attribute-lists/dtdml:attribute" group-by="@name">
@@ -650,13 +647,18 @@
         <xsl:variable name="space-preserve" select="
             mlml:preserve-space($content-model, $attributes[mlml:name = 'xml:space'], $config)
             "/>
-        <xsl:variable name="namespace-attributes" select="$attributes[@namespace = 'true']"/>
+        <xsl:variable name="inherit-namespaces" as="element(mlml:attribute)*">
+            <xsl:for-each-group select="$inherit-namespaces, $attributes[@namespace = 'true']"
+                group-by="mlml:attr-raw-name(.)">
+                <xsl:sequence select="current-group()[last()]"/>
+            </xsl:for-each-group> 
+        </xsl:variable>
         
         <xsl:variable name="content" as="element()*">
             <xsl:apply-templates select="node() except Attribute" mode="#current">
                 <xsl:with-param name="attribute-lists" select="$attribute-lists" tunnel="yes"/>
                 <xsl:with-param name="space-preserve" select="$space-preserve" tunnel="yes"/>
-                <xsl:with-param name="inherit-namespaces" select="$namespace-attributes" tunnel="yes"/>
+                <xsl:with-param name="inherit-namespaces" select="$inherit-namespaces" tunnel="yes"/>
             </xsl:apply-templates>
         </xsl:variable>
         <xsl:variable name="el_name" select="$content/self::mlml:name"/>
@@ -676,7 +678,7 @@
             <xsl:if test="$xml-base">
                 <xsl:attribute name="xml:base" select="$xml-base"/>
             </xsl:if>
-            <xsl:for-each select="$namespace-attributes">
+            <xsl:for-each select="$attributes[@namespace = 'true']">
                 <xsl:variable name="value">
                     <xsl:apply-templates select="mlml:value" mode="mlml:doc"/>
                 </xsl:variable>
