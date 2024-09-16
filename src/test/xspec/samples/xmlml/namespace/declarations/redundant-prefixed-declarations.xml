@@ -24,6 +24,7 @@
         <content space="preserve">
             <element collapsed="true">
                 <name>ns:el</name>
+                <attribute nsref="xml"/>
                 <attribute namespace="true">
                     <ws space="1"/>
                     <name>ns</name>

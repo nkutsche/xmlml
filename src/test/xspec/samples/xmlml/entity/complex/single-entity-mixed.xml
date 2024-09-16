@@ -34,6 +34,7 @@
                 </text>
                 <element>
                     <name>foo</name>
+                    <attribute nsref="xml"/>
                     <content space="preserve">
                         <text>
                             <data>foo_inner</data>

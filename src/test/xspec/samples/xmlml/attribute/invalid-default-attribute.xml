@@ -29,6 +29,7 @@
         <content space="preserve">
             <element collapsed="true">
                 <name>unknown</name>
+                <attribute nsref="xml"/>
                 <attribute default="true" type="CDATA">
                     <ws space="1"/>
                     <name>attribute</name>

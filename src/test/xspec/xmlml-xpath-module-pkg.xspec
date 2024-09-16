@@ -217,6 +217,7 @@
                         <x:expect label="String value" test="$x:result">
                             <element>
                                 <name>name</name>
+                                <attribute nsref="xml" />
                                 <content space="preserve">
                                    <text>
                                       <data>Galier</data>
@@ -225,6 +226,7 @@
                              </element>
                              <element>
                                 <name>name</name>
+                                <attribute nsref="xml" />
                                 <content space="preserve">
                                    <text>
                                       <data>Römer</data>

@@ -52,6 +52,7 @@
         <content space="skip">
             <element xmlns:ns="some-other-namespace" collapsed="true">
                 <name>ns:child</name>
+                <attribute nsref="xml"/>
                 <attribute default="true" type="CDATA">
                     <ws space="1"/>
                     <name>ns</name>

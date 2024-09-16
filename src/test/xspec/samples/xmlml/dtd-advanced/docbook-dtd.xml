@@ -28,6 +28,7 @@
         <content space="skip">
             <element>
                 <name>title</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <text>
                         <data>this is a book</data>
@@ -36,9 +37,11 @@
             </element>
             <element>
                 <name>chapter</name>
+                <attribute nsref="xml"/>
                 <content space="skip">
                     <element>
                         <name>title</name>
+                        <attribute nsref="xml"/>
                         <content space="preserve">
                             <text>
                                 <data>chapter title</data>
@@ -47,6 +50,7 @@
                     </element>
                     <element>
                         <name>para</name>
+                        <attribute nsref="xml"/>
                         <content space="preserve">
                             <text>
                                 <data>non breaking</data>

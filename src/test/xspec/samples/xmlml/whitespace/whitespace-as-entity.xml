@@ -51,15 +51,18 @@
             </ws>
             <element>
                 <name>mixed</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <element collapsed="true">
                         <name>mixed</name>
+                        <attribute nsref="xml"/>
                     </element>
                     <text>
                         <entity codepoint="32"/>
                     </text>
                     <element collapsed="true">
                         <name>mixed</name>
+                        <attribute nsref="xml"/>
                     </element>
                 </content>
             </element>
@@ -69,9 +72,11 @@
             </ws>
             <element>
                 <name>cont</name>
+                <attribute nsref="xml"/>
                 <content space="skip">
                     <element collapsed="true">
                         <name>cont</name>
+                        <attribute nsref="xml"/>
                     </element>
                     <ws>
                         <entity codepoint="32"/>
@@ -82,6 +87,7 @@
                     </ws>
                     <element collapsed="true">
                         <name>cont</name>
+                        <attribute nsref="xml"/>
                     </element>
                     <ws>
                         <entity codepoint="x20"/>
@@ -97,15 +103,18 @@
             </ws>
             <element>
                 <name>cont</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <element collapsed="true">
                         <name>cont</name>
+                        <attribute nsref="xml"/>
                     </element>
                     <text>
                         <entity codepoint="x61"></entity>
                     </text>
                     <element collapsed="true">
                         <name>cont</name>
+                        <attribute nsref="xml"/>
                     </element>
                 </content>
             </element>

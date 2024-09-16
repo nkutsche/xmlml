@@ -56,6 +56,10 @@
         <content space="preserve">
             <element collapsed="true">
                 <name>el</name>
+                <attribute nsref="xml"/>
+                <attribute nsref="#"/>
+                <attribute nsref="ns"/>
+                <attribute nsref="ns2"/>
                 <attribute>
                     <ws space="1"/>
                     <name>ns2:a</name>

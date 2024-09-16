@@ -25,6 +25,7 @@
             </ws>
             <element collapsed="true">
                 <name>strip</name>
+                <attribute nsref="xml"/>
             </element>
             <ws>
                 <nl/>
@@ -32,6 +33,7 @@
             </ws>
             <element>
                 <name>strip</name>
+                <attribute nsref="xml"/>
                 <content space="skip">
                     <ws>
                         <space amount="5"/>
@@ -44,6 +46,7 @@
             </ws>
             <element>
                 <name>preserve</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <text>
                         <data>     </data>

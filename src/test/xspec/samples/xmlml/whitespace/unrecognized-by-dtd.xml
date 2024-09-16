@@ -34,10 +34,12 @@
             <ws> <nl/> <space amount="4"/> </ws>
             <element collapsed="true">
                 <name>src-e</name>
+                <attribute nsref="xml"/>
             </element>
             <ws> <nl/> <space amount="4"/> </ws>
             <element>
                 <name>src-e</name>
+                <attribute nsref="xml"/>
                 <content space="skip">
                     <ws space="5"/>
                 </content>

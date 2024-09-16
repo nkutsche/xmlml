@@ -16,6 +16,7 @@
         <content space="preserve">
             <element>
                 <name>text</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <text>
                         <data>òòòòò</data>
@@ -24,6 +25,7 @@
             </element>
             <element>
                 <name>e</name>
+                <attribute nsref="xml"/>
                 <attribute>
                     <ws space="1"/>
                     <name>a</name>

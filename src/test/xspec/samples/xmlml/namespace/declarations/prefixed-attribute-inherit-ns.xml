@@ -24,6 +24,8 @@
         <content space="preserve">
             <element>
                 <name>child</name>
+                <attribute nsref="xml"/>
+                <attribute nsref="ns"/>
                 <attribute>
                     <ws space="1"/>
                     <name>ns:attribute</name>

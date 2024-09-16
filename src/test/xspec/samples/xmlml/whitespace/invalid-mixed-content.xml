@@ -69,9 +69,11 @@
             </text>
             <element>
                 <name>a</name>
+                <attribute nsref="xml"/>
             </element>
             <element>
                 <name>b</name>
+                <attribute nsref="xml"/>
                 <content space="preserve">
                     <text>
                         <nl/>
@@ -79,6 +81,7 @@
                     </text>
                     <element>
                         <name>c</name>
+                        <attribute nsref="xml"/>
                     </element>
                     <text>
                         <data> </data>
