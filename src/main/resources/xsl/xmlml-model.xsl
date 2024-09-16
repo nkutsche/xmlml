@@ -9,7 +9,7 @@
     </xd:doc>
     <xsl:function name="mlml:doc" as="document-node()" visibility="final">
         <xsl:param name="xmlml-documuent" as="element(mlml:document)"/>
-        <xsl:apply-templates select="mlml:clean-up($xmlml-documuent)" mode="mlml:doc"/>
+        <xsl:apply-templates select="$xmlml-documuent" mode="mlml:doc"/>
     </xsl:function>
 
     <xsl:function name="mlml:as-node" as="node()?" visibility="final">
@@ -21,7 +21,6 @@
         <xsl:choose>
             <xsl:when test="$node/self::mlml:text[@append-id | @appending]">
                 <xsl:variable name="nodes" select="mlml:collect-appendings($node)"/>
-                <xsl:variable name="node" select="$nodes ! mlml:clean-up(.)"/>
                 <xsl:variable name="results" as="text()*">
                     <xsl:apply-templates select="$nodes" mode="mlml:doc">
                         <xsl:with-param name="inherit-default-namespace"
@@ -32,7 +31,6 @@
                 <xsl:value-of select="$results" separator=""/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:variable name="node" select="mlml:clean-up($node)"/>
                 <xsl:apply-templates select="$node" mode="mlml:doc">
                     <xsl:with-param name="inherit-default-namespace"
                         select="($default-namespace, '')[1]" 
@@ -113,7 +111,7 @@
     
     <xsl:template match="text" mode="mlml:doc">
         <xsl:variable name="content" as="text()*">
-            <xsl:apply-templates mode="#current"/>
+            <xsl:apply-templates select="*" mode="#current"/>
         </xsl:variable>
         <xsl:value-of select="$content" separator=""/>
     </xsl:template>
@@ -146,7 +144,7 @@
 
     <xsl:template match="comment" mode="mlml:doc">
         <xsl:comment>
-            <xsl:apply-templates mode="#current"/>
+            <xsl:apply-templates select="*" mode="#current"/>
         </xsl:comment>
     </xsl:template>
 
@@ -157,11 +155,18 @@
 
     </xsl:template>
 
-    <xsl:template match="entity[@name]" mode="mlml:doc">
-        <xsl:apply-templates mode="#current"/>
+    <xsl:template match="entity[@name] | value | cdata-section" mode="mlml:doc">
+        <xsl:apply-templates select="*" mode="#current"/>
     </xsl:template>
 
 
+    
+    <xsl:template match="
+        data/text() 
+        | name/text()
+        " mode="mlml:doc" priority="-10">
+        <xsl:value-of select="."/>
+    </xsl:template>
     
 
     <xsl:function name="mlml:type-convert" as="xs:string">
