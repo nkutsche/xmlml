@@ -32,16 +32,21 @@
     
     <xsl:function name="mlmlp:node-name" as="xs:QName?">
         <xsl:param name="node" as="node()?"/>
-        <xsl:if test="$node/mlml:name[. != '']">
-            <xsl:variable name="name" select="$node/mlml:name"/>
-            <xsl:variable name="default-namespace" select="
-                if ($node/self::mlml:element) 
-                then ($node/ancestor-or-self::*[@element-default-namespace][1]/@element-default-namespace, '')[1] 
-                else ''
-                "/>
-            <xsl:variable name="namespace" select="mlml:namespace($name, $default-namespace)"/>
-            <xsl:sequence select="QName($namespace, $name)"/>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$node/self::mlml:attribute[@nsref]">
+                <xsl:sequence select="mlml:attr-name($node)"/>
+            </xsl:when>
+            <xsl:when test="$node/mlml:name[. != '']">
+                <xsl:variable name="name" select="$node/mlml:name"/>
+                <xsl:variable name="default-namespace" select="
+                    if ($node/self::mlml:element) 
+                    then ($node/ancestor-or-self::*[@element-default-namespace][1]/@element-default-namespace, '')[1] 
+                    else ''
+                    "/>
+                <xsl:variable name="namespace" select="mlml:namespace($name, $default-namespace)"/>
+                <xsl:sequence select="QName($namespace, $name)"/>
+            </xsl:when>
+        </xsl:choose>
     </xsl:function>
     
     <xsl:function name="mlmlp:name" as="xs:string">
@@ -51,7 +56,10 @@
             then '' 
             else if ($node/self::mlml:entity) 
             then string($node/(@name|@codepoint)) 
-            else string($node/mlml:name)"/>
+            else if ($node/self::mlml:attribute/@nsref) 
+            then string($node/@nsref) 
+            else string($node/mlml:name)
+            "/>
     </xsl:function>
 
     <xsl:function name="mlmlp:local-name" as="xs:string">
@@ -61,7 +69,9 @@
             if (empty($node-name)) 
             then '' 
             else if ($node/self::mlml:entity) 
-            then string($node/(@name|@codepoint)) 
+            then string($node/(@name|@codepoint))  
+            else if ($node/self::mlml:attribute/@nsref) 
+            then string($node/@nsref) 
             else local-name-from-QName($node-name)"/>
     </xsl:function>
 
@@ -125,7 +135,7 @@
                                 "/>
                             <xsl:sequence select="$eqname || '[' || $position + 1 || ']'"/>
                         </xsl:when>
-                        <xsl:when test="$arg/self::mlml:attribute[@namespace = 'true']">
+                        <xsl:when test="$arg/self::mlml:attribute[@namespace = 'true' or @nsref]">
                             <xsl:variable name="localname" select="$node-name ! local-name-from-QName(.)"/>
                             <xsl:variable name="name" select="
                                 if (empty($node-name)) 
@@ -295,7 +305,7 @@
             <xsl:sequence select="xpe:default-uri-mapper($exec-context, $relative, $baseUri)"/>
         </xsl:variable>
         <xsl:try>
-            <xsl:sequence select="$resolved ! mlml:parse(., map{'expand-namespace-nodes' : true()})"/>
+            <xsl:sequence select="$resolved ! mlml:parse(., map{})"/>
             <xsl:catch>
                 <xsl:sequence select="error(xpe:error-code('FODC0002'), $err:description)"/>
             </xsl:catch>
@@ -739,26 +749,21 @@
                 <xsl:sequence select="$context[mlmlp:node-test(., $node-test)]"/>
             </xsl:when>
             <xsl:when test="$axis = 'attribute'">
-                <xsl:apply-templates select="$context/self::mlml:element/mlml:attribute[not(@namespace = 'true')]" mode="mlmlp:tree-step-down">
+                <xsl:apply-templates select="$context/self::mlml:element/mlml:attribute[not(@namespace = 'true' or @nsref)]" mode="mlmlp:tree-step-down">
                     <xsl:with-param name="node-test" select="$node-test" tunnel="yes"/>
                 </xsl:apply-templates>
             </xsl:when>
-            <xsl:when test="$axis = 'namespace'">
-                <xsl:variable name="parent-ns" select="
-                    mlmlp:tree-walk($context, 'parent', ())
-                    ! mlmlp:tree-walk(., 'namespace', $node-test)
-                    "/>
+            <xsl:when test="$axis = 'namespace' and $context/self::mlml:element">
                 <xsl:variable name="this-ns" as="element(mlml:attribute)*">
-                    <xsl:apply-templates select="$context/self::mlml:element/mlml:attribute[@namespace = 'true']" mode="mlmlp:tree-step-down">
+                    <xsl:apply-templates select="$context/self::mlml:element/mlml:attribute[@namespace = 'true' or @nsref]" mode="mlmlp:tree-step-down">
                         <xsl:with-param name="node-test" select="$node-test" tunnel="yes"/>
                     </xsl:apply-templates>
                 </xsl:variable>
-                <xsl:variable name="this-ns-names" select="$this-ns/mlml:attr-name(.)"/>
                 <xsl:sequence select="
-                    $parent-ns[ not( mlml:attr-name(.)=  $this-ns-names )],
                     $this-ns[mlml:attr-name(.) != QName('', 'xmlns') or string(mlml:as-node(.)) != '']
                     "/>
             </xsl:when>
+            <xsl:when test="$axis = 'namespace'"/>
             <xsl:when test="$axis = 'parent'">
                 <xsl:apply-templates select="
                     $context/parent::*
@@ -898,7 +903,7 @@
         <xsl:variable name="node-kind" select="
             if ($node/self::mlml:pi) 
             then 'processing-instruction' 
-            else if ($node/self::mlml:attribute[@namespace = 'true']) 
+            else if ($node/self::mlml:attribute[@namespace = 'true' or @nsref]) 
             then 'namespace-node' 
             else if ($node/self::mlml:document) 
             then 'document-node' 
@@ -928,6 +933,9 @@
             </xsl:when>
             <xsl:when test="not($name-test)">
                 <xsl:sequence select="true()"/>
+            </xsl:when>
+            <xsl:when test="$node/self::mlml:attribute[@nsref]">
+                <xsl:sequence select="($node/@nsref, '*') = $name-matcher?local and $name-matcher?namespace = ''"/>
             </xsl:when>
             <xsl:when test="$node/self::mlml:attribute[@namespace = 'true']">
                 <xsl:sequence select="($node/mlml:name, '*') = $name-matcher?local and $name-matcher?namespace = ''"/>
