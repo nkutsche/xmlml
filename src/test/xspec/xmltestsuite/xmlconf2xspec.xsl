@@ -21,6 +21,7 @@
     
     <xsl:template match="/">
         <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:mlml="http://www.nkutsche.com/xmlml" stylesheet="{resolve-uri('test-runner.xsl', static-base-uri())}">
+            <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
             <xsl:call-template name="test-caller"/>
             <xsl:apply-templates/>
         </x:description>
