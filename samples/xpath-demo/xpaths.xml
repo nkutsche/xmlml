@@ -9,7 +9,11 @@
         return
         let $OMG := $characters[position() mod 2 = 0]/name/substring(., 1, 1) => string-join()
         return
-        let $A-Z := ( string-to-codepoints('A') to string-to-codepoints('Z') ) ! codepoints-to-string(.)
+        let $char-sequencer := function($f, $t){
+            ( string-to-codepoints($f) to string-to-codepoints($t) ) ! codepoints-to-string(.)
+        }
+        return
+        let $A-Z := $char-sequencer('A', 'Z')
         return
         let $X := sort($A-Z, (), function($c){count($characters[matches(name, $c || '®?$', 'i')])})[last()]
         return
@@ -20,6 +24,9 @@
     
     <!-- 
         <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
+    -->
+    <!-- 
+        <xpath>/asterix-universe/group/character[@xml:id = 'obel'][@species = 'human'][not(text())]</xpath>
     -->
     <!--
         <xpath>//name[entity('r')]/string(.)</xpath>
@@ -43,14 +50,4 @@
         <xpath>doc(resolve-uri('cdata-section.xml', base-uri(/)))/*/code[cdata-section()]</xpath>
     -->
     
-    <!--    
-        <xpath>/asterix-universe/group/character[@xml:id = 'ast']/name</xpath>
-    -->
-    <!--      
-        <xpath>/asterix-universe/group/character[@xml:id = 'obel']</xpath>
-        <xpath>id('obel')</xpath>
-    -->
-    <!--     
-        <xpath>//*[entity('oe')]</xpath>
-    -->
 </xpaths>
