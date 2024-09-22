@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+    xmlns:x="http://www.jenitennison.com/xslt/xspec" 
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:mlml="http://www.nkutsche.com/xmlml" 
+    xmlns:mlmlp="http://www.nkutsche.com/xmlml/xpath"  
+    xmlns:xpm="http://www.nkutsche.com/xpath-model"
+    xmlns:xpe="http://www.nkutsche.com/xpath-model/engine"
+    xmlns="http://www.nkutsche.com/xmlml"
+    stylesheet="../../main/resources/xsl/xpath-module/xmlml-xpath-module-pkg.xsl" run-as="external">
+    <x:helper stylesheet="helper.xsl"/>
+    <x:helper stylesheet="../../main/resources/xsl/xmlml-main.xsl"/>
+    <x:helper package-name="http://www.nkutsche.com/xpath-model" package-version="*"/>
+    <x:helper package-name="http://maxtoroq.github.io/rng-xsl" package-version="*"/>
+    
+    <x:variable name="test-config" select="mlml:detect-default-config()"/>
+    <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
+
+    <x:scenario label="generic-xpath-test" shared="true" catch="true">
+
+        <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
+        <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
+        <x:variable name="xml-dom" select="doc($xml-path)"/>
+        <x:variable name="xmlml" select="mlml:parse($xml-path)"/>
+
+        <x:scenario label="XPath result comparision">
+            <x:call function="mlmlp:xpath-evaluate">
+                <x:param position="1" select="$xmlml"/>
+                <x:param position="3" select="$test-config"/>
+            </x:call>
+            
+            <x:scenario label="//(@*, namespace::*, node())">
+                <x:call>
+                    <x:param position="2" select="
+                        '/descendant-or-self::node() ! (
+                            sort(@*, (), function($a){name($a)}),
+                            sort(namespace::*, (), function($a){name($a)}),
+                            node()
+                        )'
+                        
+                        "/>
+                </x:call>
+                <x:expect label="Saxon compare" test="
+                    $x:result ! (
+                        if(. instance of node()) then (mlml:as-node(.), '|separator|') else .
+                    )" 
+                    select="$xml-dom/descendant-or-self::node() ! (
+                            sort(@*, (), function($a){name($a)}),
+                            sort(namespace::*, (), function($a){name($a)}),
+                            node()
+                        ) ! (., '|separator|')
+                    "
+                />
+            </x:scenario>
+
+            <x:scenario label="//(@*,node()) ! path(.)">
+                <x:call>
+                    <x:param position="2" select="'/descendant-or-self::node() ! (sort(@*, (), function($a){name($a)}),node()) ! path(.)'"/>
+                </x:call>
+                <x:expect label="Saxon compare"
+                    select="$xml-dom/descendant-or-self::node() ! (sort(@*, (), function($a){name($a)}),node()) ! path(.)"
+                />
+            </x:scenario>
+            
+            
+        </x:scenario>
+
+    </x:scenario>
+
+    <!--<x:scenario label="generic-serialize-test-no-xerces" shared="true" catch="true">
+        <x:variable name="samples" href="samples/dummy.xml" select="base-uri(/)"/>
+
+        <x:variable name="xml-path" select="resolve-uri('xml/' || $path, $samples)"/>
+        <x:variable name="xmlml-path" select="resolve-uri('xmlml/' || $path, $samples)"/>
+        <x:variable name="xml" select="unparsed-text($xml-path)"/>
+        <x:variable name="xmlml" select="doc($xmlml-path)/*"/>
+
+        <x:scenario label="xmlml -> xml">
+            <x:call function="mlml:serialize">
+                <x:param select="$xmlml"/>
+            </x:call>
+
+            <x:expect label="XMLML serialized" select="$xml"/>
+        </x:scenario>
+
+        <x:scenario label="xml -> xmlml">
+            <x:call function="mlml:parse">
+                <x:param select="$xml-path"/>
+                <x:param select="$test-config"/>
+            </x:call>
+
+            <x:expect label="XMLML tree" select="mlml:clean-up($xmlml) => mlmlt:xmlml-ignore-doc-meta()"/>
+        </x:scenario>
+
+    </x:scenario>-->
+
+<!--    
+    Use this XPath expression to create scenarios:
+    
+    let $base-uri := /Q{http://www.nkutsche.com/xmlml}document/base-uri()
+    return
+    
+    let $relpath :=  substring-after($base-uri, '/xmlml/')
+    return
+    
+    '<x:scenario label="Test: ' ||  $relpath || '">
+    <x:variable name="path" select="''' || $relpath || '''"/>
+    <x:like label="generic-xpath-test"/>
+    </x:scenario>'
+    -->
+    
+    <x:scenario label="Dir: attribute/" catch="true">
+        <x:scenario label="Test: attribute/combine-all.xml">
+            <x:variable name="path" select="'attribute/combine-all.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/default-attribute.xml">
+            <x:variable name="path" select="'attribute/default-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/empty-value.xml">
+            <x:variable name="path" select="'attribute/empty-value.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/ending-name-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/ending-name-ws-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-value-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-value-ws-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-ws-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-attribute.xml">
+            <x:variable name="path" select="'attribute/leading-ws-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/leading-ws-two-attributes.xml">
+            <x:variable name="path" select="'attribute/leading-ws-two-attributes.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/overwrite-default-attr.xml">
+            <x:variable name="path" select="'attribute/overwrite-default-attr.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/single-attribute.xml">
+            <x:variable name="path" select="'attribute/single-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/single-quote-attribute.xml">
+            <x:variable name="path" select="'attribute/single-quote-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/tab-as-value.xml">
+            <x:variable name="path" select="'attribute/tab-as-value.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/types.xml">
+            <x:variable name="path" select="'attribute/types.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/types-entities.xml">
+            <x:variable name="path" select="'attribute/types-entities.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/types-invalid-nmtokens.xml">
+            <x:variable name="path" select="'attribute/types-invalid-nmtokens.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/types-xml-id.xml">
+            <x:variable name="path" select="'attribute/types-xml-id.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: attribute/xml-base-attribute.xml">
+            <x:variable name="path" select="'attribute/xml-base-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: cdata-sections/" catch="true">
+        <x:scenario label="Test: cdata-sections/cdata-mixed.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-mixed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-trivial.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-trivial.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-spec-chars.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-spec-chars.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-spec-chars2.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-spec-chars2.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: cdata-sections/cdata-w-whitespace.xml">
+            <x:variable name="path" select="'cdata-sections/cdata-w-whitespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: comment/" catch="true">
+        <x:scenario label="Test: comment/comment-trivial.xml">
+            <x:variable name="path" select="'comment/comment-trivial.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: comment/comment-w-special-chars.xml">
+            <x:variable name="path" select="'comment/comment-w-special-chars.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: comment/comment-w-whitespace.xml">
+            <x:variable name="path" select="'comment/comment-w-whitespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: doc/" catch="true">
+        <x:scenario label="Test: doc/dtdDecl-system.xml">
+            <x:variable name="path" select="'doc/dtdDecl-system.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/dtdDecl.xml">
+            <x:variable name="path" select="'doc/dtdDecl.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/leading-whitespace.xml">
+            <x:variable name="path" select="'doc/leading-whitespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/trivial.xml">
+            <x:variable name="path" select="'doc/trivial.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-dtdDecl.xml">
+            <x:variable name="path" select="'doc/xmlDecl-dtdDecl.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-encoding-8859-1.xml">
+            <x:variable name="path" select="'doc/xmlDecl-encoding-8859-1.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-singlequote.xml">
+            <x:variable name="path" select="'doc/xmlDecl-singlequote.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-standalone.xml">
+            <x:variable name="path" select="'doc/xmlDecl-standalone.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl.xml">
+            <x:variable name="path" select="'doc/xmlDecl.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: doc/xmlDecl-spaces.xml">
+            <x:variable name="path" select="'doc/xmlDecl-spaces.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: dtd/" catch="true">
+        <x:scenario label="Test: dtd/implied-attribute.xml">
+            <x:variable name="path" select="'dtd/implied-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/internal-and-external.xml">
+            <x:variable name="path" select="'dtd/internal-and-external.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/required-attribute.xml">
+            <x:variable name="path" select="'dtd/required-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/fixed-attribute.xml">
+            <x:variable name="path" select="'dtd/fixed-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/percent-in-default-attr.xml">
+            <x:variable name="path" select="'dtd/percent-in-default-attr.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd/default-overwrite-attribute.xml">
+            <x:variable name="path" select="'dtd/default-overwrite-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: dtd-advanced/" catch="true">
+        <x:scenario label="Test: dtd-advanced/multi-def-ext-pe.xml">
+            <x:variable name="path" select="'dtd-advanced/multi-def-ext-pe.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd-advanced/bad-data-in-ignore.xml">
+            <x:variable name="path" select="'dtd-advanced/bad-data-in-ignore.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd-advanced/docbook-dtd.xml">
+            <x:variable name="path" select="'dtd-advanced/docbook-dtd.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: dtd-advanced/inline-subset-w-ext-ent.xml">
+            <x:variable name="path" select="'dtd-advanced/inline-subset-w-ext-ent.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="Dir: element/" catch="true">
+        <x:scenario label="Test: element/empty-collapsed-with-ws.xml">
+            <x:variable name="path" select="'element/empty-collapsed-with-ws.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/empty-collapsed.xml">
+            <x:variable name="path" select="'element/empty-collapsed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/ending-endtag-ws.xml">
+            <x:variable name="path" select="'element/ending-endtag-ws.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: element/ending-starttag-ws.xml">
+            <x:variable name="path" select="'element/ending-starttag-ws.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: encoding/" catch="true">
+        <x:scenario label="Test: encoding/utf8/specialchars-utf8.xml">
+            <x:variable name="path" select="'encoding/utf8/specialchars-utf8.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: entity/" catch="true">
+        <x:scenario label="Test: entity/character-entity-amp.xml">
+            <x:variable name="path" select="'entity/character-entity-amp.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-cr.xml">
+            <x:variable name="path" select="'entity/character-entity-cr.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-nl-in-attr.xml">
+            <x:variable name="path" select="'entity/character-entity-nl-in-attr.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-w-text.xml">
+            <x:variable name="path" select="'entity/character-entity-w-text.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity.xml">
+            <x:variable name="path" select="'entity/character-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-dec.xml">
+            <x:variable name="path" select="'entity/character-entity-dec.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/character-entity-dec-leading-zeros.xml">
+            <x:variable name="path" select="'entity/character-entity-dec-leading-zeros.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/dtd-entity-w-text.xml">
+            <x:variable name="path" select="'entity/dtd-entity-w-text.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/empty-entity.xml">
+            <x:variable name="path" select="'entity/empty-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entities-in-attr-mixed.xml">
+            <x:variable name="path" select="'entity/entities-in-attr-mixed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-char.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-char.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-dtd.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-dtd.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-predef.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-predef.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-attribute-predef2.xml">
+            <x:variable name="path" select="'entity/entity-in-attribute-predef2.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-in-default-attribute.xml">
+            <x:variable name="path" select="'entity/entity-in-default-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/entity-self-include-system.xml">
+            <x:variable name="path" select="'entity/entity-self-include-system.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/recursive-dtd-entity.xml">
+            <x:variable name="path" select="'entity/recursive-dtd-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/trivial-dtd-entity.xml">
+            <x:variable name="path" select="'entity/trivial-dtd-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/single-entity.xml">
+            <x:variable name="path" select="'entity/complex/single-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/single-entity-mixed.xml">
+            <x:variable name="path" select="'entity/complex/single-entity-mixed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/two-entities.xml">
+            <x:variable name="path" select="'entity/complex/two-entities.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/two-entities-mixed.xml">
+            <x:variable name="path" select="'entity/complex/two-entities-mixed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/recursive-entities.xml">
+            <x:variable name="path" select="'entity/complex/recursive-entities.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: entity/complex/recursive-entities.xml">
+            <x:variable name="path" select="'entity/complex/recursive-entities.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: linefeed-normalization/" catch="true">
+        <x:scenario label="Test: linefeed-normalization/attr-break-as-entity.xml">
+            <x:variable name="path" select="'linefeed-normalization/attr-break-as-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/attr.xml">
+            <x:variable name="path" select="'linefeed-normalization/attr.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/cdata.xml">
+            <x:variable name="path" select="'linefeed-normalization/cdata.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/comment.xml">
+            <x:variable name="path" select="'linefeed-normalization/comment.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/el.xml">
+            <x:variable name="path" select="'linefeed-normalization/el.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/entity.xml">
+            <x:variable name="path" select="'linefeed-normalization/entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/pi.xml">
+            <x:variable name="path" select="'linefeed-normalization/pi.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/root-epilog.xml">
+            <x:variable name="path" select="'linefeed-normalization/root-epilog.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/root-prolog.xml">
+            <x:variable name="path" select="'linefeed-normalization/root-prolog.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: linefeed-normalization/text.xml">
+            <x:variable name="path" select="'linefeed-normalization/text.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+
+
+    <x:scenario label="Dir: pi/" catch="true">
+        <x:scenario label="Test: pi/pi-in-dtd-inline.xml" pending="Ignore, as Xerces result does not match to the XML TS for this case">
+            <x:variable name="path" select="'pi/pi-in-dtd-inline.xml'"/>
+            <x:variable name="test-config" select="map:put($test-config, $mlml:IGNORE-INLINE-DTD-PIS, false())"/>
+            <!-- Ignore XDM compare, as Xerces result does not match to the XML TS for this case -->
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-trivial.xml">
+            <x:variable name="path" select="'pi/pi-trivial.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-linebreak.xml">
+            <x:variable name="path" select="'pi/pi-w-linebreak.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-spec-chars.xml">
+            <x:variable name="path" select="'pi/pi-w-spec-chars.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-w-whitespace.xml">
+            <x:variable name="path" select="'pi/pi-w-whitespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-wo-value-but-ws.xml">
+            <x:variable name="path" select="'pi/pi-wo-value-but-ws.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: pi/pi-wo-value.xml">
+            <x:variable name="path" select="'pi/pi-wo-value.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="Dir: root-el-comment-pi/" catch="true">
+        <x:scenario label="Test: root-el-comment-pi/comment-before-dtd.xml">
+            <x:variable name="path" select="'root-el-comment-pi/comment-before-dtd.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-comment.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-comment.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-el.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-el.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-epilog.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-epilog.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: root-el-comment-pi/root-pi.xml">
+            <x:variable name="path" select="'root-el-comment-pi/root-pi.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Dir: namespace/" catch="true">
+        <x:scenario label="Test: namespace/declarations/default-namespace-w-attribute.xml">
+            <x:variable name="path" select="'namespace/declarations/default-namespace-w-attribute.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/default-namespace.xml">
+            <x:variable name="path" select="'namespace/declarations/default-namespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/namespace-declaration-unused.xml">
+            <x:variable name="path" select="'namespace/declarations/namespace-declaration-unused.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/namespace-inheritance.xml">
+            <x:variable name="path" select="'namespace/declarations/namespace-inheritance.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-attribute-inherit-ns.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-attribute-inherit-ns.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-namespace.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-namespace.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-after.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-after.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-only-collapsed.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-only-collapsed.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes-only.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes-only.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/prefixed-w-attributes.xml">
+            <x:variable name="path" select="'namespace/declarations/prefixed-w-attributes.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/declarations/redundant-prefixed-declarations.xml">
+            <x:variable name="path" select="'namespace/declarations/redundant-prefixed-declarations.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/namespace-w-entity.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/namespace-w-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+<!--            <x:scenario label="check namespace URIs">
+                <x:call function="mlml:parse">
+                    <x:param select="resolve-uri('xml/' || $path, $samples)"/>
+                    <x:param select="$test-config"/>
+                </x:call>
+                <x:expect label="Check URI of ns namespace" test="($x:result//namespace::ns)[1]/string(.)" select="'my.namespace.com'"/>
+                <x:expect label="Check URI of ns2 namespace" test="($x:result//namespace::ns2)[1]/string(.)" select="'my.namespace.com'"/>
+            </x:scenario>-->
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/overwrite-default-ns-decl.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/overwrite-default-ns-decl.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd-w-prefix.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml">
+            <x:variable name="path" select="'namespace/with-dtd-attributes/default-ns-by-dtd-w-conflict.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+    <!--
+        Currently it workse only with -strip:none
+    -->
+    <x:scenario label="Dir: whitespace/" catch="true">
+        <x:scenario label="Test: whitespace/invalid-mixed-content.xml">
+            <x:variable name="path" select="'whitespace/invalid-mixed-content.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: whitespace/unrecognized-by-dtd-empty.xml">
+            <x:variable name="path" select="'whitespace/unrecognized-by-dtd-empty.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: whitespace/unrecognized-by-dtd.xml">
+            <x:variable name="path" select="'whitespace/unrecognized-by-dtd.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: whitespace/whitespace-as-entity.xml">
+            <x:variable name="path" select="'whitespace/whitespace-as-entity.xml'"/>
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+        <x:scenario label="Test: whitespace/custom-strip-spacing-no-dtd.xml" pending="Ignore, as custom strip spacing is not available for Xerces">
+            <x:variable name="path" select="'whitespace/custom-strip-spacing-no-dtd.xml'"/>
+            <x:variable name="test-config" select="map:put($test-config, $mlml:CUSTOM-STRUCTUR-ELEMENTS, 
+                    function($doc){
+                        $doc//mlml:element[not(mlml:name = 'preserve')]
+                        (:
+                        :)
+                    }
+                )"/>
+            <!-- 
+                Ignore XDM compare, as custom strip spacing is not available for Xerces -->
+            <x:like label="generic-xpath-test"/>
+        </x:scenario>
+    </x:scenario>
+    
+</x:description>
