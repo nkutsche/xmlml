@@ -33,7 +33,7 @@
         <run.xspecs>*.xspec</run.xspecs>
         <xml.conf.focus>id=#none</xml.conf.focus>
         
-        
+        <assembly.dir>src/assembly/</assembly.dir>
         <testsuite.checkoutdir>${project.build.directory}/qt3-testsuite/</testsuite.checkoutdir>
         <testsuite.qt3-id-focus>.*</testsuite.qt3-id-focus>
         <testsuite.qt3-id-group-focus>*</testsuite.qt3-id-group-focus>
@@ -133,6 +133,22 @@
                                 <packagePath>${resource.subdir}/xsl/xmlml-pkg.xsl</packagePath>
                                 <packagePath>${resource.subdir}/xsl/xpath-module/xmlml-xpath-module-pkg.xsl</packagePath>
                             </packagePaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorSourceDirectory>${assembly.dir}</descriptorSourceDirectory>
                         </configuration>
                     </execution>
                 </executions>
