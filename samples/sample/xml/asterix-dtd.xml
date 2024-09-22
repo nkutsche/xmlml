@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE asterix-universe SYSTEM "../xml/asterix.dtd">
+<asterix-universe>
+    <group xml:id="galier">
+        <name>Gallier</name>
+        <character xml:id="ast">
+            <name>Asterix&r;</name>
+            <position>Warrior</position>
+        </character>
+        <character
+            xml:id='obel'
+            >
+            <name>Obelix&r;</name>
+            <position>Menhir supplier</position>
+        </character>
+        <character xml:id="idf" species="dog">
+            <name>Idefix®</name>
+            <position>Dog of Obelix</position>
+        </character>
+        <character>
+            <name>Majestix</name>
+            <position>Chief</position>
+        </character>
+    </group>
+    <group xml:id="roman">
+        <name>R&oe;mer</name>
+        <character xml:id="cäs">
+            <name>C&#xe4;sar</name>
+            <position>Imperator</position>
+        </character>
+        <character>
+            <name>Gaius Bonus</name>
+            <position>Centurion</position>
+        </character>
+        <character xml:id="brutus" species="human">
+            <name>Brutus</name>
+            <position>Sohn des C&#xe4;sars</position>
+        </character>
+    </group>
+</asterix-universe>
