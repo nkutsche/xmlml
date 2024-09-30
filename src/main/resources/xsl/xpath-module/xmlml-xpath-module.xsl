@@ -368,6 +368,23 @@
     <xsl:function name="mlmlp:transform" as="map(*)">
         <xsl:param name="exec-context" as="map(*)"/>
         <xsl:param name="options" as="map(*)"/>
+        
+        <xsl:variable name="id-gen" as="document-node()">
+            <xsl:document/>
+        </xsl:variable>
+        <xsl:variable name="id-gen" select="generate-id($id-gen)"/>
+        
+        <!--
+            adds a unique ID as suffix to the stylesheet text
+            to avoid that Saxon applies to the same stylesheet text the same static base uri
+        -->
+        <xsl:variable name="options" select="
+            if (exists($options?stylesheet-text)) 
+            then map:put($options, 'stylesheet-text', $options?stylesheet-text || '&lt;?' || $id-gen || '?>') 
+            else $options
+            "/>
+        
+        
         <!--        
             Replace $options?stylesheet-location by $options?stylesheet-node and use URI resolver
         -->

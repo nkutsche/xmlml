@@ -54,10 +54,6 @@
         <xpmt:dependency type="language" value="de" satisfied="false"/>
         <xpmt:dependency type="language" value="fr" satisfied="false"/>
         <xpmt:dependency type="language" value="it" satisfied="false"/>
-        <xpmt:dependency type="feature" value="fn-transform-XSLT" satisfied="partial">
-            <xpmt:ignore test="fn-transform-err-9">TODO</xpmt:ignore>
-            <xpmt:ignore test="fn-transform-err-9a">TODO</xpmt:ignore>
-        </xpmt:dependency>
         <xpmt:dependency type="feature" value="remote_http" satisfied="partial">
             <xpmt:ignore test="fn-unparsed-text-054">requires: Feature.STABLE_UNPARSED_TEXT which leads to problems with other test cases...</xpmt:ignore>
             <xpmt:ignore test="fn-unparsed-text-054a">requires: Feature.STABLE_UNPARSED_TEXT which leads to problems with other test cases...</xpmt:ignore>
@@ -115,6 +111,7 @@
             <xpmt:ignore test="fn-unparsed-text-lines-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
             <xpmt:ignore test="fn-unparsed-text-lines-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
             <xpmt:ignore test="fn-unparsed-text-lines-055">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
+            <xpmt:ignore test="fn-transform-err-9">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
             
             <xpmt:ignore test="PathExpr-17">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
             <xpmt:ignore test="PathExpr-18">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
