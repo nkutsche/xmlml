@@ -309,6 +309,18 @@
                                                 </fileMapper>
                                             </fileMappers>
                                         </transformationSet>
+                                    </transformationSets>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>testsuite-summary</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <forceCreation>true</forceCreation>
+                                    <transformationSets>
                                         <transformationSet>
                                             <dir>${project.basedir}/src/test/xspec/xmltestsuite/</dir>
                                             <outputDir>${project.basedir}/</outputDir>
