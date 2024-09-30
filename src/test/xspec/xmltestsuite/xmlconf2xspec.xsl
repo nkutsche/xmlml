@@ -53,7 +53,7 @@
             | key('ignore-edition', @EDITION/tokenize(.,'\s'), $ignorings)
             | key('ignore-version', @VERSION, $ignorings))
             "/>
-        <x:scenario label="{@ID}" catch="true">
+        <x:scenario label="[[{@ID}]]" catch="true">
             <xsl:choose>
                 <xsl:when test="$ignore">
                     <xsl:variable name="ignore-ids" select="@ID, @EDITION, @VERSION"/>

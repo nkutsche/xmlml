@@ -328,6 +328,12 @@
                                                 <include>XMLConf-Testsuite-Exclusions.xml</include>
                                             </includes>
                                             <stylesheet>${project.baseUri}/src/test/xspec/xmltestsuite/ignoring-table.xsl</stylesheet>
+                                            <parameters>
+                                                <parameter>
+                                                    <name>surfire-report-uri</name>
+                                                    <value>${project.baseUri}/target/surefire-reports/xmlconf.xspec-junit.xml</value>
+                                                </parameter>
+                                            </parameters>
                                             <fileMappers>
                                                 <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
                                                     <targetExtension>.md</targetExtension>

@@ -1,6 +1,14 @@
 # Ignoring Tests from the XML Conformance Testsuite
 
-This page describes the test cases which are marked as pending and the reasons for. This page is generated and be maintained by this [XML document](src/test/xspec/xmltestsuite/XMLConf-Testsuite-Exclusions.xml).
+This page describes the test cases which are marked as pending and  the reasons for. This page is generated and be maintained by this [XML document](src/test/xspec/xmltestsuite/XMLConf-Testsuite-Exclusions.xml).
+
+## Overview
+
+The following table gives an overview of the total amount of tests in the XML Comformance Testsuite how many are ignored and how many are activly tested.
+
+| Number of Tests | Passed Tests | Ignored Tests (with Reason) | Ignored Tests (without reason) | Failed Tests |
+|--|--|--|--|--|
+|2585|1979|597|0|0|
 
 ## Ignore Reasons
 

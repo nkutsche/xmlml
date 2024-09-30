@@ -16,16 +16,57 @@
     <xsl:output method="text"/>
     
     <xsl:variable name="testsuite" select="doc('xmlconf/xmlconf.xml')"/>
+    <xsl:param name="surfire-report-uri" as="xs:string"/>
+    <xsl:param name="surfire-report" select=" if (doc-available($surfire-report-uri)) then doc($surfire-report-uri) else ()" as="document-node()?"/>
     <xsl:key name="Test-id" match="TEST" use="@ID"/>
     <xsl:key name="Test-edition" match="TEST[@EDITION]" use="@EDITION/tokenize(., '\s')"/>
     <xsl:key name="Test-version" match="TEST[@VERSION]" use="@VERSION"/>
+    
+    <xsl:key name="surefiretest-id" match="testcase" use="mlmlt:get-surefire-id(.)"/>
     
     <xsl:template match="/*">
         
         <xsl:text># Ignoring Tests from the XML Conformance Testsuite</xsl:text>
         <xsl:text>&#xA;</xsl:text>
         <xsl:text>&#xA;</xsl:text>
-        <xsl:text>This page describes the test cases which are marked as pending and the reasons for. This page is generated and be maintained by this [XML document](src/test/xspec/xmltestsuite/XMLConf-Testsuite-Exclusions.xml).</xsl:text>
+        <xsl:text>This page describes the test cases which are marked as pending and  the reasons for. This page is generated and be maintained by this [XML document](src/test/xspec/xmltestsuite/XMLConf-Testsuite-Exclusions.xml).</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        
+        <xsl:text>## Overview</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        
+        <xsl:text>The following table gives an overview of the total amount of tests in the XML Comformance Testsuite how many are ignored and how many are activly tested.</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        
+        <xsl:text>| Number of Tests | Passed Tests | Ignored Tests (with Reason) | Ignored Tests (without reason) | Failed Tests |</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:text>|--|--|--|--|--|</xsl:text>
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:variable name="all-tests" select="$testsuite//TEST"/>
+        <xsl:variable name="ignore-tests" select="reason/ignore/mlmlt:get-tests-by-ignore(.)"/>
+        <xsl:variable name="active-tests" select="$all-tests except $ignore-tests"/>
+        
+        <xsl:variable name="skipped-tests" select="$active-tests[key('surefiretest-id', @ID, $surfire-report)[@status = 'skipped']]"/>
+        <xsl:variable name="failed-tests" select="$active-tests[key('surefiretest-id', @ID, $surfire-report)[@status = 'failed']]"/>
+        <xsl:variable name="passed-tests" select="
+            ($active-tests except ($skipped-tests|$failed-tests))[key('surefiretest-id', @ID, $surfire-report)[@status = 'passed']]
+            "/>
+        
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="count($all-tests)"/>
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="count($passed-tests)"/>
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="count($ignore-tests)"/>
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="count($skipped-tests)"/>
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="count($failed-tests)"/>
+        <xsl:text>|</xsl:text>
+        
         <xsl:text>&#xA;</xsl:text>
         <xsl:text>&#xA;</xsl:text>
         
@@ -87,6 +128,16 @@
         </xsl:for-each>
     </xsl:template>
     <xsl:template match="ignore" priority="-10"/>
+    
+    <xsl:function name="mlmlt:get-surefire-id" as="xs:string?">
+        <xsl:param name="testcase" as="element(testcase)"/>
+        <xsl:variable name="name" select="$testcase/@name"/>
+        <xsl:analyze-string select="$name" regex="\[\[([^\[]+)\]\]">
+            <xsl:matching-substring>
+                <xsl:sequence select="regex-group(1)"/>
+            </xsl:matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
     
     <xsl:function name="mlmlt:get-tests-by-ignore" as="element(TEST)*">
         <xsl:param name="ignore" as="element(ignore)"/>
