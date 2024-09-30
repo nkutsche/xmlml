@@ -249,6 +249,31 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>com.nkutsche</groupId>
+                        <artifactId>xspec-maven-plugin</artifactId>
+                        <version>2.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>run-xspec-xmlconf</id>
+                                <goals>
+                                    <goal>run-xspec</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <testDir>${project.build.directory}/xspec-generated/</testDir>
+                                    <catalogFile>${project.build.directory}/classes/${resource.subdir}/catalog.xml</catalogFile>
+                                    <generateSurefireReport>true</generateSurefireReport>
+                                    <!--
+                                    NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
+                                    <xspecProperties>
+                                        <xspec.xml.version>1.1</xspec.xml.version>
+                                    </xspecProperties>
+                                    --> 
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>xml-maven-plugin</artifactId>
                         <executions>
@@ -309,30 +334,7 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-                    <plugin>
-                        <groupId>com.nkutsche</groupId>
-                        <artifactId>xspec-maven-plugin</artifactId>
-                        <version>2.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>run-xspec-xmlconf</id>
-                                <goals>
-                                    <goal>run-xspec</goal>
-                                </goals>
-                                <phase>test</phase>
-                                <configuration>
-                                    <testDir>${project.build.directory}/xspec-generated/</testDir>
-                                    <catalogFile>${project.build.directory}/classes/${resource.subdir}/catalog.xml</catalogFile>
-                                    <!--
-                                    NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
-                                    <xspecProperties>
-                                        <xspec.xml.version>1.1</xspec.xml.version>
-                                    </xspecProperties>
-                                    --> 
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+                    
                 </plugins>
             </build>
         </profile>
