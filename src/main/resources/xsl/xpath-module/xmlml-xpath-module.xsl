@@ -408,6 +408,17 @@
             else $options
             "/>
         
+        <!--
+            Resolve the stylesheet-base-uri against the static-base-uri
+            (in case of stylesheet-base-uri is relative)
+        -->
+        <xsl:variable name="static-base-uri" select="xpe:fn-apply($exec-context, 'static-base-uri', [])"/>
+        <xsl:variable name="options" select="
+            if (exists($options?stylesheet-base-uri)) 
+            then map:put($options, 'stylesheet-base-uri', resolve-uri($options?stylesheet-base-uri, $static-base-uri)) 
+            else $options
+            "/>
+        
         <xsl:variable name="options" select="
             if (exists($options?package-location))
             then 
