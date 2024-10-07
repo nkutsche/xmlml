@@ -46,6 +46,9 @@
         <xsl:variable name="scenarios" as="element(x:scenario)*">
             <xsl:apply-templates>
                 <xsl:with-param name="envs" select="environment" tunnel="yes"/>
+                <xsl:with-param name="test-dependencies" tunnel="yes" as="element(dependency)">
+                    <qt:dependency type="spec" value="XP3.0+"/>
+                </xsl:with-param>
             </xsl:apply-templates>
         </xsl:variable>
         <xsl:for-each-group select="$scenarios[not(@shared = 'true')][(@xpmt:group, '*') = $group-focus]" group-by="@xpmt:group">
