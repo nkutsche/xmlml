@@ -119,6 +119,12 @@
         <xpmt:ignore test="PathExpr-19"/>
     </xpmt:dependency>
     
+    <xpmt:dependency type="feature" value="fn-transform-XSLT" satisfied="true">
+        <xpmt:reason code="TST-XSLT">This testcase handles behavior of the processor if XSLT is not supported. The feature XSLT by the XPath engine is always active.</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="fn-transform-XSLT30" satisfied="true">
+        <xpmt:reason code="TST-XSLT">This testcase handles behavior of the processor if XSLT is not supported. The feature XSLT by the XPath engine is always active.</xpmt:reason>
+    </xpmt:dependency>
     
     <!--<xpmt:dependency type="calendar" value="CB" satisfied="false"/>
     <xpmt:dependency type="format-integer-sequence" value="ﯴ" satisfied="false"/>-->
