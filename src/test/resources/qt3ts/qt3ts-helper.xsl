@@ -359,6 +359,11 @@
         <xsl:param name="result" as="item()*" tunnel="yes"/>
         <xsl:choose>
             <xsl:when test="$result instance of map(*)">
+                <xsl:if test="$result?err instance of map(*)">
+                    <xsl:message>Failed because result is an error</xsl:message>
+                    <xsl:message expand-text="yes">Error code: {$result?err?code}</xsl:message>
+                    <xsl:message expand-text="yes">Error message: {$result?err?description}</xsl:message>
+                </xsl:if>
                 <xsl:sequence select="false()"/>
             </xsl:when>
             <xsl:otherwise>
