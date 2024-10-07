@@ -389,7 +389,39 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+                    <plugin>
+                        <groupId>com.nkutsche</groupId>
+                        <artifactId>xspec-maven-plugin</artifactId>
+                        <version>2.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>run-xspec</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>run-xspec-xpath-qt3</id>
+                                <goals>
+                                    <goal>run-xspec</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <testDir>${project.build.directory}/qt3-testsuite-xspec/</testDir>
+                                    <!--
+                                    NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
+                                    <xspecProperties>
+                                        <xspec.xml.version>1.1</xspec.xml.version>
+                                    </xspecProperties>
+                                    --> 
+                                    <includes>qt3ts-runner-${testsuite.qt3-id-group-focus}-*.xspec</includes>
+                                    <addDependenciesToClasspath>true</addDependenciesToClasspath>
+                                    <xspecProperties>
+                                        <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager -config:${project.basedir}/src/test/resources/qt3ts/saxon-config.xml</saxon.custom.options>
+                                    </xspecProperties>
+                                    <generateSurefireReport>true</generateSurefireReport>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>xml-maven-plugin</artifactId>
@@ -442,39 +474,7 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-                    <plugin>
-                        <groupId>com.nkutsche</groupId>
-                        <artifactId>xspec-maven-plugin</artifactId>
-                        <version>2.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>run-xspec</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
-                                <id>run-xspec-xpath-qt3</id>
-                                <goals>
-                                    <goal>run-xspec</goal>
-                                </goals>
-                                <phase>test</phase>
-                                <configuration>
-                                    <testDir>${project.build.directory}/qt3-testsuite-xspec/</testDir>
-                                    <!--
-                                    NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
-                                    <xspecProperties>
-                                        <xspec.xml.version>1.1</xspec.xml.version>
-                                    </xspecProperties>
-                                    --> 
-                                    <includes>qt3ts-runner-${testsuite.qt3-id-group-focus}-*.xspec</includes>
-                                    <addDependenciesToClasspath>true</addDependenciesToClasspath>
-                                    <xspecProperties>
-                                        <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager -config:${project.basedir}/src/test/resources/qt3ts/saxon-config.xml</saxon.custom.options>
-                                    </xspecProperties>
-                                    <generateSurefireReport>true</generateSurefireReport>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+                    
                 </plugins>
             </build>
         </profile>
