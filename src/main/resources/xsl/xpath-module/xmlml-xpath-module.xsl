@@ -315,6 +315,9 @@
     <xsl:key name="mlml-id" match="mlml:attribute[@type = 'ID' or mlml:attr-name(.) = xs:QName('xml:id')]"
      use="mlmlp:data(.)"
     />
+    <xsl:key name="mlml-idref" match="mlml:attribute[@type = 'IDREF']"
+     use="mlmlp:data(.)"
+    />
     <xsl:key name="mlml-genid" match="mlml:*"
      use="mlmlp:generate-id(.)"
     />
@@ -324,6 +327,13 @@
         <xsl:param name="node" as="node()"/>
         <xsl:variable name="idrefs" select="$arg ! tokenize(., '\s+')"/>
         <xsl:sequence select="key('mlml-id', $idrefs, root($node))/parent::mlml:element"/>
+    </xsl:function>
+
+    <xsl:function name="mlmlp:idref" as="node()*">
+        <xsl:param name="arg" as="xs:string*"/>
+        <xsl:param name="node" as="node()"/>
+        <xsl:variable name="ids" select="$arg ! tokenize(., '\s+')"/>
+        <xsl:sequence select="key('mlml-idref', $ids, root($node))"/>
     </xsl:function>
     
     
@@ -664,6 +674,7 @@
                 mlmlp:create-fn-wrap('mlmlp:xml-to-json', 1 to 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:document-uri', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:id', 2, false()),
+                mlmlp:create-fn-wrap('mlmlp:idref', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:has-children', 1, false()),
                 mlmlp:create-fn-wrap('mlmlp:lang', 2, false()),
                 mlmlp:create-fn-wrap('mlmlp:root', 1, false()),
