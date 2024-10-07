@@ -40,4 +40,9 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: true
+    - name: Archive surefire reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: Surefire-reports
+        path: target/surefire-reports/qt3ts-runner-*.xml
 
