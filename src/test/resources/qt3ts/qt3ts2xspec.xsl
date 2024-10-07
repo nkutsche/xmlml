@@ -208,16 +208,23 @@
         <xsl:param name="test-dependencies" tunnel="yes" as="element(dependency)*"/>
         <xsl:variable name="focus" select="$focus-eff"/>
         <xsl:variable name="focus" select="$focus[. != ''] ! ('^' || . || '$')"/>
+        <xsl:variable name="test-dependencies" select="$test-dependencies => xpmt:merge-dependencies()"/>
         <xsl:choose>
             <xsl:when test="exists($focus) and (every $f in $focus satisfies not(matches(@name, $f)))"/>
             <xsl:when test="not($test-dependencies)">
                 <xsl:next-match/>
             </xsl:when>
             <xsl:when test="
-                $test-dependencies => xpmt:merge-dependencies() => xpmt:verify-test-dependencies()">
+                $test-dependencies => xpmt:verify-test-dependencies()">
                 <xsl:next-match/>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:variable name="pending" select="
+                    $test-dependencies/(@type || '[' || @value || ']' || '=' || (@satisfied, 'true')[1]) => string-join(';')
+                    "/>
+                <xsl:next-match>
+                    <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
+                </xsl:next-match>
 <!--                <xsl:message expand-text="yes">Skiped test case {@name}</xsl:message>-->
             </xsl:otherwise>
         </xsl:choose>
@@ -311,6 +318,7 @@
     <xsl:template match="test-case">
         <xsl:param name="envs" as="element(qt:environment)*" tunnel="yes"/>
         <xsl:param name="group" as="xs:string" tunnel="yes" select="'default'"/>
+        <xsl:param name="pending" as="xs:string?" tunnel="yes" select="()"/>
         <xsl:variable name="custom-env" select="environment[not(@ref)]"/>
         
         <xsl:apply-templates select="$custom-env"/>
@@ -332,6 +340,9 @@
                 <xsl:if test="$ignore-reaons">
                     <xsl:attribute name="pending" expand-text="yes"
                         >Ignored by dependency settings. Reason: {$ignore-reaons}</xsl:attribute>
+                </xsl:if>
+                <xsl:if test="$pending">
+                    <xsl:attribute name="pending" select="$pending"/>
                 </xsl:if>
                 <x:variable name="base-uri" select="'{base-uri(.)}'"/>
                 <x:variable name="xpath" select="string(.)">
