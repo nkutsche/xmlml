@@ -137,13 +137,15 @@
                 <xsl:next-match/>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:variable name="reason" select="xpmt:get-ignore-reasons($test-dependencies)"/>
+                <xsl:variable name="reason-code" select="$reason/xpmt:reason/@code => string-join(';')"/>
+                <xsl:variable name="reason-code" select="($reason-code, 'UNKNOWN')[1]"/>
                 <xsl:variable name="pending" select="
-                    $test-dependencies/(@type || '[' || @value || ']' || '=' || (@satisfied, 'true')[1]) => string-join(';')
+                    'Reason-code: [[' || $reason-code || ']]'
                     "/>
                 <xsl:next-match>
                     <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
                 </xsl:next-match>
-<!--                <xsl:message expand-text="yes">Skiped test case {@name}</xsl:message>-->
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -169,15 +171,15 @@
             "/>
         <xsl:if test="exists($focus-eff[. = @name]) or (some $f in $focus-eff satisfies matches(@name, $f))">
             
-            <x:scenario label="{@name}: {description}" catch="true" xpmt:group="{$group}">
+            <x:scenario label="&lt;{@name}>: {description}" catch="true" xpmt:group="{$group}">
                 <xsl:if test="$env/source/@validation = 'strict'">
                     <xsl:attribute name="pending">Ignored as test case seems to be schema-aware.</xsl:attribute>
                 </xsl:if>
                 <xsl:variable name="test-name" select="@name"/>
-                <xsl:variable name="ignore-reaons" select="$dependency-settings//xpmt:ignore[@test = $test-name]"/>
-                <xsl:if test="$ignore-reaons">
+                <xsl:variable name="ignore" select="$dependency-settings//xpmt:ignore[@test = $test-name]"/>
+                <xsl:if test="$ignore">
                     <xsl:attribute name="pending" expand-text="yes"
-                        >Ignored by dependency settings. Reason: {$ignore-reaons}</xsl:attribute>
+                        >Reason-code: [[{$ignore/../xpmt:reason}]]</xsl:attribute>
                 </xsl:if>
                 <xsl:if test="$pending">
                     <xsl:attribute name="pending" select="$pending"/>
