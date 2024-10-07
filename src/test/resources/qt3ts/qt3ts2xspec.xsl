@@ -20,6 +20,7 @@
             <xd:p></xd:p>
         </xd:desc>
     </xd:doc>
+    <xsl:include href="dependency-handling.xsl"/>
     
     <xsl:param name="focus-surefire-report" as="xs:string"/>
     <xsl:param name="focus" as="xs:string">.*</xsl:param>
@@ -40,86 +41,6 @@
     </xsl:function>
     
     
-    <xsl:variable name="dependency-settings" as="element(xpmt:dependency)*">
-        <xpmt:dependency type="spec" match="^XP([1-3]\.?\d\+|31|3\.1)$" only="true"/>
-        <xpmt:dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>
-        <xpmt:dependency type="feature" value="staticTyping" satisfied="false"/>
-        <xpmt:dependency type="feature" value="schemaValidation" satisfied="false"/>
-        <xpmt:dependency type="feature" value="schemaImport" satisfied="false"/>
-        <xpmt:dependency type="feature" value="advanced-uca-fallback" satisfied="false"/>
-        <xpmt:dependency type="feature" value="xpath-1.0-compatibility" satisfied="false"/>
-        <xpmt:dependency type="xml-version" value="1.1" satisfied="false"/>
-        <xpmt:dependency type="xsd-version" value="1.0" satisfied="false"/>
-        <xpmt:dependency type="default-language" value="fr-CA" satisfied="false"/>
-        <xpmt:dependency type="language" value="de" satisfied="false"/>
-        <xpmt:dependency type="language" value="fr" satisfied="false"/>
-        <xpmt:dependency type="language" value="it" satisfied="false"/>
-        <xpmt:dependency type="feature" value="remote_http" satisfied="partial">
-            <xpmt:ignore test="fn-unparsed-text-054">requires: Feature.STABLE_UNPARSED_TEXT which leads to problems with other test cases...</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-054a">requires: Feature.STABLE_UNPARSED_TEXT which leads to problems with other test cases...</xpmt:ignore>
-        </xpmt:dependency>
-        <xpmt:dependency>
-            <xpmt:ignore test="K2-FunctionCallExpr-2"
-                >This test case rules only for XQuery.</xpmt:ignore>
-            <xpmt:ignore test="K-XQueryComment-15"
-                >Comment nested in comments are ignored by the XPM parser...</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-056">Saxon-HE throws FOUT1170 instead of FOUT1190!</xpmt:ignore>
-            <xsl:if test="not(available-environment-variables() = 'QTTEST')">
-                <xpmt:ignore test="fn-available-environment-variables-011">Its hard to ensure that an env variable is set by the calling system...</xpmt:ignore>
-            </xsl:if>
-            <!-- 
-                Reason: "On SaxonJ-HE, Saxon uses the collation facilities available directly from the JDK."
-                see https://www.saxonica.com/html/documentation12/localization/unicode-collation-algorithm/index.html 
-            -->
-            <xpmt:ignore test="fo-test-fn-contains-004">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-contains-005">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-contains-006">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-contains-007">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-starts-with-004">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-starts-with-005">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-starts-with-006">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-starts-with-007">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-starts-with-008">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-ends-with-004">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-ends-with-005">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-ends-with-006">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-ends-with-007">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-ends-with-008">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-before-004">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-before-005">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-before-006">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-before-007">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-after-004">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-after-005">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-after-006">Saxon-HE does not support this collation format</xpmt:ignore>
-            <xpmt:ignore test="fo-test-fn-substring-after-007">Saxon-HE does not support this collation format</xpmt:ignore>
-            
-            <xpmt:ignore test="RangeExpr-409d">Java heap size problems</xpmt:ignore>
-            
-            <!-- 
-                TODO: FN - Test Errors
-            -->
-
-            <xpmt:ignore test="K2-SeqDocFunc-4">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="json-doc-error-031">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-053">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-available-052">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-023">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-024">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-unparsed-text-lines-055">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            <xpmt:ignore test="fn-transform-err-9">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:ignore>
-            
-            <xpmt:ignore test="PathExpr-17">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
-            <xpmt:ignore test="PathExpr-18">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
-            <xpmt:ignore test="PathExpr-19">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:ignore>
-        </xpmt:dependency>
-        
-        
-    </xsl:variable>
     
     <xsl:template match="/catalog">
         <xsl:variable name="scenarios" as="element(x:scenario)*">
@@ -230,87 +151,7 @@
     
     
     
-    <xsl:function name="xpmt:merge-dependencies" as="element(dependency)*">
-        <xsl:param name="test-dependencies" as="element(dependency)*"/>
-        <xsl:for-each-group select="$test-dependencies" group-by=" 
-            if (@type = 'spec') 
-            then ('spec') 
-            else (@type || ';' || @value) ">
-            <xsl:sequence select="current-group()[last()]"/>
-        </xsl:for-each-group> 
-    </xsl:function>
     
-    <xsl:function name="xpmt:verify-test-dependencies" as="xs:boolean">
-        <xsl:param name="test-dependencies" as="element(dependency)*"/>
-        <xsl:sequence select="xpmt:verify-test-dependencies($test-dependencies, $dependency-settings)"/>
-    </xsl:function>
-    
-    
-    <xsl:function name="xpmt:verify-test-dependencies" as="xs:boolean">
-        <xsl:param name="test-dependencies" as="element(dependency)*"/>
-        <xsl:param name="dependency-settings" as="element(xpmt:dependency)*"/>
-        <xsl:variable name="satisfied" select="every $td in $test-dependencies
-            satisfies xpmt:verify-test-dependency($td, $dependency-settings)"/>
-        <xsl:choose>
-            <xsl:when test="$dependency-settings[@only = 'true']">
-                <xsl:sequence select="
-                    $satisfied and (
-                        every $odps in $dependency-settings[@only = 'true'] 
-                        satisfies exists($test-dependencies[xpmt:verify-test-dependency(., $odps, true())])
-                    )
-                    "/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="$satisfied"/>
-            </xsl:otherwise>
-        </xsl:choose>
-        
-    </xsl:function>
-
-    <xsl:function name="xpmt:verify-test-dependency" as="xs:boolean">
-        <xsl:param name="test-dependency" as="element(dependency)"/>
-        <xsl:param name="dependency-settings" as="element(xpmt:dependency)*"/>
-        <xsl:sequence select="xpmt:verify-test-dependency($test-dependency, $dependency-settings, false())"/>
-    </xsl:function>
-    <xsl:function name="xpmt:verify-test-dependency" as="xs:boolean">
-        <xsl:param name="test-dependency" as="element(dependency)"/>
-        <xsl:param name="dependency-settings" as="element(xpmt:dependency)*"/>
-        <xsl:param name="false-if-no-match" as="xs:boolean"/>
-        <xsl:variable name="type" select="$test-dependency/@type"/>
-        <xsl:variable name="dependency-settings" select="$dependency-settings[@type = $type]"/>
-        <xsl:variable name="values" select="
-            if ($test-dependency/@type = 'spec') 
-            then tokenize($test-dependency/@value, '\s+') 
-            else $test-dependency/@value
-            "/>
-        <xsl:variable name="dependency-settings" select="$dependency-settings[
-            if (@match) 
-            then some $v in $values
-            satisfies matches($v, @match) 
-            else ($values = @value)
-            ]"/>
-        
-        <xsl:variable name="test-dep-satisfied" select="($test-dependency/@satisfied, 'true')[1]"/>
-        <xsl:variable name="test-dep-satisfied" select="
-            if ($test-dep-satisfied = 'true') then ('true', 'partial') else $test-dep-satisfied
-            "/>
-        <xsl:variable name="dep-settings-satisfied" select="($dependency-settings/@satisfied, 'true')[1]"/>
-        
-        <xsl:choose>
-            <xsl:when test="not($dependency-settings) and $false-if-no-match">
-                <xsl:sequence select="false()"/>
-            </xsl:when>
-            <xsl:when test="not($dependency-settings)">
-                <xsl:sequence select="$test-dep-satisfied = 'true'"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="$dep-settings-satisfied = $test-dep-satisfied"/>
-            </xsl:otherwise>
-        </xsl:choose>
-        
-            
-        
-    </xsl:function>
     
     <xsl:template match="test-case">
         <xsl:param name="envs" as="element(qt:environment)*" tunnel="yes"/>

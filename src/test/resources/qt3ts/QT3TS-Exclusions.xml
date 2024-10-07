@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpmt:exclusions xmlns:xpmt="http://www.nkutsche.com/xpath-model/test-helper">
+    <xpmt:dependency type="xml-version" value="1.1" satisfied="false">
+        <xpmt:reason code="RES-XML1-1">X(ml)² does not support XML version 1.1</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="spec" match="^XP([1-3]\.?\d\+|31|3\.1)$" only="true">
+        <xpmt:reason code="RES-XP3-1">The XPath engine supports only XPath 3.1.</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="staticTyping" satisfied="false">
+        <xpmt:reason code="RES-STY">Static typing is not supported by the XPath engine</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="xpath-1.0-compatibility" satisfied="false">
+        <xpmt:reason code="RES-XP1">XPath 1.0 compatibility mode is not supported by the XPath engine</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="fn-load-xquery-module" satisfied="false">
+        <xpmt:reason code="SHE-XQY">XQuery evaluation is not supported by Saxon-HE</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="schemaValidation" satisfied="false">
+        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="schemaImport" satisfied="false">
+        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="advanced-uca-fallback" satisfied="false">
+        <xpmt:reason code="SHE-COL_1">Saxon-HE does not support the advanced UCA collation format</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="xsd-version" value="1.0" satisfied="false">
+        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="default-language" value="fr-CA" satisfied="false">
+        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="language" value="de" satisfied="false">
+        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="language" value="fr" satisfied="false">
+        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="language" value="it" satisfied="false">
+        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+    </xpmt:dependency>
+    <xpmt:dependency type="feature" value="remote_http" satisfied="partial">
+        <xpmt:reason code="TST-SUT">requires: Feature.STABLE_UNPARSED_TEXT that leads to problems with other test cases...</xpmt:reason>
+        <xpmt:ignore test="fn-unparsed-text-054"/>
+        <xpmt:ignore test="fn-unparsed-text-054a"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="SHE-XQY">This test case rules only for XQuery.</xpmt:reason>
+        <xpmt:ignore test="K2-FunctionCallExpr-2"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="OTH-CMT">Comment nested in comments are ignored by the XPM parser...</xpmt:reason>
+        <xpmt:ignore test="K-XQueryComment-15"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="BBO-FOUT">Saxon-HE throws FOUT1170 instead of FOUT1190! See https://saxonica.plan.io/issues/5952#note-8</xpmt:reason>
+        <xpmt:ignore test="fn-unparsed-text-056"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="TST-ENV">Its hard to ensure that an env variable is set by the calling system...</xpmt:reason>
+        <xpmt:ignore test="fn-available-environment-variables-011"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="SHE-COL_2">Saxon-HE does not support this collation format</xpmt:reason>
+        <!-- 
+                Reason: "On SaxonJ-HE, Saxon uses the collation facilities available directly from the JDK."
+                see https://www.saxonica.com/html/documentation12/localization/unicode-collation-algorithm/index.html 
+            -->
+        <xpmt:ignore test="fo-test-fn-contains-004"/>
+        <xpmt:ignore test="fo-test-fn-contains-005"/>
+        <xpmt:ignore test="fo-test-fn-contains-006"/>
+        <xpmt:ignore test="fo-test-fn-contains-007"/>
+        <xpmt:ignore test="fo-test-fn-starts-with-004"/>
+        <xpmt:ignore test="fo-test-fn-starts-with-005"/>
+        <xpmt:ignore test="fo-test-fn-starts-with-006"/>
+        <xpmt:ignore test="fo-test-fn-starts-with-007"/>
+        <xpmt:ignore test="fo-test-fn-starts-with-008"/>
+        <xpmt:ignore test="fo-test-fn-ends-with-004"/>
+        <xpmt:ignore test="fo-test-fn-ends-with-005"/>
+        <xpmt:ignore test="fo-test-fn-ends-with-006"/>
+        <xpmt:ignore test="fo-test-fn-ends-with-007"/>
+        <xpmt:ignore test="fo-test-fn-ends-with-008"/>
+        <xpmt:ignore test="fo-test-fn-substring-before-004"/>
+        <xpmt:ignore test="fo-test-fn-substring-before-005"/>
+        <xpmt:ignore test="fo-test-fn-substring-before-006"/>
+        <xpmt:ignore test="fo-test-fn-substring-before-007"/>
+        <xpmt:ignore test="fo-test-fn-substring-after-004"/>
+        <xpmt:ignore test="fo-test-fn-substring-after-005"/>
+        <xpmt:ignore test="fo-test-fn-substring-after-006"/>
+        <xpmt:ignore test="fo-test-fn-substring-after-007"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="OTH-MEM">Java heap size problems</xpmt:reason>
+        <xpmt:ignore test="RangeExpr-409d"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="BBO-CPP">Issue with cp protocol: see https://github.com/cmarchand/cp-protocol/issues/1</xpmt:reason>
+        <!-- 
+                TODO: FN - Test Errors
+            -->
+        
+        <xpmt:ignore test="K2-SeqDocFunc-4"/>
+        <xpmt:ignore test="json-doc-error-031"/>
+        <xpmt:ignore test="fn-unparsed-text-023"/>
+        <xpmt:ignore test="fn-unparsed-text-024"/>
+        <xpmt:ignore test="fn-unparsed-text-053"/>
+        <xpmt:ignore test="fn-unparsed-text-available-023"/>
+        <xpmt:ignore test="fn-unparsed-text-available-024"/>
+        <xpmt:ignore test="fn-unparsed-text-available-052"/>
+        <xpmt:ignore test="fn-unparsed-text-lines-023"/>
+        <xpmt:ignore test="fn-unparsed-text-lines-024"/>
+        <xpmt:ignore test="fn-unparsed-text-lines-055"/>
+        <xpmt:ignore test="fn-transform-err-9"/>
+    </xpmt:dependency>
+    <xpmt:dependency>
+        <xpmt:reason code="BBO-TSB">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:reason>
+        <xpmt:ignore test="PathExpr-17"/>
+        <xpmt:ignore test="PathExpr-18"/>
+        <xpmt:ignore test="PathExpr-19"/>
+    </xpmt:dependency>
+    
+    
+    <!--<xpmt:dependency type="calendar" value="CB" satisfied="false"/>
+    <xpmt:dependency type="format-integer-sequence" value="ﯴ" satisfied="false"/>-->
+    
+    <!--
+    <xpmt:dependency type="feature" value="staticTyping" satisfied="false"/>
+    <xpmt:dependency type="feature" value="fn-transform-XSLT30" satisfied="false"/>
+    <xpmt:dependency type="feature" value="fn-transform-XSLT" satisfied="false"/>
+    <xpmt:dependency type="language" value="xib" satisfied="false"/>
+    <xpmt:dependency type="feature" value="collection-stability" satisfied="false"/>
+    <xpmt:dependency type="feature" value="typedData" satisfied="false"/>
+    <xpmt:dependency type="feature" value="serialization" satisfied="false"/>
+    <xpmt:dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false"/>-->
+</xpmt:exclusions>
