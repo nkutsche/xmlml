@@ -126,16 +126,9 @@
         <xpmt:reason code="TST-XSLT">This testcase handles behavior of the processor if XSLT is not supported. The feature XSLT by the XPath engine is always active.</xpmt:reason>
     </xpmt:dependency>
     
-    <!--<xpmt:dependency type="calendar" value="CB" satisfied="false"/>
-    <xpmt:dependency type="format-integer-sequence" value="ﯴ" satisfied="false"/>-->
+    <xpmt:dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false">
+        <xpmt:reason code="SHE-UNC">FULLY-NORMALIZED is not supported by Saxon: "Saxon supports normalization forms NFC, NFD, NFKC, and NFKD" (https://www.saxonica.com/documentation12/index.html#!functions/fn/normalize-unicode).</xpmt:reason>
+    </xpmt:dependency>
     
-    <!--
-    <xpmt:dependency type="feature" value="staticTyping" satisfied="false"/>
-    <xpmt:dependency type="feature" value="fn-transform-XSLT30" satisfied="false"/>
-    <xpmt:dependency type="feature" value="fn-transform-XSLT" satisfied="false"/>
-    <xpmt:dependency type="language" value="xib" satisfied="false"/>
-    <xpmt:dependency type="feature" value="collection-stability" satisfied="false"/>
-    <xpmt:dependency type="feature" value="typedData" satisfied="false"/>
-    <xpmt:dependency type="feature" value="serialization" satisfied="false"/>
-    <xpmt:dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false"/>-->
+    
 </xpmt:exclusions>

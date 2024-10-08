@@ -142,7 +142,7 @@
             <xsl:otherwise>
                 <xsl:variable name="reason" select="xpmt:get-ignore-reasons($test-dependencies)"/>
                 <xsl:variable name="reason-code" select="$reason/xpmt:reason/@code => string-join(';')"/>
-                <xsl:variable name="reason-code" select="($reason-code, 'UNKNOWN')[1]"/>
+                <xsl:variable name="reason-code" select="($reason-code[. != ''], 'UNKNOWN')[1]"/>
                 <xsl:variable name="pending" select="
                     'Reason-code: [[' || $reason-code || ']]'
                     "/>
