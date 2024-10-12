@@ -45,6 +45,16 @@ jobs:
       with:
         name: Surefire-reports
         path: target/surefire-reports/qt3ts-runner-*.xml
+
+  create-report:
+    name: Report using ${{ matrix.os }}
+    needs: [test-ubuntu, test-macos]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-12]
+    runs-on: ${{ matrix.os }}
+    steps:
     - uses: michaelhenry/create-report@v2.0.2
       name: create report from markdown
       with:
