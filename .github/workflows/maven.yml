@@ -46,9 +46,9 @@ jobs:
         name: Surefire-reports
         path: target/surefire-reports/qt3ts-runner-*.xml
     - uses: michaelhenry/create-report@v2.0.2
-      name: create report from html
+      name: create report from markdown
       with:
-        title: "HTML report"
-        path: target/xspec-reports/qt3ts-runner-fn-0.xspec-result.html
-        format: html
+        title: "Test report"
+        path: XMLConf-Testsuite-Exclusions.md
+        format: markdown
 
