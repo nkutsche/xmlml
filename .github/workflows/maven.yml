@@ -45,7 +45,7 @@ jobs:
       with:
         name: Surefire-reports
         path: target/surefire-reports/qt3ts-runner-*.xml
-    - uses: michaelhenry/create-report@v2
+    - uses: michaelhenry/create-report@v2.0.2
       name: create report from html
       with:
         title: "HTML report"
