@@ -48,7 +48,7 @@ jobs:
 
   create-report:
     name: Report using ${{ matrix.os }}
-    needs: [test-ubuntu, test-macos]
+    needs: [build]
     strategy:
       fail-fast: false
       matrix:
