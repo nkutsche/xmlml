@@ -465,6 +465,46 @@
                                     </transformationSets>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>qt3-testsuite-summary</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                                <configuration>
+                                    <forceCreation>true</forceCreation>
+                                    <transformationSets>
+                                        <transformationSet>
+                                            <dir>${project.basedir}/src/test/resources/qt3ts/</dir>
+                                            <outputDir>${project.basedir}/target</outputDir>
+                                            <includes>
+                                                <include>QT3TS-Exclusions.xml</include>
+                                            </includes>
+                                            <stylesheet>${project.baseUri}/src/test/resources/xsl/surfire2wiki.xsl</stylesheet>
+                                            <parameters>
+                                                <parameter>
+                                                    <name>surefire-report-dir</name>
+                                                    <value>${project.baseUri}/target/surefire-reports/</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>result-dir</name>
+                                                    <value>${project.baseUri}/target/wiki/</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>pattern</name>
+                                                    <value>qt3ts-runner-*.xml</value>
+                                                </parameter>
+                                            </parameters>
+                                            <fileMappers>
+                                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                                    <pattern>.*</pattern>
+                                                    <replacement>dummy.xml</replacement>
+                                                </fileMapper>
+                                            </fileMappers>
+                                        </transformationSet>
+                                    </transformationSets>
+                                </configuration>
+                            </execution>
                         </executions>
                         <dependencies>
                             <dependency>
