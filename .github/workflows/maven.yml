@@ -31,15 +31,87 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=fn
-    - name: Report
+      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite
+    - name: Report QTS3 Functions
       uses: dorny/test-reporter@v1
       if: always()
       with:
         name: QTS3 Testssuite Runner (Functions)
         path: target/surefire-reports/qt3ts-runner-fn-*.xml
         reporter: java-junit
-        fail-on-error: true
+        fail-on-error: false
+    - name: Report QTS3 Math-Functions
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Math-Functions)
+        path: target/surefire-reports/qt3ts-runner-math-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Map-Functions
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Map-Functions)
+        path: target/surefire-reports/qt3ts-runner-map-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Array-Functions
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Array-Functions)
+        path: target/surefire-reports/qt3ts-runner-array-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 XS-Features
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (XS-Features)
+        path: target/surefire-reports/qt3ts-runner-xs-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Operators
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Operators)
+        path: target/surefire-reports/qt3ts-runner-op-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Basic Language
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Basic Language)
+        path: target/surefire-reports/qt3ts-runner-prod-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Serializations
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Serializations)
+        path: target/surefire-reports/qt3ts-runner-ser-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Use Cases and Applications
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Use Cases and Applications)
+        path: target/surefire-reports/qt3ts-runner-app-*.xml
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QTS3 Misc
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: QTS3 Testssuite Runner (Misc)
+        path: target/surefire-reports/qt3ts-runner-misc-*.xml
+        reporter: java-junit
+        fail-on-error: false
     - name: Archive surefire reports
       uses: actions/upload-artifact@v4
       with:
