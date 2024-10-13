@@ -31,13 +31,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=fn -Dtestsuite.qt3-id-focus=cbcl-fn-normalize-unicode-001.*
+      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=fn
     - name: Report
       uses: dorny/test-reporter@v1
       if: always()
       with:
-        name: Maven Tests
-        path: target/surefire-reports/*.xml
+        name: QTS3 Testssuite Runner (Functions)
+        path: target/surefire-reports/qt3ts-runner-fn-*.xml
         reporter: java-junit
         fail-on-error: true
     - name: Archive surefire reports
@@ -45,20 +45,4 @@ jobs:
       with:
         name: Surefire-reports
         path: target/surefire-reports/qt3ts-runner-*.xml
-
-  create-report:
-    name: Report using ${{ matrix.os }}
-    needs: [build]
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-12]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: michaelhenry/create-report@v2.0.2
-      name: create report from markdown
-      with:
-        title: "Test report"
-        path: XMLConf-Testsuite-Exclusions.md
-        format: markdown
 
