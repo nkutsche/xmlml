@@ -34,7 +34,7 @@ jobs:
       run: mvn -B package --file pom.xml -P xpath-qt3-testsuite
     - name: Report QTS3 Functions
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-fn-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Functions)
         path: target/surefire-reports/qt3ts-runner-fn-*.xml
@@ -42,7 +42,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Math-Functions
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-math-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Math-Functions)
         path: target/surefire-reports/qt3ts-runner-math-*.xml
@@ -50,7 +50,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Map-Functions
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-map-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Map-Functions)
         path: target/surefire-reports/qt3ts-runner-map-*.xml
@@ -58,7 +58,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Array-Functions
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-array-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Array-Functions)
         path: target/surefire-reports/qt3ts-runner-array-*.xml
@@ -66,7 +66,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 XS-Features
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-xs-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (XS-Features)
         path: target/surefire-reports/qt3ts-runner-xs-*.xml
@@ -74,7 +74,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Operators
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-op-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Operators)
         path: target/surefire-reports/qt3ts-runner-op-*.xml
@@ -82,7 +82,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Basic Language
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-prod-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Basic Language)
         path: target/surefire-reports/qt3ts-runner-prod-*.xml
@@ -90,7 +90,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Serializations
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-ser-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Serializations)
         path: target/surefire-reports/qt3ts-runner-ser-*.xml
@@ -98,7 +98,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Use Cases and Applications
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-app-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Use Cases and Applications)
         path: target/surefire-reports/qt3ts-runner-app-*.xml
@@ -106,7 +106,7 @@ jobs:
         fail-on-error: false
     - name: Report QTS3 Misc
       uses: dorny/test-reporter@v1
-      if: always()
+      if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-misc-*.xml') }}
       with:
         name: QTS3 Testssuite Runner (Misc)
         path: target/surefire-reports/qt3ts-runner-misc-*.xml
@@ -114,6 +114,7 @@ jobs:
         fail-on-error: false
     - name: Archive surefire reports
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: Surefire-reports
         path: target/surefire-reports/qt3ts-runner-*.xml
