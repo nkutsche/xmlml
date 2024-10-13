@@ -176,13 +176,13 @@
             
             <x:scenario label="&lt;{@name}>: {description}" catch="true" xpmt:group="{$group}">
                 <xsl:if test="$env/source/@validation = 'strict'">
-                    <xsl:attribute name="pending">Ignored as test case seems to be schema-aware.</xsl:attribute>
+                    <xsl:attribute name="pending">Reason-code: [[SHE-XSD]]</xsl:attribute>
                 </xsl:if>
                 <xsl:variable name="test-name" select="@name"/>
                 <xsl:variable name="ignore" select="$dependency-settings//xpmt:ignore[@test = $test-name]"/>
                 <xsl:if test="$ignore">
                     <xsl:attribute name="pending" expand-text="yes"
-                        >Reason-code: [[{$ignore/../xpmt:reason}]]</xsl:attribute>
+                        >Reason-code: [[{$ignore/../xpmt:reason/@code}]]</xsl:attribute>
                 </xsl:if>
                 <xsl:if test="$pending">
                     <xsl:attribute name="pending" select="$pending"/>
