@@ -83,7 +83,7 @@
                     ['All groups', count($summary('tests')), count($summary('passed')), count($summary('skipped'))],
                     $group-keys ! 
                     [
-                        '[' || $group-title(.) || '](QT3TS_Conformance-' || . || '.md)', 
+                        '[' || $group-title(.) || '](QT3TS_Conformance-' || . || ')', 
                         count($by-group(.)('tests')), 
                         count($by-group(.)('passed')), 
                         count($by-group(.)('skipped'))
@@ -115,6 +115,7 @@
                 <xsl:variable name="group-key" select="."/>
 
                 <xsl:text expand-text="yes">* [{$group-title($group-key)}](QT3TS_Conformance-{$group-key})</xsl:text>
+                <xsl:text>&#xA;</xsl:text>
                 
                 <xsl:result-document href="{$result-dir}/QT3TS_Conformance-{$group-key}.md">
                     <xsl:text expand-text="yes">## QT3TS Conformance Summary - {$group-title($group-key)}</xsl:text>
