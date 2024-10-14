@@ -228,7 +228,7 @@
                 </xsl:non-matching-substring>
             </xsl:analyze-string>
         </xsl:variable>
-        <xsl:variable name="reason-codes" select="string-join(mlmlt:get-reason-code($surefire-test/skipped), ', ')"/>
+        <xsl:variable name="reason-codes" select="string-join(mlmlt:get-reason-code($surefire-test/skipped) ! mlmlt:code(.), ', ')"/>
         <xsl:sequence select="$id-descr, $reason-codes"/>
     </xsl:function>
     

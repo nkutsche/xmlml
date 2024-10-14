@@ -480,7 +480,7 @@
                                             <includes>
                                                 <include>QT3TS-Exclusions.xml</include>
                                             </includes>
-                                            <stylesheet>${project.baseUri}/src/test/resources/xsl/surfire2wiki.xsl</stylesheet>
+                                            <stylesheet>${project.baseUri}/src/test/resources/xsl/qt3ts-surfire2wiki.xsl</stylesheet>
                                             <parameters>
                                                 <parameter>
                                                     <name>surefire-report-dir</name>
