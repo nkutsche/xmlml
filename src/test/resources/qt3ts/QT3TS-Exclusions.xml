@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xpmt:exclusions xmlns:xpmt="http://www.nkutsche.com/xpath-model/test-helper">
     <xpmt:dependency type="xml-version" value="1.1" satisfied="false">
-        <xpmt:reason code="RES-XML1-1">X(ml)² does not support XML version 1.1</xpmt:reason>
+        <xpmt:reason code="RES-XML1-1">The test case applies to XML 1.1. X(ml)² does not support XML version 1.1</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="spec" match="^XP([1-3]\.?\d\+|31|3\.1)$" only="true">
-        <xpmt:reason code="RES-XP3-1">The XPath engine supports only XPath 3.1.</xpmt:reason>
+        <xpmt:reason code="RES-XP3-1">The test case is not applied for the XPath 3.1 specification. The X(ml)² XPath engine supports only XPath 3.1.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="staticTyping" satisfied="false">
-        <xpmt:reason code="RES-STY">Static typing is not supported by the XPath engine</xpmt:reason>
+        <xpmt:reason code="RES-STY">The test case requires static type analyzes. Static typing is not supported by the X(ml)² XPath engine</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="xpath-1.0-compatibility" satisfied="false">
-        <xpmt:reason code="RES-XP1">XPath 1.0 compatibility mode is not supported by the XPath engine</xpmt:reason>
+        <xpmt:reason code="RES-XP1">The test case has to be evaluated in the XPath 1.0 compatibility mode. XPath 1.0 compatibility mode is not supported by the X(ml)² XPath engine.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="fn-load-xquery-module" satisfied="false">
-        <xpmt:reason code="SHE-XQY">XQuery evaluation is not supported by Saxon-HE</xpmt:reason>
+        <xpmt:reason code="SHE-XQY">The test case requires dynamic XQuery evaluation. This is not supported by the underlying Saxon-HE.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="schemaValidation" satisfied="false">
-        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+        <xpmt:reason code="SHE-XSD">The test case requires Schema-awareness. This is not supported by the underlying Saxon-HE.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="schemaImport" satisfied="false">
-        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+        <xpmt:reason code="SHE-XSD">The test case requires Schema-awareness. This is not supported by the underlying Saxon-HE.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="advanced-uca-fallback" satisfied="false">
-        <xpmt:reason code="SHE-COL_1">Saxon-HE does not support the advanced UCA collation format</xpmt:reason>
+        <xpmt:reason code="SHE-COL_1">The test case requires support of the advanced UCA collation format. The underlying Saxon-HE does not support this.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="xsd-version" value="1.0" satisfied="false">
-        <xpmt:reason code="SHE-XSD">Schema-awareness is not supported by Saxon-HE</xpmt:reason>
+        <xpmt:reason code="SHE-XSD">The test case requires Schema-awareness. This is not supported by the underlying Saxon-HE.</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="default-language" value="fr-CA" satisfied="false">
-        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+        <xpmt:reason code="SHE-LNG">The test case assumes a specific language support. The underlying Saxon-HE does not support out of the box other languages than "en".</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="language" value="de" satisfied="false">
-        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+        <xpmt:reason code="SHE-LNG">The test case assumes a specific language support. The underlying Saxon-HE does not support out of the box other languages than "en".</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="language" value="fr" satisfied="false">
-        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+        <xpmt:reason code="SHE-LNG">The test case assumes a specific language support. The underlying Saxon-HE does not support out of the box other languages than "en".</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="language" value="it" satisfied="false">
-        <xpmt:reason code="SHE-LNG">Saxon-HE does not support out of the box other languages than "en"</xpmt:reason>
+        <xpmt:reason code="SHE-LNG">The test case assumes a specific language support. The underlying Saxon-HE does not support out of the box other languages than "en".</xpmt:reason>
     </xpmt:dependency>
     <xpmt:dependency type="feature" value="remote_http" satisfied="partial">
-        <xpmt:reason code="TST-SUT">requires: Feature.STABLE_UNPARSED_TEXT that leads to problems with other test cases...</xpmt:reason>
+        <xpmt:reason code="TST-SUT">The test case an active Saxon feature Feature.STABLE_UNPARSED_TEXT. This feature leads to problems in the test harness.</xpmt:reason>
         <xpmt:ignore test="fn-unparsed-text-054"/>
         <xpmt:ignore test="fn-unparsed-text-054a"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="SHE-XQY">This test case rules only for XQuery.</xpmt:reason>
+        <xpmt:reason code="RES-XP3-1">The test case is not applied for the XPath 3.1 specification. The X(ml)² XPath engine supports only XPath 3.1.</xpmt:reason>
+        <!-- 
+            This test case has no spec dependency but according to the description it applies only for XQuery!
+        -->
         <xpmt:ignore test="K2-FunctionCallExpr-2"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="OTH-CMT">Comment nested in comments are ignored by the XPM parser...</xpmt:reason>
+        <xpmt:reason code="OTH-CMT">The test case contains a bad construct of nested comments. Comments nested in comments are ignored by the XPM parser.</xpmt:reason>
         <xpmt:ignore test="K-XQueryComment-15"/>
     </xpmt:dependency>
     <xpmt:dependency>
@@ -57,11 +60,11 @@
         <xpmt:ignore test="fn-unparsed-text-056"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="TST-ENV">Its hard to ensure that an env variable is set by the calling system...</xpmt:reason>
+        <xpmt:reason code="TST-ENV">This test case requires a specific environment variable. As it is hard to ensure that an env variable is set by the calling system, this test case is ignored.</xpmt:reason>
         <xpmt:ignore test="fn-available-environment-variables-011"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="SHE-COL_2">Saxon-HE does not support this collation format</xpmt:reason>
+        <xpmt:reason code="SHE-COL_2">This test case requires a specific collation format. The underlying Saxon-HE does not support this collation format. See https://www.saxonica.com/html/documentation12/localization/unicode-collation-algorithm/index.html.</xpmt:reason>
         <!-- 
                 Reason: "On SaxonJ-HE, Saxon uses the collation facilities available directly from the JDK."
                 see https://www.saxonica.com/html/documentation12/localization/unicode-collation-algorithm/index.html 
@@ -90,7 +93,7 @@
         <xpmt:ignore test="fo-test-fn-substring-after-007"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="OTH-MEM">Java heap size problems</xpmt:reason>
+        <xpmt:reason code="OTH-MEM">This test cases leads to a unresolved Java heap size problem.</xpmt:reason>
         <xpmt:ignore test="RangeExpr-409d"/>
     </xpmt:dependency>
     <xpmt:dependency>
@@ -113,7 +116,7 @@
         <xpmt:ignore test="fn-transform-err-9"/>
     </xpmt:dependency>
     <xpmt:dependency>
-        <xpmt:reason code="BBO-TSB">Bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:reason>
+        <xpmt:reason code="BBO-TSB">There is a known bug in the QT3 testsuite: https://github.com/w3c/qt3tests/issues/64</xpmt:reason>
         <xpmt:ignore test="PathExpr-17"/>
         <xpmt:ignore test="PathExpr-18"/>
         <xpmt:ignore test="PathExpr-19"/>
@@ -127,8 +130,7 @@
     </xpmt:dependency>
     
     <xpmt:dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false">
-        <xpmt:reason code="SHE-UNC">FULLY-NORMALIZED is not supported by Saxon: "Saxon supports normalization forms NFC, NFD, NFKC, and NFKD" (https://www.saxonica.com/documentation12/index.html#!functions/fn/normalize-unicode).</xpmt:reason>
+        <xpmt:reason code="SHE-UNC">This test case requires a unicode normalization form "FULLY-NORMALIZED" This is not supported by the underlying Saxon processor: "Saxon supports normalization forms NFC, NFD, NFKC, and NFKD" (https://www.saxonica.com/documentation12/index.html#!functions/fn/normalize-unicode).</xpmt:reason>
     </xpmt:dependency>
-    
     
 </xpmt:exclusions>
