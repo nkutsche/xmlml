@@ -31,7 +31,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite
+      run: mvn -B package --file pom.xml -P xml-conformance
     - name: Report QTS3 Functions
       uses: dorny/test-reporter@v1
       if: ${{ hashFiles('target/surefire-reports/qt3ts-runner-fn-*.xml') }}
@@ -126,5 +126,5 @@ jobs:
       if: always()
       with:
         name: Surefire-reports
-        path: target/surefire-reports/qt3ts-runner-*.xml
+        path: target/surefire-reports/*.xml
 
