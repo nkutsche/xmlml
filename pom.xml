@@ -200,6 +200,7 @@
                     <configuration>
                         <addDependenciesToClasspath>true</addDependenciesToClasspath>
                         <includes>${run.xspecs}</includes>
+                        <generateSurefireReport>true</generateSurefireReport>
                         <xspecProperties>
                             <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager</saxon.custom.options>
                         </xspecProperties>
