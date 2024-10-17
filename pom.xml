@@ -313,7 +313,7 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>testsuite-summary</id>
+                                <id>testsuite-wiki-summary</id>
                                 <phase>test</phase>
                                 <goals>
                                     <goal>transform</goal>
@@ -323,20 +323,29 @@
                                     <transformationSets>
                                         <transformationSet>
                                             <dir>${project.basedir}/src/test/xspec/xmltestsuite/</dir>
-                                            <outputDir>${project.basedir}/</outputDir>
+                                            <outputDir>${project.basedir}/target</outputDir>
                                             <includes>
                                                 <include>XMLConf-Testsuite-Exclusions.xml</include>
                                             </includes>
-                                            <stylesheet>${project.baseUri}/src/test/xspec/xmltestsuite/ignoring-table.xsl</stylesheet>
+                                            <stylesheet>${project.baseUri}/src/test/resources/xsl/xmlconf-surfire2wiki.xsl</stylesheet>
                                             <parameters>
                                                 <parameter>
-                                                    <name>surfire-report-uri</name>
-                                                    <value>${project.baseUri}/target/surefire-reports/xmlconf.xspec-junit.xml</value>
+                                                    <name>surefire-report-dir</name>
+                                                    <value>${project.baseUri}/target/surefire-reports/</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>result-dir</name>
+                                                    <value>${project.baseUri}/target/wiki/</value>
+                                                </parameter>
+                                                <parameter>
+                                                    <name>pattern</name>
+                                                    <value>xmlconf.xspec-junit.xml</value>
                                                 </parameter>
                                             </parameters>
                                             <fileMappers>
-                                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-                                                    <targetExtension>.md</targetExtension>
+                                                <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+                                                    <pattern>.*</pattern>
+                                                    <replacement>dummy.xml</replacement>
                                                 </fileMapper>
                                             </fileMappers>
                                         </transformationSet>

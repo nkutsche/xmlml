@@ -53,12 +53,12 @@
             | key('ignore-edition', @EDITION/tokenize(.,'\s'), $ignorings)
             | key('ignore-version', @VERSION, $ignorings))
             "/>
-        <x:scenario label="[[{@ID}]]" catch="true">
+        <x:scenario label="&lt;&lt;{@ID}>>: {normalize-space(.)}" catch="true">
             <xsl:choose>
                 <xsl:when test="$ignore">
                     <xsl:variable name="ignore-ids" select="@ID, @EDITION, @VERSION"/>
                     <xsl:variable name="ignore-attr" select="$ignore-ids[tokenize(., '\s') = $ignore/@*]"/>
-                    <xsl:attribute name="pending" select="'Ignored by ' || $ignore-attr/name() || '=''' || $ignore-attr || ''' (reason-code=' || $ignore/parent::reason/@id || ')'"/>
+                    <xsl:attribute name="pending" select="'Reason-code: [[' || $ignore/parent::reason/@id || ']]'"/>
                 </xsl:when>
                 <xsl:when test="$focus-map?id = @ID">
                     <xsl:attribute name="focus" select="'Focused by ID'"/>
