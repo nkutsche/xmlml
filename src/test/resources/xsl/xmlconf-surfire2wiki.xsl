@@ -36,7 +36,7 @@
             <xsl:text>## XML Conformance Summary</xsl:text>
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
-            <xsl:text>This page provides an overview of the XML conformance test harness results. The [XML conformance testsuite](https://www.w3.org/XML/Test/) contains a huge number of XML test cases. Some of them are relevant for the X(ml)² XPath engine, some not (e.g. XQuery tests) and some are skipped for other reasons. This page(s) lists all QT3TS test cases and the exclude reasons for those that are skipped.</xsl:text>
+            <xsl:text>This page provides an overview of the XML conformance test harness results. The [XML conformance testsuite](https://www.w3.org/XML/Test/) contains a huge number of XML test cases. Some of them are relevant for the X(ml)² XPath engine, some not (e.g. XQuery tests) and some are skipped for other reasons. This page(s) lists all XML conformance test cases and the exclude reasons for those that are skipped.</xsl:text>
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
             
@@ -54,7 +54,7 @@
             <xsl:text>## Ignore Reasons</xsl:text>
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
-            <xsl:text>The following table gives an overview of all reasons to exclude a test case of the QT3 Testsuite from being executed. The reasons are referanced on the detail pages by there *Reason Code*.</xsl:text>
+            <xsl:text>The following table gives an overview of all reasons to exclude a test case of the XML Conformance testsuite from being executed. The reasons are referanced in the detail section by there *Reason Code*.</xsl:text>
             
             <xsl:call-template name="create-reson-code-section">
                 <xsl:with-param name="test-case-by-status" select="$summary"/>
@@ -64,7 +64,7 @@
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
             
-            <xsl:text>The following table lists all test case (of the given test group) that are marked as pending. The reason are referenced by a reason code which can be looked up in the table above.</xsl:text>
+            <xsl:text>The following table lists all test case that are marked as pending. The reason are referenced by a reason code which can be looked up in the table above.</xsl:text>
             
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
