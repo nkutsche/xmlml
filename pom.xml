@@ -264,6 +264,7 @@
                                     <testDir>${project.build.directory}/xspec-generated/</testDir>
                                     <catalogFile>${project.build.directory}/classes/${resource.subdir}/catalog.xml</catalogFile>
                                     <generateSurefireReport>true</generateSurefireReport>
+                                    <surefireReportDir>${project.build.directory}/surefire-reports-xmlconf/</surefireReportDir>
                                     <!--
                                     NOTE: to support XML 1.1 test cases of the XMLConf TS, you have to add this:
                                     <xspecProperties>
@@ -332,7 +333,7 @@
                                             <parameters>
                                                 <parameter>
                                                     <name>surefire-report-dir</name>
-                                                    <value>${project.baseUri}/target/surefire-reports/</value>
+                                                    <value>${project.baseUri}/target/surefire-reports-xmlconf/</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>result-dir</name>
@@ -428,6 +429,7 @@
                                         <saxon.custom.options>-init:com.nkutsche.xslt.pkg.handler.PackageManager -config:${project.basedir}/src/test/resources/qt3ts/saxon-config.xml</saxon.custom.options>
                                     </xspecProperties>
                                     <generateSurefireReport>true</generateSurefireReport>
+                                    <surefireReportDir>${project.build.directory}/surefire-reports-qt3ts/</surefireReportDir>
                                 </configuration>
                             </execution>
                         </executions>
@@ -494,7 +496,7 @@
                                             <parameters>
                                                 <parameter>
                                                     <name>surefire-report-dir</name>
-                                                    <value>${project.baseUri}/target/surefire-reports/</value>
+                                                    <value>${project.baseUri}/target/surefire-reports-qt3ts/</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>result-dir</name>
