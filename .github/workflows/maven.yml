@@ -38,6 +38,7 @@ jobs:
       with:
         name: XSpec Unit Tests
         path: target/surefire-reports/*.xml
+        badge-title: XSpec Unit Tests
         reporter: java-junit
         fail-on-error: false
     - name: Report XML Conformance
@@ -46,86 +47,16 @@ jobs:
       with:
         name: XML Conformance Testssuite Runner
         path: target/surefire-reports-xmlconf/xmlconf.xspec-junit.xml
+        badge-title: XML Conformance Testsuite
         reporter: java-junit
         fail-on-error: false
-    - name: Report QTS3 Functions
+    - name: Report QT3 Testsuite
       uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml') }}
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
       with:
-        name: QTS3 Testssuite Runner (Functions)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Math-Functions
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-math-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Math-Functions)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-math-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Map-Functions
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-map-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Map-Functions)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-map-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Array-Functions
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-array-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Array-Functions)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-array-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 XS-Features
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-xs-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (XS-Features)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-xs-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Operators
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-op-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Operators)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-op-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Basic Language
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Basic Language)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Serializations
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-ser-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Serializations)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-ser-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Use Cases and Applications
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-app-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Use Cases and Applications)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-app-*.xml
-        reporter: java-junit
-        fail-on-error: false
-    - name: Report QTS3 Misc
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-misc-*.xml') }}
-      with:
-        name: QTS3 Testssuite Runner (Misc)
-        path: target/surefire-reports-qt3ts/qt3ts-runner-misc-*.xml
+        name: QT3 Testsuite Runner
+        path: target/surefire-reports-qt3ts/qt3ts-runner-*.xml
+        badge-title: QT3 Testsuite
         reporter: java-junit
         fail-on-error: false
     - name: Upload Release Notes to Wiki
