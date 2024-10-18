@@ -406,10 +406,6 @@
                         <version>2.0.1</version>
                         <executions>
                             <execution>
-                                <id>run-xspec</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
                                 <id>run-xspec-xpath-qt3</id>
                                 <goals>
                                     <goal>run-xspec</goal>
