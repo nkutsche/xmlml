@@ -50,13 +50,40 @@ jobs:
         badge-title: XML Conformance Testsuite
         reporter: java-junit
         fail-on-error: false
-    - name: Report QT3 Testsuite
+    - name: Report QT3 Testsuite (Functions)
       uses: dorny/test-reporter@v1
       if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
       with:
-        name: QT3 Testsuite Runner
-        path: target/surefire-reports-qt3ts/qt3ts-runner-*.xml
-        badge-title: QT3 Testsuite
+        name: QT3 Testsuite Result (Functions)
+        path: |
+            target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-math-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-map-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-array-*.xml
+        badge-title: QT3 Testsuite Functions
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QT3 Testsuite (Basic Language)
+      uses: dorny/test-reporter@v1
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      with:
+        name: QT3 Testsuite Result (Basic Language)
+        path: target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml
+        badge-title: QT3 Testsuite Basics
+        reporter: java-junit
+        fail-on-error: false
+    - name: Report QT3 Testsuite (Others)
+      uses: dorny/test-reporter@v1
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      with:
+        name: QT3 Testsuite Result (Others)
+        path: |
+            target/surefire-reports-qt3ts/qt3ts-runner-op-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-xs-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-ser-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-app-*.xml
+            target/surefire-reports-qt3ts/qt3ts-runner-misc-*.xml
+        badge-title: QT3 Testsuite Misc
         reporter: java-junit
         fail-on-error: false
     - name: Upload Release Notes to Wiki
