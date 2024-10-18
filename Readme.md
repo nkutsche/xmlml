@@ -2,7 +2,11 @@
 
 The X(ML)² structure enables to work on an XML document nodes (XDM tree) but also enables to reconstruct each character of the origin XML syntax. The project provides an XML parser, serializer, XDM tree converter and an XPath evaluation engine as XSLT function library.
 
-See more details on the [Wiki](https://github.com/nkutsche/xmlml/wiki).
+## Documentation Links
+
+* [Release Notes](RELEASE_HISTORY.md)
+* [Wiki](https://github.com/nkutsche/xmlml/wiki)
+
 
 ## Contribution
 
