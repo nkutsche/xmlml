@@ -23,9 +23,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -33,7 +33,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=math
     - name: XSpec Unit Tests
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: ${{ hashFiles('target/surefire-reports/*.xml') }}
       with:
         name: XSpec Unit Tests
@@ -42,7 +42,7 @@ jobs:
         reporter: java-junit
         fail-on-error: false
     - name: Report XML Conformance
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: ${{ hashFiles('target/surefire-reports-xmlconf/xmlconf.xspec-junit.xml') }}
       with:
         name: XML Conformance Testssuite Runner
@@ -51,7 +51,7 @@ jobs:
         reporter: java-junit
         fail-on-error: false
     - name: Report QT3 Testsuite (Functions)
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml') }}
       with:
         name: QT3 Testsuite Result (Functions)
@@ -60,7 +60,7 @@ jobs:
         reporter: java-junit
         fail-on-error: false
     - name: Report QT3 Testsuite (Basic Language)
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml') }}
       with:
         name: QT3 Testsuite Result (Basic Language)
@@ -69,8 +69,8 @@ jobs:
         reporter: java-junit
         fail-on-error: false
     - name: Report QT3 Testsuite (Others)
-      uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-(op|xs|ser|app|misc|math|map|array)-*.xml') }}
+      uses: dorny/test-reporter@v1.9.1
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
       with:
         name: QT3 Testsuite Result (Others)
         path: target/surefire-reports-qt3ts/qt3ts-runner-(op|xs|ser|app|misc|math|map|array)-*.xml
