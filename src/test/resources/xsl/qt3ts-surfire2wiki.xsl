@@ -81,7 +81,7 @@
                 ('Test Group', 'Tests', 'Passed', 'Skipped'),
                 [
                     ['All groups', count($summary('tests')), count($summary('passed')), count($summary('skipped'))],
-                    $group-keys ! 
+                    $group-keys[map:contains($by-group,.)] ! 
                     [
                         '[' || $group-title(.) || '](QT3TS_Conformance-' || . || ')', 
                         count($by-group(.)('tests')), 
@@ -110,7 +110,7 @@
             
             
             
-            <xsl:for-each select="$group-keys">
+            <xsl:for-each select="$group-keys[map:contains($by-group, .)]">
                 
                 <xsl:variable name="group-key" select="."/>
 

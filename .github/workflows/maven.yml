@@ -52,20 +52,16 @@ jobs:
         fail-on-error: false
     - name: Report QT3 Testsuite (Functions)
       uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml') }}
       with:
         name: QT3 Testsuite Result (Functions)
-        path: |
-            target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-math-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-map-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-array-*.xml
+        path: target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml
         badge-title: QT3 Testsuite Functions
         reporter: java-junit
         fail-on-error: false
     - name: Report QT3 Testsuite (Basic Language)
       uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml') }}
       with:
         name: QT3 Testsuite Result (Basic Language)
         path: target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml
@@ -74,15 +70,10 @@ jobs:
         fail-on-error: false
     - name: Report QT3 Testsuite (Others)
       uses: dorny/test-reporter@v1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-(op|xs|ser|app|misc|math|map|array)-*.xml') }}
       with:
         name: QT3 Testsuite Result (Others)
-        path: |
-            target/surefire-reports-qt3ts/qt3ts-runner-op-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-xs-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-ser-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-app-*.xml
-            target/surefire-reports-qt3ts/qt3ts-runner-misc-*.xml
+        path: target/surefire-reports-qt3ts/qt3ts-runner-(op|xs|ser|app|misc|math|map|array)-*.xml
         badge-title: QT3 Testsuite Misc
         reporter: java-junit
         fail-on-error: false
