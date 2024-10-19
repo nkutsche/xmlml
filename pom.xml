@@ -26,6 +26,15 @@
         </developer>
     </developers>
     
+    <url>https://github.com/nkutsche/xmlml</url>
+    
+    <scm>
+        <connection>scm:git:https://github.com/nkutsche/xmlml.git</connection>
+        <url>https://github.com/nkutsche/xmlml</url>
+        <developerConnection>scm:git:https://github.com/nkutsche/xmlml.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    
     <properties>
         <saxon.version>12.5</saxon.version>
         
