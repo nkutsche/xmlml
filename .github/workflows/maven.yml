@@ -33,50 +33,50 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=math
     - name: XSpec Unit Tests
-      uses: dorny/test-reporter@v1.9.1
-      if: ${{ hashFiles('target/surefire-reports/*.xml') }}
+      uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
         name: XSpec Unit Tests
         path: target/surefire-reports/*.xml
         badge-title: XSpec Unit Tests
         reporter: java-junit
         fail-on-error: false
+        fail-on-empty: false
     - name: Report XML Conformance
-      uses: dorny/test-reporter@v1.9.1
-      if: ${{ hashFiles('target/surefire-reports-xmlconf/xmlconf.xspec-junit.xml') }}
+      uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
         name: XML Conformance Testssuite Runner
         path: target/surefire-reports-xmlconf/xmlconf.xspec-junit.xml
         badge-title: XML Conformance Testsuite
         reporter: java-junit
         fail-on-error: false
+        fail-on-empty: false
     - name: Report QT3 Testsuite (Functions)
-      uses: dorny/test-reporter@v1.9.1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml') }}
+      uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
         name: QT3 Testsuite Result (Functions)
         path: target/surefire-reports-qt3ts/qt3ts-runner-fn-*.xml
         badge-title: QT3 Testsuite Functions
         reporter: java-junit
         fail-on-error: false
+        fail-on-empty: false
     - name: Report QT3 Testsuite (Basic Language)
-      uses: dorny/test-reporter@v1.9.1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml') }}
+      uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
         name: QT3 Testsuite Result (Basic Language)
         path: target/surefire-reports-qt3ts/qt3ts-runner-prod-*.xml
         badge-title: QT3 Testsuite Basics
         reporter: java-junit
         fail-on-error: false
+        fail-on-empty: false
     - name: Report QT3 Testsuite (Others)
-      uses: dorny/test-reporter@v1.9.1
-      if: ${{ hashFiles('target/surefire-reports-qt3ts/qt3ts-runner-*.xml') }}
+      uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
         name: QT3 Testsuite Result (Others)
         path: target/surefire-reports-qt3ts/qt3ts-runner-(op|xs|ser|app|misc|math|map|array)-*.xml
         badge-title: QT3 Testsuite Misc
         reporter: java-junit
         fail-on-error: false
+        fail-on-empty: false
     - name: Upload Release Notes to Wiki
       uses: docker://decathlon/wiki-page-creator-action:latest
       env:
