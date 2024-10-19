@@ -31,7 +31,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -P xpath-qt3-testsuite -Dtestsuite.qt3-id-group-focus=math
+      run: mvn -B package --file pom.xml -P xml-conformance -P xpath-qt3-testsuite
     - name: XSpec Unit Tests
       uses: dorny/test-reporter@95058abb17504553158e70e2c058fe1fda4392c2
       with:
